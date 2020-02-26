@@ -22,7 +22,7 @@ ReactDOM.render(
       <Paper>
         <Container>
           <TextField fullWidth label="タイトル" margin="normal" />
-          <TextField fullWidth margin="normal" multiline variant="outlined" />
+          <TextField fullWidth label="本文" margin="normal" multiline variant="outlined" />
         </Container>
       </Paper>
     </Container>
