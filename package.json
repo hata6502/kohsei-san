@@ -1,0 +1,55 @@
+{
+  "name": "kohsei-san",
+  "private": true,
+  "version": "0.0.0",
+  "description": "その場ですぐに文章を校正してもらえるメモ帳アプリです。",
+  "homepage": "https://b-hood.site/",
+  "bugs": {
+    "url": "https://github.com/blue-hood/kohsei-san/issues"
+  },
+  "repository": "https://github.com/blue-hood/kohsei-san",
+  "license": "MIT",
+  "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
+  "main": "docs/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "fix": "yarn eslint --fix && yarn stylelint --fix && yarn prettier --write",
+    "prettier": "prettier '**/*.{html,json,md,yml}'",
+    "stylelint": "stylelint '**/*.css'",
+    "test": "yarn build && git diff --exit-code && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check"
+  },
+  "dependencies": {
+    "path": "^0.12.7",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/vfile-message": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "prettier": "^1.19.1",
+    "stylelint": "^13.2.0",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-prettier": "^1.1.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
