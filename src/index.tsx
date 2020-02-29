@@ -12,6 +12,10 @@ import {
 } from '@material-ui/core/styles';
 import App from './App';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+}
+
 declare global {
   interface Window {
     kuromojin?: {
@@ -33,7 +37,7 @@ const theme = createMuiTheme({
 
 declare module 'styled-components' {
   // eslint-disable-next-line
-  export interface DefaultTheme extends Theme{}
+  export interface DefaultTheme extends Theme { }
 }
 
 ReactDOM.render(
