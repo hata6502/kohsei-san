@@ -6,9 +6,15 @@
   </a>
 </p>
 
-> その場ですぐに文章を校正してもらえるメモ帳アプリです。
+> その場ですぐに文章を校正できるメモ帳アプリです。
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/)
+
+## 免責事項
+
+このアプリは α 版です。
+今後のバージョンアップなどによって、保存されていたメモが消失する場合があります。
+いかなる場合においても、このアプリを使用したことによる責任は負いかねますのでご了承ください。
 
 ## Author
 
@@ -21,6 +27,11 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+Copyright © 2020 [Hood](https://github.com/blue-hood).<br />
+This project is [MIT](https://github.com/blue-hood/kohsei-san/blob/master/LICENSE) licensed.
 
 ## Notice
 
