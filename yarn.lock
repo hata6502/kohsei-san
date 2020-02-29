@@ -4757,14 +4757,13 @@ known-css-properties@^0.18.0:
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.18.0.tgz#d6e00b56ee1d5b0d171fd86df1583cfb012c521f"
   integrity sha512-69AgJ1rQa7VvUsd2kpvVq+VeObDuo3zrj0CzM5Slmf6yduQFAI2kXPDQJR2IE/u6MSAUOJrwSzjg5vlz8qcMiw==
 
-kuromoji@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/kuromoji/-/kuromoji-0.1.1.tgz#4aabf39bcced8b8ad92d007a04a26be6da8477c9"
-  integrity sha1-Sqvzm8zti4rZLQB6BKJr5tqEd8k=
+kuromoji@0.1.1, "kuromoji@https://github.com/hata6502/kuromoji.js":
+  version "0.1.2"
+  resolved "https://github.com/hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3"
   dependencies:
     async "^2.0.1"
     doublearray "0.0.2"
-    zlibjs "^0.2.0"
+    zlibjs "^0.3.1"
 
 kuromojin@^1.0.2, kuromojin@^1.1.0, kuromojin@^1.2.1:
   version "1.5.1"
@@ -8606,7 +8605,7 @@ yargs@13.2.4:
     y18n "^4.0.0"
     yargs-parser "^13.1.0"
 
-zlibjs@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/zlibjs/-/zlibjs-0.2.0.tgz#ae20f06243293d85c255563189f9b12f5b3ba1a0"
-  integrity sha1-riDwYkMpPYXCVVYxifmxL1s7oaA=
+zlibjs@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/zlibjs/-/zlibjs-0.3.1.tgz#50197edb28a1c42ca659cc8b4e6a9ddd6d444554"
+  integrity sha1-UBl+2yihxCymWcyLTmqd3W1ERVQ=
