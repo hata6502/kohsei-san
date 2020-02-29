@@ -1,0 +1,17 @@
+{
+  "lang": "ja-JP",
+  "name": "校正さん",
+  "short_name": "校正さん",
+  "description": "その場ですぐに文章を校正できるメモ帳アプリです。",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
