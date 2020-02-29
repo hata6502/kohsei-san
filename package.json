@@ -1,7 +1,7 @@
 {
   "name": "kohsei-san",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "description": "その場ですぐに文章を校正してもらえるメモ帳アプリです。",
   "homepage": "https://b-hood.site/",
   "bugs": {
@@ -17,6 +17,7 @@
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "fix": "yarn eslint --fix && yarn prettier --write",
     "prettier": "prettier '**/*.{html,json,md,yml}'",
+    "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
     "test": "yarn build && git diff --exit-code && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check"
   },
@@ -31,7 +32,8 @@
     "react-is": "^16.13.0",
     "styled-components": "^5.0.1",
     "textlint-rule-preset-japanese": "^4.0.4",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "workbox-webpack-plugin": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.23",
@@ -49,6 +51,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "http-server": "^0.12.1",
     "prettier": "^1.19.1",
     "stylelint": "^13.2.0",
     "stylelint-config-prettier": "^8.0.1",
