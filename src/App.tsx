@@ -11,8 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { ModalProps } from '@material-ui/core/Modal';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from '@material-ui/icons/Menu';
-import StarIcon from '@material-ui/icons/Star';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Edit from './Edit';
 
@@ -40,7 +40,7 @@ const App: React.FunctionComponent = () => {
   const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
 
   const handleLicenseClick: React.MouseEventHandler = () =>
-    window.open('https://github.com/blue-hood/kohsei-san/blob/master/NOTICE.md');
+    window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
 
   const handleMenuIconClick: React.MouseEventHandler = () => setIsDrawerOpen(true);
 
@@ -69,9 +69,9 @@ const App: React.FunctionComponent = () => {
           </ListItem>
           <ListItem button onClick={handleLicenseClick}>
             <ListItemIcon>
-              <StarIcon />
+              <InfoIcon />
             </ListItemIcon>
-            <ListItemText primary="ライセンス" />
+            <ListItemText primary="このアプリについて" />
           </ListItem>
         </AppList>
       </Drawer>
