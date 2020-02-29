@@ -32,7 +32,8 @@ const theme = createMuiTheme({
 });
 
 declare module 'styled-components' {
-  export interface DefaultTheme extends Theme {}
+  // eslint-disable-next-line
+  export interface DefaultTheme extends Theme{}
 }
 
 ReactDOM.render(
