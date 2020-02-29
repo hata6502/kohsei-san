@@ -4,10 +4,10 @@ module.exports = {
     es6: true,
   },
   extends: [
+    'airbnb',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'airbnb'
   ],
   settings: {
     'import/resolver': {
