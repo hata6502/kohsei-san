@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 import AppBar from '@material-ui/core/AppBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,18 +24,27 @@ const AppContainer = styled(Container)`
 `;
 
 const AppIcon = styled.img`
-  ${({ theme }) => `
-    height: auto;
-    margin-right: ${theme.spacing(1)}px;
-    width: 48px;
-  `}
+  height: auto;
+  width: 48px;
 `;
 
 const AppList = styled(List)`
   width: 250px;
 `;
 
+const AppTypography = styled(Typography)`
+  ${({ theme }) => `
+    margin-left: ${theme.spacing(1)}px;
+  `}
+`;
+
 const App: React.FunctionComponent = () => {
+  const [isLinting, dispatchIsLinting] = useReducer(
+    (_: boolean, action: boolean) => action,
+    false,
+    initialState => initialState
+  );
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
@@ -54,8 +64,10 @@ const App: React.FunctionComponent = () => {
           <IconButton onClick={handleMenuIconClick}>
             <MenuIcon />
           </IconButton>
-          <AppIcon alt="" src="favicon.png" />
-          <Typography variant="h6">校正さん</Typography>
+          {(isLinting && <CircularProgress color="secondary" />) || (
+            <AppIcon alt="" src="favicon.png" />
+          )}
+          <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
         </Toolbar>
       </AppBar>
 
@@ -77,7 +89,7 @@ const App: React.FunctionComponent = () => {
       </Drawer>
 
       <AppContainer>
-        <Edit />
+        <Edit dispatchIsLinting={dispatchIsLinting} />
       </AppContainer>
     </>
   );
