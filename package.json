@@ -12,7 +12,7 @@
   "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
   "main": "docs/index.js",
   "scripts": {
-    "build": "rm -rf docs && webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "fix": "yarn eslint --fix && yarn prettier --write",
