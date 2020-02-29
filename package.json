@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "その場ですぐに文章を校正してもらえるメモ帳アプリです。",
-  "homepage": "https://b-hood.site/",
+  "homepage": "https://kohsei-san.b-hood.site/",
   "bugs": {
     "url": "https://github.com/blue-hood/kohsei-san/issues"
   },
@@ -12,7 +12,7 @@
   "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
   "main": "docs/index.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "rm -rf docs && webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "fix": "yarn eslint --fix && yarn prettier --write",
@@ -26,6 +26,7 @@
     "@material-ui/icons": "^4.9.1",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
+    "copy-webpack-plugin": "^5.1.1",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
