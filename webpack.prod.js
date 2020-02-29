@@ -6,5 +6,9 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'production',
-  plugins: [new GenerateSW()]
+  plugins: [
+    new GenerateSW({
+      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
+    })
+  ]
 });
