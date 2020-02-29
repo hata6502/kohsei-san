@@ -34,6 +34,7 @@ const AppList = styled(List)`
 
 const AppTypography = styled(Typography)`
   ${({ theme }) => `
+    flex-grow: 1;
     margin-left: ${theme.spacing(1)}px;
   `}
 `;
@@ -68,6 +69,7 @@ const App: React.FunctionComponent = () => {
             <AppIcon alt="" src="favicon.png" />
           )}
           <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
+          α版
         </Toolbar>
       </AppBar>
 

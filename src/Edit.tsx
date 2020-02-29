@@ -38,10 +38,12 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
+  const [title, setTitle] = useState(() => localStorage.getItem('title') || '');
 
   useEffect(() => {
     try {
       localStorage.setItem('content', content);
+      localStorage.setItem('title', title);
     } catch (exception) {
       setIsSaveErrorOpen(true);
 
@@ -49,7 +51,7 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [content]);
+  }, [content, title]);
 
   const handleContentBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
     setContent(target.value);
@@ -76,11 +78,20 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
 
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
 
+  const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
+    setTitle(target.value);
+
   return (
     <>
       <Paper>
         <Container>
-          <TextField fullWidth label="タイトル" margin="normal" />
+          <TextField
+            defaultValue={title}
+            fullWidth
+            label="タイトル"
+            margin="normal"
+            onBlur={handleTitleBlur}
+          />
           <TextField
             defaultValue={content}
             fullWidth
