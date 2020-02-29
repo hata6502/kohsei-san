@@ -3,39 +3,18 @@ import styled from 'styled-components';
 import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
+import { ModalProps } from '@material-ui/core/Modal';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import MenuIcon from '@material-ui/icons/Menu';
 import StarIcon from '@material-ui/icons/Star';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import { TextlintKernel, TextlintMessage } from '@textlint/kernel';
-// @ts-ignore
-import textlintPluginText from '@textlint/textlint-plugin-text';
-// @ts-ignore
-import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-
-const kernel = new TextlintKernel();
-
-const lint = (text: string) =>
-  kernel.lintText(text, {
-    ext: '.txt',
-    plugins: [
-      {
-        pluginId: 'text',
-        plugin: textlintPluginText
-      }
-    ],
-    rules: Object.keys(textlintRulePresetJapanese.rules).map(key => ({
-      ruleId: key,
-      rule: textlintRulePresetJapanese.rules[key],
-      options: textlintRulePresetJapanese.rulesConfig[key]
-    }))
-  });
+import Edit from './Edit';
 
 const AppContainer = styled(Container)`
   ${({ theme }) => `
@@ -56,30 +35,39 @@ const AppList = styled(List)`
 `;
 
 const App: React.FunctionComponent = () => {
-  // eslint-disable-next-line
-  const [messages, setMessages] = useState<TextlintMessage[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const handleContentBlur: React.FocusEventHandler<HTMLTextAreaElement> = async ({ target }) =>
-    setMessages((await lint(target.value)).messages);
+  const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
+
+  const handleLicenseClick: React.MouseEventHandler = () =>
+    window.open('https://github.com/blue-hood/kohsei-san/blob/master/NOTICE.md');
+
+  const handleMenuIconClick: React.MouseEventHandler = () => setIsDrawerOpen(true);
+
+  const handleTwitterClick: React.MouseEventHandler = () =>
+    window.open('https://twitter.com/hata6502');
 
   return (
     <>
       <AppBar color="inherit">
         <Toolbar>
+          <IconButton onClick={handleMenuIconClick}>
+            <MenuIcon />
+          </IconButton>
           <AppIcon alt="" src="favicon.png" />
           <Typography variant="h6">校正さん</Typography>
         </Toolbar>
       </AppBar>
 
-      <Drawer open>
+      <Drawer onClose={handleDrawerClose} open={isDrawerOpen}>
         <AppList>
-          <ListItem button>
+          <ListItem button onClick={handleTwitterClick}>
             <ListItemIcon>
               <TwitterIcon />
             </ListItemIcon>
             <ListItemText primary="Twitter" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleLicenseClick}>
             <ListItemIcon>
               <StarIcon />
             </ListItemIcon>
@@ -89,30 +77,10 @@ const App: React.FunctionComponent = () => {
       </Drawer>
 
       <AppContainer>
-        <Paper>
-          <Container>
-            <TextField fullWidth label="タイトル" margin="normal" />
-            <TextField
-              fullWidth
-              label="本文"
-              margin="normal"
-              multiline
-              onBlur={handleContentBlur}
-              variant="outlined"
-            />
-          </Container>
-        </Paper>
+        <Edit />
       </AppContainer>
     </>
   );
 };
-
-/*
-             <ul>
-              {messages.map(({column, index, message, line}) => (
-                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
-              ))}
-            </ul>
- */
 
 export default App;
