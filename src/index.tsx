@@ -14,7 +14,7 @@ import * as Sentry from '@sentry/browser';
 import App from './App';
 
 if (process.env.NODE_ENV === 'production') {
-  Sentry.init({dsn: "https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618"});
+  Sentry.init({ dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618' });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
