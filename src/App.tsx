@@ -19,6 +19,7 @@ import Edit from './Edit';
 
 const AppContainer = styled(Container)`
   ${({ theme }) => `
+    margin-bottom: ${theme.spacing(2)}px;
     margin-top: ${theme.spacing(10)}px;
   `}
 `;
