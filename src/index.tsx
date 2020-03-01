@@ -10,6 +10,7 @@ import {
   Theme,
   ThemeProvider as MuiThemeProvider
 } from '@material-ui/core/styles';
+import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
 
@@ -32,6 +33,19 @@ declare global {
 window.kuromojin = {
   dicPath: 'dict'
 };
+
+BrowserFS.install(window);
+BrowserFS.configure(
+  {
+    fs: 'HTTPRequest',
+    options: {}
+  },
+  exception => {
+    if (exception) {
+      throw exception;
+    }
+  }
+);
 
 const theme = createMuiTheme({
   palette: {
