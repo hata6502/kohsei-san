@@ -12,10 +12,11 @@
   "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
   "main": "docs/index.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "yarn make_http_index && webpack --config webpack.prod.js",
+    "dev": "yarn make_http_index && webpack-dev-server --config webpack.dev.js",
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "fix": "yarn eslint --fix && yarn prettier --write",
+    "make_http_index": "cd resources && make_http_index > index.json && cd ..",
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
@@ -28,6 +29,7 @@
     "@sentry/browser": "^5.13.0",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
+    "browserfs": "^2.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "path": "^0.12.7",
     "react": "^16.12.0",
@@ -35,6 +37,8 @@
     "react-is": "^16.13.0",
     "styled-components": "^5.0.1",
     "textlint-rule-preset-japanese": "^4.0.4",
+    "textlint-rule-prh": "^5.3.0",
+    "webpack": "^4.41.5",
     "webpack-merge": "^4.2.2",
     "workbox-webpack-plugin": "^5.0.0"
   },
@@ -64,7 +68,6 @@
     "stylelint-processor-styled-components": "^1.10.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
-    "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },

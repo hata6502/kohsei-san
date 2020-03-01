@@ -5,29 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import * as Sentry from '@sentry/browser';
-import { TextlintKernel, TextlintMessage } from '@textlint/kernel';
-// @ts-ignore
-import textlintPluginText from '@textlint/textlint-plugin-text';
-// @ts-ignore
-import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-
-const kernel = new TextlintKernel();
-
-const lint = (text: string) =>
-  kernel.lintText(text, {
-    ext: '.txt',
-    plugins: [
-      {
-        pluginId: 'text',
-        plugin: textlintPluginText
-      }
-    ],
-    rules: Object.keys(textlintRulePresetJapanese.rules).map(key => ({
-      ruleId: key,
-      rule: textlintRulePresetJapanese.rules[key],
-      options: textlintRulePresetJapanese.rulesConfig[key]
-    }))
-  });
+import { TextlintMessage } from '@textlint/kernel';
+import lint from './lint';
 
 export interface EditProp {
   dispatchIsLinting: React.Dispatch<boolean>;
