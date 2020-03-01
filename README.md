@@ -137,6 +137,10 @@ above as far as the program is concerned.
 ˜˜
 ```
 
+This software includes the work that is distributed in the MIT License.
+
+- [azu/prh.yml](https://github.com/azu/prh.yml#license)
+
 ---
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

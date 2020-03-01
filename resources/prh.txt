@@ -1,4 +1,0 @@
-version: 1
-rules:
-  - expected: prhテスト修正後
-    pattern: prhテスト修正前
