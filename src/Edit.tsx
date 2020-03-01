@@ -13,7 +13,7 @@ import lint from './lint';
 
 declare global {
   interface Navigator {
-    share?: (data?: { text?: string, title?: string, url?: string }) => Promise<void>;
+    share?: (data?: { text?: string; title?: string; url?: string }) => Promise<void>;
   }
 }
 
@@ -44,12 +44,13 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
-  
-  const handleShareClick: React.MouseEventHandler = () => navigator.share?.({
-    text,
-    title,
-    url: 'https://kohsei-san.b-hood.site/',
-  });
+
+  const handleShareClick: React.MouseEventHandler = () =>
+    navigator.share?.({
+      text,
+      title,
+      url: 'https://kohsei-san.b-hood.site/'
+    });
 
   const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
     setText(target.value);
@@ -105,7 +106,12 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
 
           {navigator.share && (
             <Box pb={2}>
-              <Button color="primary" onClick={handleShareClick} startIcon={<ShareIcon />} variant="contained">
+              <Button
+                color="primary"
+                onClick={handleShareClick}
+                startIcon={<ShareIcon />}
+                variant="contained"
+              >
                 共有
               </Button>
             </Box>
