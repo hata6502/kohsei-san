@@ -11,13 +11,9 @@ import {
   ThemeProvider as MuiThemeProvider
 } from '@material-ui/core/styles';
 import * as BrowserFS from 'browserfs';
-import fs from 'fs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import kanjiOpen from './prh/kanji-open.yml';
-import spoken from './prh/spoken.yml';
-import typo from './prh/typo.yml';
-import webPlusDb from './prh/web+db.yml';
+import initializePrh from './prh';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({ dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618' });
@@ -51,10 +47,7 @@ BrowserFS.configure(
   }
 );
 
-fs.writeFileSync('kanji-open.yml', kanjiOpen);
-fs.writeFileSync('spoken.yml', spoken);
-fs.writeFileSync('typo.yml', typo);
-fs.writeFileSync('web+db.yml', webPlusDb);
+initializePrh();
 
 const theme = createMuiTheme({
   palette: {
