@@ -27,7 +27,7 @@ const lint = (text: string) =>
         ruleId: 'prh',
         rule: textlintRulePrh,
         options: {
-          rulePaths: ['prh.txt']
+          rulePaths: ['prh/kanji-open.yml', 'prh/spoken.yml', 'prh/typo.yml', 'prh/web+db.yml']
         }
       }
     ]
