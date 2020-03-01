@@ -37,7 +37,7 @@ This project is [MIT](https://github.com/blue-hood/kohsei-san/blob/master/LICENS
 
 This software includes the work that is distributed in the Apache License 2.0.
 
-kuromoji.js
+- [takuyaa/kuromoji.js](https://github.com/takuyaa/kuromoji.js)
 
 ```
 Library dependencies
