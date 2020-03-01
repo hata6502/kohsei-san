@@ -27,7 +27,7 @@ const lint = (text: string) =>
         ruleId: 'prh',
         rule: textlintRulePrh,
         options: {
-          rulePaths: ['prh.yml']
+          rulePaths: ['prh.txt']
         }
       }
     ]
