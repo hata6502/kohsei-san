@@ -10,6 +10,10 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader'
+      },
+      {
+        test: /\.yml$/i,
+        use: 'raw-loader'
       }
     ]
   },
