@@ -19,7 +19,6 @@ declare global {
 
 export interface EditProp {
   dispatchIsLinting: React.Dispatch<boolean>;
-  initialMessages: TextlintMessage[];
   initialText: string;
   initialTitle: string;
   isLinting: boolean;
@@ -27,20 +26,18 @@ export interface EditProp {
 
 const Edit: React.FunctionComponent<EditProp> = ({
   dispatchIsLinting,
-  initialMessages,
   initialText,
   initialTitle,
   isLinting
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
-  const [messages, setMessages] = useState<TextlintMessage[]>(initialMessages);
+  const [messages, setMessages] = useState<TextlintMessage[]>([]);
   const [text, setText] = useState(initialText);
   const [title, setTitle] = useState(initialTitle);
 
   useEffect(() => {
     try {
-      localStorage.setItem('messages', JSON.stringify(messages));
       localStorage.setItem('text', text);
       localStorage.setItem('title', title);
     } catch (exception) {
@@ -50,26 +47,13 @@ const Edit: React.FunctionComponent<EditProp> = ({
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [messages, text, title]);
+  }, [text, title]);
 
-  const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
-
-  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
-
-  const handleShareClick: React.MouseEventHandler = () =>
-    navigator.share?.({
-      text,
-      title,
-      url: 'https://kohsei-san.b-hood.site/'
-    });
-
-  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
-    setText(target.value);
-
+  useEffect(() => {
     dispatchIsLinting(true);
     setTimeout(async () => {
       try {
-        const result = await lint(target.value);
+        const result = await lint(text);
 
         setMessages(result.messages);
       } catch (exception) {
@@ -82,7 +66,21 @@ const Edit: React.FunctionComponent<EditProp> = ({
         dispatchIsLinting(false);
       }
     });
-  };
+  }, [text]);
+
+  const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
+
+  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
+
+  const handleShareClick: React.MouseEventHandler = () =>
+    navigator.share?.({
+      text,
+      title,
+      url: 'https://kohsei-san.b-hood.site/'
+    });
+
+  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
+    setText(target.value);
 
   const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
     setTitle(target.value);
