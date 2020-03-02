@@ -22,14 +22,19 @@ export interface EditProp {
 }
 
 const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
+  const searchParams = new URLSearchParams(location.search);
+
+  console.log(searchParams.get('text'));
+
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
-  const [messages, setMessages] = useState<TextlintMessage[]>([]);
+  const [messages, setMessages] = useState<TextlintMessage[]>(() => JSON.parse(localStorage.getItem('messages') || '[]'));
   const [text, setText] = useState(() => localStorage.getItem('text') || '');
   const [title, setTitle] = useState(() => localStorage.getItem('title') || '');
 
   useEffect(() => {
     try {
+      localStorage.setItem('messages', JSON.stringify(messages));
       localStorage.setItem('text', text);
       localStorage.setItem('title', title);
     } catch (exception) {
@@ -39,7 +44,7 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [text, title]);
+  }, [messages, text, title]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
@@ -79,33 +84,35 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
   return (
     <>
       <Paper>
-        <Container>
-          <TextField
-            defaultValue={title}
-            fullWidth
-            label="タイトル"
-            margin="normal"
-            onBlur={handleTitleBlur}
-          />
+        <Box pb={2}>
+          <Container>
+            <TextField
+              defaultValue={title}
+              fullWidth
+              label="タイトル"
+              margin="normal"
+              onBlur={handleTitleBlur}
+            />
 
-          <TextField
-            defaultValue={text}
-            fullWidth
-            label="本文"
-            margin="normal"
-            multiline
-            onBlur={handleTextBlur}
-            variant="outlined"
-          />
+            <TextField
+              defaultValue={text}
+              fullWidth
+              label="本文"
+              margin="normal"
+              multiline
+              onBlur={handleTextBlur}
+              variant="outlined"
+            />
 
-          <ul>
-            {messages.map(({ column, index, message, line }) => (
-              <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
-            ))}
-          </ul>
+            {messages.length === 0 && text !== '' && <Alert severity="success">校正を通過しました！</Alert>}
 
-          {navigator.share && (
-            <Box pb={2}>
+            <ul>
+              {messages.map(({ column, index, message, line }) => (
+                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
+              ))}
+            </ul>
+
+            {navigator.share && (
               <Button
                 color="primary"
                 onClick={handleShareClick}
@@ -114,9 +121,9 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
               >
                 共有
               </Button>
-            </Box>
-          )}
-        </Container>
+            )}
+          </Container>
+        </Box>
       </Paper>
 
       <Snackbar open={isLintErrorOpen}>
