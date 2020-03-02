@@ -43,7 +43,7 @@ const AppTypography = styled(Typography)`
 const App: React.FunctionComponent = () => {
   const [isLinting, dispatchIsLinting] = useReducer(
     (_: boolean, action: boolean) => action,
-    false,
+    true,
     initialState => initialState
   );
 
@@ -102,9 +102,6 @@ const App: React.FunctionComponent = () => {
       <AppContainer>
         <Edit
           dispatchIsLinting={dispatchIsLinting}
-          initialMessages={JSON.parse(
-            (sharedText === false && localStorage.getItem('messages')) || '[]'
-          )}
           initialText={sharedText === false ? localStorage.getItem('text') || '' : sharedText}
           initialTitle={title === null ? localStorage.getItem('title') || '' : title}
           isLinting={isLinting}
