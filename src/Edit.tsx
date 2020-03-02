@@ -19,18 +19,24 @@ declare global {
 
 export interface EditProp {
   dispatchIsLinting: React.Dispatch<boolean>;
+  initialMessages: TextlintMessage[];
+  initialText: string;
+  initialTitle: string;
+  isLinting: boolean;
 }
 
-const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
-  const searchParams = new URLSearchParams(location.search);
-
-  console.log(searchParams.get('text'));
-
+const Edit: React.FunctionComponent<EditProp> = ({
+  dispatchIsLinting,
+  initialMessages,
+  initialText,
+  initialTitle,
+  isLinting
+}) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
-  const [messages, setMessages] = useState<TextlintMessage[]>(() => JSON.parse(localStorage.getItem('messages') || '[]'));
-  const [text, setText] = useState(() => localStorage.getItem('text') || '');
-  const [title, setTitle] = useState(() => localStorage.getItem('title') || '');
+  const [messages, setMessages] = useState<TextlintMessage[]>(initialMessages);
+  const [text, setText] = useState(initialText);
+  const [title, setTitle] = useState(initialTitle);
 
   useEffect(() => {
     try {
@@ -104,7 +110,9 @@ const Edit: React.FunctionComponent<EditProp> = ({ dispatchIsLinting }) => {
               variant="outlined"
             />
 
-            {messages.length === 0 && text !== '' && <Alert severity="success">校正を通過しました！</Alert>}
+            {!isLinting && messages.length === 0 && text !== '' && (
+              <Alert severity="success">校正を通過しました！</Alert>
+            )}
 
             <ul>
               {messages.map(({ column, index, message, line }) => (

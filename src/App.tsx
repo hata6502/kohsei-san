@@ -49,6 +49,14 @@ const App: React.FunctionComponent = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const searchParams = new URLSearchParams(window.location.search);
+
+  const text = searchParams.get('text');
+  const title = searchParams.get('title');
+  const url = searchParams.get('url');
+
+  const sharedText = (text !== null || url !== null) && `${text || ''}\n${url || ''}`;
+
   const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
 
   const handleLicenseClick: React.MouseEventHandler = () =>
@@ -92,7 +100,15 @@ const App: React.FunctionComponent = () => {
       </Drawer>
 
       <AppContainer>
-        <Edit dispatchIsLinting={dispatchIsLinting} />
+        <Edit
+          dispatchIsLinting={dispatchIsLinting}
+          initialMessages={JSON.parse(
+            (sharedText === false && localStorage.getItem('messages')) || '[]'
+          )}
+          initialText={sharedText === false ? localStorage.getItem('text') || '' : sharedText}
+          initialTitle={title === null ? localStorage.getItem('title') || '' : title}
+          isLinting={isLinting}
+        />
       </AppContainer>
     </>
   );
