@@ -50,8 +50,7 @@ const Edit: React.FunctionComponent<EditProp> = ({
   }, [text, title]);
 
   useEffect(() => {
-    dispatchIsLinting(true);
-    setTimeout(async () => {
+    (async () => {
       try {
         const result = await lint(text);
 
@@ -65,7 +64,7 @@ const Edit: React.FunctionComponent<EditProp> = ({
       } finally {
         dispatchIsLinting(false);
       }
-    });
+    })();
   }, [text]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
@@ -79,8 +78,12 @@ const Edit: React.FunctionComponent<EditProp> = ({
       url: 'https://kohsei-san.b-hood.site/'
     });
 
-  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    setText(target.value);
+  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
+    if (target.value !== text) {
+      dispatchIsLinting(true);
+      setText(target.value);
+    }
+  };
 
   const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
     setTitle(target.value);
