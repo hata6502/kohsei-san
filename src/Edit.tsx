@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import ShareIcon from '@material-ui/icons/Share';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
+import { Memo } from './App';
 import lint from './lint';
 
 declare global {
@@ -17,42 +18,26 @@ declare global {
   }
 }
 
-export interface EditProp {
+export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
-  initialText: string;
-  initialTitle: string;
+  dispatchMemo: React.Dispatch<Partial<Memo>>;
   isLinting: boolean;
+  memo: Memo;
 }
 
-const Edit: React.FunctionComponent<EditProp> = ({
+const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
-  initialText,
-  initialTitle,
-  isLinting
+  dispatchMemo,
+  isLinting,
+  memo
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
-  const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
-  const [text, setText] = useState(initialText);
-  const [title, setTitle] = useState(initialTitle);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('text', text);
-      localStorage.setItem('title', title);
-    } catch (exception) {
-      setIsSaveErrorOpen(true);
-
-      // eslint-disable-next-line no-console
-      console.error(exception);
-      Sentry.captureException(exception);
-    }
-  }, [text, title]);
-
-  useEffect(() => {
-    (async () => {
+    setTimeout(async () => {
       try {
-        const result = await lint(text);
+        const result = await lint(memo.text);
 
         setMessages(result.messages);
       } catch (exception) {
@@ -64,29 +49,27 @@ const Edit: React.FunctionComponent<EditProp> = ({
       } finally {
         dispatchIsLinting(false);
       }
-    })();
-  }, [text]);
+    });
+  }, [memo.text]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
-  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
-
   const handleShareClick: React.MouseEventHandler = () =>
     navigator.share?.({
-      text,
-      title,
+      text: memo.text,
+      title: memo.title,
       url: 'https://kohsei-san.b-hood.site/'
     });
 
   const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
-    if (target.value !== text) {
+    if (target.value !== memo.text) {
       dispatchIsLinting(true);
-      setText(target.value);
+      dispatchMemo({ text: target.value });
     }
   };
 
   const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    setTitle(target.value);
+    dispatchMemo({ title: target.value });
 
   return (
     <>
@@ -94,7 +77,7 @@ const Edit: React.FunctionComponent<EditProp> = ({
         <Box pb={2}>
           <Container>
             <TextField
-              defaultValue={title}
+              defaultValue={memo.title}
               fullWidth
               label="タイトル"
               margin="normal"
@@ -102,7 +85,7 @@ const Edit: React.FunctionComponent<EditProp> = ({
             />
 
             <TextField
-              defaultValue={text}
+              defaultValue={memo.text}
               fullWidth
               label="本文"
               margin="normal"
@@ -111,7 +94,7 @@ const Edit: React.FunctionComponent<EditProp> = ({
               variant="outlined"
             />
 
-            {!isLinting && messages.length === 0 && text !== '' && (
+            {!isLinting && messages.length === 0 && memo.text !== '' && (
               <Alert severity="success">校正を通過しました！</Alert>
             )}
 
@@ -138,13 +121,6 @@ const Edit: React.FunctionComponent<EditProp> = ({
       <Snackbar open={isLintErrorOpen}>
         <Alert onClose={handleLintErrorClose} severity="error">
           本文を校正できませんでした。 アプリの不具合が修正されるまで、しばらくお待ちください。
-        </Alert>
-      </Snackbar>
-
-      <Snackbar open={isSaveErrorOpen}>
-        <Alert onClose={handleSaveErrorClose} severity="error">
-          メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
-          を使用できることを確認してください。
         </Alert>
       </Snackbar>
     </>
