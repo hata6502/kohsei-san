@@ -10,6 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import * as Sentry from '@sentry/browser';
+import { v4 as uuidv4 } from 'uuid';
 import Edit from './Edit';
 import Sidebar, { SidebarProps } from './Sidebar';
 
@@ -33,24 +34,29 @@ const AppTypography = styled(Typography)`
 `;
 
 export interface Memo {
+  id: string;
   text: string;
   title: string;
 }
 
 const App: React.FunctionComponent = () => {
-  const [memo, dispatchMemo] = useReducer(
-    (state: Memo, { text, title }: Partial<Memo>) => {
-      const nextState: Memo = {
-        ...state,
-        ...(text !== undefined && { text }),
-        ...(title !== undefined && { title })
-      };
+  const [memos, dispatchMemos] = useReducer(
+    (state: Memo[], { text, title }: Partial<Pick<Memo, 'text' | 'title'>>) => {
+      const nextState: Memo[] = [
+        {
+          ...state[0],
+          ...(text !== undefined && { text }),
+          ...(title !== undefined && { title })
+        }
+      ];
 
       return nextState;
     },
     undefined,
     () => {
-      const localStorageMemo: Partial<Memo> = JSON.parse(localStorage.getItem('memo') || '{}');
+      const localStorageMemos: Partial<Memo>[] = JSON.parse(
+        localStorage.getItem('memos') || '[{}]'
+      );
 
       const searchParams = new URLSearchParams(window.location.search);
 
@@ -61,25 +67,32 @@ const App: React.FunctionComponent = () => {
       const sharedText =
         (textParam !== null || urlParam !== null) && `${textParam || ''}\n${urlParam || ''}`;
 
-      return {
-        text: sharedText === false ? localStorageMemo.text || '' : sharedText,
-        title: titleParam === null ? localStorageMemo.title || '' : titleParam
-      };
+      return [
+        ...localStorageMemos.map(({ id, text, title }) => ({
+          id: id || uuidv4(),
+          text: text || '',
+          title: title || ''
+        })),
+        ...(((sharedText !== false || titleParam !== null) && [
+          {
+            id: uuidv4(),
+            text: sharedText || '',
+            title: titleParam || ''
+          }
+        ]) ||
+          [])
+      ];
     }
   );
 
-  const [isLinting, dispatchIsLinting] = useReducer(
-    (_: boolean, action: boolean) => action,
-    true,
-    initialState => initialState
-  );
+  const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, true);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
 
   useEffect(() => {
     try {
-      localStorage.setItem('memo', JSON.stringify(memo));
+      localStorage.setItem('memos', JSON.stringify(memos));
     } catch (exception) {
       setIsSaveErrorOpen(true);
 
@@ -87,7 +100,7 @@ const App: React.FunctionComponent = () => {
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [memo]);
+  }, [memos]);
 
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
 
@@ -110,14 +123,14 @@ const App: React.FunctionComponent = () => {
         </Toolbar>
       </AppBar>
 
-      <Sidebar onClose={handleSidebarClose} open={isSidebarOpen} />
+      <Sidebar memos={memos} onClose={handleSidebarClose} open={isSidebarOpen} />
 
       <AppContainer>
         <Edit
           dispatchIsLinting={dispatchIsLinting}
-          dispatchMemo={dispatchMemo}
+          dispatchMemo={dispatchMemos}
           isLinting={isLinting}
-          memo={memo}
+          memo={memos[0]}
         />
 
         <Snackbar open={isSaveErrorOpen}>
