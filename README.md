@@ -4,6 +4,9 @@
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
+  <a href="https://codeclimate.com/github/blue-hood/kohsei-san/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/maintainability" />
+  </a>
 </p>
 
 > その場ですぐに文章を校正できるメモ帳アプリです。
