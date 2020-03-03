@@ -1,21 +1,17 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
+import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
-import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { ModalProps } from '@material-ui/core/Modal';
+import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from '@material-ui/icons/Menu';
-import TwitterIcon from '@material-ui/icons/Twitter';
+import * as Sentry from '@sentry/browser';
 import Edit from './Edit';
+import Sidebar, { SidebarProps } from './Sidebar';
 
 const AppContainer = styled(Container)`
   ${({ theme }) => `
@@ -29,10 +25,6 @@ const AppIcon = styled.img`
   width: 48px;
 `;
 
-const AppList = styled(List)`
-  width: 250px;
-`;
-
 const AppTypography = styled(Typography)`
   ${({ theme }) => `
     flex-grow: 1;
@@ -40,32 +32,68 @@ const AppTypography = styled(Typography)`
   `}
 `;
 
+export interface Memo {
+  text: string;
+  title: string;
+}
+
 const App: React.FunctionComponent = () => {
+  const [memo, dispatchMemo] = useReducer(
+    (state: Memo, { text, title }: Partial<Memo>) => {
+      const nextState: Memo = {
+        ...state,
+        ...(text !== undefined && { text }),
+        ...(title !== undefined && { title })
+      };
+
+      return nextState;
+    },
+    undefined,
+    () => {
+      const localStorageMemo: Partial<Memo> = JSON.parse(localStorage.getItem('memo') || '{}');
+
+      const searchParams = new URLSearchParams(window.location.search);
+
+      const textParam = searchParams.get('text');
+      const titleParam = searchParams.get('title');
+      const urlParam = searchParams.get('url');
+
+      const sharedText =
+        (textParam !== null || urlParam !== null) && `${textParam || ''}\n${urlParam || ''}`;
+
+      return {
+        text: sharedText === false ? localStorageMemo.text || '' : sharedText,
+        title: titleParam === null ? localStorageMemo.title || '' : titleParam
+      };
+    }
+  );
+
   const [isLinting, dispatchIsLinting] = useReducer(
     (_: boolean, action: boolean) => action,
     true,
     initialState => initialState
   );
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
 
-  const searchParams = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    try {
+      localStorage.setItem('memo', JSON.stringify(memo));
+    } catch (exception) {
+      setIsSaveErrorOpen(true);
 
-  const text = searchParams.get('text');
-  const title = searchParams.get('title');
-  const url = searchParams.get('url');
+      // eslint-disable-next-line no-console
+      console.error(exception);
+      Sentry.captureException(exception);
+    }
+  }, [memo]);
 
-  const sharedText = (text !== null || url !== null) && `${text || ''}\n${url || ''}`;
+  const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
 
-  const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
+  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
 
-  const handleLicenseClick: React.MouseEventHandler = () =>
-    window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
-
-  const handleMenuIconClick: React.MouseEventHandler = () => setIsDrawerOpen(true);
-
-  const handleTwitterClick: React.MouseEventHandler = () =>
-    window.open('https://twitter.com/hata6502');
+  const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
 
   return (
     <>
@@ -82,30 +110,22 @@ const App: React.FunctionComponent = () => {
         </Toolbar>
       </AppBar>
 
-      <Drawer onClose={handleDrawerClose} open={isDrawerOpen}>
-        <AppList>
-          <ListItem button onClick={handleTwitterClick}>
-            <ListItemIcon>
-              <TwitterIcon />
-            </ListItemIcon>
-            <ListItemText primary="Twitter" />
-          </ListItem>
-          <ListItem button onClick={handleLicenseClick}>
-            <ListItemIcon>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText primary="このアプリについて" />
-          </ListItem>
-        </AppList>
-      </Drawer>
+      <Sidebar onClose={handleSidebarClose} open={isSidebarOpen} />
 
       <AppContainer>
         <Edit
           dispatchIsLinting={dispatchIsLinting}
-          initialText={sharedText === false ? localStorage.getItem('text') || '' : sharedText}
-          initialTitle={title === null ? localStorage.getItem('title') || '' : title}
+          dispatchMemo={dispatchMemo}
           isLinting={isLinting}
+          memo={memo}
         />
+
+        <Snackbar open={isSaveErrorOpen}>
+          <Alert onClose={handleSaveErrorClose} severity="error">
+            メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
+            を使用できることを確認してください。
+          </Alert>
+        </Snackbar>
       </AppContainer>
     </>
   );
