@@ -20,7 +20,7 @@ declare global {
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
-  dispatchMemo: React.Dispatch<Partial<Memo>>;
+  dispatchMemo: React.Dispatch<Memo>;
   isLinting: boolean;
   memo: Memo;
 }
@@ -64,12 +64,19 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
     if (target.value !== memo.text) {
       dispatchIsLinting(true);
-      dispatchMemo({ text: target.value });
     }
+
+    dispatchMemo({
+      ...memo,
+      text: target.value
+    });
   };
 
   const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    dispatchMemo({ title: target.value });
+    dispatchMemo({
+      ...memo,
+      title: target.value
+    });
 
   return (
     <>
