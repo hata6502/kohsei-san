@@ -41,16 +41,13 @@ export interface Memo {
 
 const App: React.FunctionComponent = () => {
   const [memos, dispatchMemos] = useReducer(
-    (state: Memo[], { text, title }: Partial<Pick<Memo, 'text' | 'title'>>) => {
-      const nextState: Memo[] = [
-        {
-          ...state[0],
-          ...(text !== undefined && { text }),
-          ...(title !== undefined && { title })
-        }
-      ];
+    (state: Memo[], action: Memo) => {
+      const isUpdate = state.some(memo => memo.id === action.id);
 
-      return nextState;
+      return [
+        ...state.map(memo => (memo.id === action.id && action) || memo),
+        ...((isUpdate && []) || [action])
+      ];
     },
     undefined,
     () => {
@@ -86,6 +83,7 @@ const App: React.FunctionComponent = () => {
   );
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, true);
+  const [memoId, dispatchMemoId] = useReducer((_: string, action: string) => action, memos[0].id);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
@@ -123,14 +121,27 @@ const App: React.FunctionComponent = () => {
         </Toolbar>
       </AppBar>
 
-      <Sidebar memos={memos} onClose={handleSidebarClose} open={isSidebarOpen} />
+      <Sidebar
+        dispatchMemoId={dispatchMemoId}
+        memoId={memoId}
+        memos={memos}
+        onClose={handleSidebarClose}
+        open={isSidebarOpen}
+      />
 
       <AppContainer>
         <Edit
           dispatchIsLinting={dispatchIsLinting}
           dispatchMemo={dispatchMemos}
           isLinting={isLinting}
-          memo={memos[0]}
+          key={memoId}
+          memo={
+            memos.find(({ id }) => id === memoId) || {
+              id: memoId,
+              text: '',
+              title: ''
+            }
+          }
         />
 
         <Snackbar open={isSaveErrorOpen}>

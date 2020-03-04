@@ -6,9 +6,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { ModalProps } from '@material-ui/core/Modal';
 import InfoIcon from '@material-ui/icons/Info';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import { v4 as uuidv4 } from 'uuid';
 import { Memo } from './App';
 
 const DrawerContainer = styled.div`
@@ -16,14 +16,30 @@ const DrawerContainer = styled.div`
 `;
 
 export interface SidebarProps {
+  dispatchMemoId: React.Dispatch<string>;
+  memoId: string;
   memos: Memo[];
-  onClose: ModalProps['onClose'];
+  onClose?: () => void;
   open: DrawerProps['open'];
 }
 
-const Sidebar: React.FunctionComponent<SidebarProps> = ({ memos, onClose, open }) => {
+const Sidebar: React.FunctionComponent<SidebarProps> = ({
+  dispatchMemoId,
+  memoId,
+  memos,
+  onClose,
+  open
+}) => {
   const handleLicenseClick: React.MouseEventHandler = () =>
     window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
+
+  const handleMemoClick = (id: string) => {
+    dispatchMemoId(id);
+
+    if (onClose) {
+      onClose();
+    }
+  };
 
   const handleTwitterClick: React.MouseEventHandler = () =>
     window.open('https://twitter.com/hata6502');
@@ -32,8 +48,14 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({ memos, onClose, open }
     <Drawer onClose={onClose} open={open}>
       <DrawerContainer>
         <List>
-          {memos.map(({ id, title }) => (
-            <ListItem button key={id}>
+          {[
+            ...memos,
+            {
+              id: uuidv4(),
+              title: '新しいメモ'
+            }
+          ].map(({ id, title }) => (
+            <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
               <ListItemText primary={title || '(タイトルなし)'} />
             </ListItem>
           ))}
