@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import ShareIcon from '@material-ui/icons/Share';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
-import { Memo } from './App';
+import { Memo, MemosAction } from './App';
 import lint from './lint';
 
 declare global {
@@ -20,14 +20,14 @@ declare global {
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
-  dispatchMemo: React.Dispatch<Memo>;
+  dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
   memo: Memo;
 }
 
 const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
-  dispatchMemo,
+  dispatchMemos,
   isLinting,
   memo
 }) => {
@@ -66,17 +66,21 @@ const Edit: React.FunctionComponent<EditProps> = ({
       dispatchIsLinting(true);
     }
 
-    dispatchMemo({
-      ...memo,
-      text: target.value
-    });
+    dispatchMemos(prevMemos =>
+      prevMemos.map(prevMemo => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && { text: target.value })
+      }))
+    );
   };
 
   const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    dispatchMemo({
-      ...memo,
-      title: target.value
-    });
+    dispatchMemos(prevMemos =>
+      prevMemos.map(prevMemo => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && { title: target.value })
+      }))
+    );
 
   return (
     <>
