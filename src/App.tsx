@@ -39,16 +39,11 @@ export interface Memo {
   title: string;
 }
 
+export type MemosAction = (prevState: Memo[]) => Memo[];
+
 const App: React.FunctionComponent = () => {
   const [memos, dispatchMemos] = useReducer(
-    (state: Memo[], action: Memo) => {
-      const isUpdate = state.some(memo => memo.id === action.id);
-
-      return [
-        ...state.map(memo => (memo.id === action.id && action) || memo),
-        ...((isUpdate && []) || [action])
-      ];
-    },
+    (state: Memo[], action: MemosAction) => action(state),
     undefined,
     () => {
       const localStorageMemos: Partial<Memo>[] = JSON.parse(
@@ -123,6 +118,7 @@ const App: React.FunctionComponent = () => {
 
       <Sidebar
         dispatchMemoId={dispatchMemoId}
+        dispatchMemos={dispatchMemos}
         memoId={memoId}
         memos={memos}
         onClose={handleSidebarClose}
@@ -132,7 +128,7 @@ const App: React.FunctionComponent = () => {
       <AppContainer>
         <Edit
           dispatchIsLinting={dispatchIsLinting}
-          dispatchMemo={dispatchMemos}
+          dispatchMemos={dispatchMemos}
           isLinting={isLinting}
           key={memoId}
           memo={
