@@ -36,7 +36,6 @@ const AppTypography = styled(Typography)`
 export interface Memo {
   id: string;
   text: string;
-  title: string;
 }
 
 export type MemosAction = (prevState: Memo[]) => Memo[];
@@ -56,20 +55,15 @@ const App: React.FunctionComponent = () => {
       const titleParam = searchParams.get('title');
       const urlParam = searchParams.get('url');
 
-      const sharedText =
-        (textParam !== null || urlParam !== null) && `${textParam || ''}\n${urlParam || ''}`;
-
       return [
-        ...localStorageMemos.map(({ id, text, title }) => ({
+        ...localStorageMemos.map(({ id, text }) => ({
           id: id || uuidv4(),
-          text: text || '',
-          title: title || ''
+          text: text || ''
         })),
-        ...(((sharedText !== false || titleParam !== null) && [
+        ...(((titleParam !== null || textParam !== null || urlParam !== null) && [
           {
             id: uuidv4(),
-            text: sharedText || '',
-            title: titleParam || ''
+            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`
           }
         ]) ||
           [])
@@ -134,8 +128,7 @@ const App: React.FunctionComponent = () => {
           memo={
             memos.find(({ id }) => id === memoId) || {
               id: memoId,
-              text: '',
-              title: ''
+              text: ''
             }
           }
         />

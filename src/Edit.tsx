@@ -14,7 +14,7 @@ import lint from './lint';
 
 declare global {
   interface Navigator {
-    share?: (data?: { text?: string; title?: string; url?: string }) => Promise<void>;
+    share?: (data?: { text?: string; url?: string }) => Promise<void>;
   }
 }
 
@@ -57,7 +57,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const handleShareClick: React.MouseEventHandler = () =>
     navigator.share?.({
       text: memo.text,
-      title: memo.title,
       url: 'https://kohsei-san.b-hood.site/'
     });
 
@@ -74,27 +73,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
     );
   };
 
-  const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    dispatchMemos(prevMemos =>
-      prevMemos.map(prevMemo => ({
-        ...prevMemo,
-        ...(prevMemo.id === memo.id && { title: target.value })
-      }))
-    );
-
   return (
     <>
       <Paper>
         <Box pb={2}>
           <Container>
-            <TextField
-              defaultValue={memo.title}
-              fullWidth
-              label="タイトル"
-              margin="normal"
-              onBlur={handleTitleBlur}
-            />
-
             <TextField
               defaultValue={memo.text}
               fullWidth
