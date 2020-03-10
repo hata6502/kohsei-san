@@ -9,8 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import ShareIcon from '@material-ui/icons/Share';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
-import { Memo, MemosAction } from './App';
 import lint from './lint';
+import { Memo, MemosAction } from './useMemo';
 
 declare global {
   interface Navigator {
