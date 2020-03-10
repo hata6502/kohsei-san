@@ -19,6 +19,12 @@ const DrawerContainer = styled.div`
   width: 250px;
 `;
 
+const MemoText = styled(ListItemText)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 export interface SidebarProps {
   dispatchMemoId: React.Dispatch<string>;
   dispatchMemos: React.Dispatch<MemosAction>;
@@ -43,8 +49,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       ...prevMemos,
       {
         id,
-        text: '',
-        title: ''
+        text: ''
       }
     ]);
 
@@ -77,9 +82,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     <Drawer onClose={onClose} open={open}>
       <DrawerContainer>
         <List>
-          {memos.map(({ id, title }) => (
+          {memos.map(({ id, text }) => (
             <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-              <ListItemText primary={title || '(タイトルなし)'} />
+              <MemoText primary={text || '(空のメモ)'} />
               {memos.length >= 2 && (
                 <ListItemSecondaryAction>
                   <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
