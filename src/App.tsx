@@ -45,9 +45,8 @@ const App: React.FunctionComponent = () => {
     (state: Memo[], action: MemosAction) => action(state),
     undefined,
     () => {
-      const localStorageMemos: Partial<Memo>[] = JSON.parse(
-        localStorage.getItem('memos') || '[{}]'
-      );
+      const memosItem = localStorage.getItem('memos');
+      const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [{}];
 
       const searchParams = new URLSearchParams(window.location.search);
 
@@ -72,13 +71,18 @@ const App: React.FunctionComponent = () => {
   );
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, true);
-  const [memoId, dispatchMemoId] = useReducer((_: string, action: string) => action, memos[0].id);
+  const [memoId, dispatchMemoId] = useReducer(
+    (_: string, action: string) => action,
+    undefined,
+    () => localStorage.getItem('memoId') || (memos.length !== 0 && memos[0].id) || ''
+  );
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
 
   useEffect(() => {
     try {
+      localStorage.setItem('memoId', memoId);
       localStorage.setItem('memos', JSON.stringify(memos));
     } catch (exception) {
       setIsSaveErrorOpen(true);
@@ -87,13 +91,15 @@ const App: React.FunctionComponent = () => {
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [memos]);
+  }, [memoId, memos]);
 
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
 
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
 
   const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
+
+  const memo = memos.find(({ id }) => id === memoId);
 
   return (
     <>
@@ -120,23 +126,20 @@ const App: React.FunctionComponent = () => {
       />
 
       <AppContainer>
-        <Edit
-          dispatchIsLinting={dispatchIsLinting}
-          dispatchMemos={dispatchMemos}
-          isLinting={isLinting}
-          key={memoId}
-          memo={
-            memos.find(({ id }) => id === memoId) || {
-              id: memoId,
-              text: ''
-            }
-          }
-        />
+        {memo && (
+          <Edit
+            dispatchIsLinting={dispatchIsLinting}
+            dispatchMemos={dispatchMemos}
+            isLinting={isLinting}
+            key={memoId}
+            memo={memo}
+          />
+        )}
 
         <Snackbar open={isSaveErrorOpen}>
           <Alert onClose={handleSaveErrorClose} severity="error">
             メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
-            を使用できることを確認してください。
+            が使用できることを確認してください。
           </Alert>
         </Snackbar>
       </AppContainer>
