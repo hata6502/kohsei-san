@@ -13,7 +13,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import { v4 as uuidv4 } from 'uuid';
-import { Memo, MemosAction } from './App';
+import { Memo, MemosAction } from './useMemo';
 
 const DrawerContainer = styled.div`
   width: 250px;

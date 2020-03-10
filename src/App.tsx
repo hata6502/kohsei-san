@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,10 +9,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
-import * as Sentry from '@sentry/browser';
-import { v4 as uuidv4 } from 'uuid';
 import Edit from './Edit';
 import Sidebar, { SidebarProps } from './Sidebar';
+import useMemo from './useMemo';
 
 const AppContainer = styled(Container)`
   ${({ theme }) => `
@@ -33,70 +32,22 @@ const AppTypography = styled(Typography)`
   `}
 `;
 
-export interface Memo {
-  id: string;
-  text: string;
-}
-
-export type MemosAction = (prevState: Memo[]) => Memo[];
-
 const App: React.FunctionComponent = () => {
-  const [memos, dispatchMemos] = useReducer(
-    (state: Memo[], action: MemosAction) => action(state),
-    undefined,
-    () => {
-      const memosItem = localStorage.getItem('memos');
-      const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [{}];
-
-      const searchParams = new URLSearchParams(window.location.search);
-
-      const textParam = searchParams.get('text');
-      const titleParam = searchParams.get('title');
-      const urlParam = searchParams.get('url');
-
-      return [
-        ...localStorageMemos.map(({ id, text }) => ({
-          id: id || uuidv4(),
-          text: text || ''
-        })),
-        ...(((titleParam !== null || textParam !== null || urlParam !== null) && [
-          {
-            id: uuidv4(),
-            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`
-          }
-        ]) ||
-          [])
-      ];
-    }
-  );
+  const {
+    dispatchMemoId,
+    dispatchMemos,
+    isSaveErrorOpen,
+    memoId,
+    memos,
+    setIsSaveErrorOpen
+  } = useMemo();
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, true);
-  const [memoId, dispatchMemoId] = useReducer(
-    (_: string, action: string) => action,
-    undefined,
-    () => localStorage.getItem('memoId') || (memos.length !== 0 && memos[0].id) || ''
-  );
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('memoId', memoId);
-      localStorage.setItem('memos', JSON.stringify(memos));
-    } catch (exception) {
-      setIsSaveErrorOpen(true);
-
-      // eslint-disable-next-line no-console
-      console.error(exception);
-      Sentry.captureException(exception);
-    }
-  }, [memoId, memos]);
 
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
-
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
-
   const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
 
   const memo = memos.find(({ id }) => id === memoId);
