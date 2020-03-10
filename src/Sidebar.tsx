@@ -85,13 +85,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           {memos.map(({ id, text }) => (
             <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
               <MemoText primary={text || '(空のメモ)'} />
-              {memos.length >= 2 && (
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              )}
+              <ListItemSecondaryAction>
+                <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
 
