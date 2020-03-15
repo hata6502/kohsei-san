@@ -2,6 +2,8 @@ import { TextlintKernel } from '@textlint/kernel';
 // @ts-ignore
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
+import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
+// @ts-ignore
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePrh from 'textlint-rule-prh';
@@ -23,6 +25,10 @@ const lint = (text: string) =>
         rule: textlintRulePresetJapanese.rules[key],
         options: textlintRulePresetJapanese.rulesConfig[key]
       })),
+      {
+        ruleId: 'joyo-kanji',
+        rule: textlintRuleJoyoKanji
+      },
       {
         ruleId: 'prh',
         rule: textlintRulePrh,
