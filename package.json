@@ -37,6 +37,7 @@
     "react-dom": "^16.12.0",
     "react-is": "^16.13.0",
     "styled-components": "^5.0.1",
+    "textlint-rule-joyo-kanji": "^0.0.2",
     "textlint-rule-preset-japanese": "^4.0.4",
     "textlint-rule-prh": "^5.3.0",
     "uuid": "^7.0.1",
