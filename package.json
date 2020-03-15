@@ -31,6 +31,7 @@
     "browserfs": "^2.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "fs": "^0.0.1-security",
+    "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

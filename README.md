@@ -19,6 +19,15 @@
 今後のバージョンアップなどによって、保存されていたメモが消失する場合もあります。
 いかなる場合においても、このアプリを使用したことによる責任は負いかねますのでご了承ください。
 
+## 校正ルール
+
+このアプリでは、[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
+
+- [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
+- [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
+
+校正を改善するためのコントリビュートを歓迎いたします！
+
 ## Author
 
 <img alt="Hood" src="https://avatars.githubusercontent.com/blue-hood" width="48" /> **Hood <hato6502@gmail.com> (https://github.com/blue-hood)**
