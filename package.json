@@ -75,6 +75,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "resolutions": {
-    "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3"
+    "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
+    "minimist": "^1.2.2"
   }
 }
