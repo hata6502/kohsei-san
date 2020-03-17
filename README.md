@@ -24,6 +24,7 @@
 このアプリでは、[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
 
 - [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
+- [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
 
