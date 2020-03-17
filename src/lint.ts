@@ -2,13 +2,15 @@ import { TextlintKernel } from '@textlint/kernel';
 // @ts-ignore
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
-import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
-// @ts-ignore
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
 // @ts-ignore
+import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
+// @ts-ignore
 import textlintRulePrh from 'textlint-rule-prh';
+// @ts-ignore
+import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 
 const kernel = new TextlintKernel();
 
@@ -41,6 +43,13 @@ const lint = (text: string) =>
         rule: textlintRulePrh,
         options: {
           rulePaths: ['kanji-open.yml', 'spoken.yml', 'typo.yml', 'web+db.yml']
+        }
+      },
+      {
+        ruleId: 'proofdict',
+        rule: textlintRuleProofdict,
+        options: {
+          dictURL: "https://blue-hood.github.io/proof-dictionary/"
         }
       }
     ]

@@ -27,8 +27,13 @@
 - [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
+- [@proofdict/textlint-rule-proofdict](https://github.com/proofdict/proofdict/tree/master/packages/%40proofdict/textlint-rule-proofdict)
 
 校正を改善するためのコントリビュートを歓迎いたします！
+
+## 辞書データ
+
+<!-- TODO: 辞書データへのコントリビュートを書く。 -->
 
 ## Author
 
