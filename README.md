@@ -7,6 +7,9 @@
   <a href="https://codeclimate.com/github/blue-hood/kohsei-san/maintainability">
     <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/maintainability" />
   </a>
+  <a href="https://codeclimate.com/github/blue-hood/kohsei-san/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/test_coverage" />
+  </a>
 </p>
 
 > その場ですぐに文章を校正できるメモ帳アプリです。
