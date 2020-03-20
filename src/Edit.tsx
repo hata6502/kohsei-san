@@ -35,21 +35,37 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
 
   useEffect(() => {
-    setTimeout(async () => {
+    let isUnmounted = false;
+
+    (async () => {
+      if (!isUnmounted) {
+        dispatchIsLinting(true);
+      }
+
       try {
         const result = await lint(memo.text);
 
-        setMessages(result.messages);
+        if (!isUnmounted) {
+          setMessages(result.messages);
+        }
       } catch (exception) {
-        setIsLintErrorOpen(true);
+        if (!isUnmounted) {
+          setIsLintErrorOpen(true);
+        }
 
         // eslint-disable-next-line no-console
         console.error(exception);
         Sentry.captureException(exception);
       } finally {
-        dispatchIsLinting(false);
+        if (!isUnmounted) {
+          dispatchIsLinting(false);
+        }
       }
-    });
+    })();
+
+    return () => {
+      isUnmounted = true;
+    };
   }, [memo.text]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
@@ -60,18 +76,13 @@ const Edit: React.FunctionComponent<EditProps> = ({
       url: 'https://kohsei-san.b-hood.site/'
     });
 
-  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) => {
-    if (target.value !== memo.text) {
-      dispatchIsLinting(true);
-    }
-
+  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
         ...(prevMemo.id === memo.id && { text: target.value })
       }))
     );
-  };
 
   return (
     <>
