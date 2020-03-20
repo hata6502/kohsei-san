@@ -21,13 +21,20 @@
 
 ## 校正ルール
 
-このアプリでは、[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
+[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
 
 - [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
+- [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
 
 校正を改善するためのコントリビュートを歓迎いたします！
+
+## ビジョン
+
+- 機能拡張よりも、モバイルフレンドリーな UI を優先します。
+- カスタマイズ性よりも、統一された校正ルールを追求します。
+- サーバーを設けず、オフラインで完結させます。
 
 ## Author
 
