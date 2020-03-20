@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
-import TextField from '@material-ui/core/TextField';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
+import escape from 'escape-html';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
 import lint from './lint';
@@ -68,6 +69,25 @@ const Edit: React.FunctionComponent<EditProps> = ({
     };
   }, [memo.text]);
 
+  const testRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+
+  const pins = testRef.current && messages.map((message) => {
+    const test = testRef.current as HTMLDivElement;
+    const testRect = test.getBoundingClientRect();
+    const range = document.createRange();
+
+    range.setStart(textRef.current?.childNodes[0], message.index);
+
+    const rangeRect = range.getBoundingClientRect();
+
+    return {
+      message,
+      top: rangeRect.top - testRect.top,
+      left: rangeRect.left - testRect.left,
+    }
+  });
+
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
   const handleShareClick: React.MouseEventHandler = () =>
@@ -76,11 +96,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
       url: 'https://kohsei-san.b-hood.site/'
     });
 
-  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
+  const handleTextBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) =>
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: target.value })
+        ...(prevMemo.id === memo.id && { text: target.textContent || '' })
       }))
     );
 
@@ -89,25 +109,17 @@ const Edit: React.FunctionComponent<EditProps> = ({
       <Paper>
         <Box pb={2}>
           <Container>
-            <TextField
-              defaultValue={memo.text}
-              fullWidth
-              label="本文"
-              margin="normal"
-              multiline
-              onBlur={handleTextBlur}
-              variant="outlined"
-            />
+            <div style={{ position: 'relative' }} ref={testRef}>
+              <div contentEditable dangerouslySetInnerHTML={{__html: escape(memo.text)}} onBlur={handleTextBlur} ref={textRef} />
+
+              {pins?.map(({ top, left, message }) => {
+                return <FeedbackIcon key={message.index} color='primary' style={{ position: 'absolute', top, left, transform: 'translateY(-80%)' }} />;
+              })}
+            </div>
 
             {!isLinting && messages.length === 0 && memo.text !== '' && (
               <Alert severity="success">校正を通過しました！</Alert>
             )}
-
-            <ul>
-              {messages.map(({ column, index, message, line }) => (
-                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
-              ))}
-            </ul>
 
             {navigator.share && (
               <Button
