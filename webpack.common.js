@@ -8,8 +8,8 @@ module.exports = {
     noParse: /browserfs\.js/,
     rules: [
       {
-        test: /\.tsx?$/,
-        loader: 'ts-loader'
+        test: /\.(j|t)sx?$/,
+        loader: 'babel-loader'
       },
       {
         test: /\.yml$/i,

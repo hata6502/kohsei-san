@@ -2,15 +2,15 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "lib": ["dom", "es2015"],
-    "module": "es2015",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
     "moduleResolution": "node",
     "outDir": "docs",
     "pretty": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "ESNext"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "docs"]
