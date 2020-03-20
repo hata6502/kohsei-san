@@ -42,7 +42,7 @@ const App: React.FunctionComponent = () => {
     setIsSaveErrorOpen
   } = useMemo();
 
-  const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, true);
+  const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
