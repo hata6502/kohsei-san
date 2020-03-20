@@ -19,7 +19,7 @@
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn build && git diff --exit-code && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && cypress run"
+    "test": "cypress run --config video=false --env coverage=false && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check"
   },
   "browserslist": [
     "defaults"
@@ -91,14 +91,14 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },
-  "nyc": {
-    "reporter": [
-      "json",
-      "text"
-    ]
-  },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
     "minimist": "^1.2.2"
+  },
+  "nyc": {
+    "reporter": [
+      "lcovonly",
+      "text"
+    ]
   }
 }
