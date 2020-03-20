@@ -25,6 +25,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn --frozen-lockfile
       - run: yarn start &
-      - run: yarn test
+      - uses: paambaati/codeclimate-action@v2.5.5
         env:
-          CI: true
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageCommand: yarn test
