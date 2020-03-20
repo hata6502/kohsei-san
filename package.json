@@ -30,12 +30,14 @@
     "@textlint/textlint-plugin-text": "^4.1.13",
     "browserfs": "^2.0.0",
     "copy-webpack-plugin": "^5.1.1",
+    "core-js": "3",
     "fs": "^0.0.1-security",
     "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-is": "^16.13.0",
+    "regenerator-runtime": "^0.13.5",
     "styled-components": "^5.0.1",
     "textlint-rule-joyo-kanji": "^0.0.2",
     "textlint-rule-preset-ja-spacing": "^2.0.1",
@@ -47,12 +49,17 @@
     "workbox-webpack-plugin": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/styled-components": "^5.0.1",
     "@types/uuid": "^7.0.0",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.9.0",
@@ -71,7 +78,6 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-prettier": "^1.1.2",
     "stylelint-processor-styled-components": "^1.10.0",
-    "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
@@ -79,5 +85,8 @@
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
     "minimist": "^1.2.2"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }
