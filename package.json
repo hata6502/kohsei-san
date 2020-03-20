@@ -19,9 +19,13 @@
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn build && git diff --exit-code && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check"
+    "test": "yarn build && git diff --exit-code && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && cypress run"
   },
+  "browserslist": [
+    "defaults"
+  ],
   "dependencies": {
+    "@cypress/code-coverage": "^1.14.0",
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
@@ -60,16 +64,21 @@
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "babel-loader": "^8.0.6",
+    "babel-plugin-istanbul": "^6.0.0",
+    "cypress": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.9.0",
     "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "http-server": "^0.12.1",
+    "istanbul-lib-coverage": "^3.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "raw-loader": "^4.0.0",
     "stylelint": "^13.2.0",
@@ -82,11 +91,14 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },
+  "nyc": {
+    "reporter": [
+      "json",
+      "text"
+    ]
+  },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
     "minimist": "^1.2.2"
-  },
-  "browserslist": [
-    "defaults"
-  ]
+  }
 }
