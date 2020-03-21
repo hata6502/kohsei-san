@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Alert, { AlertProps } from '@material-ui/lab/Alert';
+import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
+import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import escape from 'escape-html';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
@@ -18,6 +19,15 @@ declare global {
     share?: (data?: { text?: string; url?: string }) => Promise<void>;
   }
 }
+
+const Pin = styled(FeedbackIcon)`
+  position: absolute;
+  transform: translateY(-80%);
+`;
+
+const TextContainer = styled.div`
+  position: relative;
+`;
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
@@ -69,22 +79,24 @@ const Edit: React.FunctionComponent<EditProps> = ({
     };
   }, [memo.text]);
 
-  const testRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
 
-  const pins = testRef.current && messages.map((message) => {
-    const test = testRef.current as HTMLDivElement;
-    const testRect = test.getBoundingClientRect();
+  const pins = textRef.current && textContainerRef.current && messages.map((message) => {
+    const textContainer = textContainerRef.current as HTMLDivElement;
+    const textContainerRect = textContainer.getBoundingClientRect();
+
+    const text = textRef.current as HTMLDivElement;
     const range = document.createRange();
 
-    range.setStart(textRef.current?.childNodes[0], message.index);
+    range.setStart(text.childNodes[0], message.index);
 
     const rangeRect = range.getBoundingClientRect();
 
     return {
       message,
-      top: rangeRect.top - testRect.top,
-      left: rangeRect.left - testRect.left,
+      top: rangeRect.top - textContainerRect.top,
+      left: rangeRect.left - textContainerRect.left,
     }
   });
 
@@ -100,7 +112,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: target.innerText})
+        ...(prevMemo.id === memo.id && { text: target.innerText })
       }))
     );
 
@@ -109,13 +121,18 @@ const Edit: React.FunctionComponent<EditProps> = ({
       <Paper>
         <Box pb={2}>
           <Container>
-            <div style={{ position: 'relative' }} ref={testRef}>
-              <div contentEditable dangerouslySetInnerHTML={{__html: escape(memo.text).replace(/\n/g, '<br />')}} onBlur={handleTextBlur} ref={textRef} />
+            <TextContainer ref={textContainerRef}>
+              <div
+                contentEditable
+                dangerouslySetInnerHTML={{ __html: escape(memo.text).replace(/\n/g, '<br />') }}
+                onBlur={handleTextBlur}
+                ref={textRef}
+              />
 
-              {pins?.map(({ top, left, message }) => {
-                return <FeedbackIcon key={message.index} color='primary' style={{ position: 'absolute', top, left, transform: 'translateY(-80%)' }} />;
-              })}
-            </div>
+              {pins?.map(({ top, left, message }) =>
+                <Pin key={message.index} color='primary' style={{ top, left }} />
+              )}
+            </TextContainer>
 
             {!isLinting && messages.length === 0 && memo.text !== '' && (
               <Alert severity="success">校正を通過しました！</Alert>
