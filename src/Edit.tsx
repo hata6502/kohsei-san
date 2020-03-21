@@ -65,11 +65,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
   useEffect(() => {
     let isUnmounted = false;
 
-    (async () => {
-      if (!isUnmounted) {
-        dispatchIsLinting(true);
-      }
+    dispatchIsLinting(true);
 
+    setTimeout(async () => {
       try {
         const result = await lint(memo.text);
 
@@ -89,7 +87,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
           dispatchIsLinting(false);
         }
       }
-    })();
+    });
 
     return () => {
       isUnmounted = true;
@@ -189,6 +187,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               border={1}
               borderColor={(isTextContainerFocus && 'primary.main') || 'grey.500'}
               borderRadius="borderRadius"
+              mb={2}
               p={2}
               position="relative"
             >
