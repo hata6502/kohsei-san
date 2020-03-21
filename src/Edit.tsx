@@ -100,7 +100,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: target.textContent || '' })
+        ...(prevMemo.id === memo.id && { text: target.innerText})
       }))
     );
 
@@ -110,7 +110,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
         <Box pb={2}>
           <Container>
             <div style={{ position: 'relative' }} ref={testRef}>
-              <div contentEditable dangerouslySetInnerHTML={{__html: escape(memo.text)}} onBlur={handleTextBlur} ref={textRef} />
+              <div contentEditable dangerouslySetInnerHTML={{__html: escape(memo.text).replace(/\n/g, '<br />')}} onBlur={handleTextBlur} ref={textRef} />
 
               {pins?.map(({ top, left, message }) => {
                 return <FeedbackIcon key={message.index} color='primary' style={{ position: 'absolute', top, left, transform: 'translateY(-80%)' }} />;
