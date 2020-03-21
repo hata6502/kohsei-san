@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
+import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
@@ -21,11 +22,11 @@ declare global {
 
 const Pin = styled(FeedbackIcon)`
   position: absolute;
-  transform: translateY(-80%);
+  transform: translateY(-100%);
 `;
 
 const TextContainer = styled.div`
-  position: relative;
+  outline: 0;
 `;
 
 interface Pin {
@@ -48,12 +49,12 @@ const Edit: React.FunctionComponent<EditProps> = ({
   memo
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
-  const [isTextFocus, setIsTextFocus] = useState(false);
+  const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
 
   const textRef = useRef<HTMLDivElement>(null);
-  const textContainerRef = useRef<HTMLDivElement>(null);
+  const textBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (textRef.current) {
@@ -97,18 +98,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   useEffect(() => {
     try {
-      if (!textRef.current || !textContainerRef.current) {
+      if (!textRef.current || !textBoxRef.current) {
         return;
       }
 
+      const range = document.createRange();
+      const text = textRef.current;
+      const textBoxRect = textBoxRef.current.getBoundingClientRect();
+
       setPins(
         messages.map(message => {
-          const textContainer = textContainerRef.current as HTMLDivElement;
-          const textContainerRect = textContainer.getBoundingClientRect();
-
-          const text = textRef.current as HTMLDivElement;
-          const range = document.createRange();
-
           let childNodesIndex = 0;
           let offset = message.index;
 
@@ -141,9 +140,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
           const rangeRect = range.getBoundingClientRect();
 
           return {
-            left: rangeRect.left - textContainerRect.left,
+            left: rangeRect.left - textBoxRect.left,
             message,
-            top: rangeRect.top - textContainerRect.top
+            top: rangeRect.top - textBoxRect.top
           };
         })
       );
@@ -154,7 +153,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
       console.error(exception);
       Sentry.captureException(exception);
     }
-  }, [messages, textRef.current, textContainerRef.current]);
+  }, [messages, textRef.current, textBoxRef.current]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
@@ -164,7 +163,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
       url: 'https://kohsei-san.b-hood.site/'
     });
 
-  const handleTextBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
+  const handleTextContainerBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
@@ -176,23 +175,43 @@ const Edit: React.FunctionComponent<EditProps> = ({
       textRef.current.innerText = target.innerText;
     }
 
-    setIsTextFocus(false);
+    setIsTextContainerFocus(false);
   };
 
-  const handleTextFocus: React.FocusEventHandler = () => setIsTextFocus(true);
+  const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
 
   return (
     <>
       <Paper>
-        <Box pb={2}>
+        <Box pb={2} pt={2}>
           <Container>
-            <TextContainer ref={textContainerRef}>
-              <div contentEditable onBlur={handleTextBlur} onFocus={handleTextFocus} ref={textRef} />
+            <Box
+              border={1}
+              borderColor={(isTextContainerFocus && 'primary.main') || 'grey.500'}
+              borderRadius="borderRadius"
+              p={2}
+              position="relative"
+            >
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {(props: any) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <div {...props} ref={textBoxRef}>
+                  <Typography component="div" variant="body1">
+                    <TextContainer
+                      contentEditable
+                      onBlur={handleTextContainerBlur}
+                      onFocus={handleTextContainerFocus}
+                      ref={textRef}
+                    />
+                  </Typography>
 
-              {isTextFocus || pins.map(({ top, left, message }) => (
-                <Pin key={message.index} color="primary" style={{ top, left }} />
-              ))}
-            </TextContainer>
+                  {isTextContainerFocus ||
+                    pins.map(({ top, left, message }) => (
+                      <Pin key={message.index} color="primary" style={{ top, left }} />
+                    ))}
+                </div>
+              )}
+            </Box>
 
             {!isLinting && messages.length === 0 && memo.text !== '' && (
               <Alert severity="success">校正を通過しました！</Alert>
