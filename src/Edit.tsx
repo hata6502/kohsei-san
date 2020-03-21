@@ -48,6 +48,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   memo
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
+  const [isTextFocus, setIsTextFocus] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
 
@@ -174,7 +175,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
     if (textRef.current) {
       textRef.current.innerText = target.innerText;
     }
+
+    setIsTextFocus(false);
   };
+
+  const handleTextFocus: React.FocusEventHandler = () => setIsTextFocus(true);
 
   return (
     <>
@@ -182,9 +187,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
         <Box pb={2}>
           <Container>
             <TextContainer ref={textContainerRef}>
-              <div contentEditable onBlur={handleTextBlur} ref={textRef} />
+              <div contentEditable onBlur={handleTextBlur} onFocus={handleTextFocus} ref={textRef} />
 
-              {pins.map(({ top, left, message }) => (
+              {isTextFocus || pins.map(({ top, left, message }) => (
                 <Pin key={message.index} color="primary" style={{ top, left }} />
               ))}
             </TextContainer>
