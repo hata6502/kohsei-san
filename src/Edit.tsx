@@ -28,6 +28,12 @@ const TextContainer = styled.div`
   position: relative;
 `;
 
+interface Pin {
+  left: React.CSSProperties['left'];
+  message: TextlintMessage;
+  top: React.CSSProperties['top'];
+}
+
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
@@ -43,12 +49,13 @@ const Edit: React.FunctionComponent<EditProps> = ({
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
+  const [pins, setPins] = useState<Pin[]>([]);
 
   const textRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (textRef.current){
+    if (textRef.current) {
       textRef.current.innerText = memo.text;
     }
   }, []);
@@ -87,47 +94,66 @@ const Edit: React.FunctionComponent<EditProps> = ({
     };
   }, [memo.text]);
 
-  const pins = textRef.current && textContainerRef.current && messages.map((message) => {
-    const textContainer = textContainerRef.current as HTMLDivElement;
-    const textContainerRect = textContainer.getBoundingClientRect();
-
-    const text = textRef.current as HTMLDivElement;
-    const range = document.createRange();
-
-    let childNodesIndex = 0;
-    let offset = message.index;
-
-    for(childNodesIndex = 0; childNodesIndex < text.childNodes.length; childNodesIndex++){
-      const child = text.childNodes[childNodesIndex];
-      const length = child instanceof HTMLBRElement && 1 || child instanceof Text && child.length;
-      
-      if (!length) {
-        throw new Error('Unexpected node type. ');
+  useEffect(() => {
+    try {
+      if (!textRef.current || !textContainerRef.current) {
+        return;
       }
 
-      if (offset < length){
-        range.setStart(child, offset);
+      setPins(
+        messages.map(message => {
+          const textContainer = textContainerRef.current as HTMLDivElement;
+          const textContainerRect = textContainer.getBoundingClientRect();
 
-        break;
-      }
+          const text = textRef.current as HTMLDivElement;
+          const range = document.createRange();
 
-      offset-=length;
+          let childNodesIndex = 0;
+          let offset = message.index;
+
+          for (
+            childNodesIndex = 0;
+            childNodesIndex < text.childNodes.length;
+            childNodesIndex += 1
+          ) {
+            const child = text.childNodes[childNodesIndex];
+            const length =
+              (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+
+            if (!length) {
+              throw new Error('Unexpected node type. ');
+            }
+
+            if (offset < length) {
+              range.setStart(child, offset);
+
+              break;
+            }
+
+            offset -= length;
+          }
+
+          if (childNodesIndex >= text.childNodes.length) {
+            throw new Error('Pin position is not found. ');
+          }
+
+          const rangeRect = range.getBoundingClientRect();
+
+          return {
+            left: rangeRect.left - textContainerRect.left,
+            message,
+            top: rangeRect.top - textContainerRect.top
+          };
+        })
+      );
+    } catch (exception) {
+      setIsLintErrorOpen(true);
+
+      // eslint-disable-next-line no-console
+      console.error(exception);
+      Sentry.captureException(exception);
     }
-
-    if (childNodesIndex >= text.childNodes.length){
-      throw new Error('Pin position is not found. ');
-    }
-    
-    // 不明なエラーのcatch をする。
-
-    const rangeRect = range.getBoundingClientRect();
-
-    return {
-      message,
-      top: rangeRect.top - textContainerRect.top,
-      left: rangeRect.left - textContainerRect.left,
-    }
-  });
+  }, [messages, textRef.current, textContainerRef.current]);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
@@ -145,8 +171,10 @@ const Edit: React.FunctionComponent<EditProps> = ({
       }))
     );
 
-    target.innerText = target.innerText;
-  }
+    if (textRef.current) {
+      textRef.current.innerText = target.innerText;
+    }
+  };
 
   return (
     <>
@@ -154,15 +182,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
         <Box pb={2}>
           <Container>
             <TextContainer ref={textContainerRef}>
-              <div
-                contentEditable
-                onBlur={handleTextBlur}
-                ref={textRef}
-              />
+              <div contentEditable onBlur={handleTextBlur} ref={textRef} />
 
-              {pins?.map(({ top, left, message }) =>
-                <Pin key={message.index} color='primary' style={{ top, left }} />
-              )}
+              {pins.map(({ top, left, message }) => (
+                <Pin key={message.index} color="primary" style={{ top, left }} />
+              ))}
             </TextContainer>
 
             {!isLinting && messages.length === 0 && memo.text !== '' && (
