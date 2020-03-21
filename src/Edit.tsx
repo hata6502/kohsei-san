@@ -8,7 +8,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
-import escape from 'escape-html';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
 import lint from './lint';
@@ -45,6 +44,15 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
 
+  const textRef = useRef<HTMLDivElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (textRef.current){
+      textRef.current.innerText = memo.text;
+    }
+  }, []);
+
   useEffect(() => {
     let isUnmounted = false;
 
@@ -79,9 +87,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
     };
   }, [memo.text]);
 
-  const textRef = useRef<HTMLDivElement>(null);
-  const textContainerRef = useRef<HTMLDivElement>(null);
-
   const pins = textRef.current && textContainerRef.current && messages.map((message) => {
     const textContainer = textContainerRef.current as HTMLDivElement;
     const textContainerRect = textContainer.getBoundingClientRect();
@@ -89,7 +94,31 @@ const Edit: React.FunctionComponent<EditProps> = ({
     const text = textRef.current as HTMLDivElement;
     const range = document.createRange();
 
-    range.setStart(text.childNodes[0], message.index);
+    let childNodesIndex = 0;
+    let offset = message.index;
+
+    for(childNodesIndex = 0; childNodesIndex < text.childNodes.length; childNodesIndex++){
+      const child = text.childNodes[childNodesIndex];
+      const length = child instanceof HTMLBRElement && 1 || child instanceof Text && child.length;
+      
+      if (!length) {
+        throw new Error('Unexpected node type. ');
+      }
+
+      if (offset < length){
+        range.setStart(child, offset);
+
+        break;
+      }
+
+      offset-=length;
+    }
+
+    if (childNodesIndex >= text.childNodes.length){
+      throw new Error('Pin position is not found. ');
+    }
+    
+    // 不明なエラーのcatch をする。
 
     const rangeRect = range.getBoundingClientRect();
 
@@ -108,13 +137,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
       url: 'https://kohsei-san.b-hood.site/'
     });
 
-  const handleTextBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) =>
+  const handleTextBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
     dispatchMemos(prevMemos =>
       prevMemos.map(prevMemo => ({
         ...prevMemo,
         ...(prevMemo.id === memo.id && { text: target.innerText })
       }))
     );
+
+    target.innerText = target.innerText;
+  }
 
   return (
     <>
@@ -124,7 +156,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
             <TextContainer ref={textContainerRef}>
               <div
                 contentEditable
-                dangerouslySetInnerHTML={{ __html: escape(memo.text).replace(/\n/g, '<br />') }}
                 onBlur={handleTextBlur}
                 ref={textRef}
               />
