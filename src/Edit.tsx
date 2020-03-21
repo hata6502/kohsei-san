@@ -193,6 +193,12 @@ const Edit: React.FunctionComponent<EditProps> = ({
               <Alert severity="success">校正を通過しました！</Alert>
             )}
 
+            <ul>
+              {messages.map(({ column, index, message, line }) => (
+                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
+              ))}
+            </ul>
+
             {navigator.share && (
               <Button
                 color="primary"
