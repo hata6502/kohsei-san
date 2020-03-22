@@ -21,6 +21,9 @@ declare global {
 }
 
 const Pin = styled(FeedbackIcon)`
+  ${({ theme }) => `
+    background-color: ${theme.palette.background.paper};
+  `}
   position: absolute;
   transform: translateY(-100%);
 `;
@@ -153,6 +156,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
     }
   }, [messages, textRef.current, textBoxRef.current]);
 
+  const isDisplayResult = !isTextContainerFocus && !isLinting;
+
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
   const handleShareClick: React.MouseEventHandler = () =>
@@ -204,7 +209,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                     />
                   </Typography>
 
-                  {isTextContainerFocus ||
+                  {isDisplayResult &&
                     pins.map(({ top, left, message }) => (
                       <Pin key={message.index} color="primary" style={{ top, left }} />
                     ))}
@@ -212,14 +217,15 @@ const Edit: React.FunctionComponent<EditProps> = ({
               )}
             </Box>
 
-            {!isLinting && messages.length === 0 && memo.text !== '' && (
+            {isDisplayResult && messages.length === 0 && (
               <Alert severity="success">校正を通過しました！</Alert>
             )}
 
             <ul>
-              {messages.map(({ column, index, message, line }) => (
-                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
-              ))}
+              {isDisplayResult &&
+                messages.map(({ column, index, message, line }) => (
+                  <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
+                ))}
             </ul>
 
             {navigator.share && (
