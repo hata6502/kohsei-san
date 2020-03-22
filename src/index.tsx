@@ -19,7 +19,16 @@ import App from './App';
 import initializePrh from './prh';
 
 if (process.env.NODE_ENV === 'production') {
-  Sentry.init({ dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618' });
+  Sentry.init({
+    beforeSend: event => {
+      if (event.exception) {
+        Sentry.showReportDialog({ eventId: event.event_id });
+      }
+
+      return event;
+    },
+    dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618'
+  });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
