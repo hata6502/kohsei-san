@@ -25,6 +25,11 @@ const AppIcon = styled.img`
   width: 48px;
 `;
 
+const AppTopBar = styled(AppBar)`
+  /* Sentry のレポートダイアログを最前面に表示するため */
+  z-index: 998;
+`;
+
 const AppTypography = styled(Typography)`
   ${({ theme }) => `
     flex-grow: 1;
@@ -54,7 +59,7 @@ const App: React.FunctionComponent = () => {
 
   return (
     <>
-      <AppBar color="inherit">
+      <AppTopBar color="inherit">
         <Toolbar>
           <IconButton onClick={handleMenuIconClick}>
             <MenuIcon />
@@ -65,7 +70,7 @@ const App: React.FunctionComponent = () => {
           <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
           α版
         </Toolbar>
-      </AppBar>
+      </AppTopBar>
 
       <Sidebar
         dispatchMemoId={dispatchMemoId}
