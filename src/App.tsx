@@ -68,7 +68,6 @@ const App: React.FunctionComponent = () => {
             <AppIcon alt="" src="favicon.png" />
           )}
           <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
-          α版
         </Toolbar>
       </AppTopBar>
 

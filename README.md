@@ -1,6 +1,5 @@
 <h1 align="center">Welcome to 校正さん 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
@@ -15,12 +14,6 @@
 > その場ですぐに文章を校正できるメモ帳アプリです。
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/)
-
-## 免責事項
-
-このアプリは α 版です。
-今後のバージョンアップなどによって、保存されていたメモが消失する場合もあります。
-いかなる場合においても、このアプリを使用したことによる責任は負いかねますのでご了承ください。
 
 ## 校正ルール
 
