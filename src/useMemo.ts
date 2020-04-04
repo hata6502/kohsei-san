@@ -28,15 +28,15 @@ const useMemo = () => {
       return [
         ...localStorageMemos.map(({ id, text }) => ({
           id: id || uuidv4(),
-          text: text || ''
+          text: text || '',
         })),
         ...((isShared && [
           {
             id: uuidv4(),
-            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`
-          }
+            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`,
+          },
         ]) ||
-          [])
+          []),
       ];
     }
   );
@@ -72,7 +72,7 @@ const useMemo = () => {
     isSaveErrorOpen,
     memoId,
     memos,
-    setIsSaveErrorOpen
+    setIsSaveErrorOpen,
   };
 };
 

@@ -11,7 +11,7 @@ import {
   createMuiTheme,
   StylesProvider,
   Theme,
-  ThemeProvider as MuiThemeProvider
+  ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core/styles';
 import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
@@ -20,14 +20,14 @@ import initializePrh from './prh';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    beforeSend: event => {
+    beforeSend: (event) => {
       if (event.exception) {
         Sentry.showReportDialog({ eventId: event.event_id });
       }
 
       return event;
     },
-    dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618'
+    dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618',
   });
 
   if ('serviceWorker' in navigator) {
@@ -44,15 +44,15 @@ declare global {
 }
 
 window.kuromojin = {
-  dicPath: 'dict'
+  dicPath: 'dict',
 };
 
 BrowserFS.install(window);
 BrowserFS.configure(
   {
-    fs: 'LocalStorage'
+    fs: 'LocalStorage',
   },
-  exception => {
+  (exception) => {
     if (exception) {
       throw exception;
     }
@@ -64,8 +64,8 @@ initializePrh();
 const theme = createMuiTheme({
   palette: {
     primary: pink,
-    secondary: purple
-  }
+    secondary: purple,
+  },
 });
 
 declare module 'styled-components' {

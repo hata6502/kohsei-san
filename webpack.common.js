@@ -9,28 +9,28 @@ module.exports = {
     rules: [
       {
         test: /\.(j|t)sx?$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.yml$/i,
-        use: 'raw-loader'
-      }
-    ]
+        use: 'raw-loader',
+      },
+    ],
   },
   node: {
     process: false,
-    Buffer: false
+    Buffer: false,
   },
   output: {
-    path: path.resolve(__dirname, 'docs')
+    path: path.resolve(__dirname, 'docs'),
   },
   plugins: [
     new CopyPlugin([{ from: 'resources' }]),
     new webpack.ProvidePlugin({
       BrowserFS: 'bfsGlobal',
       process: 'processGlobal',
-      Buffer: 'bufferGlobal'
-    })
+      Buffer: 'bufferGlobal',
+    }),
   ],
   resolve: {
     alias: {
@@ -39,8 +39,8 @@ module.exports = {
       path: 'browserfs/dist/shims/path.js',
       processGlobal: 'browserfs/dist/shims/process.js',
       bufferGlobal: 'browserfs/dist/shims/bufferGlobal.js',
-      bfsGlobal: require.resolve('browserfs')
+      bfsGlobal: require.resolve('browserfs'),
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
-  }
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
 };

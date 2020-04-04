@@ -18,32 +18,32 @@ const lint = (text: string) =>
     plugins: [
       {
         pluginId: 'text',
-        plugin: textlintPluginText
-      }
+        plugin: textlintPluginText,
+      },
     ],
     rules: [
-      ...Object.keys(textlintRulePresetJapanese.rules).map(key => ({
+      ...Object.keys(textlintRulePresetJapanese.rules).map((key) => ({
         ruleId: key,
         rule: textlintRulePresetJapanese.rules[key],
-        options: textlintRulePresetJapanese.rulesConfig[key]
+        options: textlintRulePresetJapanese.rulesConfig[key],
       })),
-      ...Object.keys(textlintRulePresetJaSpacing.rules).map(key => ({
+      ...Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
         ruleId: key,
         rule: textlintRulePresetJaSpacing.rules[key],
-        options: textlintRulePresetJaSpacing.rulesConfig[key]
+        options: textlintRulePresetJaSpacing.rulesConfig[key],
       })),
       {
         ruleId: 'joyo-kanji',
-        rule: textlintRuleJoyoKanji
+        rule: textlintRuleJoyoKanji,
       },
       {
         ruleId: 'prh',
         rule: textlintRulePrh,
         options: {
-          rulePaths: ['kanji-open.yml', 'spoken.yml', 'typo.yml', 'web+db.yml']
-        }
-      }
-    ]
+          rulePaths: ['kanji-open.yml', 'spoken.yml', 'typo.yml', 'web+db.yml'],
+        },
+      },
+    ],
   });
 
 export default lint;

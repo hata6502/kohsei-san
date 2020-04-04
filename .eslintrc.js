@@ -18,11 +18,8 @@ module.exports = {
     }
   },
   rules: {
-    'arrow-parens': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
-    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'comma-dangle': ['error', 'never'],
     'import/extensions': [
       'error',
       {
