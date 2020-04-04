@@ -16,7 +16,7 @@ import {
 import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import initializePrh from './prh';
+import initializeDict from './dict';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -59,7 +59,7 @@ BrowserFS.configure(
   }
 );
 
-initializePrh();
+initializeDict();
 
 const theme = createMuiTheme({
   palette: {
