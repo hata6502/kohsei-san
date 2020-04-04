@@ -2,6 +2,8 @@ import { TextlintKernel } from '@textlint/kernel';
 // @ts-ignore
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
+import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
+// @ts-ignore
 import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
 // @ts-ignore
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
@@ -34,6 +36,10 @@ const lint = (text: string) =>
         rule: textlintRulePresetJaSpacing.rules[key],
         options: textlintRulePresetJaSpacing.rulesConfig[key],
       })),
+      {
+        ruleId: 'ja-hiragana-keishikimeishi',
+        rule: textlintRuleJaHiraganaKeishikimeishi,
+      },
       {
         ruleId: 'joyo-kanji',
         rule: textlintRuleJoyoKanji,
