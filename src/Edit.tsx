@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
@@ -24,6 +25,7 @@ const Pin = styled(FeedbackIcon)`
   ${({ theme }) => `
     background-color: ${theme.palette.background.paper};
   `}
+  cursor: pointer;
   position: absolute;
   transform: translateY(-100%);
 `;
@@ -37,6 +39,8 @@ interface Pin {
   message: TextlintMessage;
   top: React.CSSProperties['top'];
 }
+
+type PinClickEventHandler = (event: { currentTarget: Element; message: string }) => void;
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
@@ -55,6 +59,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
+  const [popoverMessage, setPopoverMessage] = useState('');
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
@@ -157,8 +163,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [messages, textRef.current, textBoxRef.current]);
 
   const isDisplayResult = !isTextContainerFocus && !isLinting;
+  const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
+
+  const handlePinClick: PinClickEventHandler = ({ currentTarget, message }) => {
+    setPopoverAnchorEl(currentTarget);
+    setPopoverMessage(message);
+  };
+
+  const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
 
   const handleShareClick: React.MouseEventHandler = () =>
     navigator.share?.({
@@ -211,22 +225,38 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
                   {isDisplayResult &&
                     pins.map(({ top, left, message }) => (
-                      <Pin key={message.index} color="primary" style={{ top, left }} />
+                      <Pin
+                        key={message.index}
+                        color="primary"
+                        onClick={({ currentTarget }) =>
+                          handlePinClick({ currentTarget, message: message.message })}
+                        style={{ top, left }}
+                      />
                     ))}
+
+                  <Popover
+                    anchorEl={popoverAnchorEl}
+                    onClose={handlePopoverClose}
+                    open={isPopoverOpen}
+                  >
+                    <Box p={2}>{popoverMessage}</Box>
+                  </Popover>
                 </div>
               )}
             </Box>
 
-            {isDisplayResult && messages.length === 0 && (
-              <Alert severity="success">校正を通過しました！</Alert>
-            )}
-
-            <ul>
-              {isDisplayResult &&
-                messages.map(({ column, index, message, line }) => (
-                  <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
-                ))}
-            </ul>
+            {isDisplayResult &&
+              ((messages.length === 0 && (
+                <Alert severity="success">校正を通過しました！</Alert>
+              )) || (
+                <Alert severity="warning">
+                  <div>
+                    指摘箇所があります。
+                    <FeedbackIcon color="primary" />
+                    を押して内容を確認してください。
+                  </div>
+                </Alert>
+              ))}
 
             {navigator.share && (
               <Button
