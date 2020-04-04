@@ -4,6 +4,8 @@ import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
 import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
 // @ts-ignore
+import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
+// @ts-ignore
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
@@ -35,6 +37,10 @@ const lint = (text: string) =>
       {
         ruleId: 'joyo-kanji',
         rule: textlintRuleJoyoKanji,
+      },
+      {
+        ruleId: 'prefer-tari-tari',
+        rule: textlintRulePreferTariTari,
       },
       {
         ruleId: 'prh',
