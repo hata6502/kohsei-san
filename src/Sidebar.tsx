@@ -40,17 +40,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   memoId,
   memos,
   onClose,
-  open
+  open,
 }) => {
   const handleAddClick: React.MouseEventHandler = () => {
     const id = uuidv4();
 
-    dispatchMemos(prevMemos => [
+    dispatchMemos((prevMemos) => [
       ...prevMemos,
       {
         id,
-        text: ''
-      }
+        text: '',
+      },
     ]);
 
     dispatchMemoId(id);
@@ -64,7 +64,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
 
   const handleDeleteClick = (id: string) => {
-    dispatchMemos(prevMemos => prevMemos.filter(prevMemo => prevMemo.id !== id));
+    dispatchMemos((prevMemos) => prevMemos.filter((prevMemo) => prevMemo.id !== id));
   };
 
   const handleMemoClick = (id: string) => {
