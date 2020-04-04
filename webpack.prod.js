@@ -8,7 +8,7 @@ module.exports = merge(common, {
   mode: 'production',
   plugins: [
     new GenerateSW({
-      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024
-    })
-  ]
+      maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
+    }),
+  ],
 });
