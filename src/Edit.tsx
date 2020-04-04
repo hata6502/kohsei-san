@@ -53,7 +53,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
   dispatchMemos,
   isLinting,
-  memo
+  memo,
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
@@ -114,7 +114,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
       const textBoxRect = textBoxRef.current.getBoundingClientRect();
 
       setPins(
-        messages.map(message => {
+        messages.map((message) => {
           let childNodesIndex = 0;
           let offset = message.index;
 
@@ -149,7 +149,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
           return {
             left: rangeRect.left - textBoxRect.left,
             message,
-            top: rangeRect.top - textBoxRect.top
+            top: rangeRect.top - textBoxRect.top,
           };
         })
       );
@@ -174,17 +174,24 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
 
-  const handleShareClick: React.MouseEventHandler = () =>
-    navigator.share?.({
-      text: memo.text,
-      url: 'https://kohsei-san.b-hood.site/'
-    });
+  const handleShareClick: React.MouseEventHandler = async () => {
+    try {
+      await navigator.share?.({
+        text: memo.text,
+        url: 'https://kohsei-san.b-hood.site/',
+      });
+    } catch (exception) {
+      if (exception instanceof DOMException && exception.name === 'AbortError') return;
+
+      throw exception;
+    }
+  };
 
   const handleTextContainerBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
-    dispatchMemos(prevMemos =>
-      prevMemos.map(prevMemo => ({
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
         ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: target.innerText })
+        ...(prevMemo.id === memo.id && { text: target.innerText }),
       }))
     );
 
@@ -228,8 +235,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       <Pin
                         key={message.index}
                         color="primary"
-                        onClick={({ currentTarget }) =>
-                          handlePinClick({ currentTarget, message: message.message })}
+                        onClick={({ currentTarget }) => {
+                          handlePinClick({ currentTarget, message: message.message });
+                        }}
                         style={{ top, left }}
                       />
                     ))}
