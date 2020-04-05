@@ -4,6 +4,8 @@ import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
 import textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
 // @ts-ignore
+import textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
+// @ts-ignore
 import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-ignore
 import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
@@ -39,10 +41,17 @@ const lint = (text: string) =>
         options: textlintRulePresetJaSpacing.rulesConfig[key],
       })),
       {
-        ruleId: 'textlint-rule-ja-hiragana-fukushi',
+        ruleId: 'ja-hiragana-fukushi',
         rule: textlintRuleJaHiraganaFukushi,
         options: {
           rulePath: 'fukushi.yml',
+        },
+      },
+      {
+        ruleId: 'ja-hiragana-hojodoushi',
+        rule: textlintRuleJaHiraganaHojodoushi,
+        options: {
+          rulePath: 'hojodoushi.yml',
         },
       },
       {
