@@ -12,6 +12,8 @@ import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet
 // @ts-ignore
 import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
 // @ts-ignore
+import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
+// @ts-ignore
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-ignore
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
@@ -67,6 +69,10 @@ const lint = (text: string) =>
       {
         ruleId: 'joyo-kanji',
         rule: textlintRuleJoyoKanji,
+      },
+      {
+        ruleId: 'no-insert-dropping-sa',
+        rule: textlintRuleNoInsertDroppingSa,
       },
       {
         ruleId: 'prefer-tari-tari',
