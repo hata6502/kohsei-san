@@ -245,7 +245,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   <Popover
                     anchorEl={popoverAnchorEl}
                     anchorOrigin={{
-                      vertical: 'bottom',
+                      vertical: 'top',
                       horizontal: 'left',
                     }}
                     onClose={handlePopoverClose}
