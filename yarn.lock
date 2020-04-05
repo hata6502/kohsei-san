@@ -1293,7 +1293,7 @@
   resolved "https://registry.yarnpkg.com/@textlint/module-interop/-/module-interop-1.0.2.tgz#8342b1a10048e3e9ce624c0000e477a8870a1d4b"
   integrity sha512-qQ6dqlg4SYywCywimIbkveQZu1MG6ugf6fcJuWDi3D51FbdkSRsMrPusJ1YoW6Y3XBp0ww9fJjXWtlUStGeQsw==
 
-"@textlint/regexp-string-matcher@^1.1.0":
+"@textlint/regexp-string-matcher@^1.0.2", "@textlint/regexp-string-matcher@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@textlint/regexp-string-matcher/-/regexp-string-matcher-1.1.0.tgz#e19975029ce228a214d50c6a7e9dbcbef29ad8cd"
   integrity sha512-uTPnE1Dw1j+9clXPn61ZUdtg+WyhbgeXHwCTfBev7quHjeCP9PS8NdRkR6wEgmjuLg+xZlI4r/e1r6Bd0xyusQ==
@@ -9493,6 +9493,15 @@ textlint-rule-ja-space-between-half-and-full-width@^2.0.1:
   dependencies:
     match-index "^1.0.1"
     textlint-rule-helper "^2.0.0"
+
+textlint-rule-ja-unnatural-alphabet@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-unnatural-alphabet/-/textlint-rule-ja-unnatural-alphabet-2.0.1.tgz#fa95591312834a7788dbc6880e2f7a7e68633c00"
+  integrity sha512-n93V8qh6OKdh8OB6yLT+9Xl8DSoZ7gWi51tWdhlLEPIWgBm18nLMgm6Ck+nVc3eENOdRcQURWUpCGotI8wTemA==
+  dependencies:
+    "@textlint/regexp-string-matcher" "^1.0.2"
+    match-index "^1.0.1"
+    regx "^1.0.4"
 
 textlint-rule-joyo-kanji@^0.0.2:
   version "0.0.2"
