@@ -37,7 +37,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "3",
     "fs": "^0.0.1-security",
-    "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
+    "kuromoji": "hata6502/kuromoji.js",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -45,6 +45,7 @@
     "regenerator-runtime": "^0.13.5",
     "styled-components": "^5.0.1",
     "textlint-rule-ja-hiragana-fukushi": "^1.2.0",
+    "textlint-rule-ja-hiragana-hojodoushi": "hata6502/textlint-rule-ja-hiragana-hojodoushi",
     "textlint-rule-ja-hiragana-keishikimeishi": "^1.0.2",
     "textlint-rule-joyo-kanji": "^0.0.2",
     "textlint-rule-prefer-tari-tari": "^1.0.3",
@@ -97,7 +98,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "resolutions": {
-    "kuromoji": "hata6502/kuromoji.js#ff3a21e1d7365785143816e53e3d95d47addafc3",
+    "kuromoji": "hata6502/kuromoji.js",
     "minimist": "^1.2.2"
   },
   "nyc": {

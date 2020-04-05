@@ -23,6 +23,7 @@
 - [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [lostandfound/textlint-rule-ja-hiragana-fukushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-fukushi)
+- [lostandfound/textlint-rule-ja-hiragana-hojodoushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-hojodoushi)
 - [lostandfound/textlint-rule-ja-hiragana-keishikimeishi](https://github.com/lostandfound/textlint-rule-ja-hiragana-keishikimeishi)
 - [textlint-ja/textlint-rule-prefer-tari-tari](https://github.com/textlint-ja/textlint-rule-prefer-tari-tari)
 - [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
@@ -160,6 +161,7 @@ This software includes the work that is distributed in the MIT License.
 
 - [azu/prh.yml](https://github.com/azu/prh.yml#license)
 - [lostandfound/textlint-rule-ja-hiragana-fukushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-fukushi#license)
+- [lostandfound/textlint-rule-ja-hiragana-hojodoushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-hojodoushi#license)
 
 ---
 
