@@ -267,7 +267,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               )) || (
                 <Alert severity="warning">
                   <div>
-                    指摘箇所があります。
+                    メッセージがあります。
                     <FeedbackIcon color="primary" />
                     を押して内容を確認してください。
                   </div>
