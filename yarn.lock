@@ -6686,7 +6686,7 @@ moment@2.24.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
-morpheme-match-all@^1.1.0:
+morpheme-match-all@^1.1.0, morpheme-match-all@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/morpheme-match-all/-/morpheme-match-all-1.2.0.tgz#1aa437de0c0bfe2874f299d0206151248a75a7cb"
   integrity sha512-z8F1k4U8fAMcjkGBDWwVrKZLR8VSvKtYh6+5GZ9hi5mtXrYMILwDMgiPwfNGJvk/liQEG9/oNAJUcwLpyjI9Xg==
@@ -9458,6 +9458,18 @@ textlint-rule-ja-nakaguro-or-halfwidth-space-between-katakana@^2.0.1:
   dependencies:
     match-index "^1.0.1"
     textlint-rule-helper "^2.0.0"
+
+textlint-rule-ja-no-redundant-expression@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-redundant-expression/-/textlint-rule-ja-no-redundant-expression-3.0.1.tgz#414d49f276ea4b772632d760c74831ebee1bda74"
+  integrity sha512-Ng1pLiELXqD8RnDbkSaQlQcCQQS6qhFJqbb8HUVs65/wq6Mb4h+gOJOS63yO8e9V7WAYDhjKePTcduu1xwsCfA==
+  dependencies:
+    "@textlint/regexp-string-matcher" "^1.0.2"
+    kuromojin "^1.3.2"
+    morpheme-match "^1.2.1"
+    morpheme-match-all "^1.2.0"
+    textlint-rule-helper "^2.1.1"
+    textlint-util-to-string "^2.1.1"
 
 textlint-rule-ja-no-space-around-parentheses@^2.0.1:
   version "2.0.1"
