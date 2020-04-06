@@ -6339,6 +6339,11 @@ lodash@4.17.15, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
+
 log-symbols@3.0.0, log-symbols@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-3.0.0.tgz#f3a08516a5dea893336a7dee14d18a1cfdab77c4"
@@ -9635,6 +9640,14 @@ textlint-rule-joyo-kanji@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/textlint-rule-joyo-kanji/-/textlint-rule-joyo-kanji-0.0.2.tgz#7fcdeb2aa87c2063a3ffb49198fa5b0f8bb87de6"
   integrity sha512-8gFBHahn3LlvZ3JMEvDcKi9tJYuq3lZslg/uTZaMGkGsQ9c5pBeR2kMkRsfj3DLZBqw6SJE5yp63Z7T/wO7JZw==
+
+textlint-rule-max-appearence-count-of-words@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-max-appearence-count-of-words/-/textlint-rule-max-appearence-count-of-words-1.0.1.tgz#227f5d8be057b3a9e46b16e7c77c493e749c2d5c"
+  integrity sha1-In9di+BXs6nkaxbnx3xJPnScLVw=
+  dependencies:
+    kuromojin "^1.0.2"
+    lodash "^3.10.1"
 
 textlint-rule-max-kanji-continuous-len@^1.1.1:
   version "1.1.1"
