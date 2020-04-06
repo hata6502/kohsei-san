@@ -8,6 +8,8 @@ import textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodous
 // @ts-ignore
 import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-ignore
+import textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
+// @ts-ignore
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-ignore
 import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
@@ -69,6 +71,10 @@ const lint = (text: string) =>
       {
         ruleId: 'ja-hiragana-keishikimeishi',
         rule: textlintRuleJaHiraganaKeishikimeishi,
+      },
+      {
+        ruleId: 'ja-no-abusage',
+        rule: textlintRuleJaNoAbusage,
       },
       {
         ruleId: 'ja-no-redundant-expression',
