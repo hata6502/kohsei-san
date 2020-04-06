@@ -20,6 +20,8 @@ import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet
 // @ts-ignore
 import textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
 // @ts-ignore
+import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
+// @ts-ignore
 import textlintRuleMaxKanjiContinuousLen from 'textlint-rule-max-kanji-continuous-len';
 // @ts-ignore
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
@@ -99,6 +101,10 @@ const lint = (text: string) =>
       {
         ruleId: 'joyo-kanji',
         rule: textlintRuleJoyoKanji,
+      },
+      {
+        ruleId: 'max-appearence-count-of-words',
+        rule: textlintRuleMaxAppearenceCountOfWords,
       },
       {
         ruleId: 'max-kanji-continuous-len',
