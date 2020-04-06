@@ -6693,10 +6693,30 @@ morpheme-match-all@^1.1.0, morpheme-match-all@^1.2.0:
   dependencies:
     morpheme-match "^1.2.1"
 
+morpheme-match-all@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/morpheme-match-all/-/morpheme-match-all-2.0.5.tgz#d4a005f7b6da845664aced1b5892f1580cb5eedc"
+  integrity sha512-a6B6Nh4AhjMoEzVz8NOT5M9f3XwFVPM395gqnFNUXG/KTqQFTb9qM5JJFHJe+SvWfRVXTZSejyXNt+h+jmHUuQ==
+  dependencies:
+    morpheme-match "^2.0.4"
+
+morpheme-match-textlint@^2.0.3:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/morpheme-match-textlint/-/morpheme-match-textlint-2.0.6.tgz#68921c9ab333c7bc32643991bb19765683d09769"
+  integrity sha512-CX+iQaUjjPMLvas+hZ8zg6Csxx5j1RLaytr+5w6lpBi/oTEV2pv6sgW5Vu3+pNJHbYcaqcuofQZsKocMNUNH8g==
+  dependencies:
+    morpheme-match "^2.0.4"
+    morpheme-match-all "^2.0.5"
+
 morpheme-match@^1.0.1, morpheme-match@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/morpheme-match/-/morpheme-match-1.2.1.tgz#783cdcf9feb0e8e7da7e794a8a38f6d711796aa0"
   integrity sha512-SSIcFPas4Dctx5PbrfKbW5XNADlkcn38LI+fqgB9QtminQ7FXeOR3//rnAmooZ1/5zTGeFoi8H9kFBAH9y1nfQ==
+
+morpheme-match@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/morpheme-match/-/morpheme-match-2.0.4.tgz#4ce77a4d6b51c0b33b3ca6d398363c42756b0c99"
+  integrity sha512-C3U5g2h47dpztGVePLA8w2O1aQEvuJORwIcahWaCG91YPrq+0u7qcPsF9Nqqe8noFvHwgO7b2EEk3iPnYuGTew==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -9459,6 +9479,15 @@ textlint-rule-ja-nakaguro-or-halfwidth-space-between-katakana@^2.0.1:
     match-index "^1.0.1"
     textlint-rule-helper "^2.0.0"
 
+textlint-rule-ja-no-abusage@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-abusage/-/textlint-rule-ja-no-abusage-2.0.1.tgz#cd07bea78a2dec65b4128f8d49e104d44f9084d9"
+  integrity sha512-HUAi0vpjoE+8Jl0OzuhgqYlPzGbHjNr7sQuEFQWmrKUF7LdKTdP0dDcmcJ5rbKKLXZ4eV+6Tf2VfWfQrlIRkGg==
+  dependencies:
+    kuromojin "^2.0.0"
+    morpheme-match-textlint "^2.0.3"
+    textlint-rule-prh "^5.2.1"
+
 textlint-rule-ja-no-redundant-expression@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-redundant-expression/-/textlint-rule-ja-no-redundant-expression-3.0.1.tgz#414d49f276ea4b772632d760c74831ebee1bda74"
@@ -9674,7 +9703,7 @@ textlint-rule-preset-japanese@^4.0.4:
     textlint-rule-prh "^5.2.0"
     textlint-rule-sentence-length "^2.1.1"
 
-textlint-rule-prh@^5.2.0, textlint-rule-prh@^5.3.0:
+textlint-rule-prh@^5.2.0, textlint-rule-prh@^5.2.1, textlint-rule-prh@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/textlint-rule-prh/-/textlint-rule-prh-5.3.0.tgz#c3a002e3e1b59751eb6b93dff81810caeb764a9f"
   integrity sha512-gdod+lL1SWUDyXs1ICEwvQawaSshT3mvPGufBIjF2R5WFPdKQDMsiuzsjkLm+aF+9d97dA6pFsiyC8gSW7mSgg==
