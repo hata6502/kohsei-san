@@ -10,8 +10,6 @@ import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keis
 // @ts-ignore
 import textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
-import textlintRuleJaNoMixedPeriod from 'textlint-rule-ja-no-mixed-period';
-// @ts-ignore
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-ignore
 import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
@@ -81,10 +79,6 @@ const lint = (text: string) =>
       {
         ruleId: 'ja-no-abusage',
         rule: textlintRuleJaNoAbusage,
-      },
-      {
-        ruleId: 'ja-no-mixed-period',
-        rule: textlintRuleJaNoMixedPeriod,
       },
       {
         ruleId: 'ja-no-redundant-expression',
