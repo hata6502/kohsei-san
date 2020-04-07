@@ -1,8 +1,13 @@
 <h1 align="center">Welcome to 校正さん 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+  <a href="https://codeclimate.com/github/blue-hood/kohsei-san/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/maintainability" />
+  </a>
+  <a href="https://codeclimate.com/github/blue-hood/kohsei-san/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/test_coverage" />
   </a>
 </p>
 
@@ -10,11 +15,35 @@
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/)
 
-## 免責事項
+## 校正ルール
 
-このアプリは α 版です。
-今後のバージョンアップなどによって、保存されていたメモが消失する場合もあります。
-いかなる場合においても、このアプリを使用したことによる責任は負いかねますのでご了承ください。
+[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
+
+- [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
+- [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
+- [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)
+- [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
+- [lostandfound/textlint-rule-ja-hiragana-fukushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-fukushi)
+- [lostandfound/textlint-rule-ja-hiragana-hojodoushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-hojodoushi)
+- [lostandfound/textlint-rule-ja-hiragana-keishikimeishi](https://github.com/lostandfound/textlint-rule-ja-hiragana-keishikimeishi)
+- [textlint-ja/textlint-rule-ja-no-abusage](https://github.com/textlint-ja/textlint-rule-ja-no-abusage)
+- [textlint-ja/textlint-rule-ja-no-redundant-expression](https://github.com/textlint-ja/textlint-rule-ja-no-redundant-expression)
+- [textlint-ja/textlint-rule-ja-no-weak-phrase](https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase)
+- [textlint-ja/textlint-rule-ja-unnatural-alphabet](https://github.com/textlint-ja/textlint-rule-ja-unnatural-alphabet)
+- [textlint-ja/textlint-rule-max-kanji-continuous-len](https://github.com/textlint-ja/textlint-rule-max-kanji-continuous-len)
+- [textlint-ja/textlint-rule-no-hankaku-kana](https://github.com/textlint-ja/textlint-rule-no-hankaku-kana)
+- [textlint-ja/textlint-rule-no-insert-dropping-sa](https://github.com/textlint-ja/textlint-rule-no-insert-dropping-sa)
+- [textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet](https://github.com/textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet)
+- [textlint-ja/textlint-rule-prefer-tari-tari](https://github.com/textlint-ja/textlint-rule-prefer-tari-tari)
+- [textlint-rule/textlint-rule-prh](https://github.com/textlint-rule/textlint-rule-prh)
+
+校正を改善するためのコントリビュートを歓迎いたします！
+
+## ビジョン
+
+- 機能拡張よりも、モバイルフレンドリーな UI を優先します。
+- カスタマイズ性よりも、統一された校正ルールを追求します。
+- サーバーを設けず、オフラインで完結させます。
 
 ## Author
 
@@ -140,6 +169,8 @@ above as far as the program is concerned.
 This software includes the work that is distributed in the MIT License.
 
 - [azu/prh.yml](https://github.com/azu/prh.yml#license)
+- [lostandfound/textlint-rule-ja-hiragana-fukushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-fukushi#license)
+- [lostandfound/textlint-rule-ja-hiragana-hojodoushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-hojodoushi#license)
 
 ---
 

@@ -9,6 +9,6 @@ module.exports = merge(common, {
   plugins: [
     new GenerateSW({
       maximumFileSizeToCacheInBytes: 64 * 1024 * 1024
-    })
-  ]
+    }),
+  ],
 });

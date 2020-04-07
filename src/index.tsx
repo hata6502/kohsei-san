@@ -1,3 +1,6 @@
+import 'core-js';
+import 'regenerator-runtime/runtime';
+
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom';
@@ -8,15 +11,24 @@ import {
   createMuiTheme,
   StylesProvider,
   Theme,
-  ThemeProvider as MuiThemeProvider
+  ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core/styles';
 import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import initializePrh from './prh';
+import initializeDict from './dict';
 
 if (process.env.NODE_ENV === 'production') {
-  Sentry.init({ dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618' });
+  Sentry.init({
+    beforeSend: (event) => {
+      if (event.exception) {
+        Sentry.showReportDialog({ eventId: event.event_id });
+      }
+
+      return event;
+    },
+    dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618',
+  });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
@@ -32,28 +44,28 @@ declare global {
 }
 
 window.kuromojin = {
-  dicPath: 'dict'
+  dicPath: 'dict',
 };
 
 BrowserFS.install(window);
 BrowserFS.configure(
   {
-    fs: 'LocalStorage'
+    fs: 'LocalStorage',
   },
-  exception => {
+  (exception) => {
     if (exception) {
       throw exception;
     }
   }
 );
 
-initializePrh();
+initializeDict();
 
 const theme = createMuiTheme({
   palette: {
     primary: pink,
-    secondary: purple
-  }
+    secondary: purple,
+  },
 });
 
 declare module 'styled-components' {

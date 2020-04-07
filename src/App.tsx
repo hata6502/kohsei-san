@@ -1,21 +1,17 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
+import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
-import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { ModalProps } from '@material-ui/core/Modal';
+import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from '@material-ui/icons/Menu';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import Edit from './Edit';
+import Sidebar, { SidebarProps } from './Sidebar';
+import useMemo from './useMemo';
 
 const AppContainer = styled(Container)`
   ${({ theme }) => `
@@ -29,8 +25,9 @@ const AppIcon = styled.img`
   width: 48px;
 `;
 
-const AppList = styled(List)`
-  width: 250px;
+const AppTopBar = styled(AppBar)`
+  /* Sentry のレポートダイアログを最前面に表示するため */
+  z-index: 998;
 `;
 
 const AppTypography = styled(Typography)`
@@ -41,35 +38,28 @@ const AppTypography = styled(Typography)`
 `;
 
 const App: React.FunctionComponent = () => {
-  const [isLinting, dispatchIsLinting] = useReducer(
-    (_: boolean, action: boolean) => action,
-    true,
-    initialState => initialState
-  );
+  const {
+    dispatchMemoId,
+    dispatchMemos,
+    isSaveErrorOpen,
+    memoId,
+    memos,
+    setIsSaveErrorOpen,
+  } = useMemo();
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);
 
-  const searchParams = new URLSearchParams(window.location.search);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const text = searchParams.get('text');
-  const title = searchParams.get('title');
-  const url = searchParams.get('url');
+  const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
+  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
+  const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
 
-  const sharedText = (text !== null || url !== null) && `${text || ''}\n${url || ''}`;
-
-  const handleDrawerClose: ModalProps['onClose'] = () => setIsDrawerOpen(false);
-
-  const handleLicenseClick: React.MouseEventHandler = () =>
-    window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
-
-  const handleMenuIconClick: React.MouseEventHandler = () => setIsDrawerOpen(true);
-
-  const handleTwitterClick: React.MouseEventHandler = () =>
-    window.open('https://twitter.com/hata6502');
+  const memo = memos.find(({ id }) => id === memoId);
 
   return (
     <>
-      <AppBar color="inherit">
+      <AppTopBar color="inherit">
         <Toolbar>
           <IconButton onClick={handleMenuIconClick}>
             <MenuIcon />
@@ -78,34 +68,35 @@ const App: React.FunctionComponent = () => {
             <AppIcon alt="" src="favicon.png" />
           )}
           <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
-          α版
         </Toolbar>
-      </AppBar>
+      </AppTopBar>
 
-      <Drawer onClose={handleDrawerClose} open={isDrawerOpen}>
-        <AppList>
-          <ListItem button onClick={handleTwitterClick}>
-            <ListItemIcon>
-              <TwitterIcon />
-            </ListItemIcon>
-            <ListItemText primary="Twitter" />
-          </ListItem>
-          <ListItem button onClick={handleLicenseClick}>
-            <ListItemIcon>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText primary="このアプリについて" />
-          </ListItem>
-        </AppList>
-      </Drawer>
+      <Sidebar
+        dispatchMemoId={dispatchMemoId}
+        dispatchMemos={dispatchMemos}
+        memoId={memoId}
+        memos={memos}
+        onClose={handleSidebarClose}
+        open={isSidebarOpen}
+      />
 
       <AppContainer>
-        <Edit
-          dispatchIsLinting={dispatchIsLinting}
-          initialText={sharedText === false ? localStorage.getItem('text') || '' : sharedText}
-          initialTitle={title === null ? localStorage.getItem('title') || '' : title}
-          isLinting={isLinting}
-        />
+        {memo && (
+          <Edit
+            dispatchIsLinting={dispatchIsLinting}
+            dispatchMemos={dispatchMemos}
+            isLinting={isLinting}
+            key={memoId}
+            memo={memo}
+          />
+        )}
+
+        <Snackbar open={isSaveErrorOpen}>
+          <Alert onClose={handleSaveErrorClose} severity="error">
+            メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
+            が使用できることを確認してください。
+          </Alert>
+        </Snackbar>
       </AppContainer>
     </>
   );

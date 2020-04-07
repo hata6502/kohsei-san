@@ -1,122 +1,278 @@
-import React, { useEffect, useState } from 'react';
-import Alert, { AlertProps } from '@material-ui/lab/Alert';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
-import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
+import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
 import lint from './lint';
+import { Memo, MemosAction } from './useMemo';
 
 declare global {
   interface Navigator {
-    share?: (data?: { text?: string; title?: string; url?: string }) => Promise<void>;
+    share?: (data?: { text?: string; url?: string }) => Promise<void>;
   }
 }
 
-export interface EditProp {
-  dispatchIsLinting: React.Dispatch<boolean>;
-  initialText: string;
-  initialTitle: string;
-  isLinting: boolean;
+const Pin = styled(FeedbackIcon)`
+  ${({ theme }) => `
+    background-color: ${theme.palette.background.paper};
+  `}
+  cursor: pointer;
+  position: absolute;
+  transform: translateY(-100%);
+`;
+
+const TextContainer = styled.div`
+  outline: 0;
+`;
+
+interface Pin {
+  left: React.CSSProperties['left'];
+  message: TextlintMessage;
+  top: React.CSSProperties['top'];
 }
 
-const Edit: React.FunctionComponent<EditProp> = ({
+type PinClickEventHandler = (event: { currentTarget: Element; message: string }) => void;
+
+export interface EditProps {
+  dispatchIsLinting: React.Dispatch<boolean>;
+  dispatchMemos: React.Dispatch<MemosAction>;
+  isLinting: boolean;
+  memo: Memo;
+}
+
+const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
-  initialText,
-  initialTitle,
-  isLinting
+  dispatchMemos,
+  isLinting,
+  memo,
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
-  const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
+  const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [messages, setMessages] = useState<TextlintMessage[]>([]);
-  const [text, setText] = useState(initialText);
-  const [title, setTitle] = useState(initialTitle);
+  const [pins, setPins] = useState<Pin[]>([]);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
+  const [popoverMessage, setPopoverMessage] = useState('');
+
+  const textRef = useRef<HTMLDivElement>(null);
+  const textBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('text', text);
-      localStorage.setItem('title', title);
-    } catch (exception) {
-      setIsSaveErrorOpen(true);
-
-      // eslint-disable-next-line no-console
-      console.error(exception);
-      Sentry.captureException(exception);
+    if (textRef.current) {
+      textRef.current.innerText = memo.text;
     }
-  }, [text, title]);
+  }, []);
 
   useEffect(() => {
+    let isUnmounted = false;
+
     dispatchIsLinting(true);
+
     setTimeout(async () => {
       try {
-        const result = await lint(text);
+        const result = await lint(memo.text);
 
-        setMessages(result.messages);
+        if (!isUnmounted) {
+          setMessages(result.messages);
+        }
       } catch (exception) {
-        setIsLintErrorOpen(true);
+        if (!isUnmounted) {
+          setIsLintErrorOpen(true);
+        }
 
         // eslint-disable-next-line no-console
         console.error(exception);
         Sentry.captureException(exception);
       } finally {
-        dispatchIsLinting(false);
+        if (!isUnmounted) {
+          dispatchIsLinting(false);
+        }
       }
     });
-  }, [text]);
+
+    return () => {
+      isUnmounted = true;
+    };
+  }, [memo.text]);
+
+  useEffect(() => {
+    try {
+      if (!textRef.current || !textBoxRef.current) {
+        return;
+      }
+
+      const range = document.createRange();
+      const text = textRef.current;
+      const textBoxRect = textBoxRef.current.getBoundingClientRect();
+
+      setPins(
+        messages.map((message) => {
+          let childNodesIndex = 0;
+          let offset = message.index;
+
+          for (
+            childNodesIndex = 0;
+            childNodesIndex < text.childNodes.length;
+            childNodesIndex += 1
+          ) {
+            const child = text.childNodes[childNodesIndex];
+            const length =
+              (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+
+            if (!length) {
+              throw new Error('Unexpected node type. ');
+            }
+
+            if (offset < length) {
+              range.setStart(child, offset);
+
+              break;
+            }
+
+            offset -= length;
+          }
+
+          if (childNodesIndex >= text.childNodes.length) {
+            throw new Error('Pin position is not found. ');
+          }
+
+          const rangeRect = range.getBoundingClientRect();
+
+          return {
+            left: rangeRect.left - textBoxRect.left,
+            message,
+            top: rangeRect.top - textBoxRect.top,
+          };
+        })
+      );
+    } catch (exception) {
+      setIsLintErrorOpen(true);
+
+      // eslint-disable-next-line no-console
+      console.error(exception);
+      Sentry.captureException(exception);
+    }
+  }, [messages, textRef.current, textBoxRef.current]);
+
+  const isDisplayResult = !isTextContainerFocus && !isLinting;
+  const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
-  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
+  const handlePinClick: PinClickEventHandler = ({ currentTarget, message }) => {
+    setPopoverAnchorEl(currentTarget);
+    setPopoverMessage(message);
+  };
 
-  const handleShareClick: React.MouseEventHandler = () =>
-    navigator.share?.({
-      text,
-      title,
-      url: 'https://kohsei-san.b-hood.site/'
-    });
+  const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
 
-  const handleTextBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    setText(target.value);
+  const handleShareClick: React.MouseEventHandler = async () => {
+    try {
+      await navigator.share?.({
+        text: memo.text,
+        url: 'https://kohsei-san.b-hood.site/',
+      });
+    } catch (exception) {
+      if (exception instanceof DOMException && exception.name === 'AbortError') return;
 
-  const handleTitleBlur: React.FocusEventHandler<HTMLTextAreaElement> = ({ target }) =>
-    setTitle(target.value);
+      throw exception;
+    }
+  };
+
+  const handleTextContainerBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && { text: target.innerText }),
+      }))
+    );
+
+    if (textRef.current) {
+      textRef.current.innerText = target.innerText;
+    }
+
+    setIsTextContainerFocus(false);
+  };
+
+  const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
 
   return (
     <>
       <Paper>
-        <Box pb={2}>
+        <Box pb={2} pt={2}>
           <Container>
-            <TextField
-              defaultValue={title}
-              fullWidth
-              label="タイトル"
-              margin="normal"
-              onBlur={handleTitleBlur}
-            />
+            <Box
+              border={1}
+              borderColor={(isTextContainerFocus && 'primary.main') || 'grey.500'}
+              borderRadius="borderRadius"
+              mb={2}
+              p={2}
+              position="relative"
+            >
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {(props: any) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <div {...props} ref={textBoxRef}>
+                  <Typography component="div" variant="body1">
+                    <TextContainer
+                      contentEditable
+                      onBlur={handleTextContainerBlur}
+                      onFocus={handleTextContainerFocus}
+                      ref={textRef}
+                    />
+                  </Typography>
 
-            <TextField
-              defaultValue={text}
-              fullWidth
-              label="本文"
-              margin="normal"
-              multiline
-              onBlur={handleTextBlur}
-              variant="outlined"
-            />
+                  {isDisplayResult &&
+                    pins.map(({ top, left, message }) => (
+                      <Pin
+                        key={message.index}
+                        color="primary"
+                        onClick={({ currentTarget }) => {
+                          handlePinClick({ currentTarget, message: message.message });
+                        }}
+                        style={{ top, left }}
+                      />
+                    ))}
 
-            {!isLinting && messages.length === 0 && text !== '' && (
-              <Alert severity="success">校正を通過しました！</Alert>
-            )}
+                  <Popover
+                    anchorEl={popoverAnchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    onClose={handlePopoverClose}
+                    open={isPopoverOpen}
+                    transformOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Box p={2}>{popoverMessage}</Box>
+                  </Popover>
+                </div>
+              )}
+            </Box>
 
-            <ul>
-              {messages.map(({ column, index, message, line }) => (
-                <li key={index}>{`行${line}, 列${column}: ${message}`}</li>
+            {isDisplayResult &&
+              ((messages.length === 0 && (
+                <Alert severity="success">校正を通過しました！</Alert>
+              )) || (
+                <Alert severity="warning">
+                  <div>
+                    メッセージがあります。
+                    <FeedbackIcon color="primary" />
+                    を押して内容を確認してください。
+                  </div>
+                </Alert>
               ))}
-            </ul>
 
             {navigator.share && (
               <Button
@@ -135,13 +291,6 @@ const Edit: React.FunctionComponent<EditProp> = ({
       <Snackbar open={isLintErrorOpen}>
         <Alert onClose={handleLintErrorClose} severity="error">
           本文を校正できませんでした。 アプリの不具合が修正されるまで、しばらくお待ちください。
-        </Alert>
-      </Snackbar>
-
-      <Snackbar open={isSaveErrorOpen}>
-        <Alert onClose={handleSaveErrorClose} severity="error">
-          メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
-          を使用できることを確認してください。
         </Alert>
       </Snackbar>
     </>
