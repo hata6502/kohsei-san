@@ -11,7 +11,7 @@ jobs:
       - run: for file in $(find docs -type f); do mv ${file} ${file%.gz}; done
       - uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --follow-symlinks --delete --content-encoding gzip
+          args: --acl public-read --cache-control max-age=604800 --content-encoding gzip --delete --follow-symlinks
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
