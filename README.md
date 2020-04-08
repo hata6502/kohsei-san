@@ -13,7 +13,7 @@
 
 > その場ですぐに文章を校正できるメモ帳アプリです。
 
-### 🏠 [Homepage](https://s3-ap-northeast-1.amazonaws.com/kohsei-san.b-hood.site/index.html)
+### 🏠 [Homepage](https://d3jrscgdf5mgrc.cloudfront.net/)
 
 ## 校正ルール
 
