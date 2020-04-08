@@ -7,11 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - run: gzip -r docs
-      - run: for file in $(find docs -type f); do mv ${file} ${file%.gz}; done
       - uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --content-encoding gzip --delete --follow-symlinks
+          args: --acl public-read --delete --follow-symlinks
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
