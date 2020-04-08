@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Test
 on:
   push:
     branches: [master]
@@ -7,14 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
       - run: yarn --frozen-lockfile
       - run: yarn start &
       - uses: paambaati/codeclimate-action@v2.5.5
