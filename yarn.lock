@@ -6068,7 +6068,15 @@ known-css-properties@^0.18.0:
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.18.0.tgz#d6e00b56ee1d5b0d171fd86df1583cfb012c521f"
   integrity sha512-69AgJ1rQa7VvUsd2kpvVq+VeObDuo3zrj0CzM5Slmf6yduQFAI2kXPDQJR2IE/u6MSAUOJrwSzjg5vlz8qcMiw==
 
-kuromoji@0.1.1, kuromoji@hata6502/kuromoji.js:
+kuromoji@0.1.1, kuromoji@hata6502/kuromoji.js#use-uncompressed-dictionaries:
+  version "0.1.2"
+  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/c54d103b24ce92c5fe2f2369da72238fb74a88f8"
+  dependencies:
+    async "^2.0.1"
+    doublearray "0.0.2"
+    zlibjs "^0.3.1"
+
+kuromoji@hata6502/kuromoji.js:
   version "0.1.2"
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/ff3a21e1d7365785143816e53e3d95d47addafc3"
   dependencies:

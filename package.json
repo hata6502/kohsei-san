@@ -107,7 +107,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "resolutions": {
-    "kuromoji": "hata6502/kuromoji.js",
+    "kuromoji": "hata6502/kuromoji.js#use-uncompressed-dictionaries",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2"
   },
