@@ -57,7 +57,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
 }) => {
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
-  const [messages, setMessages] = useState<TextlintMessage[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
   const [popoverMessage, setPopoverMessage] = useState('');
@@ -69,9 +68,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
     if (textRef.current) {
       textRef.current.innerText = memo.text;
     }
-  }, []);
 
-  useEffect(() => {
     let isUnmounted = false;
 
     dispatchIsLinting(true);
@@ -80,8 +77,51 @@ const Edit: React.FunctionComponent<EditProps> = ({
       try {
         const result = await lint(memo.text);
 
-        if (!isUnmounted) {
-          setMessages(result.messages);
+        if (!isUnmounted && textRef.current && textBoxRef.current) {
+          const range = document.createRange();
+          const text = textRef.current;
+          const textBoxRect = textBoxRef.current.getBoundingClientRect();
+
+          setPins(
+            result.messages.map((message) => {
+              let childNodesIndex = 0;
+              let offset = message.index;
+
+              for (
+                childNodesIndex = 0;
+                childNodesIndex < text.childNodes.length;
+                childNodesIndex += 1
+              ) {
+                const child = text.childNodes[childNodesIndex];
+                const length =
+                  (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+
+                if (!length) {
+                  throw new Error('Unexpected node type. ');
+                }
+
+                if (offset < length) {
+                  range.setStart(child, offset);
+
+                  break;
+                }
+
+                offset -= length;
+              }
+
+              if (childNodesIndex >= text.childNodes.length) {
+                throw new Error('Pin position is not found. ');
+              }
+
+              const rangeRect = range.getBoundingClientRect();
+
+              return {
+                left: rangeRect.left - textBoxRect.left,
+                message,
+                top: rangeRect.top - textBoxRect.top,
+              };
+            })
+          );
         }
       } catch (exception) {
         if (!isUnmounted) {
@@ -101,66 +141,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
     return () => {
       isUnmounted = true;
     };
-  }, [memo.text]);
-
-  useEffect(() => {
-    try {
-      if (!textRef.current || !textBoxRef.current) {
-        return;
-      }
-
-      const range = document.createRange();
-      const text = textRef.current;
-      const textBoxRect = textBoxRef.current.getBoundingClientRect();
-
-      setPins(
-        messages.map((message) => {
-          let childNodesIndex = 0;
-          let offset = message.index;
-
-          for (
-            childNodesIndex = 0;
-            childNodesIndex < text.childNodes.length;
-            childNodesIndex += 1
-          ) {
-            const child = text.childNodes[childNodesIndex];
-            const length =
-              (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
-
-            if (!length) {
-              throw new Error('Unexpected node type. ');
-            }
-
-            if (offset < length) {
-              range.setStart(child, offset);
-
-              break;
-            }
-
-            offset -= length;
-          }
-
-          if (childNodesIndex >= text.childNodes.length) {
-            throw new Error('Pin position is not found. ');
-          }
-
-          const rangeRect = range.getBoundingClientRect();
-
-          return {
-            left: rangeRect.left - textBoxRect.left,
-            message,
-            top: rangeRect.top - textBoxRect.top,
-          };
-        })
-      );
-    } catch (exception) {
-      setIsLintErrorOpen(true);
-
-      // eslint-disable-next-line no-console
-      console.error(exception);
-      Sentry.captureException(exception);
-    }
-  }, [messages, textRef.current, textBoxRef.current]);
+  }, [dispatchIsLinting, memo.text]);
 
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
@@ -208,10 +189,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
         ...(prevMemo.id === memo.id && { text: target.innerText }),
       }))
     );
-
-    if (textRef.current) {
-      textRef.current.innerText = target.innerText;
-    }
 
     setIsTextContainerFocus(false);
   };
@@ -276,9 +253,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
             </Box>
 
             {isDisplayResult &&
-              ((messages.length === 0 && (
-                <Alert severity="success">校正を通過しました！</Alert>
-              )) || (
+              ((pins.length === 0 && <Alert severity="success">校正を通過しました！</Alert>) || (
                 <Alert severity="warning">
                   <div>
                     メッセージがあります。
