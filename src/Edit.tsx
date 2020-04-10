@@ -169,20 +169,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
-    // innerText で正しく改行を認識できるように div を削除する。
-    target.querySelectorAll('div').forEach((div) => {
-      // インライン要素であるテキストノードの後に br を挿入する。
-      if (div.previousSibling instanceof Text) {
-        div.parentNode?.insertBefore(document.createElement('br'), div);
-      }
-
-      while (div.firstChild) {
-        div.parentNode?.insertBefore(div.firstChild, div);
-      }
-
-      div.parentNode?.removeChild(div);
-    });
-
     dispatchMemos((prevMemos) =>
       prevMemos.map((prevMemo) => ({
         ...prevMemo,
@@ -214,7 +200,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
                 <div {...props} ref={textBoxRef}>
                   <Typography component="div" variant="body1">
                     <TextContainer
-                      contentEditable
+                      // https://github.com/w3c/editing/issues/162
+                      // @ts-ignore
+                      contentEditable="plaintext-only"
                       onBlur={handleTextContainerBlur}
                       onFocus={handleTextContainerFocus}
                       ref={textRef}
