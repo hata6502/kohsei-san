@@ -12,7 +12,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
-import lint from './lint';
 import { Memo, MemosAction } from './useMemo';
 
 declare global {
@@ -76,6 +75,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
     setTimeout(async () => {
       try {
+        const { default: lint } = await import(/* webpackChunkName: "lint" */ './lint');
         const result = await lint(memo.text);
 
         if (!isUnmounted && textRef.current && textBoxRef.current) {

@@ -10,9 +10,8 @@
   "repository": "https://github.com/blue-hood/kohsei-san",
   "license": "MIT",
   "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
-  "main": "docs/index.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "rimraf docs && webpack --config webpack.prod.js",
     "cypress": "rimraf .nyc_output && cypress",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
