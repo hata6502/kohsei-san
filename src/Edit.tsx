@@ -26,6 +26,7 @@ const Pin = styled(FeedbackIcon)`
     background-color: ${theme.palette.background.paper};
   `}
   cursor: pointer;
+  opacity: 0.5;
   position: absolute;
   transform: translateY(-100%);
 `;
