@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn --frozen-lockfile
+      - run: yarn build
       - run: yarn start &
       - uses: paambaati/codeclimate-action@v2.5.5
         env:
