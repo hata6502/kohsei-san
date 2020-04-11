@@ -21,6 +21,11 @@ module.exports = {
     process: false,
     Buffer: false,
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   output: {
     path: path.resolve(__dirname, 'docs'),
   },
