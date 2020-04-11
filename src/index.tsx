@@ -13,10 +13,8 @@ import {
   Theme,
   ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core/styles';
-import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import initializeDict from './dict';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -34,32 +32,6 @@ if (process.env.NODE_ENV === 'production') {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
   }
 }
-
-declare global {
-  interface Window {
-    kuromojin?: {
-      dicPath?: string;
-    };
-  }
-}
-
-window.kuromojin = {
-  dicPath: 'dict',
-};
-
-BrowserFS.install(window);
-BrowserFS.configure(
-  {
-    fs: 'LocalStorage',
-  },
-  (exception) => {
-    if (exception) {
-      throw exception;
-    }
-  }
-);
-
-initializeDict();
 
 const theme = createMuiTheme({
   palette: {

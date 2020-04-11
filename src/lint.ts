@@ -1,3 +1,4 @@
+import * as BrowserFS from 'browserfs';
 import { TextlintKernel } from '@textlint/kernel';
 // @ts-ignore
 import textlintPluginText from '@textlint/textlint-plugin-text';
@@ -35,6 +36,33 @@ import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
 // @ts-ignore
 import textlintRulePrh from 'textlint-rule-prh';
+import initializeDict from './dict';
+
+declare global {
+  interface Window {
+    kuromojin?: {
+      dicPath?: string;
+    };
+  }
+}
+
+window.kuromojin = {
+  dicPath: 'dict',
+};
+
+BrowserFS.install(window);
+BrowserFS.configure(
+  {
+    fs: 'LocalStorage',
+  },
+  (exception) => {
+    if (exception) {
+      throw exception;
+    }
+  }
+);
+
+initializeDict();
 
 const kernel = new TextlintKernel();
 
