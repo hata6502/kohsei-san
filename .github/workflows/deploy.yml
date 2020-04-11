@@ -6,7 +6,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: yarn --frozen-lockfile
+      - run: yarn build
       - run: gzip -r docs
       - run: for file in $(find docs -type f); do mv ${file} ${file%.gz}; done
       - uses: jakejarvis/s3-sync-action@master
