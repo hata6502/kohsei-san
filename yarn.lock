@@ -6259,7 +6259,7 @@ known-css-properties@^0.18.0:
 
 kuromoji@0.1.1, kuromoji@hata6502/kuromoji.js#use-uncompressed-dictionaries:
   version "0.1.3"
-  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/3c9d7fa15ed2b0c3607f5672105cc020bad763a5"
+  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/6214587490180e2cb50f8a546a03491784d8e4b2"
   dependencies:
     async "^2.0.1"
     doublearray "0.0.2"
