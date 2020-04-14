@@ -10,9 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import InfoIcon from '@material-ui/icons/Info';
 import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
+import TwitterIcon from '@material-ui/icons/Twitter';
 
 const FeaturesMobileFriendlyIcon = styled(MobileFriendlyIcon)`
   ${({ theme }) => `
@@ -54,6 +57,10 @@ const FirstViewWrapper = styled.div`
   width: 100%;
 `;
 
+const Image = styled.img`
+  max-width: 100%;
+`;
+
 const SampleBody = styled(Typography)`
   display: -webkit-box;
   overflow: hidden;
@@ -61,12 +68,8 @@ const SampleBody = styled(Typography)`
   -webkit-line-clamp: 3;
 `;
 
-const UsageImage = styled.img`
-  max-width: 100%;
-`;
-
 const Landing: React.FunctionComponent = () => (
-  <Box mb={2} mt={6}>
+  <Box mt={6}>
     <FirstView>
       <FirstViewWrapper />
 
@@ -76,7 +79,7 @@ const Landing: React.FunctionComponent = () => (
         </Typography>
 
         <Box mb={4} mt={8}>
-          <Typography align="center" component="h3" variant="subtitle1">
+          <Typography align="center" component="h3">
             その場ですぐに文章を校正できるメモ帳アプリです。
           </Typography>
         </Box>
@@ -84,7 +87,7 @@ const Landing: React.FunctionComponent = () => (
         <Typography align="center">
           <Button color="primary" size="large" variant="contained">
             使ってみる
-        </Button>
+          </Button>
         </Typography>
       </FirstViewContainer>
     </FirstView>
@@ -121,9 +124,7 @@ const Landing: React.FunctionComponent = () => (
                 </Grid>
 
                 <Grid item>
-                  <Typography component="h3" variant="body1">
-                    {body}
-                  </Typography>
+                  <Typography component="h3">{body}</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -218,7 +219,7 @@ const Landing: React.FunctionComponent = () => (
         <Container>
           <Typography align="center" component="h2" variant="h4">
             使い方
-            </Typography>
+          </Typography>
 
           <Box m={3} mb={8} mt={8}>
             <Grid container justify="space-evenly" spacing={6}>
@@ -228,10 +229,13 @@ const Landing: React.FunctionComponent = () => (
                   image: 'images/Screenshot_20200414-212938.png',
                 },
                 {
-                  body: <>
-                    校正が行われメッセージが表示されます。
-              <FeedbackIcon color="primary" />を押して内容を確認します。
-              </>,
+                  body: (
+                    <>
+                      校正が行われメッセージが表示されます。
+                      <FeedbackIcon color="primary" />
+                      を押して内容を確認します。
+                    </>
+                  ),
                   image: 'images/Screenshot_20200414-213005.png',
                 },
                 {
@@ -244,19 +248,17 @@ const Landing: React.FunctionComponent = () => (
                     <Grid item>
                       <Typography color="primary" component="div" variant="h5">
                         {index + 1}.
-                  </Typography>
+                      </Typography>
                     </Grid>
 
                     <Grid item>
                       <Box boxShadow={2}>
-                        <UsageImage src={image} />
+                        <Image src={image} />
                       </Box>
                     </Grid>
 
                     <Grid item>
-                      <Typography component="h3" variant="body1">
-                        {body}
-                      </Typography>
+                      <Typography component="h3">{body}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -267,9 +269,60 @@ const Landing: React.FunctionComponent = () => (
           <Typography align="center">
             <Button color="primary" size="large" variant="contained">
               使ってみる
-        </Button>
+            </Button>
           </Typography>
+        </Container>
+      </Box>
+    </section>
 
+    <section>
+      <Box bgcolor="grey.100" p={2} pb={15} pt={15}>
+        <Container>
+          <Grid container justify="space-evenly" spacing={4}>
+            <Grid item sm={6} xs={12}>
+              <Box bgcolor="background.paper" p={3}>
+                <Typography component="h2" variant="h3">
+                  助けが必要ですか？
+                </Typography>
+
+                <Box mb={8} mt={8}>
+                  <Typography component="h3">
+                    校正さんは無償で自由なオープンソースによってメンテナンスされています。校正を改善するため、プロジェクトに参加しませんか？
+                  </Typography>
+                </Box>
+
+                <Grid container spacing={2}>
+                  {[
+                    {
+                      icon: <GitHubIcon />,
+                      name: 'GitHub',
+                      url: 'https://github.com/blue-hood/kohsei-san',
+                    },
+                    {
+                      icon: <TwitterIcon />,
+                      name: 'Twitter',
+                      url: 'https://twitter.com/hata6502',
+                    },
+                    {
+                      icon: <InfoIcon />,
+                      name: 'このアプリについて',
+                      url: 'https://github.com/blue-hood/kohsei-san/blob/master/README.md',
+                    },
+                  ].map(({ icon, name, url }) => (
+                    <Grid item>
+                      <Button variant="contained" color="secondary" startIcon={icon}>
+                        {name}
+                      </Button>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Grid>
+
+            <Grid item sm={3} xs={12}>
+              <Image src="images/Google Pixel Very Silver.png" />
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </section>
