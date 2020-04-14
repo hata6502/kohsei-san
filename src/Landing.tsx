@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 import MobileFriendlyIcon from '@material-ui/icons/MobileFriendly';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
@@ -36,7 +37,6 @@ const FirstView = styled.section`
   background-position: center;
   background-size: cover;
   position: relative;
-  text-align: center;
 `;
 
 const FirstViewContainer = styled(Container)`
@@ -61,25 +61,31 @@ const SampleBody = styled(Typography)`
   -webkit-line-clamp: 3;
 `;
 
+const UsageImage = styled.img`
+  max-width: 100%;
+`;
+
 const Landing: React.FunctionComponent = () => (
   <Box mb={2} mt={6}>
     <FirstView>
       <FirstViewWrapper />
 
       <FirstViewContainer>
-        <Typography component="h1" variant="h3">
+        <Typography align="center" component="h1" variant="h3">
           コンテンツへの信頼度を高めよう
         </Typography>
 
         <Box mb={4} mt={8}>
-          <Typography component="h3" variant="subtitle1">
+          <Typography align="center" component="h3" variant="subtitle1">
             その場ですぐに文章を校正できるメモ帳アプリです。
           </Typography>
         </Box>
 
-        <Button color="primary" size="large" variant="contained">
-          使ってみる
+        <Typography align="center">
+          <Button color="primary" size="large" variant="contained">
+            使ってみる
         </Button>
+        </Typography>
       </FirstViewContainer>
     </FirstView>
 
@@ -127,7 +133,7 @@ const Landing: React.FunctionComponent = () => (
     </section>
 
     <section>
-      <Box bgcolor="grey.100" pb={30} pt={15}>
+      <Box bgcolor="grey.100" pb={15} pt={15}>
         <Container>
           <Box mb={8}>
             <Typography align="center" component="h2" variant="h4">
@@ -203,6 +209,67 @@ const Landing: React.FunctionComponent = () => (
               </Grid>
             ))}
           </Grid>
+        </Container>
+      </Box>
+    </section>
+
+    <section>
+      <Box mb={15} mt={15}>
+        <Container>
+          <Typography align="center" component="h2" variant="h4">
+            使い方
+            </Typography>
+
+          <Box m={3} mb={8} mt={8}>
+            <Grid container justify="space-evenly" spacing={6}>
+              {[
+                {
+                  body: '校正する文章を入力します。他の場所を押して入力を完了します。',
+                  image: 'images/Screenshot_20200414-212938.png',
+                },
+                {
+                  body: <>
+                    校正が行われメッセージが表示されます。
+              <FeedbackIcon color="primary" />を押して内容を確認します。
+              </>,
+                  image: 'images/Screenshot_20200414-213005.png',
+                },
+                {
+                  body: 'メッセージをもとに文章を修正します。校正を通過しました！',
+                  image: 'images/Screenshot_20200414-213017.png',
+                },
+              ].map(({ body, image }, index) => (
+                <Grid key={image} item sm={3} xs={10}>
+                  <Grid container alignItems="center" direction="column" spacing={5}>
+                    <Grid item>
+                      <Typography color="primary" component="div" variant="h5">
+                        {index + 1}.
+                  </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      <Box boxShadow={2}>
+                        <UsageImage src={image} />
+                      </Box>
+                    </Grid>
+
+                    <Grid item>
+                      <Typography component="h3" variant="body1">
+                        {body}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+          <Typography align="center">
+            <Button color="primary" size="large" variant="contained">
+              使ってみる
+        </Button>
+          </Typography>
+
         </Container>
       </Box>
     </section>
