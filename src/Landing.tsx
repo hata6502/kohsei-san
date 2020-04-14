@@ -363,7 +363,7 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
               </Grid>
 
               <Grid item sm={3} xs={12}>
-                <Image src="images/Google Pixel Very Silver.png" />
+                <Image src="images/GooglePixelVerySilver.png" />
               </Grid>
             </Grid>
           </Container>
