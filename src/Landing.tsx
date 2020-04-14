@@ -258,10 +258,12 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
               <Grid container justify="space-evenly" spacing={6}>
                 {[
                   {
+                    alt: '校正する文章を入力します',
                     body: '校正する文章を入力します。他の場所を押して入力を完了します。',
                     image: 'images/Screenshot_20200414-212938.png',
                   },
                   {
+                    alt: '校正が行われメッセージが表示されます',
                     body: (
                       <>
                         校正が行われメッセージが表示されます。
@@ -272,10 +274,11 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
                     image: 'images/Screenshot_20200414-213005.png',
                   },
                   {
+                    alt: 'メッセージをもとに文章を修正します',
                     body: 'メッセージをもとに文章を修正します。校正を通過しました！',
                     image: 'images/Screenshot_20200414-213017.png',
                   },
-                ].map(({ body, image }, index) => (
+                ].map(({ alt, body, image }, index) => (
                   <Grid key={image} item sm={3} xs={10}>
                     <Grid container alignItems="center" direction="column" spacing={5}>
                       <Grid item>
@@ -286,7 +289,7 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
 
                       <Grid item>
                         <Box boxShadow={2}>
-                          <Image src={image} />
+                          <Image alt={alt} src={image} />
                         </Box>
                       </Grid>
 
@@ -363,7 +366,7 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
               </Grid>
 
               <Grid item sm={3} xs={12}>
-                <Image src="images/GooglePixelVerySilver.png" />
+                <Image alt="スマートフォン" src="images/GooglePixelVerySilver.png" />
               </Grid>
             </Grid>
           </Container>
