@@ -20,6 +20,13 @@ declare global {
   }
 }
 
+const EditContainer = styled(Container)`
+  ${({ theme }) => `
+    margin-bottom: ${theme.spacing(2)}px;
+    margin-top: ${theme.spacing(10)}px;
+  `}
+`;
+
 const Pin = styled(FeedbackIcon)`
   ${({ theme }) => `
     background-color: ${theme.palette.background.paper};
@@ -183,7 +190,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
 
   return (
-    <>
+    <EditContainer>
       <Paper>
         <Box pb={2} pt={2}>
           <Container>
@@ -271,7 +278,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
           本文を校正できませんでした。 アプリの不具合が修正されるまで、しばらくお待ちください。
         </Alert>
       </Snackbar>
-    </>
+    </EditContainer>
   );
 };
 

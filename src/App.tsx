@@ -3,22 +3,15 @@ import styled from 'styled-components';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Edit from './Edit';
+import Landing from './Landing';
 import Sidebar, { SidebarProps } from './Sidebar';
 import useMemo from './useMemo';
-
-const AppContainer = styled(Container)`
-  ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(10)}px;
-  `}
-`;
 
 const AppIcon = styled.img`
   height: auto;
@@ -80,24 +73,22 @@ const App: React.FunctionComponent = () => {
         open={isSidebarOpen}
       />
 
-      <AppContainer>
-        {memo && (
-          <Edit
-            dispatchIsLinting={dispatchIsLinting}
-            dispatchMemos={dispatchMemos}
-            isLinting={isLinting}
-            key={memoId}
-            memo={memo}
-          />
-        )}
+      {(memo && (
+        <Edit
+          dispatchIsLinting={dispatchIsLinting}
+          dispatchMemos={dispatchMemos}
+          isLinting={isLinting}
+          key={memoId}
+          memo={memo}
+        />
+      )) || <Landing dispatchMemoId={dispatchMemoId} dispatchMemos={dispatchMemos} />}
 
-        <Snackbar open={isSaveErrorOpen}>
-          <Alert onClose={handleSaveErrorClose} severity="error">
-            メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
-            が使用できることを確認してください。
-          </Alert>
-        </Snackbar>
-      </AppContainer>
+      <Snackbar open={isSaveErrorOpen}>
+        <Alert onClose={handleSaveErrorClose} severity="error">
+          メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
+          が使用できることを確認してください。
+        </Alert>
+      </Snackbar>
     </>
   );
 };

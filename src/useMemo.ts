@@ -23,7 +23,7 @@ const useMemo = () => {
     undefined,
     () => {
       const memosItem = localStorage.getItem('memos');
-      const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [{}];
+      const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [];
 
       return [
         ...localStorageMemos.map(({ id, text }) => ({
