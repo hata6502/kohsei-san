@@ -81,7 +81,7 @@ const App: React.FunctionComponent = () => {
           key={memoId}
           memo={memo}
         />
-      )) || <Landing />}
+      )) || <Landing dispatchMemoId={dispatchMemoId} dispatchMemos={dispatchMemos} />}
 
       <Snackbar open={isSaveErrorOpen}>
         <Alert onClose={handleSaveErrorClose} severity="error">
