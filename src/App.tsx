@@ -18,16 +18,17 @@ const AppIcon = styled.img`
   width: 48px;
 `;
 
+const AppTitle = styled(Typography)`
+  ${({ theme }) => `
+    margin-left: ${theme.spacing(1)}px;
+  `}
+  cursor: pointer;
+  flex-grow: 1;
+`;
+
 const AppTopBar = styled(AppBar)`
   /* Sentry のレポートダイアログを最前面に表示するため */
   z-index: 998;
-`;
-
-const AppTypography = styled(Typography)`
-  ${({ theme }) => `
-    flex-grow: 1;
-    margin-left: ${theme.spacing(1)}px;
-  `}
 `;
 
 const App: React.FunctionComponent = () => {
@@ -44,6 +45,7 @@ const App: React.FunctionComponent = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const handleAppTitleClick: React.MouseEventHandler = () => dispatchMemoId('');
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
   const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
@@ -60,7 +62,9 @@ const App: React.FunctionComponent = () => {
           {(isLinting && <CircularProgress color="secondary" />) || (
             <AppIcon alt="" src="favicon.png" />
           )}
-          <AppTypography variant="h6">{(isLinting && '校正中…') || '校正さん'}</AppTypography>
+          <AppTitle onClick={handleAppTitleClick} variant="h6">
+            {(isLinting && '校正中…') || '校正さん'}
+          </AppTitle>
         </Toolbar>
       </AppTopBar>
 
