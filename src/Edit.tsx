@@ -140,9 +140,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
         console.error(exception);
         Sentry.captureException(exception);
       } finally {
-        if (!isUnmounted) {
-          dispatchIsLinting(false);
-        }
+        dispatchIsLinting(false);
       }
     });
 
