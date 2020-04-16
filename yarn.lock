@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@azu/prh.yml@azu/prh.yml":
+  version "2.1.2"
+  resolved "https://codeload.github.com/azu/prh.yml/tar.gz/10483a56b1256e4a9fb4ab30cbc2827e7764deb1"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -6283,6 +6287,15 @@ known-css-properties@^0.18.0:
 kuromoji@0.1.1, kuromoji@hata6502/kuromoji.js#use-uncompressed-dictionaries:
   version "0.1.3"
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/6214587490180e2cb50f8a546a03491784d8e4b2"
+  dependencies:
+    async "^2.0.1"
+    doublearray "0.0.2"
+    zlibjs "^0.3.1"
+
+kuromoji@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/kuromoji/-/kuromoji-0.1.2.tgz#293f0d6706df006112137980588d5daac26d0790"
+  integrity sha512-V0dUf+C2LpcPEXhoHLMAop/bOht16Dyr+mDiIE39yX3vqau7p80De/koFqpiTcL1zzdZlc3xuHZ8u5gjYRfFaQ==
   dependencies:
     async "^2.0.1"
     doublearray "0.0.2"

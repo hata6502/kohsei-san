@@ -27,6 +27,7 @@
     "defaults"
   ],
   "dependencies": {
+    "@azu/prh.yml": "azu/prh.yml",
     "@cypress/code-coverage": "^1.14.0",
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
@@ -39,6 +40,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "3",
     "fs": "^0.0.1-security",
+    "kuromoji": "^0.1.2",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
