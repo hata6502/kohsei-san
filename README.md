@@ -45,6 +45,12 @@
 - カスタマイズ性よりも、統一された校正ルールを追求します。
 - サーバーを設けず、オフラインで完結させます。
 
+## プライバシーポリシー
+
+アクセス解析として[Google アナリティクス](https://marketingplatform.google.com/about/analytics/terms/jp/)を利用しています。
+また、エラー収集として[Sentry](https://sentry.io/welcome/)を利用しています。
+送信される情報は匿名で収集されており、個人を特定するものではありません。
+
 ## Author
 
 <img alt="Hood" src="https://avatars.githubusercontent.com/blue-hood" width="48" /> **Hood <hato6502@gmail.com> (https://github.com/blue-hood)**
