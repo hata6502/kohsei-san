@@ -7,11 +7,11 @@ describe('landing', () => {
     cy.contains('校正を通過しました！');
   });
 
-  it('「試してみる」に移動できる', () => {
+  /*it('「試してみる」に移動できる', () => {
     cy.visit('');
     cy.contains('試してみる').click();
     cy.contains('メッセージがあります。');
-  });
+  });*/
 
   it('GitHub に移動できる', () => {
     cy.visit('', {
