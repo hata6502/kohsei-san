@@ -13,8 +13,7 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn --frozen-lockfile
-      - run: yarn build
-      - run: yarn start &
+      - run: yarn dev & yarn wait-on http://localhost:8080
       - uses: paambaati/codeclimate-action@v2.5.5
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}

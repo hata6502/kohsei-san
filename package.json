@@ -21,7 +21,7 @@
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn cypress run --config video=false --env coverage=false && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker"
+    "test": "tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker && yarn cypress run"
   },
   "browserslist": [
     "defaults"
@@ -107,6 +107,7 @@
     "stylelint-prettier": "^1.1.2",
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript": "^3.7.4",
+    "wait-on": "^4.0.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },

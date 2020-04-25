@@ -1,4 +1,7 @@
 .nyc_output
+coverage
+cypress/screenshots
+cypress/videos
 docs
 node_modules
 yarn-error.log
