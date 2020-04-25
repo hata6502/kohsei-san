@@ -14,8 +14,12 @@ jobs:
           node-version: 12.x
       - run: yarn --frozen-lockfile
       - run: yarn dev & yarn wait-on http://localhost:8080
-      - uses: paambaati/codeclimate-action@v2.5.5
+      - run: yarn cypress run
+      - if: failure()
+        uses: jakejarvis/s3-sync-action@master
         env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageCommand: yarn test
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DEST_DIR: cypress
+          SOURCE_DIR: cypress
