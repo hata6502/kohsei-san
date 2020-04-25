@@ -21,7 +21,7 @@
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "start": "http-server docs",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn cypress run --config video=false --env coverage=false && tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker"
+    "test": "tsc --noEmit && yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker && yarn cypress run --env coverage=false"
   },
   "browserslist": [
     "defaults"
