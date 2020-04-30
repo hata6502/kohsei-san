@@ -38,6 +38,10 @@ const theme = createMuiTheme({
     primary: pink,
     secondary: purple,
   },
+  typography: {
+    fontFamily:
+      '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+  },
 });
 
 declare module 'styled-components' {
