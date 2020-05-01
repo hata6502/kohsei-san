@@ -1,14 +1,14 @@
 /// <reference types="cypress" />
 
 describe('edit', () => {
-  it('校正を通過できる', () => {
+  it('校正を通過する', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
     cy.contains('校正を通過しました！');
   });
 
-  /*it('メッセージを表示できる', () => {
+  /*it('メッセージを表示する', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();

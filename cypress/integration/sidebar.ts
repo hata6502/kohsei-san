@@ -1,14 +1,14 @@
 /// <reference types="cypress" />
 
 describe('sidebar', () => {
-  it('メモを追加できる', () => {
+  it('メモを追加する', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
     cy.contains('校正を通過しました！');
   });
 
-  it('メモに移動できる', () => {
+  it('メモに移動する', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
@@ -19,7 +19,7 @@ describe('sidebar', () => {
     cy.contains('校正を通過しました！');
   });
 
-  it('メモを削除できる', () => {
+  it('メモを削除する', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
@@ -28,7 +28,7 @@ describe('sidebar', () => {
     cy.contains('コンテンツへの信頼度を高めよう');
   });
 
-  it('Twitter に移動できる', () => {
+  it('Twitter に移動する', () => {
     cy.visit('', {
       onBeforeLoad: (window) => cy.stub(window, 'open'),
     });
@@ -38,7 +38,7 @@ describe('sidebar', () => {
     cy.window().its('open').should('be.calledWith', 'https://twitter.com/hata6502');
   });
 
-  it('「このアプリについて」に移動できる', () => {
+  it('「このアプリについて」に移動する', () => {
     cy.visit('', {
       onBeforeLoad: (window) => cy.stub(window, 'open'),
     });

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe('app', () => {
-  it('LP に移動できる', () => {
+  it('LP に移動する', () => {
     cy.visit('');
     cy.contains('使ってみる').click();
     cy.get('h6').contains('校正さん').click();
