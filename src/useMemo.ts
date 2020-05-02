@@ -10,6 +10,14 @@ export interface Memo {
 export type MemosAction = (prevState: Memo[]) => Memo[];
 
 const useMemo = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  const textParam = searchParams.get('text');
+  const titleParam = searchParams.get('title');
+  const urlParam = searchParams.get('url');
+
+  const isShared = textParam !== null || titleParam !== null || urlParam !== null;
+
   const [memos, dispatchMemos] = useReducer(
     (state: Memo[], action: MemosAction) => action(state),
     undefined,
@@ -17,17 +25,30 @@ const useMemo = () => {
       const memosItem = localStorage.getItem('memos');
       const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [];
 
-      return localStorageMemos.map(({ id, text }) => ({
-        id: id || uuidv4(),
-        text: text || '',
-      }));
+      return [
+        ...localStorageMemos.map(({ id, text }) => ({
+          id: id || uuidv4(),
+          text: text || '',
+        })),
+        ...((isShared && [
+          {
+            id: uuidv4(),
+            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`,
+          },
+        ]) ||
+          []),
+      ];
     }
   );
 
   const [memoId, dispatchMemoId] = useReducer(
     (_: string, action: string) => action,
     undefined,
-    () => localStorage.getItem('memoId') || (memos.length !== 0 && memos[0].id) || ''
+    () =>
+      (isShared && memos[memos.length - 1].id) ||
+      localStorage.getItem('memoId') ||
+      (memos.length !== 0 && memos[0].id) ||
+      ''
   );
 
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
@@ -38,9 +59,6 @@ const useMemo = () => {
       localStorage.setItem('memos', JSON.stringify(memos));
     } catch (exception) {
       setIsSaveErrorOpen(true);
-
-      // eslint-disable-next-line no-console
-      console.error(exception);
       Sentry.captureException(exception);
     }
   }, [memoId, memos]);

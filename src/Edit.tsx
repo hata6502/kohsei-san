@@ -136,8 +136,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
           setIsLintErrorOpen(true);
         }
 
-        // eslint-disable-next-line no-console
-        console.error(exception);
         Sentry.captureException(exception);
       } finally {
         dispatchIsLinting(false);
