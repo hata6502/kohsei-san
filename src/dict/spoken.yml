@@ -1,8 +1,0 @@
-# 口語表現をチェックする辞書
-version: 1
-rules:
-  - expected: どのような
-    patterns: /どういう(?!こと)/
-    specs:
-      - from: どういうものがthenableなのか
-        to: どのようなものがthenableなのか

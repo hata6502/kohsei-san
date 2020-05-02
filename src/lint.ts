@@ -35,7 +35,8 @@ import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
 // @ts-ignore
-import textlintRulePrh from 'textlint-rule-prh';
+import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
+
 import initializeDict from './dict';
 
 declare global {
@@ -149,10 +150,10 @@ const lint = (text: string) =>
         rule: textlintRulePreferTariTari,
       },
       {
-        ruleId: 'prh',
-        rule: textlintRulePrh,
+        ruleId: 'proofdict',
+        rule: textlintRuleProofdict,
         options: {
-          rulePaths: ['kanji-open.yml', 'spoken.yml', 'typo.yml', 'web+db.yml'],
+          dictURL: 'https://blue-hood.github.io/proof-dictionary/',
         },
       },
     ],

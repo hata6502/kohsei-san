@@ -546,6 +546,54 @@ SOFTWARE.
 
 ---
 
+The following software may be included in this product: @proofdict/tester, @proofdict/textlint-rule-proofdict, @textlint-ja/textlint-rule-no-insert-dropping-sa, @textlint-rule/textlint-rule-no-invalid-control-character, @textlint/feature-flag, @textlint/kernel, @textlint/text-to-ast, @textlint/textlint-plugin-text, localstorage-ponyfill, nlcst-parse-japanese, nlcst-pattern-match, nlcst-types, textlint-rule-ja-unnatural-alphabet, textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet, textlint-rule-prefer-tari-tari, unist-types. A copy of the source code may be downloaded from https://github.com/proofdict/proofdict-tester.git (@proofdict/tester), https://github.com/proofdict/textlint-rule-proofdict.git (@proofdict/textlint-rule-proofdict), https://github.com/textlint-ja/textlint-rule-no-insert-dropping-sa.git (@textlint-ja/textlint-rule-no-insert-dropping-sa), https://github.com/textlint-rule/textlint-rule-no-invalid-control-character.git (@textlint-rule/textlint-rule-no-invalid-control-character), https://github.com/textlint/textlint.git (@textlint/feature-flag), https://github.com/textlint/textlint.git (@textlint/kernel), https://github.com/textlint/textlint.git (@textlint/text-to-ast), https://github.com/textlint/textlint.git (@textlint/textlint-plugin-text), https://github.com/azu/localstorage-ponyfill.git (localstorage-ponyfill), https://github.com/azu/nlp-pattern-match.git (nlcst-parse-japanese), https://github.com/azu/nlp-pattern-match.git (nlcst-pattern-match), https://github.com/azu/nlp-pattern-match.git (nlcst-types), https://github.com/textlint-ja/textlint-rule-ja-unnatural-alphabet.git (textlint-rule-ja-unnatural-alphabet), https://github.com/textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet.git (textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet), https://github.com/textlint-ja/textlint-rule-prefer-tari-tari.git (textlint-rule-prefer-tari-tari), https://github.com/azu/nlp-pattern-match.git (unist-types). This software contains the following license and notice below:
+
+Copyright (c) 2017 azu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+The following software may be included in this product: @proofdict/types, @textlint/regexp-string-matcher, @textlint/types. A copy of the source code may be downloaded from https://github.com/proofdict/proofdict.git (@proofdict/types), https://github.com/textlint/regexp-string-matcher.git (@textlint/regexp-string-matcher), https://github.com/textlint/textlint.git (@textlint/types). This software contains the following license and notice below:
+
+Copyright (c) 2018 azu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
 The following software may be included in this product: @rollup/plugin-node-resolve, @rollup/plugin-replace, @rollup/pluginutils. A copy of the source code may be downloaded from https://github.com/rollup/plugins.git (@rollup/plugin-node-resolve), https://github.com/rollup/plugins.git (@rollup/plugin-replace), https://github.com/rollup/plugins.git (@rollup/pluginutils). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -864,30 +912,6 @@ limitations under the License.
 
 ---
 
-The following software may be included in this product: @textlint-ja/textlint-rule-no-insert-dropping-sa, @textlint-rule/textlint-rule-no-invalid-control-character, @textlint/feature-flag, @textlint/kernel, @textlint/text-to-ast, @textlint/textlint-plugin-text, nlcst-parse-japanese, nlcst-pattern-match, nlcst-types, textlint-rule-ja-unnatural-alphabet, textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet, textlint-rule-prefer-tari-tari, unist-types. A copy of the source code may be downloaded from https://github.com/textlint-ja/textlint-rule-no-insert-dropping-sa.git (@textlint-ja/textlint-rule-no-insert-dropping-sa), https://github.com/textlint-rule/textlint-rule-no-invalid-control-character.git (@textlint-rule/textlint-rule-no-invalid-control-character), https://github.com/textlint/textlint.git (@textlint/feature-flag), https://github.com/textlint/textlint.git (@textlint/kernel), https://github.com/textlint/textlint.git (@textlint/text-to-ast), https://github.com/textlint/textlint.git (@textlint/textlint-plugin-text), https://github.com/azu/nlp-pattern-match.git (nlcst-parse-japanese), https://github.com/azu/nlp-pattern-match.git (nlcst-pattern-match), https://github.com/azu/nlp-pattern-match.git (nlcst-types), https://github.com/textlint-ja/textlint-rule-ja-unnatural-alphabet.git (textlint-rule-ja-unnatural-alphabet), https://github.com/textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet.git (textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet), https://github.com/textlint-ja/textlint-rule-prefer-tari-tari.git (textlint-rule-prefer-tari-tari), https://github.com/azu/nlp-pattern-match.git (unist-types). This software contains the following license and notice below:
-
-Copyright (c) 2017 azu
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
 The following software may be included in this product: @textlint/ast-node-types. A copy of the source code may be downloaded from https://github.com/textlint/textlint.git. This software contains the following license and notice below:
 
 Copyright (c) 2014-present azu
@@ -988,31 +1012,7 @@ SOFTWARE.
 
 ---
 
-The following software may be included in this product: @textlint/regexp-string-matcher, @textlint/types. A copy of the source code may be downloaded from https://github.com/textlint/regexp-string-matcher.git (@textlint/regexp-string-matcher), https://github.com/textlint/textlint.git (@textlint/types). This software contains the following license and notice below:
-
-Copyright (c) 2018 azu
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
-The following software may be included in this product: @types/blob-util, @types/bluebird, @types/chai, @types/chai-jquery, @types/color-name, @types/debug, @types/eslint-visitor-keys, @types/estree, @types/events, @types/glob, @types/hoist-non-react-statics, @types/jquery, @types/json-schema, @types/lodash, @types/minimatch, @types/mocha, @types/node, @types/normalize-package-data, @types/parse-json, @types/prop-types, @types/react, @types/react-dom, @types/react-helmet, @types/react-native, @types/react-transition-group, @types/resolve, @types/sinon, @types/sinon-chai, @types/sinonjs**fake-timers, @types/sizzle, @types/structured-source, @types/styled-components, @types/unist, @types/uuid. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/blob-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bluebird), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai-jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/color-name), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/eslint-visitor-keys), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/estree), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/events), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/glob), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/json-schema), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/minimatch), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mocha), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/normalize-package-data), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-dom), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-helmet), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-native), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-transition-group), https://github.com/DefinitelyTyped/DefinitelyTyped.git.git (@types/resolve), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon-chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinonjs**fake-timers), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sizzle), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/structured-source), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/styled-components), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/unist), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/uuid). This software contains the following license and notice below:
+The following software may be included in this product: @types/blob-util, @types/bluebird, @types/chai, @types/chai-jquery, @types/color-name, @types/debug, @types/eslint-visitor-keys, @types/estree, @types/events, @types/glob, @types/hoist-non-react-statics, @types/jquery, @types/json-schema, @types/lodash, @types/minimatch, @types/mocha, @types/node, @types/normalize-package-data, @types/parse-json, @types/prop-types, @types/react, @types/react-dom, @types/react-helmet, @types/react-native, @types/react-transition-group, @types/resolve, @types/sinon, @types/sinon-chai, @types/sinonjs**fake-timers, @types/sizzle, @types/structured-source, @types/styled-components, @types/unist, @types/url-join, @types/uuid. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/blob-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bluebird), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai-jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/color-name), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/eslint-visitor-keys), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/estree), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/events), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/glob), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/json-schema), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/minimatch), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mocha), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/normalize-package-data), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-dom), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-helmet), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-native), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-transition-group), https://github.com/DefinitelyTyped/DefinitelyTyped.git.git (@types/resolve), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon-chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinonjs**fake-timers), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sizzle), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/structured-source), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/styled-components), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/unist), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/url-join), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/uuid). This software contains the following license and notice below:
 
 MIT License
 
@@ -2243,6 +2243,32 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
 IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+---
+
+The following software may be included in this product: app-root-path. A copy of the source code may be downloaded from https://github.com/inxilpro/node-app-root-path.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Chris Morrell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
 
@@ -8601,6 +8627,32 @@ SOFTWARE.
 
 ---
 
+The following software may be included in this product: fetch-ponyfill. A copy of the source code may be downloaded from git://github.com/qubyte/fetch-ponyfill.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2017 Mark Stanley Everitt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
 The following software may be included in this product: file-entry-cache, flat-cache. A copy of the source code may be downloaded from https://github.com/royriojas/file-entry-cache.git (file-entry-cache), https://github.com/royriojas/flat-cache.git (flat-cache). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -11718,6 +11770,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+---
+
+The following software may be included in this product: node-fetch. A copy of the source code may be downloaded from https://github.com/bitinn/node-fetch.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2016 David Frank
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
 
