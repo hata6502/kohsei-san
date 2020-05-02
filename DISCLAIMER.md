@@ -1012,7 +1012,7 @@ SOFTWARE.
 
 ---
 
-The following software may be included in this product: @types/blob-util, @types/bluebird, @types/chai, @types/chai-jquery, @types/color-name, @types/debug, @types/eslint-visitor-keys, @types/estree, @types/events, @types/glob, @types/hoist-non-react-statics, @types/jquery, @types/json-schema, @types/lodash, @types/minimatch, @types/mocha, @types/node, @types/normalize-package-data, @types/parse-json, @types/prop-types, @types/react, @types/react-dom, @types/react-native, @types/react-transition-group, @types/resolve, @types/sinon, @types/sinon-chai, @types/sinonjs**fake-timers, @types/sizzle, @types/structured-source, @types/styled-components, @types/unist, @types/uuid. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/blob-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bluebird), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai-jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/color-name), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/eslint-visitor-keys), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/estree), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/events), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/glob), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/json-schema), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/minimatch), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mocha), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/normalize-package-data), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-dom), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-native), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-transition-group), https://github.com/DefinitelyTyped/DefinitelyTyped.git.git (@types/resolve), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon-chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinonjs**fake-timers), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sizzle), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/structured-source), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/styled-components), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/unist), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/uuid). This software contains the following license and notice below:
+The following software may be included in this product: @types/blob-util, @types/bluebird, @types/chai, @types/chai-jquery, @types/color-name, @types/debug, @types/eslint-visitor-keys, @types/estree, @types/events, @types/glob, @types/hoist-non-react-statics, @types/jquery, @types/json-schema, @types/lodash, @types/minimatch, @types/mocha, @types/node, @types/normalize-package-data, @types/parse-json, @types/prop-types, @types/react, @types/react-dom, @types/react-helmet, @types/react-native, @types/react-transition-group, @types/resolve, @types/sinon, @types/sinon-chai, @types/sinonjs**fake-timers, @types/sizzle, @types/structured-source, @types/styled-components, @types/unist, @types/uuid. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/blob-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bluebird), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/chai-jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/color-name), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/eslint-visitor-keys), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/estree), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/events), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/glob), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/jquery), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/json-schema), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/minimatch), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mocha), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/normalize-package-data), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-dom), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-helmet), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-native), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-transition-group), https://github.com/DefinitelyTyped/DefinitelyTyped.git.git (@types/resolve), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinon-chai), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sinonjs**fake-timers), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/sizzle), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/structured-source), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/styled-components), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/unist), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/uuid). This software contains the following license and notice below:
 
 MIT License
 
@@ -13370,6 +13370,83 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+---
+
+The following software may be included in this product: react-fast-compare. A copy of the source code may be downloaded from git+https://github.com/FormidableLabs/react-fast-compare.git. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2018 Formidable Labs
+Copyright (c) 2017 Evgeny Poberezkin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+The following software may be included in this product: react-helmet. A copy of the source code may be downloaded from https://github.com/nfl/react-helmet. This software contains the following license and notice below:
+
+Copyright (c) 2015 NFL
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+The following software may be included in this product: react-side-effect. A copy of the source code may be downloaded from https://github.com/gaearon/react-side-effect.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Dan Abramov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
 

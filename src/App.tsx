@@ -59,21 +59,7 @@ const App: React.FunctionComponent = () => {
     <>
       <Helmet>
         <title>{title}</title>
-
         <meta name="description" content="その場ですぐに文章を校正できるメモ帳アプリです。" />
-
-        <meta
-          property="og:description"
-          content="その場ですぐに文章を校正できるメモ帳アプリです。"
-        />
-        <meta
-          property="og:image"
-          content={`${window.location.protocol}//${window.location.host}/favicon.png`}
-        />
-        <meta property="og:title" content={title} />
-        <meta property="og:url" content={window.location.href} />
-
-        <meta name="twitter:card" content="summary" />
       </Helmet>
 
       <AppTopBar color="inherit">
