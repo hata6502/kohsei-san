@@ -113,7 +113,7 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
           <Typography align="center">
             <Button
               color="primary"
-              onClick={() => handleTryItClick({ text: '' })}
+              onClick={() => handleTryItClick({ text: '我思う、故に我在り' })}
               size="large"
               variant="contained"
             >
@@ -305,7 +305,7 @@ const Landing: React.FunctionComponent<Props> = ({ dispatchMemoId, dispatchMemos
             <Typography align="center">
               <Button
                 color="primary"
-                onClick={() => handleTryItClick({ text: '' })}
+                onClick={() => handleTryItClick({ text: '我思う、故に我在り' })}
                 size="large"
                 variant="contained"
               >

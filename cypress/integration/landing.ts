@@ -4,14 +4,8 @@ describe('landing', () => {
   it('「使ってみる」に移動する', () => {
     cy.visit('');
     cy.contains('使ってみる').click();
-    cy.contains('校正を通過しました！');
+    cy.contains('校正中…');
   });
-
-  /*it('「試してみる」に移動する', () => {
-    cy.visit('');
-    cy.contains('試してみる').click();
-    cy.contains('メッセージがあります。');
-  });*/
 
   it('GitHub に移動する', () => {
     cy.visit('', {
