@@ -34,8 +34,6 @@ import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
-// @ts-ignore
-import textlintRulePrh from 'textlint-rule-prh';
 import initializeDict from './dict';
 
 declare global {
@@ -147,13 +145,6 @@ const lint = (text: string) =>
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
-      },
-      {
-        ruleId: 'prh',
-        rule: textlintRulePrh,
-        options: {
-          rulePaths: ['kanji-open.yml', 'spoken.yml', 'typo.yml', 'web+db.yml'],
-        },
       },
     ],
   });
