@@ -4,7 +4,7 @@ describe('app', () => {
   it('LP に移動する', () => {
     cy.visit('');
     cy.contains('使ってみる').click();
-    cy.get('h6').contains('校正さん').click();
+    cy.get('h6').contains('校正中…').click();
     cy.contains('コンテンツへの信頼度を高めよう');
   });
 });

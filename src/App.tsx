@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
@@ -39,6 +40,7 @@ const App: React.FunctionComponent = () => {
     memoId,
     memos,
     setIsSaveErrorOpen,
+    titleParam,
   } = useMemo();
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);
@@ -51,9 +53,29 @@ const App: React.FunctionComponent = () => {
   const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
 
   const memo = memos.find(({ id }) => id === memoId);
+  const title = titleParam === null ? '校正さん' : `「${titleParam}」の校正結果 | 校正さん`;
 
   return (
     <>
+      <Helmet>
+        <title>{title}</title>
+
+        <meta name="description" content="その場ですぐに文章を校正できるメモ帳アプリです。" />
+
+        <meta
+          property="og:description"
+          content="その場ですぐに文章を校正できるメモ帳アプリです。"
+        />
+        <meta
+          property="og:image"
+          content={`${window.location.protocol}//${window.location.host}/favicon.png`}
+        />
+        <meta property="og:title" content={title} />
+        <meta property="og:url" content={window.location.href} />
+
+        <meta name="twitter:card" content="summary" />
+      </Helmet>
+
       <AppTopBar color="inherit">
         <Toolbar>
           <IconButton onClick={handleMenuIconClick}>

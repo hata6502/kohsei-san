@@ -70,6 +70,7 @@ const useMemo = () => {
     memoId,
     memos,
     setIsSaveErrorOpen,
+    titleParam,
   };
 };
 
