@@ -31,6 +31,7 @@
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
+    "@proofdict/textlint-rule-proofdict": "^3.0.0",
     "@sentry/browser": "^5.13.0",
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "^1.0.1",
     "@textlint/kernel": "^3.2.1",
@@ -112,7 +113,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "resolutions": {
-    "kuromoji": "hata6502/kuromoji.js#use-uncompressed-dictionaries",
+    "kuromoji": "hata6502/kuromoji.js",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2"
   },

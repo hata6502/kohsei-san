@@ -34,6 +34,9 @@ import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
+// @ts-ignore
+import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
+
 import initializeDict from './dict';
 
 declare global {
@@ -145,6 +148,13 @@ const lint = (text: string) =>
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
+      },
+      {
+        ruleId: 'proofdict',
+        rule: textlintRuleProofdict,
+        options: {
+          dictURL: 'https://blue-hood.github.io/proof-dictionary/',
+        },
       },
     ],
   });
