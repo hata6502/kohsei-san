@@ -18,6 +18,17 @@ declare global {
   interface Navigator {
     share?: (data?: { text?: string; url?: string }) => Promise<void>;
   }
+
+  interface Window {
+    webkitSpeechRecognition?: typeof SpeechRecognition;
+  }
+}
+
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = Recognition && new Recognition();
+
+if (recognition) {
+  recognition.continuous = true;
 }
 
 const EditContainer = styled(Container)`
@@ -73,6 +84,15 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleRecognitionResult = ({ results }: SpeechRecognitionEvent) =>
+      document.execCommand('inserttext', false, results[results.length - 1][0].transcript);
+
+    recognition?.addEventListener('result', handleRecognitionResult);
+
+    return () => recognition?.removeEventListener('result', handleRecognitionResult);
+  }, []);
 
   useEffect(() => {
     if (textRef.current) {
@@ -196,18 +216,23 @@ const Edit: React.FunctionComponent<EditProps> = ({
     }
   };
 
-  const handleTextContainerBlur: React.FocusEventHandler<HTMLDivElement> = ({ target }) => {
+  const handleTextContainerBlur: React.FocusEventHandler = () => {
+    recognition?.stop();
+
     dispatchMemos((prevMemos) =>
       prevMemos.map((prevMemo) => ({
         ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: target.innerText }),
+        ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
       }))
     );
 
     setIsTextContainerFocus(false);
   };
 
-  const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
+  const handleTextContainerFocus: React.FocusEventHandler = () => {
+    recognition?.start();
+    setIsTextContainerFocus(true);
+  };
 
   return (
     <EditContainer>

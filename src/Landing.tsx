@@ -112,18 +112,20 @@ const Landing: React.FunctionComponent = () => {
           <Grid container justify="space-evenly" spacing={6}>
             {[
               {
-                body: '誤字脱字や言い回しなど、自動で何度でも文章の品質をチェックします。',
+                body:
+                  '誤字脱字や言い回しなど、自動で何回でも文章の品質をチェックします。校正を依頼する前のセルフチェックなどに活用できます。',
                 heading: '校正業務を自動化でサポート',
                 icon: <FeaturesSpellcheckIcon />,
               },
               {
                 body:
-                  'アプリとして登録することで、ネイティブアプリと同様のユーザー体験を提供しています。',
+                  'アプリとして登録することで、ネイティブアプリと同様のユーザー体験を提供しています。さらに、校正した文章を共有したり、音声認識で文章を入力したりできます。',
                 heading: 'スマートフォンにもフレンドリー',
                 icon: <FeaturesMobileFriendlyIcon />,
               },
               {
-                body: '文章をインターネットに送信したりせず、登録不要でご利用いただけます。',
+                body:
+                  '文章をインターネットに送信したりせず、登録不要でご利用いただけます。校正さんはオープンソースによってメンテナンスされています。',
                 heading: 'オフラインで完全無料',
                 icon: <FeaturesOfflinePinIcon />,
               },
@@ -249,15 +251,15 @@ const Landing: React.FunctionComponent = () => {
               <Grid container justify="space-evenly" spacing={6}>
                 {[
                   {
-                    alt: '校正する文章を入力します',
+                    alt: '校正する文章を入力します。',
                     body: '校正する文章を入力します。他の場所を押して入力を完了します。',
                     image: 'images/Screenshot_20200414-212938.png',
                   },
                   {
-                    alt: '校正が行われメッセージが表示されます',
+                    alt: '校正が行われ、メッセージが表示されます。',
                     body: (
                       <>
-                        校正が行われメッセージが表示されます。
+                        校正が行われ、メッセージが表示されます。
                         <FeedbackIcon color="primary" />
                         を押して内容を確認します。
                       </>
@@ -265,7 +267,7 @@ const Landing: React.FunctionComponent = () => {
                     image: 'images/Screenshot_20200414-213005.png',
                   },
                   {
-                    alt: 'メッセージをもとに文章を修正します',
+                    alt: 'メッセージをもとに文章を修正します。',
                     body: 'メッセージをもとに文章を修正します。校正を通過しました！',
                     image: 'images/Screenshot_20200414-213017.png',
                   },
