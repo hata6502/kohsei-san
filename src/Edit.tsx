@@ -41,13 +41,16 @@ const TextContainer = styled.div`
   outline: 0;
 `;
 
-interface Pin {
-  left: React.CSSProperties['left'];
-  message: TextlintMessage;
-  top: React.CSSProperties['top'];
+interface Message {
+  index: TextlintMessage['index'];
+  messages: TextlintMessage['message'][];
 }
 
-type PinClickEventHandler = (event: { currentTarget: Element; message: string }) => void;
+interface Pin {
+  left: React.CSSProperties['left'];
+  message: Message;
+  top: React.CSSProperties['top'];
+}
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
@@ -66,7 +69,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [pins, setPins] = useState<Pin[]>([]);
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
-  const [popoverMessage, setPopoverMessage] = useState('');
+  const [popoverMessages, setPopoverMessages] = useState<Message['messages']>([]);
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
@@ -86,12 +89,27 @@ const Edit: React.FunctionComponent<EditProps> = ({
         const result = await lint(memo.text);
 
         if (!isUnmounted && textRef.current && textBoxRef.current) {
+          const mergedMessages: Message[] = [];
+
+          result.messages.forEach((message) => {
+            const duplicatedMessage = mergedMessages.find(({ index }) => index === message.index);
+
+            if (duplicatedMessage) {
+              duplicatedMessage.messages.push(message.message);
+            } else {
+              mergedMessages.push({
+                ...message,
+                messages: [message.message],
+              });
+            }
+          });
+
           const range = document.createRange();
           const text = textRef.current;
           const textBoxRect = textBoxRef.current.getBoundingClientRect();
 
           setPins(
-            result.messages.map((message) => {
+            mergedMessages.map((message) => {
               let childNodesIndex = 0;
               let offset = message.index;
 
@@ -152,9 +170,15 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
-  const handlePinClick: PinClickEventHandler = ({ currentTarget, message }) => {
+  const handlePinClick = ({
+    currentTarget,
+    messages,
+  }: {
+    currentTarget: Element;
+    messages: Message['messages'];
+  }) => {
     setPopoverAnchorEl(currentTarget);
-    setPopoverMessage(message);
+    setPopoverMessages(messages);
   };
 
   const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
@@ -219,7 +243,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                         key={message.index}
                         color="primary"
                         onClick={({ currentTarget }) => {
-                          handlePinClick({ currentTarget, message: message.message });
+                          handlePinClick({ currentTarget, messages: message.messages });
                         }}
                         style={{ top, left }}
                       />
@@ -238,7 +262,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       horizontal: 'left',
                     }}
                   >
-                    <Box p={2}>{popoverMessage}</Box>
+                    <Box p={2}>
+                      {popoverMessages.map((message, index) => (
+                        <div key={index}>{message}</div>
+                      ))}
+                    </Box>
                   </Popover>
                 </div>
               )}
