@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: yarn --frozen-lockfile
+      - run: yarn
       - run: yarn build
       - run: gzip -r docs
       - run: for file in $(find docs -type f); do mv "${file}" "${file%.gz}"; done
