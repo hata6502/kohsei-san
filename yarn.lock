@@ -6377,8 +6377,8 @@ known-css-properties@^0.18.0:
   integrity sha512-69AgJ1rQa7VvUsd2kpvVq+VeObDuo3zrj0CzM5Slmf6yduQFAI2kXPDQJR2IE/u6MSAUOJrwSzjg5vlz8qcMiw==
 
 kuromoji@0.1.1, kuromoji@hata6502/kuromoji.js:
-  version "0.1.3"
-  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/0dccafa2a7c23625d0dce692a52db14753023f06"
+  version "0.1.4"
+  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/44b9dfa587a1ab687f43c63c11d0368775223200"
   dependencies:
     async "^2.0.1"
     doublearray "0.0.2"
