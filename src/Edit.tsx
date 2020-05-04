@@ -86,12 +86,20 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const textBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleRecognitionResult = ({ results }: SpeechRecognitionEvent) =>
+    const handleRecognitionResult = ({ results }: SpeechRecognitionEvent) => {
       document.execCommand('inserttext', false, results[results.length - 1][0].transcript);
+      recognition?.start();
+    };
+
+    const handleRecognitionSoundEnd = () => recognition?.start();
 
     recognition?.addEventListener('result', handleRecognitionResult);
+    recognition?.addEventListener('soundend', handleRecognitionSoundEnd);
 
-    return () => recognition?.removeEventListener('result', handleRecognitionResult);
+    return () => {
+      recognition?.removeEventListener('result', handleRecognitionResult);
+      recognition?.removeEventListener('soundend', handleRecognitionSoundEnd);
+    };
   }, []);
 
   useEffect(() => {
