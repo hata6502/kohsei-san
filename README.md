@@ -3,8 +3,8 @@
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://codeclimate.com/github/blue-hood/kohsei-san/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/maintainability" />
+  <a href="https://lgtm.com/projects/g/blue-hood/kohsei-san/context:javascript">
+    <img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/blue-hood/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
   </a>
   <a href="https://codeclimate.com/github/blue-hood/kohsei-san/test_coverage">
     <img src="https://api.codeclimate.com/v1/badges/39506fc7eada9c6a3137/test_coverage" />
