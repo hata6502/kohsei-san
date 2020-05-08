@@ -14,8 +14,5 @@ jobs:
           node-version: 12.x
       - run: yarn
       - run: yarn dev & yarn wait-on http://localhost:8080
-      - uses: paambaati/codeclimate-action@v2.5.5
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageCommand: yarn test
+      - run: yarn test
+      - uses: codecov/codecov-action@v1
