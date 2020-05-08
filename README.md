@@ -57,6 +57,49 @@
 また、エラー収集として[Sentry](https://sentry.io/welcome/)を利用しています。
 送信される情報は匿名で収集されており、個人を特定するものではありません。
 
+## Install
+
+```sh
+yarn
+```
+
+## Build
+
+```sh
+yarn build
+```
+
+## Start server
+
+```sh
+yarn start
+```
+
+## Develop
+
+```sh
+yarn dev
+```
+
+## Generate disclaimer
+
+```sh
+yarn generate-disclaimer
+```
+
+## Lint and format
+
+```sh
+yarn fix
+```
+
+## Run tests
+
+```sh
+yarn dev &
+yarn test
+```
+
 ## Author
 
 <img alt="Hood" src="https://avatars.githubusercontent.com/blue-hood" width="48" /> **Hood <hato6502@gmail.com> (https://github.com/blue-hood)**
