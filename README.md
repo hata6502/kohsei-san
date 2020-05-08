@@ -66,11 +66,6 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 Give a ⭐️ if this project helped you!
 
-## 📝 License
-
-Copyright © 2020 [Hood](https://github.com/blue-hood).<br />
-This project is [MIT](https://github.com/blue-hood/kohsei-san/blob/master/LICENSE) licensed.
-
 ## Disclaimer
 
 Please see [DISCLAIMER.md](https://github.com/blue-hood/kohsei-san/blob/master/DISCLAIMER.md).
