@@ -16,3 +16,9 @@ jobs:
       - run: yarn dev & yarn wait-on http://localhost:8080
       - run: yarn test
       - uses: codecov/codecov-action@v1
+      - uses: actions/upload-artifact@v2
+        with:
+          path: cypress/screenshots
+      - uses: actions/upload-artifact@v2
+        with:
+          path: cypress/videos
