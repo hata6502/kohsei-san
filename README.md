@@ -96,7 +96,8 @@ yarn fix
 ## Run tests
 
 ```sh
-yarn dev &
+yarn build
+yarn start & yarn wait-on http://127.0.0.1:8080
 yarn test
 ```
 
