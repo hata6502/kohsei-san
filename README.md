@@ -66,18 +66,21 @@ yarn
 ## Build
 
 ```sh
+cd packages/website
 yarn build
 ```
 
 ## Start server
 
 ```sh
+cd packages/website
 yarn start
 ```
 
 ## Develop
 
 ```sh
+cd packages/website
 yarn dev
 ```
 
@@ -96,8 +99,10 @@ yarn fix
 ## Run tests
 
 ```sh
+cd packages/website
 yarn build
 yarn start & yarn wait-on http://127.0.0.1:8080
+cd ../..
 yarn test
 ```
 

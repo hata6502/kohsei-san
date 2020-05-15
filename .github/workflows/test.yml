@@ -14,12 +14,14 @@ jobs:
           node-version: 12.x
       - run: yarn
       - run: yarn build
+        working-directory: packages/website
       - run: yarn start & yarn wait-on http://127.0.0.1:8080
+        working-directory: packages/website
       - run: yarn test
       - uses: codecov/codecov-action@v1
       - uses: actions/upload-artifact@v2
         with:
-          path: cypress/screenshots
+          path: packages/website/cypress/screenshots
       - uses: actions/upload-artifact@v2
         with:
-          path: cypress/videos
+          path: packages/website/cypress/videos
