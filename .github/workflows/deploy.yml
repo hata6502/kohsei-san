@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn
+      - run: cd packages/website
       - run: yarn build
       - run: gzip -r docs
       - run: for file in $(find docs -type f); do mv "${file}" "${file%.gz}"; done
@@ -25,7 +26,7 @@ jobs:
       - uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
-          PATHS: '/index.html'
+          PATHS: '/*'
           AWS_REGION: 'us-east-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -13,8 +13,10 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn
+      - run: cd packages/website
       - run: yarn build
       - run: yarn start & yarn wait-on http://127.0.0.1:8080
+      - run: cd ../..
       - run: yarn test
       - uses: codecov/codecov-action@v1
       - uses: actions/upload-artifact@v2

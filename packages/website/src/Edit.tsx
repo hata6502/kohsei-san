@@ -15,10 +15,6 @@ import { TextlintMessage } from '@textlint/kernel';
 import { Memo, MemosAction } from './useMemo';
 
 declare global {
-  interface Navigator {
-    share?: (data?: { text?: string; url?: string }) => Promise<void>;
-  }
-
   interface Window {
     webkitSpeechRecognition?: typeof SpeechRecognition;
   }
