@@ -23,20 +23,6 @@
     "test": "yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker && yarn test:website",
     "test:website": "cd packages/website && yarn test"
   },
-  "browserslist": [
-    "defaults"
-  ],
-  "nyc": {
-    "reporter": [
-      "lcovonly",
-      "text"
-    ]
-  },
-  "resolutions": {
-    "kuromoji": "hata6502/kuromoji.js",
-    "lodash": "^4.17.15",
-    "minimist": "^1.2.2"
-  },
   "dependencies": {
     "eslint": "6.x",
     "license-checker": "^25.0.1",

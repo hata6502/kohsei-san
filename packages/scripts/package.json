@@ -1,0 +1,11 @@
+{
+  "name": "scripts",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@types/promise-queue": "^2.2.0",
+    "promise-queue": "^2.2.5",
+    "typescript": "^3.7.4",
+    "wikijs": "^6.0.1"
+  }
+}
