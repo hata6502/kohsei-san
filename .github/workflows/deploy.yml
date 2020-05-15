@@ -11,10 +11,10 @@ jobs:
         with:
           node-version: 12.x
       - run: yarn
-      - run: cd packages/website
       - run: yarn build
-      - run: gzip -r docs
-      - run: for file in $(find docs -type f); do mv "${file}" "${file%.gz}"; done
+        working-directory: packages/website
+      - run: gzip -r packages/website/docs
+      - run: for file in $(find packages/website/docs -type f); do mv "${file}" "${file%.gz}"; done
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --cache-control max-age=86400 --content-encoding gzip --delete --follow-symlinks
@@ -22,7 +22,7 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: docs
+          SOURCE_DIR: packages/website/docs
       - uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
