@@ -10,10 +10,20 @@ module.exports = {
       {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
-      },
-      {
-        test: /\.yml$/i,
-        use: 'raw-loader',
+        options: {
+          plugins: ['istanbul'],
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                corejs: 3,
+                useBuiltIns: 'entry'
+              }
+            ],
+            '@babel/preset-react',
+            '@babel/preset-typescript'
+          ]
+        }
       },
     ],
   },

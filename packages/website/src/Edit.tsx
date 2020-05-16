@@ -101,7 +101,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
     setTimeout(async () => {
       try {
-        const { default: lint } = await import(/* webpackChunkName: "lint" */ './lint');
+        const { default: lint } = await import(/* webpackChunkName: "lint" */ 'common/lint');
         const result = await lint(memo.text);
 
         if (!isUnmounted && textRef.current && textBoxRef.current) {
@@ -171,6 +171,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
         }
 
         Sentry.captureException(exception);
+        console.error(exception);
       } finally {
         dispatchIsLinting(false);
       }

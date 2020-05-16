@@ -60,6 +60,7 @@ const useMemo = () => {
     } catch (exception) {
       setIsSaveErrorOpen(true);
       Sentry.captureException(exception);
+      console.error(exception);
     }
   }, [memoId, memos]);
 
