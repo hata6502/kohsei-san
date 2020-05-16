@@ -1,4 +1,5 @@
 .cache
+.DS_Store
 node_modules
 yarn-error.log
 packages/scripts/dist

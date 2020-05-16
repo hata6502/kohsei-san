@@ -13,6 +13,6 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "wikijs": "^6.0.1"
+    "wikijs": "hata6502/wiki"
   }
 }
