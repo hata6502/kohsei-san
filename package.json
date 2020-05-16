@@ -28,5 +28,11 @@
     "license-checker": "^25.0.1",
     "prettier": "^2.0.2",
     "stylelint": "^13.2.0"
+  },
+  "resolutions": {
+    "fetch-ponyfill": "d-fischer/fetch-ponyfill#patch-1",
+    "kuromoji": "hata6502/kuromoji.js",
+    "lodash": "^4.17.15",
+    "minimist": "^1.2.2"
   }
 }

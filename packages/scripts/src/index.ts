@@ -1,5 +1,8 @@
-import wiki from 'wikijs';
+require.main.filename = '';
+
 import * as Queue from 'promise-queue';
+import wiki from 'wikijs';
+import lint from 'common/lint';
 
 const wikipedia = wiki({
   apiUrl: 'https://ja.wikipedia.org/w/api.php',
@@ -18,6 +21,7 @@ const main = async () => {
     const text = content.map(({content, title}) => `${title}\n${content}\n`).join();
 
     console.log(text);
+    console.log(await lint(text));
   }));
 }
 
