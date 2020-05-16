@@ -17,22 +17,32 @@
     "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "fix": "yarn eslint --fix && yarn prettier --write",
     "generate-disclaimer": "yarn licenses generate-disclaimer --ignore-platform > DISCLAIMER.md",
-    "license-checker": "license-checker --excludePackages 'optimist@0.6.1;trim@0.0.1;union@0.5.0;unorm@1.6.0' --excludePrivatePackages --onlyAllow 'Apache-2.0;BSD;BSD-2-Clause;BSD-3-Clause;CC0-1.0;CC-BY-3.0;CC-BY-4.0;ISC;MIT;Public Domain;Unlicense' --unknown > /dev/null",
+    "license-checker": "license-checker --excludePackages 'css-select@1.2.0;domutils@1.5.1;optimist@0.6.1;trim@0.0.1;union@0.5.0;unorm@1.6.0;zlibjs@0.2.0' --excludePrivatePackages --onlyAllow 'Apache-2.0;BSD;BSD-2-Clause;BSD-3-Clause;CC0-1.0;CC-BY-3.0;CC-BY-4.0;ISC;MIT;Public Domain;Unlicense' --unknown > /dev/null",
     "prettier": "prettier '**/*.{html,json,md,yml}'",
     "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker && yarn test:website",
-    "test:website": "cd packages/website && yarn test"
-  },
-  "dependencies": {
-    "eslint": "6.x",
-    "license-checker": "^25.0.1",
-    "prettier": "^2.0.2",
-    "stylelint": "^13.2.0"
+    "test": "yarn eslint && yarn stylelint && yarn prettier --check && yarn license-checker && yarn test-scripts && yarn test-website",
+    "test-scripts": "cd packages/scripts && yarn test",
+    "test-website": "cd packages/website && yarn test"
   },
   "resolutions": {
     "fetch-ponyfill": "d-fischer/fetch-ponyfill#patch-1",
     "kuromoji": "hata6502/kuromoji.js",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "6.x",
+    "eslint-plugin-prettier": "^3.1.3",
+    "license-checker": "^25.0.1",
+    "prettier": "^2.0.2",
+    "stylelint": "^13.2.0",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-prettier": "^1.1.2",
+    "stylelint-processor-styled-components": "^1.10.0",
+    "typescript": "^3.7.4"
   }
 }

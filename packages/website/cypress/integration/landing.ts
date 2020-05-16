@@ -4,7 +4,7 @@ describe('landing', () => {
   it('「使ってみる」に移動する', () => {
     cy.visit('');
     cy.contains('使ってみる').click();
-    cy.contains('校正中…');
+    cy.contains('我思う、故に我在り');
   });
 
   it('GitHub に移動する', () => {

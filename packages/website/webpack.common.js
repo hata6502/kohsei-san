@@ -17,13 +17,13 @@ module.exports = {
               '@babel/preset-env',
               {
                 corejs: 3,
-                useBuiltIns: 'entry'
-              }
+                useBuiltIns: 'entry',
+              },
             ],
             '@babel/preset-react',
-            '@babel/preset-typescript'
-          ]
-        }
+            '@babel/preset-typescript',
+          ],
+        },
       },
     ],
   },

@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@proofdict/textlint-rule-proofdict": "^3.0.0",
+    "@textlint-ja/textlint-rule-no-insert-dropping-sa": "^1.0.1",
+    "@textlint/kernel": "^3.2.1",
+    "@textlint/textlint-plugin-text": "^4.1.13",
     "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-no-weak-phrase": "^1.0.4",
@@ -14,10 +18,6 @@
     "textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet": "^1.0.1",
     "textlint-rule-prefer-tari-tari": "^1.0.3",
     "textlint-rule-preset-ja-spacing": "^2.0.1",
-    "textlint-rule-preset-japanese": "^4.0.4",
-    "@proofdict/textlint-rule-proofdict": "^3.0.0",
-    "@textlint-ja/textlint-rule-no-insert-dropping-sa": "^1.0.1",
-    "@textlint/kernel": "^3.2.1",
-    "@textlint/textlint-plugin-text": "^4.1.13"
+    "textlint-rule-preset-japanese": "^4.0.4"
   }
 }

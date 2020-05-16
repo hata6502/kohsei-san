@@ -1,4 +1,5 @@
-import { TextlintKernel } from '@textlint/kernel';
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 // @ts-ignore
 import * as textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
@@ -28,10 +29,11 @@ import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-ignore
 import * as textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
 import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
+/* eslint-enable @typescript-eslint/ban-ts-ignore */
 
 const kernel = new TextlintKernel();
 
-const lint = (text: string) =>
+const lint = (text: string): Promise<TextlintResult> =>
   kernel.lintText(text, {
     ext: '.txt',
     plugins: [

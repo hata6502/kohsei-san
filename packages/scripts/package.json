@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "tsc --noEmit",
     "webpack": "rimraf dist && webpack"
   },
   "dependencies": {
@@ -10,7 +11,6 @@
     "promise-queue": "^2.2.5",
     "rimraf": "^3.0.2",
     "ts-loader": "^7.0.4",
-    "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "wikijs": "hata6502/wiki"
