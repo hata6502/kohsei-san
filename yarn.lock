@@ -6447,7 +6447,7 @@ known-css-properties@^0.18.0:
 
 kuromoji@0.1.1, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.4"
-  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/78e1a78c24714584b519fbc3d3f7a01ecf05306a"
+  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/303605c8f3211c6f3739009a48d07985528da281"
   dependencies:
     async "^2.0.1"
     doublearray "0.0.2"
