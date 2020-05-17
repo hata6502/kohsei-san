@@ -215,7 +215,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
     try {
       await navigator.share?.({
         text: memo.text,
-        url: 'https://kohsei-san.b-hood.site/',
       });
     } catch (exception) {
       if (exception instanceof DOMException && exception.name === 'AbortError') return;
