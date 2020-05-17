@@ -77,7 +77,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   isLinting,
   memo,
 }) => {
-  const [deviation, setDeviation] = useState<number>();
+  const [deviation, setDeviation] = useState(50);
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [pins, setPins] = useState<Pin[]>([]);
@@ -247,8 +247,13 @@ const Edit: React.FunctionComponent<EditProps> = ({
         <Box pb={2} pt={2}>
           <Container>
             <Chip
-              label={`校正偏差値 ${deviation === undefined ? '??' : Math.round(deviation)}`}
+              clickable
+              component="a"
+              href="https://github.com/blue-hood/kohsei-san#校正偏差値"
+              label={`校正偏差値 ${(isDisplayResult && Math.round(deviation)) || '??'}`}
+              rel="noopener"
               size="small"
+              target="_blank"
             />
 
             <Box

@@ -48,6 +48,11 @@
 - カスタマイズ性よりも、統一された校正ルールを追求します。
 - サーバーを設けず、オフラインで完結させます。
 
+## 校正偏差値
+
+Wikipedia の記事データを無作為に取得してスコアリングすることで、文章の品質を表す「校正偏差値」を導入しています。
+詳しくは[ソースコード](https://github.com/blue-hood/kohsei-san/blob/master/packages/scripts/src/index.ts)を確認してください。
+
 ## プライバシーポリシー
 
 アクセス解析として[Google アナリティクス](https://marketingplatform.google.com/about/analytics/terms/jp/)を利用しています。
