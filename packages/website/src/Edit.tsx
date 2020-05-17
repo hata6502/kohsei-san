@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Popover, { PopoverProps } from '@material-ui/core/Popover';
@@ -12,6 +13,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
+import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
 declare global {
@@ -19,6 +21,9 @@ declare global {
     webkitSpeechRecognition?: typeof SpeechRecognition;
   }
 }
+
+const scoreAverage = 0.024654281552034554;
+const scoreVariance = 0.00038698602006324937;
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = Recognition && new Recognition();
@@ -72,6 +77,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   isLinting,
   memo,
 }) => {
+  const [deviation, setDeviation] = useState<number>();
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
   const [pins, setPins] = useState<Pin[]>([]);
@@ -105,6 +111,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
         const result = await lint(memo.text);
 
         if (!isUnmounted && textRef.current && textBoxRef.current) {
+          setDeviation(
+            50 -
+              ((score({ result, text: memo.text }) - scoreAverage) / Math.sqrt(scoreVariance)) * 10
+          );
+
           const mergedMessages: Message[] = [];
 
           result.messages.forEach((message) => {
@@ -236,11 +247,17 @@ const Edit: React.FunctionComponent<EditProps> = ({
       <Paper>
         <Box pb={2} pt={2}>
           <Container>
+            <Chip
+              label={`校正偏差値 ${deviation === undefined ? '??' : Math.round(deviation)}`}
+              size="small"
+            />
+
             <Box
               border={1}
               borderColor={(isTextContainerFocus && 'primary.main') || 'grey.500'}
               borderRadius="borderRadius"
               mb={2}
+              mt={1}
               p={2}
               position="relative"
             >
