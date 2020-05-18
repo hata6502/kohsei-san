@@ -97,7 +97,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, []);
 
   useEffect(() => {
-    if (textRef.current) {
+    if (textRef.current && textRef.current.innerText !== memo.text) {
       textRef.current.innerText = memo.text;
     }
 
