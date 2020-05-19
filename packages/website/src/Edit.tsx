@@ -22,8 +22,8 @@ declare global {
   }
 }
 
-const scoreAverage = 0.024654281552034554;
-const scoreVariance = 0.00038698602006324937;
+const scoreAverage = 0.024422113824790235;
+const scoreVariance = 0.0005579324812319486;
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = Recognition && new Recognition();
