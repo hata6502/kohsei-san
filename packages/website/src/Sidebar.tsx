@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Drawer, { DrawerProps } from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -42,6 +48,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   onClose,
   open,
 }) => {
+  const [deleteMemoId, setDeleteMemoId] = useState<string>();
+  const deleteMemo = memos.find(({ id }) => id === deleteMemoId);
+
   const handleAddClick: React.MouseEventHandler = () => {
     const id = uuidv4();
 
@@ -60,12 +69,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     }
   };
 
+  const handleDeleteDialogAgree: React.MouseEventHandler = () => {
+    setDeleteMemoId(undefined);
+    dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemoId));
+  };
+
+  const handleDeleteDialogClose = () => setDeleteMemoId(undefined);
+
   const handleLicenseClick: React.MouseEventHandler = () =>
     window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
 
-  const handleDeleteClick = (id: string) => {
-    dispatchMemos((prevMemos) => prevMemos.filter((prevMemo) => prevMemo.id !== id));
-  };
+  const handleDeleteClick = (id: string) => setDeleteMemoId(id);
 
   const handleMemoClick = (id: string) => {
     dispatchMemoId(id);
@@ -117,6 +131,29 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           </ListItem>
         </List>
       </DrawerContainer>
+
+      <Dialog open={Boolean(deleteMemoId)} onClose={handleDeleteDialogClose}>
+        <DialogTitle>
+          メモ「
+          {(deleteMemo?.text || '(空のメモ)').substring(0, 10)}
+          {((deleteMemo?.text.length || 0) > 10 && '…') || ''}
+          」を削除しますか？
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>削除を元に戻すことはできません。</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleDeleteDialogClose} color="primary" autoFocus>
+            いいえ
+          </Button>
+
+          <Button onClick={handleDeleteDialogAgree} color="primary">
+            はい
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Drawer>
   );
 };

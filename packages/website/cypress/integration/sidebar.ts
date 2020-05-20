@@ -25,6 +25,7 @@ describe('sidebar', () => {
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal li button').click();
+    cy.contains('はい').click();
     cy.contains('コンテンツへの信頼度を高めよう');
   });
 
