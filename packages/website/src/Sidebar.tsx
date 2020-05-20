@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,8 +48,16 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   onClose,
   open,
 }) => {
+  const [deleteMemo, setDeleteMemo] = useState<Memo>();
   const [deleteMemoId, setDeleteMemoId] = useState<string>();
-  const deleteMemo = memos.find(({ id }) => id === deleteMemoId);
+
+  useEffect(
+    () =>
+      setDeleteMemo(
+        (prevDeleteMemo) => memos.find(({ id }) => id === deleteMemoId) || prevDeleteMemo
+      ),
+    [deleteMemoId, memos]
+  );
 
   const handleAddClick: React.MouseEventHandler = () => {
     const id = uuidv4();
