@@ -1,45 +1,37 @@
+/**
+ * 校正偏差値用統計プログラム
+ *
+ * テキストのデータ集合を元に、校正偏差値を計算するための統計データを計算します。
+ *
+ * (例) Wikipedia の記事データを元に計算します。
+ * $ wp2txt -i jawiki-latest-pages-articles1.xml-p1p106178.bz2 -o ~/wikipedia -f 0
+ * $ echo ~/wikipedia/* | xargs statistics
+ */
+
 // @proofdict/textlint-rule-proofdict を動作させるため。
 if (require.main) {
   require.main.filename = '';
 }
 
-import * as Queue from 'promise-queue';
-import wiki from 'wikijs';
+import * as fs from 'fs';
+import { promisify } from 'util';
 import lint from 'common/lint';
 import score from 'common/score';
 
-const wikipedia = wiki({
-  apiUrl: 'https://ja.wikipedia.org/w/api.php',
-});
-
-interface Content {
-  content?: string;
-  title?: string;
-}
-
 const main = async (): Promise<void> => {
-  const queue = new Queue(1);
-  const scores: number[] = [];
-  const titles = await wikipedia.random(500);
+  await lint('lint を予め実行しておくと、処理が早くなる。');
 
-  titles.forEach((title, index) =>
-    queue.add(async () => {
-      console.log(`Progress: ${(index / titles.length) * 100} %`);
-
-      const page = await wikipedia.page(title);
-      const content = ((await page.content()) as unknown) as Content[];
-      const text = content.map(({ content, title }) => `${title}\n${content}\n`).join();
+  const scores = await Promise.all(
+    process.argv.slice(2).map(async (filename) => {
+      const buffer = await promisify(fs.readFile)(filename);
+      const text = buffer.toString();
       const result = await lint(text);
 
-      scores.push(score({ result, text }));
-      // Wikipedia API の負荷を低減するため。
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      console.log(`Done: ${filename}`);
+
+      return score({ result, text });
     })
   );
-
-  while (queue.getQueueLength() !== 0 || queue.getPendingLength() !== 0) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
 
   const average =
     scores.reduce((previousValue, currentValue) => previousValue + currentValue, 0) / scores.length;
