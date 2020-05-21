@@ -14,24 +14,19 @@ if (require.main) {
 }
 
 import * as fs from 'fs';
-import { promisify } from 'util';
 import lint from 'common/lint';
 import score from 'common/score';
 
 const main = async (): Promise<void> => {
-  await lint('lint を予め実行しておくと、処理が早くなる。');
+  const scores: number[] = [];
 
-  const scores = await Promise.all(
-    process.argv.slice(2).map(async (filename) => {
-      const buffer = await promisify(fs.readFile)(filename);
-      const text = buffer.toString();
-      const result = await lint(text);
+  for (const filename of process.argv.slice(2)) {
+    const text = fs.readFileSync(filename).toString();
+    const result = await lint(text);
 
-      console.log(`Done: ${filename}`);
-
-      return score({ result, text });
-    })
-  );
+    console.log(`Done: ${filename}`);
+    scores.push(score({ result, text }));
+  }
 
   const average =
     scores.reduce((previousValue, currentValue) => previousValue + currentValue, 0) / scores.length;
