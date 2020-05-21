@@ -16,21 +16,8 @@ import { TextlintMessage } from '@textlint/kernel';
 import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
-declare global {
-  interface Window {
-    webkitSpeechRecognition?: typeof SpeechRecognition;
-  }
-}
-
 const scoreAverage = 0.024422113824790235;
 const scoreVariance = 0.0005579324812319486;
-
-const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = Recognition && new Recognition();
-
-if (recognition) {
-  recognition.continuous = true;
-}
 
 const EditContainer = styled(Container)`
   ${({ theme }) => `
@@ -86,15 +73,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleRecognitionResult = ({ results }: SpeechRecognitionEvent) =>
-      document.execCommand('inserttext', false, results[results.length - 1][0].transcript);
-
-    recognition?.addEventListener('result', handleRecognitionResult);
-
-    return () => recognition?.removeEventListener('result', handleRecognitionResult);
-  }, []);
 
   useEffect(() => {
     if (textRef.current && textRef.current.innerText !== memo.text) {
@@ -224,8 +202,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerBlur: React.FocusEventHandler = () => {
-    recognition?.stop();
-
     dispatchMemos((prevMemos) =>
       prevMemos.map((prevMemo) => ({
         ...prevMemo,
@@ -236,10 +212,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
     setIsTextContainerFocus(false);
   };
 
-  const handleTextContainerFocus: React.FocusEventHandler = () => {
-    recognition?.start();
-    setIsTextContainerFocus(true);
-  };
+  const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
 
   return (
     <EditContainer>
