@@ -16,8 +16,8 @@ import { TextlintMessage } from '@textlint/kernel';
 import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
-const scoreAverage = 0.024422113824790235;
-const scoreVariance = 0.0005579324812319486;
+const scoreAverage = 0.013022924797920069;
+const scoreVariance = 0.00011287498137057762;
 
 const EditContainer = styled(Container)`
   ${({ theme }) => `
