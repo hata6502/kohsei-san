@@ -23,7 +23,6 @@
 [textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
 
 - [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
-- [textlint-ja/textlint-rule-spacing](https://github.com/textlint-ja/textlint-rule-spacing)
 - [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [proofdict/textlint-rule-proofdict](https://github.com/proofdict/proofdict/tree/master/packages/%40proofdict/textlint-rule-proofdict)
@@ -50,7 +49,7 @@
 
 ## 校正偏差値
 
-Wikipedia の記事データを無作為に取得してスコアリングすることで、文章の品質を表す「校正偏差値」を導入しています。
+Wikipedia の記事データをスコアリングして統計をとることで、文章の品質を表す「校正偏差値」を導入しています。
 詳しくは[ソースコード](https://github.com/blue-hood/kohsei-san/blob/master/packages/scripts/src/index.ts)を確認してください。
 
 ## プライバシーポリシー

@@ -26,8 +26,6 @@ import * as textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-
 import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-ignore
 import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-// @ts-ignore
-import * as textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
 import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 /* eslint-enable @typescript-eslint/ban-ts-ignore */
 
@@ -47,11 +45,6 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: key,
         rule: textlintRulePresetJapanese.rules[key],
         options: textlintRulePresetJapanese.rulesConfig[key],
-      })),
-      ...Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
-        ruleId: key,
-        rule: textlintRulePresetJaSpacing.rules[key],
-        options: textlintRulePresetJaSpacing.rulesConfig[key],
       })),
       {
         ruleId: 'ja-no-abusage',
