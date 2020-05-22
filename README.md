@@ -28,7 +28,6 @@
 - [proofdict/textlint-rule-proofdict](https://github.com/proofdict/proofdict/tree/master/packages/%40proofdict/textlint-rule-proofdict)
 - [textlint-ja/textlint-rule-ja-no-abusage](https://github.com/textlint-ja/textlint-rule-ja-no-abusage)
 - [textlint-ja/textlint-rule-ja-no-redundant-expression](https://github.com/textlint-ja/textlint-rule-ja-no-redundant-expression)
-- [textlint-ja/textlint-rule-ja-no-weak-phrase](https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase)
 - [textlint-ja/textlint-rule-ja-unnatural-alphabet](https://github.com/textlint-ja/textlint-rule-ja-unnatural-alphabet)
 - [textlint-ja/textlint-rule-max-kanji-continuous-len](https://github.com/textlint-ja/textlint-rule-max-kanji-continuous-len)
 - [textlint-ja/textlint-rule-no-hankaku-kana](https://github.com/textlint-ja/textlint-rule-no-hankaku-kana)

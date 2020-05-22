@@ -7,8 +7,6 @@ import * as textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-ignore
-import * as textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
-// @ts-ignore
 import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-ignore
 import * as textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
@@ -53,10 +51,6 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-no-redundant-expression',
         rule: textlintRuleJaNoRedundantExpression,
-      },
-      {
-        ruleId: 'ja-no-weak-phrase',
-        rule: textlintRuleJaNoWeakPhrase,
       },
       {
         ruleId: 'ja-unnatural-alphabet',
