@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useReducer } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,15 +48,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   onClose,
   open,
 }) => {
-  const [deleteMemo, setDeleteMemo] = useState<Memo>();
-  const [deleteMemoId, setDeleteMemoId] = useState<string>();
-
-  useEffect(
-    () =>
-      setDeleteMemo(
-        (prevDeleteMemo) => memos.find(({ id }) => id === deleteMemoId) || prevDeleteMemo
-      ),
-    [deleteMemoId, memos]
+  const [deleteMemo, dispatchDeleteMemo] = useReducer(
+    (prevDeleteMemo: { id?: string; memo?: Memo }, id: string | undefined) => ({
+      id,
+      memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
+    }),
+    { id: undefined, memo: undefined }
   );
 
   const handleAddClick: React.MouseEventHandler = () => {
@@ -78,16 +75,16 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   };
 
   const handleDeleteDialogAgree: React.MouseEventHandler = () => {
-    setDeleteMemoId(undefined);
-    dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemoId));
+    dispatchDeleteMemo(undefined);
+    dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
   };
 
-  const handleDeleteDialogClose = () => setDeleteMemoId(undefined);
+  const handleDeleteDialogClose = () => dispatchDeleteMemo(undefined);
 
   const handleLicenseClick: React.MouseEventHandler = () =>
     window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
 
-  const handleDeleteClick = (id: string) => setDeleteMemoId(id);
+  const handleDeleteClick = (id: string) => dispatchDeleteMemo(id);
 
   const handleMemoClick = (id: string) => {
     dispatchMemoId(id);
@@ -140,11 +137,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
         </List>
       </DrawerContainer>
 
-      <Dialog open={Boolean(deleteMemoId)} onClose={handleDeleteDialogClose}>
+      <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
         <DialogTitle>
           メモ「
-          {(deleteMemo?.text || '(空のメモ)').substring(0, 10)}
-          {((deleteMemo?.text.length || 0) > 10 && '…') || ''}
+          {(deleteMemo.memo?.text || '(空のメモ)').substring(0, 10)}
+          {((deleteMemo.memo?.text.length || 0) > 10 && '…') || ''}
           」を削除しますか？
         </DialogTitle>
 
