@@ -128,7 +128,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
 
                 if (!length) {
-                  throw new Error('Unexpected node type. ');
+                  throw new Error('不明な DOM ノードです。');
                 }
 
                 if (offset < length) {
@@ -141,7 +141,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               }
 
               if (childNodesIndex >= text.childNodes.length) {
-                throw new Error('Pin position is not found. ');
+                throw new Error('ピンの位置が見つかりませんでした。');
               }
 
               const rangeRect = range.getBoundingClientRect();
