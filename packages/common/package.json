@@ -7,6 +7,7 @@
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "^1.0.1",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
+    "textlint-rule-date-weekday-mismatch": "^1.0.5",
     "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",

@@ -3,6 +3,8 @@ import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 // @ts-ignore
 import * as textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
+import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
+// @ts-ignore
 import * as textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
@@ -44,6 +46,10 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRulePresetJapanese.rules[key],
         options: textlintRulePresetJapanese.rulesConfig[key],
       })),
+      {
+        ruleId: 'date-weekday-mismatch',
+        rule: textlintRuleDateWeekdayMismatch,
+      },
       {
         ruleId: 'ja-no-abusage',
         rule: textlintRuleJaNoAbusage,
