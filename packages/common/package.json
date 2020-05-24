@@ -5,8 +5,10 @@
   "dependencies": {
     "@proofdict/textlint-rule-proofdict": "^3.0.0",
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "^1.0.1",
+    "@textlint-ja/textlint-rule-no-synonyms": "^1.0.2",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
+    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
     "textlint-rule-date-weekday-mismatch": "^1.0.5",
     "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",

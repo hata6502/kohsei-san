@@ -39,12 +39,15 @@ declare global {
     kuromojin?: {
       dicPath?: string;
     };
+    ['sudachi-synonyms-dictionary']?: string;
   }
 }
 
 window.kuromojin = {
   dicPath: 'dict',
 };
+
+window['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
 BrowserFS.install(window);
 BrowserFS.configure(

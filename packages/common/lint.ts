@@ -22,6 +22,7 @@ import * as textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 import * as textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 // @ts-ignore
 import * as textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
+import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 // @ts-ignore
 import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-ignore
@@ -85,6 +86,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',
         rule: textlintRuleNoMixedZenkakuAndHankakuAlphabet,
+      },
+      {
+        ruleId: 'no-synonyms',
+        rule: textlintRuleNoSynonyms,
       },
       {
         ruleId: 'prefer-tari-tari',
