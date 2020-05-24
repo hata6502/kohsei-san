@@ -9795,9 +9795,10 @@ subarg@^1.0.0:
   dependencies:
     minimist "^1.1.0"
 
-sudachi-synonyms-dictionary@hata6502/sudachi-synonyms-dictionary:
-  version "5.0.0"
-  resolved "https://codeload.github.com/hata6502/sudachi-synonyms-dictionary/tar.gz/aaa6e26452c1f8dd94be3911b7aef2e03b64dbf9"
+sudachi-synonyms-dictionary@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/sudachi-synonyms-dictionary/-/sudachi-synonyms-dictionary-5.0.1.tgz#e51c3bd57c72b1aece0fe8b37558858356bd6b53"
+  integrity sha512-MSLBwyztRT4BPstyfM8M8DntQ/sJhRyq43S/vGfRq3/JuBbKFUzrI9rpoiQOc+35el5WrIm4K3fJyLhsSEOIqw==
 
 sugarss@^2.0.0:
   version "2.0.0"
