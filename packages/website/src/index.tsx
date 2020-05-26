@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import pink from '@material-ui/core/colors/pink';
 import purple from '@material-ui/core/colors/purple';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { jaJP } from '@material-ui/core/locale';
 import {
   createMuiTheme,
   StylesProvider,
@@ -61,16 +62,19 @@ BrowserFS.configure(
   }
 );
 
-const theme = createMuiTheme({
-  palette: {
-    primary: pink,
-    secondary: purple,
+const theme = createMuiTheme(
+  {
+    palette: {
+      primary: pink,
+      secondary: purple,
+    },
+    typography: {
+      fontFamily:
+        '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+    },
   },
-  typography: {
-    fontFamily:
-      '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
-  },
-});
+  jaJP
+);
 
 declare module 'styled-components' {
   // eslint-disable-next-line
