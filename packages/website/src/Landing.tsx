@@ -95,7 +95,27 @@ const Landing: React.FunctionComponent = () => {
               color="primary"
               onClick={() =>
                 handleInternalLinkClick({
-                  url: `/?${new URLSearchParams({ text: '我思う、故に我在り' }).toString()}`,
+                  url: `/?${new URLSearchParams({
+                    text: `2020年4月1日(月)
+
+冗長な表現をチェックすることができます。
+
+誤字脱字をチェックしたり、言い回しをチェックします。
+
+人民による人民のための人民は人民に仕えるべき人民です。
+
+常用漢字チェック: 溌剌
+
+入力ミスチェック: 入力mス
+
+半角カナチェック: 半角ｶﾅ
+
+余分な「さ」チェック: 食べたさそう
+
+同義語のばらつきチェック: テレビジョンとテレビ
+
+誤用チェック: うる覚え`,
+                  }).toString()}`,
                 })
               }
               size="large"
@@ -300,7 +320,27 @@ const Landing: React.FunctionComponent = () => {
                 color="primary"
                 onClick={() =>
                   handleInternalLinkClick({
-                    url: `/?${new URLSearchParams({ text: '我思う、故に我在り' }).toString()}`,
+                    url: `/?${new URLSearchParams({
+                      text: `2020年4月1日(月)
+
+冗長な表現をチェックすることができます。
+
+誤字脱字をチェックしたり、言い回しをチェックします。
+
+人民による人民のための人民は人民に仕えるべき人民です。
+
+常用漢字チェック: 溌剌
+
+入力ミスチェック: 入力mス
+
+半角カナチェック: 半角ｶﾅ
+
+余分な「さ」チェック: 食べたさそう
+
+同義語のばらつきチェック: テレビジョンとテレビ
+
+誤用チェック: うる覚え`,
+                    }).toString()}`,
                   })
                 }
                 size="large"
