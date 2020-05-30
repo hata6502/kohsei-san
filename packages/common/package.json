@@ -10,7 +10,7 @@
     "@textlint/textlint-plugin-text": "^4.1.13",
     "sudachi-synonyms-dictionary": "^5.0.1",
     "textlint-rule-date-weekday-mismatch": "^1.0.5",
-    "textlint-rule-en-spell": "^1.0.1",
+    "textlint-rule-en-spell": "^1.0.3",
     "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",
