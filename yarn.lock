@@ -4710,9 +4710,10 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
-fetch-ponyfill@^6.0.0, fetch-ponyfill@d-fischer/fetch-ponyfill#patch-1:
-  version "6.1.0"
-  resolved "https://codeload.github.com/d-fischer/fetch-ponyfill/tar.gz/fe684ca5b6bd90f8e744d31a1b639afae5520330"
+fetch-ponyfill@^6.0.0:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-6.1.1.tgz#dd8cdff0741a98bc89aeb85820302beb9bcc0bf4"
+  integrity sha512-rWLgTr5A44/XhvCQPYj0X9Tc+cjUaHofSM4lcwjc9MavD5lkjIhJ+h8JQlavPlTIgDpwhuRozaIykBvX9ItaSA==
   dependencies:
     node-fetch "~2.6.0"
 

@@ -25,7 +25,6 @@
     "test-website": "cd packages/website && yarn test"
   },
   "resolutions": {
-    "fetch-ponyfill": "d-fischer/fetch-ponyfill#patch-1",
     "kuromoji": "hata6502/kuromoji.js",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2"
