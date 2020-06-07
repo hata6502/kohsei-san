@@ -9939,9 +9939,9 @@ textlint-rule-date-weekday-mismatch@^1.0.5:
     moment "^2.17.1"
 
 textlint-rule-en-spell@^1.0.3:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/textlint-rule-en-spell/-/textlint-rule-en-spell-1.0.4.tgz#6850836eca2808b3c2a66ded980471faab272421"
-  integrity sha512-unu4lMS+fmVgfwf98FsIxaMw3/t7ZJWFILTbSxoVR3zqbmWN/Y6avLd5oNCm8NjVDc5sP/R7Wn3XV3Vioj6J1Q==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/textlint-rule-en-spell/-/textlint-rule-en-spell-1.0.5.tgz#f8655318ee8ba76a5543d6fac05c20116a994b66"
+  integrity sha512-9p0SqQ4dpPp0co7lqo85DuO780AoJRm51SPQM/4qG9wPDegELcvqiMWNZYhcPCINyG+TdyzPn0PjgScQTX0K5Q==
   dependencies:
     dictionary-en "^3.0.0"
     nspell "^2.1.2"
