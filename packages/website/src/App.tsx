@@ -67,8 +67,8 @@ const App: React.FunctionComponent = () => {
           <IconButton onClick={handleMenuIconClick}>
             <MenuIcon />
           </IconButton>
-          {(isLinting && <CircularProgress color="secondary" />) || (
-            <AppIcon alt="" src="favicon.png" />
+          {(isLinting && <CircularProgress color="secondary" onClick={handleAppTitleClick} />) || (
+            <AppIcon alt="" onClick={handleAppTitleClick} src="favicon.png" />
           )}
           <AppTitle onClick={handleAppTitleClick} variant="h6">
             {(isLinting && '校正中…') || '校正さん'}
