@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -73,6 +73,23 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
+
+  const dispatchMemo = useCallback(
+    () =>
+      dispatchMemos((prevMemos) =>
+        prevMemos.map((prevMemo) => ({
+          ...prevMemo,
+          ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
+        }))
+      ),
+    [dispatchMemos, memo.id]
+  );
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', dispatchMemo);
+
+    return () => window.removeEventListener('beforeunload', dispatchMemo);
+  }, [dispatchMemo]);
 
   useEffect(() => {
     if (textRef.current && textRef.current.innerText !== memo.text) {
@@ -202,13 +219,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerBlur: React.FocusEventHandler = () => {
-    dispatchMemos((prevMemos) =>
-      prevMemos.map((prevMemo) => ({
-        ...prevMemo,
-        ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
-      }))
-    );
-
+    dispatchMemo();
     setIsTextContainerFocus(false);
   };
 

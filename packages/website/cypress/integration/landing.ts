@@ -1,12 +1,6 @@
 /// <reference types="cypress" />
 
 describe('landing', () => {
-  it('「使ってみる」に移動する', () => {
-    cy.visit('');
-    cy.contains('使ってみる').click();
-    cy.contains('校正偏差値');
-  });
-
   it('GitHub に移動する', () => {
     cy.visit('');
     cy.window().then((window) => {
@@ -35,5 +29,11 @@ describe('landing', () => {
       'be.calledWith',
       'https://github.com/blue-hood/kohsei-san/blob/master/README.md'
     );
+  });
+
+  it('「使ってみる」に移動する', () => {
+    cy.visit('');
+    cy.contains('使ってみる').click();
+    cy.contains('校正偏差値');
   });
 });
