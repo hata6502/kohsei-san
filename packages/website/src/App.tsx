@@ -14,9 +14,8 @@ import Landing from './Landing';
 import Sidebar, { SidebarProps } from './Sidebar';
 import useMemo from './useMemo';
 
-const AppIcon = styled.img`
-  height: auto;
-  width: 48px;
+const AppLogo = styled.div`
+  cursor: pointer;
 `;
 
 const AppTitle = styled(Typography)`
@@ -67,9 +66,12 @@ const App: React.FunctionComponent = () => {
           <IconButton onClick={handleMenuIconClick}>
             <MenuIcon />
           </IconButton>
-          {(isLinting && <CircularProgress color="secondary" onClick={handleAppTitleClick} />) || (
-            <AppIcon alt="" onClick={handleAppTitleClick} src="favicon.png" />
-          )}
+          <AppLogo onClick={handleAppTitleClick}>
+            {(isLinting && <CircularProgress color="secondary" />) || (
+              <img alt="" src="favicon.png" style={{ width: 48 }} />
+            )}
+          </AppLogo>
+
           <AppTitle onClick={handleAppTitleClick} variant="h6">
             {(isLinting && '校正中…') || '校正さん'}
           </AppTitle>
