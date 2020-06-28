@@ -103,7 +103,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
         <List>
           {memos.map(({ id, text }) => (
             <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-              <MemoText primary={text || '(空のメモ)'} />
+              <MemoText primary={text.trim() || '(空のメモ)'} />
               <ListItemSecondaryAction>
                 <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
                   <DeleteIcon />
@@ -140,8 +140,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
         <DialogTitle>
           メモ「
-          {(deleteMemo.memo?.text || '(空のメモ)').substring(0, 10)}
-          {((deleteMemo.memo?.text.length || 0) > 10 && '…') || ''}
+          {(deleteMemo.memo?.text.trim() || '(空のメモ)').substring(0, 10)}
+          {((deleteMemo.memo?.text.trim().length || 0) > 10 && '…') || ''}
           」を削除しますか？
         </DialogTitle>
 
