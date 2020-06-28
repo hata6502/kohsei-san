@@ -59,8 +59,14 @@ const useMemo = () => {
       localStorage.setItem('memos', JSON.stringify(memos));
     } catch (exception) {
       setIsSaveErrorOpen(true);
-      Sentry.captureException(exception);
-      console.error(exception);
+
+      if (
+        !(exception instanceof DOMException) ||
+        exception.code !== DOMException.QUOTA_EXCEEDED_ERR
+      ) {
+        Sentry.captureException(exception);
+        console.error(exception);
+      }
     }
   }, [memoId, memos]);
 

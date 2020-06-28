@@ -195,9 +195,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
         text: memo.text,
       });
     } catch (exception) {
-      if (exception instanceof DOMException && exception.name === 'AbortError') return;
-
-      throw exception;
+      if (!(exception instanceof DOMException) || exception.code !== DOMException.ABORT_ERR) {
+        throw exception;
+      }
     }
   };
 

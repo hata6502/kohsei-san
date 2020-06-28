@@ -97,8 +97,8 @@ const App: React.FunctionComponent = () => {
 
       <Snackbar open={isSaveErrorOpen}>
         <Alert onClose={handleSaveErrorClose} severity="error">
-          メモをローカルに保存できませんでした。 メモのバックアップを取り、LocalStorage
-          が使用できることを確認してください。
+          メモを保存できませんでした。
+          メモを他の場所に保存してから、アプリをインストールしてみてください。
         </Alert>
       </Snackbar>
     </>
