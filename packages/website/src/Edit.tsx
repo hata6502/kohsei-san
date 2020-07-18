@@ -300,12 +300,14 @@ const Edit: React.FunctionComponent<EditProps> = ({
             </Box>
 
             {isDisplayResult &&
-              ((pins.length === 0 && <Alert severity="success">校正を通過しました！</Alert>) || (
-                <Alert severity="warning">
+              ((pins.length === 0 && (
+                <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
+              )) || (
+                <Alert severity="info">
                   <div>
-                    メッセージがあります。
+                    自動校正によるメッセージがあります。
                     <FeedbackIcon color="primary" />
-                    を押して内容を確認してください。
+                    を押して参考にしてみてください。
                   </div>
                 </Alert>
               ))}

@@ -5,7 +5,7 @@ describe('edit', () => {
     cy.visit('');
     cy.get('header button').click();
     cy.get('.MuiDrawer-root.MuiDrawer-modal').contains('メモを追加').click();
-    cy.contains('校正を通過しました！');
+    cy.contains('校正を通過しました。おめでとうございます！');
   });
 
   it('メッセージを表示する', () => {
