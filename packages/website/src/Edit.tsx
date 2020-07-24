@@ -37,6 +37,12 @@ const Pin = styled(FeedbackIcon)`
 `;
 
 const TextContainer = styled.div`
+  ${({ theme }) => `
+    &:empty::before {
+      content: '校正する文章を入力';
+      color: ${theme.palette.text.disabled};
+    }
+  `}
   outline: 0;
 `;
 
@@ -226,7 +232,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
 
   return (
-    <EditContainer>
+    <EditContainer maxWidth="md">
       <Paper>
         <Box pb={2} pt={2}>
           <Container>
