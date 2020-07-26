@@ -319,14 +319,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
               ))}
 
             {navigator.share && (
-              <Button
-                color="primary"
-                onClick={handleShareClick}
-                startIcon={<ShareIcon />}
-                variant="contained"
-              >
-                共有
-              </Button>
+              <Box mt={1}>
+                <Button
+                  color="primary"
+                  onClick={handleShareClick}
+                  startIcon={<ShareIcon />}
+                  variant="contained"
+                >
+                  共有
+                </Button>
+              </Box>
             )}
           </Container>
         </Box>
