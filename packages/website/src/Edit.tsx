@@ -240,7 +240,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               clickable
               component="a"
               href="https://github.com/blue-hood/kohsei-san#校正偏差値"
-              label={`校正偏差値 ${(isDisplayResult && Math.round(deviation)) || '??'}`}
+              label={`校正偏差値 ${isDisplayResult ? Math.round(deviation) : '??'}`}
               rel="noopener"
               size="small"
               target="_blank"
@@ -248,7 +248,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
             <Box
               border={1}
-              borderColor={(isTextContainerFocus && 'primary.main') || 'grey.500'}
+              borderColor={isTextContainerFocus ? 'primary.main' : 'grey.500'}
               borderRadius="borderRadius"
               mb={2}
               mt={1}
