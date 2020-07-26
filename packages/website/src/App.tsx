@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,11 +16,30 @@ import Landing from './Landing';
 import Sidebar, { SidebarProps } from './Sidebar';
 import useMemo from './useMemo';
 
-const AppLogo = styled.div`
+const sidebarWidth = 250;
+
+const Logo = styled.div`
   cursor: pointer;
 `;
 
-const AppTitle = styled(Typography)`
+const Main = styled.main`
+  flex-grow: 1;
+`;
+
+const Navigation = styled.nav`
+  ${({ theme }) => `
+    ${theme.breakpoints.up('sm')} {
+      flex-shrink: 0;
+      width: ${sidebarWidth}px;
+    }
+  `}
+`;
+
+const Root = styled.div`
+  display: flex;
+`;
+
+const Title = styled(Typography)`
   ${({ theme }) => `
     margin-left: ${theme.spacing(1)}px;
   `}
@@ -26,7 +47,13 @@ const AppTitle = styled(Typography)`
   flex-grow: 1;
 `;
 
-const AppTopBar = styled(AppBar)`
+const TopBar = styled(AppBar)`
+  ${({ theme }) => `
+    ${theme.breakpoints.up('sm')} {
+      width: calc(100% - ${sidebarWidth}px);
+    }
+  `}
+
   /* Sentry のレポートダイアログを最前面に表示するため */
   z-index: 998;
 `;
@@ -54,48 +81,68 @@ const App: React.FunctionComponent = () => {
   const memo = memos.find(({ id }) => id === memoId);
   const title = titleParam === null ? '校正さん' : `「${titleParam}」の校正結果 | 校正さん`;
 
+  const sidebarContent = (
+    <Sidebar
+      dispatchMemoId={dispatchMemoId}
+      dispatchMemos={dispatchMemos}
+      memoId={memoId}
+      memos={memos}
+      onClose={handleSidebarClose}
+    />
+  );
+
   return (
-    <>
+    <Root>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content="その場ですぐに文章を校正できるメモ帳アプリです。" />
       </Helmet>
 
-      <AppTopBar color="inherit">
+      <TopBar color="inherit">
         <Toolbar>
-          <IconButton onClick={handleMenuIconClick}>
-            <MenuIcon />
-          </IconButton>
-          <AppLogo onClick={handleAppTitleClick}>
+          <Hidden smUp implementation="css">
+            <IconButton onClick={handleMenuIconClick}>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+
+          <Logo onClick={handleAppTitleClick}>
             {(isLinting && <CircularProgress color="secondary" />) || (
               <img alt="" src="favicon.png" style={{ width: 48 }} />
             )}
-          </AppLogo>
+          </Logo>
 
-          <AppTitle onClick={handleAppTitleClick} variant="h6">
+          <Title onClick={handleAppTitleClick} variant="h6">
             {(isLinting && '校正中…') || '校正さん'}
-          </AppTitle>
+          </Title>
         </Toolbar>
-      </AppTopBar>
+      </TopBar>
 
-      <Sidebar
-        dispatchMemoId={dispatchMemoId}
-        dispatchMemos={dispatchMemos}
-        memoId={memoId}
-        memos={memos}
-        onClose={handleSidebarClose}
-        open={isSidebarOpen}
-      />
+      <Navigation>
+        <Hidden smUp implementation="css">
+          <Drawer open={isSidebarOpen} variant="temporary" onClose={handleSidebarClose}>
+            {sidebarContent}
+          </Drawer>
+        </Hidden>
 
-      {(memo && (
-        <Edit
-          dispatchIsLinting={dispatchIsLinting}
-          dispatchMemos={dispatchMemos}
-          isLinting={isLinting}
-          key={memoId}
-          memo={memo}
-        />
-      )) || <Landing />}
+        <Hidden xsDown implementation="css">
+          <Drawer open variant="permanent">
+            {sidebarContent}
+          </Drawer>
+        </Hidden>
+      </Navigation>
+
+      <Main>
+        {(memo && (
+          <Edit
+            dispatchIsLinting={dispatchIsLinting}
+            dispatchMemos={dispatchMemos}
+            isLinting={isLinting}
+            key={memoId}
+            memo={memo}
+          />
+        )) || <Landing />}
+      </Main>
 
       <Snackbar open={isSaveErrorOpen}>
         <Alert onClose={handleSaveErrorClose} severity="error">
@@ -103,7 +150,7 @@ const App: React.FunctionComponent = () => {
           メモを他の場所に保存してから、アプリをインストールしてみてください。
         </Alert>
       </Snackbar>
-    </>
+    </Root>
   );
 };
 

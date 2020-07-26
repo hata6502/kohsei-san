@@ -7,7 +7,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
-import Drawer, { DrawerProps } from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -37,7 +36,6 @@ export interface SidebarProps {
   memoId: string;
   memos: Memo[];
   onClose?: () => void;
-  open: DrawerProps['open'];
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = ({
@@ -46,7 +44,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   memoId,
   memos,
   onClose,
-  open,
 }) => {
   const [deleteMemo, dispatchDeleteMemo] = useReducer(
     (prevDeleteMemo: { id?: string; memo?: Memo }, id: string | undefined) => ({
@@ -98,44 +95,42 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     window.open('https://twitter.com/hata6502');
 
   return (
-    <Drawer onClose={onClose} open={open}>
-      <DrawerContainer>
-        <List>
-          {memos.map(({ id, text }) => (
-            <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-              <MemoText primary={text.trim() || '(空のメモ)'} />
-              <ListItemSecondaryAction>
-                <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
+    <DrawerContainer>
+      <List>
+        {memos.map(({ id, text }) => (
+          <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
+            <MemoText primary={text.trim() || '(空のメモ)'} />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
 
-          <ListItem button onClick={handleAddClick}>
-            <ListItemIcon>
-              <NoteAddIcon />
-            </ListItemIcon>
-            <ListItemText primary="メモを追加" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button onClick={handleTwitterClick}>
-            <ListItemIcon>
-              <TwitterIcon />
-            </ListItemIcon>
-            <ListItemText primary="Twitter" />
-          </ListItem>
+        <ListItem button onClick={handleAddClick}>
+          <ListItemIcon>
+            <NoteAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="メモを追加" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={handleTwitterClick}>
+          <ListItemIcon>
+            <TwitterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Twitter" />
+        </ListItem>
 
-          <ListItem button onClick={handleLicenseClick}>
-            <ListItemIcon>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText primary="このアプリについて" />
-          </ListItem>
-        </List>
-      </DrawerContainer>
+        <ListItem button onClick={handleLicenseClick}>
+          <ListItemIcon>
+            <InfoIcon />
+          </ListItemIcon>
+          <ListItemText primary="このアプリについて" />
+        </ListItem>
+      </List>
 
       <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
         <DialogTitle>
@@ -159,7 +154,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </Drawer>
+    </DrawerContainer>
   );
 };
 
