@@ -104,7 +104,7 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'proofdict',
         rule: textlintRuleProofdict,
         options: {
-          dictURL: 'https://blue-hood.github.io/proof-dictionary/',
+          dictURL: 'https://hata6502.github.io/proof-dictionary/',
         },
       },
     ],
