@@ -1,4 +1,4 @@
-THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY BE CONTAINED IN PORTIONS OF THE WORKSPACE AGGREGATOR 3FF61E21 11C5 40BB 8A7A A3C015A81CD7 PRODUCT.
+THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY BE CONTAINED IN PORTIONS OF THE WORKSPACE AGGREGATOR 4C63BFE2 3D1C 4998 8111 2814CE37F4E2 PRODUCT.
 
 -----
 
@@ -6316,7 +6316,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: copy-webpack-plugin, enhanced-resolve, loader-utils, memory-fs, schema-utils, terser-webpack-plugin, watchpack, webpack, webpack-dev-middleware, webpack-dev-server. A copy of the source code may be downloaded from https://github.com/webpack-contrib/copy-webpack-plugin.git (copy-webpack-plugin), git://github.com/webpack/enhanced-resolve.git (enhanced-resolve), https://github.com/webpack/loader-utils.git (loader-utils), https://github.com/webpack/memory-fs.git (memory-fs), https://github.com/webpack/schema-utils.git (schema-utils), https://github.com/webpack-contrib/terser-webpack-plugin.git (terser-webpack-plugin), https://github.com/webpack/watchpack.git (watchpack), https://github.com/webpack/webpack.git (webpack), https://github.com/webpack/webpack-dev-middleware.git (webpack-dev-middleware), https://github.com/webpack/webpack-dev-server.git (webpack-dev-server). This software contains the following license and notice below:
+The following software may be included in this product: copy-webpack-plugin, enhanced-resolve, loader-utils, memory-fs, raw-loader, schema-utils, terser-webpack-plugin, watchpack, webpack, webpack-dev-middleware, webpack-dev-server. A copy of the source code may be downloaded from https://github.com/webpack-contrib/copy-webpack-plugin.git (copy-webpack-plugin), git://github.com/webpack/enhanced-resolve.git (enhanced-resolve), https://github.com/webpack/loader-utils.git (loader-utils), https://github.com/webpack/memory-fs.git (memory-fs), https://github.com/webpack-contrib/raw-loader.git (raw-loader), https://github.com/webpack/schema-utils.git (schema-utils), https://github.com/webpack-contrib/terser-webpack-plugin.git (terser-webpack-plugin), https://github.com/webpack/watchpack.git (watchpack), https://github.com/webpack/webpack.git (webpack), https://github.com/webpack/webpack-dev-middleware.git (webpack-dev-middleware), https://github.com/webpack/webpack-dev-server.git (webpack-dev-server). This software contains the following license and notice below:
 
 Copyright JS Foundation and other contributors
 
@@ -17114,7 +17114,7 @@ SUCH DAMAGE.
 
 -----
 
-The following software may be included in this product: textlint-rule-en-spell, workspace-aggregator-3ff61e21-11c5-40bb-8a7a-a3c015a81cd7. A copy of the source code may be downloaded from git+https://github.com/blue-hood/textlint-rule-en-spell.git (textlint-rule-en-spell), https://github.com/blue-hood/kohsei-san (workspace-aggregator-3ff61e21-11c5-40bb-8a7a-a3c015a81cd7). This software contains the following license and notice below:
+The following software may be included in this product: textlint-rule-en-spell, workspace-aggregator-4c63bfe2-3d1c-4998-8111-2814ce37f4e2. A copy of the source code may be downloaded from git+https://github.com/blue-hood/textlint-rule-en-spell.git (textlint-rule-en-spell), https://github.com/blue-hood/kohsei-san (workspace-aggregator-4c63bfe2-3d1c-4998-8111-2814ce37f4e2). This software contains the following license and notice below:
 
 MIT License
 

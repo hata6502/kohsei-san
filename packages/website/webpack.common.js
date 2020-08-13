@@ -25,6 +25,10 @@ module.exports = {
           ],
         },
       },
+      {
+        test: /\.yml$/i,
+        use: 'raw-loader',
+      },
     ],
   },
   node: {

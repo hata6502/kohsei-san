@@ -17,6 +17,7 @@ import {
 import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
+import initializeDict from './dict';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -61,6 +62,8 @@ BrowserFS.configure(
     }
   }
 );
+
+initializeDict();
 
 const theme = createMuiTheme(
   {

@@ -6,6 +6,12 @@ import * as textlintPluginText from '@textlint/textlint-plugin-text';
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 import textlintRuleEnSpell from 'textlint-rule-en-spell';
 // @ts-ignore
+import * as textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
+// @ts-ignore
+import * as textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
+// @ts-ignore
+import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
+// @ts-ignore
 import * as textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
@@ -55,6 +61,24 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'en-spell',
         rule: textlintRuleEnSpell,
+      },
+      {
+        ruleId: 'ja-hiragana-fukushi',
+        rule: textlintRuleJaHiraganaFukushi,
+        options: {
+          rulePath: 'fukushi.yml',
+        },
+      },
+      {
+        ruleId: 'ja-hiragana-hojodoushi',
+        rule: textlintRuleJaHiraganaHojodoushi,
+        options: {
+          rulePath: 'hojodoushi.yml',
+        },
+      },
+      {
+        ruleId: 'ja-hiragana-keishikimeishi',
+        rule: textlintRuleJaHiraganaKeishikimeishi,
       },
       {
         ruleId: 'ja-no-abusage',
