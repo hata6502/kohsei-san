@@ -344,7 +344,6 @@ class KorrectArea {
     this.suggestion.innerHTML = '';
 
     clearTimeout(this.suggestionTimeout);
-    const lineHeight = this.getMirrorLineHeight();
     this.suggestion.classList.add('active');
     this.suggestion.style.left = `${x1 + offsetLeft - 10}px`;
     this.suggestion.style.top = `${y2 + offsetTop}px`;
