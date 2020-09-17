@@ -91,5 +91,9 @@
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2",
     "workbox-webpack-plugin": "^5.0.0"
+  },
+  "devDependencies": {
+    "css-loader": "^4.3.0",
+    "style-loader": "^1.2.1"
   }
 }

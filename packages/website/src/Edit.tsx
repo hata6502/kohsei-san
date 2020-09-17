@@ -5,10 +5,8 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
@@ -16,24 +14,19 @@ import { TextlintMessage } from '@textlint/kernel';
 import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
+import Korrect from 'korrect';
+import 'korrect/korrect.css';
+
 const scoreAverage = 0.01314297939;
 const scoreVariance = 0.00007091754903;
+
+let korrect = null;
 
 const EditContainer = styled(Container)`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing(2)}px;
     margin-top: ${theme.spacing(10)}px;
   `}
-`;
-
-const Pin = styled(FeedbackIcon)`
-  ${({ theme }) => `
-    background-color: ${theme.palette.background.paper};
-  `}
-  cursor: pointer;
-  opacity: 0.5;
-  position: absolute;
-  transform: translateY(-100%);
 `;
 
 const TextContainer = styled.div`
@@ -73,9 +66,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [deviation, setDeviation] = useState(50);
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
-  const [pins, setPins] = useState<Pin[]>([]);
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
-  const [popoverMessages, setPopoverMessages] = useState<Message['messages']>([]);
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
@@ -85,11 +75,22 @@ const Edit: React.FunctionComponent<EditProps> = ({
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => ({
           ...prevMemo,
-          ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
+          ...(prevMemo.id === memo.id && { text: textRef.current?.textContent }),
         }))
       ),
     [dispatchMemos, memo.id]
   );
+
+  useEffect(() => {
+    korrect = new Korrect({
+      onChangeDebounceTimeout: 300,
+      hideSpinner: true,
+      onTextCorrect: () => {
+        dispatchMemo();
+        setIsTextContainerFocus(false);
+      },
+    }).init();
+  }, [dispatchMemo]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', dispatchMemo);
@@ -98,8 +99,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [dispatchMemo]);
 
   useEffect(() => {
-    if (textRef.current && textRef.current.innerText !== memo.text) {
-      textRef.current.innerText = memo.text;
+    if (textRef.current && textRef.current.textContent !== memo.text) {
+      textRef.current.textContent = memo.text;
     }
 
     let isUnmounted = false;
@@ -132,50 +133,29 @@ const Edit: React.FunctionComponent<EditProps> = ({
             }
           });
 
-          const range = document.createRange();
-          const text = textRef.current;
-          const textBoxRect = textBoxRef.current.getBoundingClientRect();
+          // convert messages for korrect
+          const corrections = mergedMessages.map((msg) => {
+            const ret = {
+              length: 1,
+              replacements: [],
+              offset: msg.index,
+              message: msg.message,
+              rule: {
+                id: msg.ruleId,
+                description: msg.message,
+              },
+            };
 
-          setPins(
-            mergedMessages.map((message) => {
-              let childNodesIndex = 0;
-              let offset = message.index;
+            if (msg.fix) {
+              const [begin, end] = msg.fix.range;
+              ret.offset = begin;
+              ret.length = end - begin;
+              ret.replacements = [{ value: msg.fix.text }];
+            }
+            return ret;
+          });
 
-              for (
-                childNodesIndex = 0;
-                childNodesIndex < text.childNodes.length;
-                childNodesIndex += 1
-              ) {
-                const child = text.childNodes[childNodesIndex];
-                const length =
-                  (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
-
-                if (!length) {
-                  throw new Error('不明な DOM ノードです。');
-                }
-
-                if (offset < length) {
-                  range.setStart(child, offset);
-
-                  break;
-                }
-
-                offset -= length;
-              }
-
-              if (childNodesIndex >= text.childNodes.length) {
-                throw new Error('ピンの位置が見つかりませんでした。');
-              }
-
-              const rangeRect = range.getBoundingClientRect();
-
-              return {
-                left: rangeRect.left - textBoxRect.left,
-                message,
-                top: rangeRect.top - textBoxRect.top,
-              };
-            })
-          );
+          korrect.getKorrectArea(textRef.current).updateCorrections(corrections);
         }
       } catch (exception) {
         if (!isUnmounted) {
@@ -195,22 +175,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [dispatchIsLinting, memo.text]);
 
   const isDisplayResult = !isTextContainerFocus && !isLinting;
-  const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
-
-  const handlePinClick = ({
-    currentTarget,
-    messages,
-  }: {
-    currentTarget: Element;
-    messages: Message['messages'];
-  }) => {
-    setPopoverAnchorEl(currentTarget);
-    setPopoverMessages(messages);
-  };
-
-  const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
 
   const handleShareClick: React.MouseEventHandler = async () => {
     try {
@@ -230,6 +196,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
+
+  let corrections = [];
+  if (korrect) {
+    corrections = korrect.getKorrectArea(textRef.current).getCorrections();
+  }
 
   return (
     <EditContainer maxWidth="md">
@@ -270,51 +241,17 @@ const Edit: React.FunctionComponent<EditProps> = ({
                     />
                   </Typography>
 
-                  {isDisplayResult &&
-                    pins.map(({ top, left, message }) => (
-                      <Pin
-                        key={message.index}
-                        color="primary"
-                        onClick={({ currentTarget }) => {
-                          handlePinClick({ currentTarget, messages: message.messages });
-                        }}
-                        style={{ top, left }}
-                      />
-                    ))}
 
-                  <Popover
-                    anchorEl={popoverAnchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                    onClose={handlePopoverClose}
-                    open={isPopoverOpen}
-                    transformOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <Box p={2}>
-                      {popoverMessages.map((message, index) => (
-                        <div key={index}>{message}</div>
-                      ))}
-                    </Box>
-                  </Popover>
                 </div>
               )}
             </Box>
 
             {isDisplayResult &&
-              ((pins.length === 0 && (
+              ((corrections.length === 0 && (
                 <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
               )) || (
                 <Alert severity="info">
-                  <div>
-                    自動校正によるメッセージがあります。
-                    <FeedbackIcon color="primary" />
-                    を押して参考にしてみてください。
-                  </div>
+                  <div>自動校正によるメッセージがあります。</div>
                 </Alert>
               ))}
 

@@ -29,6 +29,10 @@ module.exports = {
         test: /\.yml$/i,
         use: 'raw-loader',
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   node: {
