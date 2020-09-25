@@ -3,14 +3,14 @@
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://lgtm.com/projects/g/blue-hood/kohsei-san/alerts/">
-    <img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/blue-hood/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
+  <a href="https://lgtm.com/projects/g/hata6502/kohsei-san/alerts/">
+    <img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/hata6502/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
   </a>
-  <a href="https://lgtm.com/projects/g/blue-hood/kohsei-san/context:javascript">
-    <img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/blue-hood/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
+  <a href="https://lgtm.com/projects/g/hata6502/kohsei-san/context:javascript">
+    <img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/hata6502/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
   </a>
-  <a href="https://codecov.io/gh/blue-hood/kohsei-san">
-    <img src="https://codecov.io/gh/blue-hood/kohsei-san/branch/master/graph/badge.svg" />
+  <a href="https://codecov.io/gh/hata6502/kohsei-san">
+    <img src="https://codecov.io/gh/hata6502/kohsei-san/branch/master/graph/badge.svg" />
   </a>
 </p>
 
@@ -24,7 +24,7 @@
 
 - [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
 - [azu/textlint-rule-date-weekday-mismatch](https://github.com/azu/textlint-rule-date-weekday-mismatch)
-- [blue-hood/textlint-rule-en-spell](https://github.com/blue-hood/textlint-rule-en-spell)
+- [hata6502/textlint-rule-en-spell](https://github.com/hata6502/textlint-rule-en-spell)
 - [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)
 - [kongou-ae/textlint-rule-joyo-kanji](https://github.com/kongou-ae/textlint-rule-joyo-kanji)
 - [lostandfound/textlint-rule-ja-hiragana-fukushi](https://github.com/lostandfound/textlint-rule-ja-hiragana-fukushi)
@@ -43,7 +43,7 @@
 
 ## 辞書
 
-校正用の辞書を [blue-hood/proof-dictionary](https://github.com/blue-hood/proof-dictionary) で管理しています。
+校正用の辞書を [hata6502/proof-dictionary](https://github.com/hata6502/proof-dictionary) で管理しています。
 校正を改善するためのコントリビュートを歓迎いたします！
 
 ## ビジョン
@@ -55,7 +55,7 @@
 ## 校正偏差値
 
 Wikipedia の記事データをスコアリングして統計をとることで、文章の品質を表す「校正偏差値」を導入しています。
-詳しくは[ソースコード](https://github.com/blue-hood/kohsei-san/blob/master/packages/scripts/src/index.ts)を確認してください。
+詳しくは[ソースコード](https://github.com/hata6502/kohsei-san/blob/master/packages/scripts/src/index.ts)を確認してください。
 
 ## プライバシーポリシー
 
@@ -114,7 +114,7 @@ yarn test
 
 ## Author
 
-<img alt="Hood" src="https://avatars.githubusercontent.com/blue-hood" width="48" /> **Hood <hato6502@gmail.com> (https://github.com/blue-hood)**
+<img alt="Tomoyuki Hata" src="https://avatars.githubusercontent.com/hata6502" width="48" /> **Tomoyuki Hata <hato6502@gmail.com> (https://github.com/hata6502)**
 
 ## 🤝 Contributing
 
