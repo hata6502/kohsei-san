@@ -4,8 +4,6 @@ import 'regenerator-runtime/runtime';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom';
-import pink from '@material-ui/core/colors/pink';
-import purple from '@material-ui/core/colors/purple';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { jaJP } from '@material-ui/core/locale';
 import {
@@ -68,8 +66,12 @@ initializeDict();
 const theme = createMuiTheme(
   {
     palette: {
-      primary: pink,
-      secondary: purple,
+      primary: {
+        main: '#f15d69',
+      },
+      secondary: {
+        main: '#00a39b',
+      },
     },
     typography: {
       fontFamily:
