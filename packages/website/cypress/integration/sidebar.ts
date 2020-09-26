@@ -9,7 +9,7 @@ describe('sidebar', () => {
 
   it('メモに移動する', () => {
     cy.visit('');
-    cy.get('h6').contains('校正中…').click();
+    cy.get('h6').contains('校正さん').click();
     cy.contains('コンテンツへの信頼度を高めよう');
     cy.get('nav').contains('(空のメモ)').click();
     cy.contains('校正を通過しました。おめでとうございます！');

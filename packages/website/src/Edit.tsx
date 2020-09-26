@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -70,36 +70,39 @@ const Edit: React.FunctionComponent<EditProps> = ({
   isLinting,
   memo,
 }) => {
-  const [deviation, setDeviation] = useState(50);
+  const [deviation, setDeviation] = useState<number>();
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
-  const [pins, setPins] = useState<Pin[]>([]);
+  const [pins, setPins] = useState<Pin[]>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
   const [popoverMessages, setPopoverMessages] = useState<Message['messages']>([]);
 
   const textRef = useRef<HTMLDivElement>(null);
   const textBoxRef = useRef<HTMLDivElement>(null);
 
-  const dispatchMemo = useCallback(
-    () =>
+  useEffect(() => {
+    const dispatchText = () =>
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => ({
           ...prevMemo,
           ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
         }))
-      ),
-    [dispatchMemos, memo.id]
-  );
+      );
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', dispatchMemo);
+    window.addEventListener('beforeunload', dispatchText);
 
-    return () => window.removeEventListener('beforeunload', dispatchMemo);
-  }, [dispatchMemo]);
+    return () => window.removeEventListener('beforeunload', dispatchText);
+  }, [dispatchMemos, memo.id]);
 
   useEffect(() => {
     if (textRef.current && textRef.current.innerText !== memo.text) {
       textRef.current.innerText = memo.text;
+    }
+  }, [memo.text]);
+
+  useEffect(() => {
+    if (memo.result) {
+      return;
     }
 
     let isUnmounted = false;
@@ -111,88 +114,112 @@ const Edit: React.FunctionComponent<EditProps> = ({
         const { default: lint } = await import(/* webpackChunkName: "lint" */ 'common/lint');
         const result = await lint(memo.text);
 
-        if (!isUnmounted && textRef.current && textBoxRef.current) {
-          setDeviation(
-            50 -
-              ((score({ result, text: memo.text }) - scoreAverage) / Math.sqrt(scoreVariance)) * 10
-          );
-
-          const mergedMessages: Message[] = [];
-
-          result.messages.forEach((message) => {
-            const duplicatedMessage = mergedMessages.find(({ index }) => index === message.index);
-
-            if (duplicatedMessage) {
-              duplicatedMessage.messages.push(message.message);
-            } else {
-              mergedMessages.push({
-                ...message,
-                messages: [message.message],
-              });
-            }
-          });
-
-          const range = document.createRange();
-          const text = textRef.current;
-          const textBoxRect = textBoxRef.current.getBoundingClientRect();
-
-          setPins(
-            mergedMessages.map((message) => {
-              let childNodesIndex = 0;
-              let offset = message.index;
-
-              for (
-                childNodesIndex = 0;
-                childNodesIndex < text.childNodes.length;
-                childNodesIndex += 1
-              ) {
-                const child = text.childNodes[childNodesIndex];
-                const length =
-                  (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
-
-                if (!length) {
-                  throw new Error('不明な DOM ノードです。');
-                }
-
-                if (offset < length) {
-                  range.setStart(child, offset);
-
-                  break;
-                }
-
-                offset -= length;
-              }
-
-              if (childNodesIndex >= text.childNodes.length) {
-                throw new Error('ピンの位置が見つかりませんでした。');
-              }
-
-              const rangeRect = range.getBoundingClientRect();
-
-              return {
-                left: rangeRect.left - textBoxRect.left,
-                message,
-                top: rangeRect.top - textBoxRect.top,
-              };
-            })
-          );
-        }
+        dispatchMemos((prevMemos) =>
+          prevMemos.map((prevMemo) => ({
+            ...prevMemo,
+            ...(prevMemo.id === memo.id && { result }),
+          }))
+        );
       } catch (exception) {
         if (!isUnmounted) {
+          dispatchIsLinting(false);
           setIsLintErrorOpen(true);
         }
 
-        Sentry.captureException(exception);
-        console.error(exception);
-      } finally {
-        dispatchIsLinting(false);
+        throw exception;
       }
     });
 
     return () => {
       isUnmounted = true;
     };
-  }, [dispatchIsLinting, memo.text]);
+  }, [dispatchIsLinting, dispatchMemos, memo.id, memo.result, memo.text]);
+
+  useEffect(() => {
+    if (!memo.result) {
+      return;
+    }
+
+    try {
+      if (!textRef.current || !textBoxRef.current) {
+        throw new Error();
+      }
+
+      setDeviation(
+        50 -
+          ((score({ result: memo.result, text: memo.text }) - scoreAverage) /
+            Math.sqrt(scoreVariance)) *
+            10
+      );
+
+      const mergedMessages: Message[] = [];
+
+      memo.result.messages.forEach((message) => {
+        const duplicatedMessage = mergedMessages.find(({ index }) => index === message.index);
+
+        if (duplicatedMessage) {
+          duplicatedMessage.messages.push(message.message);
+        } else {
+          mergedMessages.push({
+            ...message,
+            messages: [message.message],
+          });
+        }
+      });
+
+      const range = document.createRange();
+      const text = textRef.current;
+      const textBoxRect = textBoxRef.current.getBoundingClientRect();
+
+      setPins(
+        mergedMessages.map((message) => {
+          let childNodesIndex = 0;
+          let offset = message.index;
+
+          for (
+            childNodesIndex = 0;
+            childNodesIndex < text.childNodes.length;
+            childNodesIndex += 1
+          ) {
+            const child = text.childNodes[childNodesIndex];
+            const length =
+              (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+
+            if (!length) {
+              throw new Error('不明な DOM ノードです。');
+            }
+
+            if (offset < length) {
+              range.setStart(child, offset);
+
+              break;
+            }
+
+            offset -= length;
+          }
+
+          if (childNodesIndex >= text.childNodes.length) {
+            throw new Error('ピンの位置が見つかりませんでした。');
+          }
+
+          const rangeRect = range.getBoundingClientRect();
+
+          return {
+            left: rangeRect.left - textBoxRect.left,
+            message,
+            top: rangeRect.top - textBoxRect.top,
+          };
+        })
+      );
+    } catch (exception) {
+      setIsLintErrorOpen(true);
+
+      Sentry.captureException(exception);
+      console.error(exception);
+    } finally {
+      dispatchIsLinting(false);
+    }
+  }, [dispatchIsLinting, memo.result, memo.text]);
 
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
@@ -225,7 +252,22 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerBlur: React.FocusEventHandler = () => {
-    dispatchMemo();
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => {
+        if (!textRef.current) {
+          throw new Error();
+        }
+
+        return {
+          ...prevMemo,
+          ...(prevMemo.id === memo.id && {
+            result: undefined,
+            text: textRef.current.innerText,
+          }),
+        };
+      })
+    );
+
     setIsTextContainerFocus(false);
   };
 
@@ -240,7 +282,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               clickable
               component="a"
               href="https://github.com/blue-hood/kohsei-san#校正偏差値"
-              label={`校正偏差値 ${isDisplayResult ? Math.round(deviation) : '??'}`}
+              label={`校正偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
               rel="noopener"
               size="small"
               target="_blank"
@@ -271,7 +313,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   </Typography>
 
                   {isDisplayResult &&
-                    pins.map(({ top, left, message }) => (
+                    pins?.map(({ top, left, message }) => (
                       <Pin
                         key={message.index}
                         color="primary"
@@ -306,9 +348,10 @@ const Edit: React.FunctionComponent<EditProps> = ({
             </Box>
 
             {isDisplayResult &&
-              ((pins.length === 0 && (
+              pins &&
+              (pins.length === 0 ? (
                 <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
-              )) || (
+              ) : (
                 <Alert severity="info">
                   <div>
                     自動校正によるメッセージがあります。

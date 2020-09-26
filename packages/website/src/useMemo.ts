@@ -1,9 +1,11 @@
 import { useEffect, useReducer, useState } from 'react';
 import * as Sentry from '@sentry/browser';
+import { TextlintResult } from '@textlint/kernel';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface Memo {
   id: string;
+  result?: TextlintResult;
   text: string;
 }
 
@@ -21,22 +23,20 @@ const useMemo = () => {
   const [memos, dispatchMemos] = useReducer(
     (state: Memo[], action: MemosAction) => action(state),
     undefined,
-    () => {
+    (): Memo[] => {
       const memosItem = localStorage.getItem('memos');
-      const localStorageMemos: Partial<Memo>[] = (memosItem && JSON.parse(memosItem)) || [];
+      const localStorageMemos: Memo[] = memosItem ? JSON.parse(memosItem) : [];
 
       return [
-        ...localStorageMemos.map(({ id, text }) => ({
-          id: id || uuidv4(),
-          text: text || '',
-        })),
-        ...((isShared && [
-          {
-            id: uuidv4(),
-            text: `${titleParam || ''}\n${textParam || ''}\n${urlParam || ''}`,
-          },
-        ]) ||
-          []),
+        ...localStorageMemos,
+        ...(isShared
+          ? [
+              {
+                id: uuidv4(),
+                text: `${titleParam ?? ''}\n${textParam ?? ''}\n${urlParam ?? ''}`,
+              },
+            ]
+          : []),
       ];
     }
   );
@@ -44,11 +44,7 @@ const useMemo = () => {
   const [memoId, dispatchMemoId] = useReducer(
     (_: string, action: string) => action,
     undefined,
-    () =>
-      (isShared && memos[memos.length - 1].id) ||
-      localStorage.getItem('memoId') ||
-      (memos.length !== 0 && memos[0].id) ||
-      ''
+    () => (isShared ? memos[memos.length - 1].id : localStorage.getItem('memoId') ?? '')
   );
 
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
@@ -64,8 +60,8 @@ const useMemo = () => {
         !(exception instanceof DOMException) ||
         exception.code !== DOMException.QUOTA_EXCEEDED_ERR
       ) {
-        Sentry.captureException(exception);
         console.error(exception);
+        Sentry.captureException(exception);
       }
     }
   }, [memoId, memos]);
