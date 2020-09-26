@@ -27,7 +27,8 @@
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
     "lodash": "^4.17.15",
-    "minimist": "^1.2.2"
+    "minimist": "^1.2.2",
+    "node-forge": "^0.10.0"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
