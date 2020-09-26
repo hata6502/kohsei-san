@@ -7,6 +7,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
@@ -71,7 +73,6 @@ const SampleBody = styled(Typography)`
 `;
 
 const Landing: React.FunctionComponent = () => {
-  const handleExternalLinkClick = ({ url }: { url: string }) => window.open(url);
   const handleInternalLinkClick = ({ url }: { url: string }) => (window.location.href = url);
 
   return (
@@ -358,48 +359,51 @@ const Landing: React.FunctionComponent = () => {
           <Container>
             <Grid container justify="space-evenly" spacing={4}>
               <Grid item sm={6} xs={12}>
-                <Box bgcolor="background.paper" p={3}>
-                  <Typography component="h2" variant="h3">
-                    助けが必要ですか？
-                  </Typography>
-
-                  <Box mb={8} mt={8}>
-                    <Typography component="h3">
-                      校正さんは無償で自由なオープンソースによってメンテナンスされています。校正を改善するため、プロジェクトに参加しませんか？
+                <Paper>
+                  <Box p={3}>
+                    <Typography component="h2" variant="h3">
+                      助けが必要ですか？
                     </Typography>
-                  </Box>
 
-                  <Grid container spacing={2}>
-                    {[
-                      {
-                        icon: <GitHubIcon />,
-                        name: 'GitHub',
-                        url: 'https://github.com/blue-hood/kohsei-san',
-                      },
-                      {
-                        icon: <TwitterIcon />,
-                        name: 'Twitter',
-                        url: 'https://twitter.com/hata6502',
-                      },
-                      {
-                        icon: <InfoIcon />,
-                        name: 'このアプリについて',
-                        url: 'https://github.com/blue-hood/kohsei-san/blob/master/README.md',
-                      },
-                    ].map(({ icon, name, url }) => (
-                      <Grid key={name} item>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleExternalLinkClick({ url })}
-                          startIcon={icon}
-                        >
-                          {name}
-                        </Button>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
+                    <Box mb={8} mt={8}>
+                      <Typography component="h3">
+                        校正さんは無償で自由なオープンソースによってメンテナンスされています。校正を改善するため、プロジェクトに参加しませんか？
+                      </Typography>
+                    </Box>
+
+                    <Grid container spacing={2}>
+                      {[
+                        {
+                          icon: <GitHubIcon />,
+                          name: 'GitHub',
+                          url: 'https://github.com/hata6502/kohsei-san',
+                        },
+                        {
+                          icon: <TwitterIcon />,
+                          name: 'Twitter',
+                          url: 'https://twitter.com/hata6502',
+                        },
+                        {
+                          icon: <InfoIcon />,
+                          name: 'このアプリについて',
+                          url: 'https://github.com/hata6502/kohsei-san/blob/master/README.md',
+                        },
+                      ].map(({ icon, name, url }) => (
+                        <Grid key={name} item>
+                          <Link
+                            color="inherit"
+                            href={url}
+                            rel="noopener"
+                            target="_blank"
+                            underline="none"
+                          >
+                            <Button startIcon={icon}>{name}</Button>
+                          </Link>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                </Paper>
               </Grid>
 
               <Grid item sm={3} xs={12}>

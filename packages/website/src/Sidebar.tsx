@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -78,10 +79,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   };
 
   const handleDeleteDialogClose = () => dispatchDeleteMemo(undefined);
-
-  const handleLicenseClick: React.MouseEventHandler = () =>
-    window.open('https://github.com/blue-hood/kohsei-san/blob/master/README.md');
-
   const handleDeleteClick = (id: string) => dispatchDeleteMemo(id);
 
   const handleMemoClick = (id: string) => {
@@ -91,9 +88,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       onClose();
     }
   };
-
-  const handleTwitterClick: React.MouseEventHandler = () =>
-    window.open('https://twitter.com/hata6502');
 
   return (
     <DrawerContainer>
@@ -124,21 +118,37 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <Divider />
 
       <List>
-        <ListItem button onClick={handleTwitterClick}>
-          <ListItemIcon>
-            <TwitterIcon />
-          </ListItemIcon>
+        <Link
+          color="inherit"
+          href="https://twitter.com/hata6502"
+          rel="noopener"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <TwitterIcon />
+            </ListItemIcon>
 
-          <ListItemText primary="Twitter" />
-        </ListItem>
+            <ListItemText primary="Twitter" />
+          </ListItem>
+        </Link>
 
-        <ListItem button onClick={handleLicenseClick}>
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
+        <Link
+          color="inherit"
+          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
+          rel="noopener"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
 
-          <ListItemText primary="このアプリについて" />
-        </ListItem>
+            <ListItemText primary="このアプリについて" />
+          </ListItem>
+        </Link>
       </List>
 
       <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
