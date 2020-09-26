@@ -13,6 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
@@ -97,9 +98,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   return (
     <DrawerContainer>
       <List>
-        {memos.map(({ id, text }) => (
+        {memos.map(({ id, result, text }) => (
           <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
+            {result?.messages.length === 0 && <CheckIcon color="secondary" />}
+
             <MemoText primary={text.trim() || '(空のメモ)'} />
+
             <ListItemSecondaryAction>
               <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
                 <DeleteIcon />
@@ -112,15 +116,19 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           <ListItemIcon>
             <NoteAddIcon />
           </ListItemIcon>
+
           <ListItemText primary="メモを追加" />
         </ListItem>
       </List>
+
       <Divider />
+
       <List>
         <ListItem button onClick={handleTwitterClick}>
           <ListItemIcon>
             <TwitterIcon />
           </ListItemIcon>
+
           <ListItemText primary="Twitter" />
         </ListItem>
 
@@ -128,6 +136,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           <ListItemIcon>
             <InfoIcon />
           </ListItemIcon>
+
           <ListItemText primary="このアプリについて" />
         </ListItem>
       </List>
