@@ -41,7 +41,13 @@ const Image = styled.img`
   max-width: 100%;
 `;
 
-const SampleBody = styled(Typography)`
+const Root = styled(Box)`
+  ${({ theme }) => `
+    background-color: ${theme.palette.background.paper}
+  `}
+`;
+
+const SampleText = styled(Typography)`
   /* stylelint-disable property-no-vendor-prefix, value-no-vendor-prefix */
   display: -webkit-box;
   overflow: hidden;
@@ -54,9 +60,9 @@ const Landing: React.FunctionComponent = () => {
   const handleInternalLinkClick = ({ url }: { url: string }) => (window.location.href = url);
 
   return (
-    <Box mt={15}>
+    <Root pt={15}>
       <Container maxWidth="md">
-        <Grid container alignItems="center" justify="center" spacing={8}>
+        <Grid container alignItems="center" justify="space-around" spacing={4}>
           <Grid item md={7} xs={12}>
             <Typography align="center" component="h1" variant="h3">
               コンテンツへの信頼度を高めよう
@@ -105,7 +111,7 @@ const Landing: React.FunctionComponent = () => {
             </Typography>
           </Grid>
 
-          <Grid item md={5} xs={8}>
+          <Grid item md={5} xs={7}>
             <Image alt="" loading="lazy" src="images/Books_SVG.svg" />
           </Grid>
         </Grid>
@@ -134,7 +140,7 @@ const Landing: React.FunctionComponent = () => {
                 icon: <FeaturesOfflinePinIcon />,
               },
             ].map(({ body, heading, icon }) => (
-              <Grid key={heading} item sm={3} xs={10}>
+              <Grid key={heading} item md={3} xs={10}>
                 <Grid container alignItems="center" direction="column" spacing={5}>
                   <Grid item>{icon}</Grid>
 
@@ -211,7 +217,7 @@ const Landing: React.FunctionComponent = () => {
                   title: '戦争責任者の問題',
                 },
               ].map(({ text, title }) => (
-                <Grid key={title} item sm={4} xs={10}>
+                <Grid key={title} item md={4} xs={10}>
                   <Card>
                     <CardContent>
                       <Typography component="h3" gutterBottom variant="h5">
@@ -219,9 +225,9 @@ const Landing: React.FunctionComponent = () => {
                         {title}
                       </Typography>
 
-                      <SampleBody color="textSecondary" variant="body2">
+                      <SampleText color="textSecondary" variant="body2">
                         {text}
-                      </SampleBody>
+                      </SampleText>
                     </CardContent>
 
                     <CardActions>
@@ -276,7 +282,7 @@ const Landing: React.FunctionComponent = () => {
                     image: 'images/Screenshot_20200414-213017.png',
                   },
                 ].map(({ alt, body, image }, index) => (
-                  <Grid key={image} item sm={3} xs={10}>
+                  <Grid key={image} item md={3} xs={10}>
                     <Grid container alignItems="center" direction="column" spacing={5}>
                       <Grid item>
                         <Typography color="primary" component="div" variant="h5">
@@ -340,11 +346,11 @@ const Landing: React.FunctionComponent = () => {
       <section>
         <Box bgcolor="grey.100" p={2} pb={15} pt={15}>
           <Container>
-            <Grid container justify="space-evenly" spacing={4}>
-              <Grid item sm={6} xs={12}>
+            <Grid container alignItems="center" justify="space-around" spacing={4}>
+              <Grid item md={6} xs={12}>
                 <Paper>
                   <Box p={3}>
-                    <Typography component="h2" variant="h3">
+                    <Typography component="h2" variant="h4">
                       助けが必要ですか？
                     </Typography>
 
@@ -389,7 +395,7 @@ const Landing: React.FunctionComponent = () => {
                 </Paper>
               </Grid>
 
-              <Grid item sm={3} xs={12}>
+              <Grid item md={3} xs={12}>
                 <Image
                   alt="スマートフォンでの開発"
                   loading="lazy"
@@ -400,7 +406,7 @@ const Landing: React.FunctionComponent = () => {
           </Container>
         </Box>
       </section>
-    </Box>
+    </Root>
   );
 };
 
