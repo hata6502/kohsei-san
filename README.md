@@ -126,7 +126,11 @@ Give a ⭐️ if this project helped you!
 
 ## Disclaimer
 
-Please see [DISCLAIMER.md](https://github.com/blue-hood/kohsei-san/blob/master/DISCLAIMER.md).
+The following creations are included in this product:
+
+- [ISOMETRIC](https://isometric.online/license/)
+
+Please see [DISCLAIMER.md](https://github.com/blue-hood/kohsei-san/blob/master/DISCLAIMER.md) for others.
 
 ---
 

@@ -37,28 +37,6 @@ const FeaturesSpellcheckIcon = styled(SpellcheckIcon)`
   `}
 `;
 
-const FirstView = styled.section`
-  background-image: url('images/publicdomainq-0024864bhwjsw.jpg');
-  background-position: center;
-  background-size: cover;
-  position: relative;
-`;
-
-const FirstViewContainer = styled(Container)`
-  ${({ theme }) => `
-    height: ${theme.spacing(60)}px;
-    padding-top: ${theme.spacing(10)}px;
-  `}
-  position: relative;
-`;
-
-const FirstViewWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.75);
-  height: 100%;
-  position: absolute;
-  width: 100%;
-`;
-
 const Image = styled.img`
   max-width: 100%;
 `;
@@ -76,28 +54,28 @@ const Landing: React.FunctionComponent = () => {
   const handleInternalLinkClick = ({ url }: { url: string }) => (window.location.href = url);
 
   return (
-    <Box mt={6}>
-      <FirstView>
-        <FirstViewWrapper />
-
-        <FirstViewContainer>
-          <Typography align="center" component="h1" variant="h3">
-            コンテンツへの信頼度を高めよう
-          </Typography>
-
-          <Box mb={4} mt={8}>
-            <Typography align="center" component="h3">
-              その場ですぐに文章を校正できるメモ帳アプリです。
+    <Box mt={15}>
+      <Container maxWidth="md">
+        <Grid container alignItems="center" justify="center" spacing={8}>
+          <Grid item md={7} xs={12}>
+            <Typography align="center" component="h1" variant="h3">
+              コンテンツへの信頼度を高めよう
             </Typography>
-          </Box>
 
-          <Typography align="center">
-            <Button
-              color="primary"
-              onClick={() =>
-                handleInternalLinkClick({
-                  url: `/?${new URLSearchParams({
-                    text: `2020年4月1日(月)
+            <Box mb={4} mt={8}>
+              <Typography align="center" component="h3">
+                その場ですぐに文章を校正できるメモ帳アプリです。
+                オフラインで完全無料、スマートフォンアプリとしてもご利用いただけます。
+              </Typography>
+            </Box>
+
+            <Typography align="center">
+              <Button
+                color="primary"
+                onClick={() =>
+                  handleInternalLinkClick({
+                    url: `/?${new URLSearchParams({
+                      text: `2020年4月1日(月)
 
 冗長な表現をチェックすることができます。
 
@@ -116,20 +94,25 @@ const Landing: React.FunctionComponent = () => {
 同義語のばらつきチェック: テレビジョンとテレビ
 
 誤用チェック: うる覚え`,
-                  }).toString()}`,
-                })
-              }
-              size="large"
-              variant="contained"
-            >
-              使ってみる
-            </Button>
-          </Typography>
-        </FirstViewContainer>
-      </FirstView>
+                    }).toString()}`,
+                  })
+                }
+                size="large"
+                variant="contained"
+              >
+                使ってみる
+              </Button>
+            </Typography>
+          </Grid>
+
+          <Grid item md={5} xs={8}>
+            <Image alt="" loading="lazy" src="images/Books_SVG.svg" />
+          </Grid>
+        </Grid>
+      </Container>
 
       <section>
-        <Box m={3} mb={30} mt={15}>
+        <Box m={3} mb={15} mt={15}>
           <Grid container justify="space-evenly" spacing={6}>
             {[
               {
@@ -303,7 +286,7 @@ const Landing: React.FunctionComponent = () => {
 
                       <Grid item>
                         <Box boxShadow={2}>
-                          <Image alt={alt} src={image} />
+                          <Image alt={alt} loading="lazy" src={image} />
                         </Box>
                       </Grid>
 
@@ -407,7 +390,11 @@ const Landing: React.FunctionComponent = () => {
               </Grid>
 
               <Grid item sm={3} xs={12}>
-                <Image alt="スマートフォン" src="images/GooglePixelVerySilver.png" />
+                <Image
+                  alt="スマートフォンでの開発"
+                  loading="lazy"
+                  src="images/GooglePixelVerySilver.png"
+                />
               </Grid>
             </Grid>
           </Container>
