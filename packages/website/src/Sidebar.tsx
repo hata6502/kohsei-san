@@ -62,6 +62,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       ...prevMemos,
       {
         id,
+        result: {
+          filePath: '<text>',
+          messages: [],
+        },
         text: '',
       },
     ]);
