@@ -4,15 +4,19 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
+import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
@@ -345,6 +349,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       {popoverMessages.map((message, index) => (
                         <ListItem key={index}>
                           <ListItemText primary={message.message} />
+
+                          <ListItemSecondaryAction>
+                            {message.fix && (
+                              <Tooltip title="自動修正">
+                                <IconButton edge="end">
+                                  <SpellcheckIcon />
+                                </IconButton>
+                              </Tooltip>
+                            )}
+                          </ListItemSecondaryAction>
                         </ListItem>
                       ))}
                     </List>
