@@ -4,6 +4,9 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -44,11 +47,12 @@ const TextContainer = styled.div`
     }
   `}
   outline: 0;
+  word-break: break-all;
 `;
 
 interface Message {
   index: TextlintMessage['index'];
-  messages: TextlintMessage['message'][];
+  messages: TextlintMessage[];
 }
 
 interface Pin {
@@ -158,11 +162,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
         const duplicatedMessage = mergedMessages.find(({ index }) => index === message.index);
 
         if (duplicatedMessage) {
-          duplicatedMessage.messages.push(message.message);
+          duplicatedMessage.messages.push(message);
         } else {
           mergedMessages.push({
             ...message,
-            messages: [message.message],
+            messages: [message],
           });
         }
       });
@@ -337,11 +341,13 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       horizontal: 'left',
                     }}
                   >
-                    <Box p={2}>
+                    <List>
                       {popoverMessages.map((message, index) => (
-                        <div key={index}>{message}</div>
+                        <ListItem key={index}>
+                          <ListItemText primary={message.message} />
+                        </ListItem>
                       ))}
-                    </Box>
+                    </List>
                   </Popover>
                 </div>
               )}
