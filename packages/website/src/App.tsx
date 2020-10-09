@@ -95,7 +95,6 @@ const App: React.FunctionComponent = () => {
     <Root>
       <Helmet>
         <title>{title}</title>
-        <meta name="description" content="その場ですぐに文章を校正できるメモ帳アプリです。" />
       </Helmet>
 
       <TopBar color="inherit">
