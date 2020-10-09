@@ -365,23 +365,28 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       horizontal: 'left',
                     }}
                   >
-                    <List>
-                      {popoverMessages.map((message, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={message.message} />
+                    <Container maxWidth="sm">
+                      <List>
+                        {popoverMessages.map((message, index) => (
+                          <ListItem key={index}>
+                            <ListItemText primary={message.message} />
 
-                          <ListItemSecondaryAction>
-                            {message.fix && (
-                              <Tooltip title="自動修正">
-                                <IconButton edge="end" onClick={() => handleFixClick({ message })}>
-                                  <SpellcheckIcon />
-                                </IconButton>
-                              </Tooltip>
-                            )}
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      ))}
-                    </List>
+                            <ListItemSecondaryAction>
+                              {message.fix && (
+                                <Tooltip title="自動修正">
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => handleFixClick({ message })}
+                                  >
+                                    <SpellcheckIcon />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Container>
                   </Popover>
                 </div>
               )}
