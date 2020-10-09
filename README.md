@@ -3,14 +3,11 @@
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://lgtm.com/projects/g/hata6502/kohsei-san/alerts/">
-    <img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/hata6502/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
-  </a>
-  <a href="https://lgtm.com/projects/g/hata6502/kohsei-san/context:javascript">
-    <img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/hata6502/kohsei-san.svg?logo=lgtm&logoWidth=18"/>
-  </a>
   <a href="https://codecov.io/gh/hata6502/kohsei-san">
     <img src="https://codecov.io/gh/hata6502/kohsei-san/branch/master/graph/badge.svg" />
+  </a>
+  <a href="https://twitter.com/hata6502" target="_blank">
+    <img alt="Twitter: hata6502" src="https://img.shields.io/twitter/follow/hata6502.svg?style=social" />
   </a>
 </p>
 
