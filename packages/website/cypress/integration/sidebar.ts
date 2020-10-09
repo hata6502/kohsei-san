@@ -21,25 +21,4 @@ describe('sidebar', () => {
     cy.contains('はい').click();
     cy.contains('コンテンツへの信頼度を高めよう');
   });
-
-  it('Twitter に移動する', () => {
-    cy.visit('');
-    cy.window().then((window) => {
-      cy.stub(window, 'open').as('windowOpen');
-    });
-    cy.get('nav').contains('Twitter').click();
-    cy.get('@windowOpen').should('be.calledWith', 'https://twitter.com/hata6502');
-  });
-
-  it('「このアプリについて」に移動する', () => {
-    cy.visit('');
-    cy.window().then((window) => {
-      cy.stub(window, 'open').as('windowOpen');
-    });
-    cy.get('nav').contains('このアプリについて').click();
-    cy.get('@windowOpen').should(
-      'be.calledWith',
-      'https://github.com/blue-hood/kohsei-san/blob/master/README.md'
-    );
-  });
 });
