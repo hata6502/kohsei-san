@@ -4,15 +4,19 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Popover, { PopoverProps } from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
+import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import { TextlintMessage } from '@textlint/kernel';
@@ -228,6 +232,26 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
+  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
+    if (!message.fix) {
+      throw new Error();
+    }
+
+    const { range, text } = message.fix;
+
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && {
+          result: undefined,
+          text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
+        }),
+      }))
+    );
+
+    setPopoverAnchorEl(undefined);
+  };
+
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
   const handlePinClick = ({
@@ -341,13 +365,28 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       horizontal: 'left',
                     }}
                   >
-                    <List>
-                      {popoverMessages.map((message, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={message.message} />
-                        </ListItem>
-                      ))}
-                    </List>
+                    <Container maxWidth="sm">
+                      <List>
+                        {popoverMessages.map((message, index) => (
+                          <ListItem key={index}>
+                            <ListItemText primary={message.message} />
+
+                            <ListItemSecondaryAction>
+                              {message.fix && (
+                                <Tooltip title="自動修正">
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => handleFixClick({ message })}
+                                  >
+                                    <SpellcheckIcon />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Container>
                   </Popover>
                 </div>
               )}
