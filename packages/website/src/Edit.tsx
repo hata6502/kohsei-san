@@ -232,6 +232,26 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
+  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
+    if (!message.fix) {
+      throw new Error();
+    }
+
+    const { range, text } = message.fix;
+
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && {
+          result: undefined,
+          text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
+        }),
+      }))
+    );
+
+    setPopoverAnchorEl(undefined);
+  };
+
   const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
 
   const handlePinClick = ({
@@ -353,7 +373,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                           <ListItemSecondaryAction>
                             {message.fix && (
                               <Tooltip title="自動修正">
-                                <IconButton edge="end">
+                                <IconButton edge="end" onClick={() => handleFixClick({ message })}>
                                   <SpellcheckIcon />
                                 </IconButton>
                               </Tooltip>
