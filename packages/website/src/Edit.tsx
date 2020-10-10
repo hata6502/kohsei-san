@@ -315,7 +315,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
               component="a"
               href="https://github.com/blue-hood/kohsei-san#校正偏差値"
               label={`校正偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
-              rel="noopener"
+              rel="noreferrer"
               size="small"
               target="_blank"
             />
