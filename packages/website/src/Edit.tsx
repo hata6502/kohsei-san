@@ -33,6 +33,10 @@ const EditContainer = styled(Container)`
   `}
 `;
 
+const MessagePopover = styled(Popover)`
+  word-break: break-all;
+`;
+
 const Pin = styled(FeedbackIcon)`
   ${({ theme }) => `
     background-color: ${theme.palette.background.paper};
@@ -352,7 +356,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                       />
                     ))}
 
-                  <Popover
+                  <MessagePopover
                     anchorEl={popoverAnchorEl}
                     anchorOrigin={{
                       vertical: 'top',
@@ -387,7 +391,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                         ))}
                       </List>
                     </Container>
-                  </Popover>
+                  </MessagePopover>
                 </div>
               )}
             </Box>
