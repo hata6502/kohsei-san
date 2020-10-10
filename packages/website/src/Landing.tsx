@@ -382,7 +382,7 @@ const Landing: React.FunctionComponent = () => {
                           <Link
                             color="inherit"
                             href={url}
-                            rel="noopener"
+                            rel="noreferrer"
                             target="_blank"
                             underline="none"
                           >
