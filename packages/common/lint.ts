@@ -18,11 +18,7 @@ import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redund
 // @ts-ignore
 import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-ignore
-import * as textlintRuleJoyoKanji from 'textlint-rule-joyo-kanji';
-// @ts-ignore
 import * as textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
-// @ts-ignore
-import * as textlintRuleMaxKanjiContinuousLen from 'textlint-rule-max-kanji-continuous-len';
 // @ts-ignore
 import * as textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 // @ts-ignore
@@ -93,16 +89,8 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRuleJaUnnaturalAlphabet,
       },
       {
-        ruleId: 'joyo-kanji',
-        rule: textlintRuleJoyoKanji,
-      },
-      {
         ruleId: 'max-appearence-count-of-words',
         rule: textlintRuleMaxAppearenceCountOfWords,
-      },
-      {
-        ruleId: 'max-kanji-continuous-len',
-        rule: textlintRuleMaxKanjiContinuousLen,
       },
       {
         ruleId: 'no-hankaku-kana',
