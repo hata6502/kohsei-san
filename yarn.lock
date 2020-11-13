@@ -10067,10 +10067,10 @@ textlint-rule-date-weekday-mismatch@^1.0.5:
     chrono-node "^1.2.5"
     moment "^2.17.1"
 
-textlint-rule-en-spell@^1.0.3:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/textlint-rule-en-spell/-/textlint-rule-en-spell-1.1.1.tgz#5a62ee01d963765cb740b89f4dd43ab87bf3bb2d"
-  integrity sha512-LN6LnJKA8Q1psxYarbWlaOOP92HTXreMimwIzsKkLklaHEoHRXgF5+YT6UDDIayIW4CnxIiIKJz/z44v6KB7HA==
+textlint-rule-en-spell@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-en-spell/-/textlint-rule-en-spell-1.2.1.tgz#5cd88bbbe466bc961153bd4853f7df3f21bd35c1"
+  integrity sha512-AnOlB/KhHDpoiyV9jTXTrypbkN8iDUApzRuF+InniWyScH1rOaYL4DI3f+FuyrgH5ZQQINsJrPQhduUfVoNUrg==
   dependencies:
     dictionary-en "^3.0.0"
     nspell "^2.1.2"
