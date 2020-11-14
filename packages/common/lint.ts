@@ -14,6 +14,8 @@ import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana
 // @ts-ignore
 import * as textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
+import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
+// @ts-ignore
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-ignore
 import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
@@ -79,6 +81,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-no-abusage',
         rule: textlintRuleJaNoAbusage,
+      },
+      {
+        ruleId: 'ja-no-inappropriate-words',
+        rule: textlintRuleJaNoInappropriateWords,
       },
       {
         ruleId: 'ja-no-redundant-expression',
