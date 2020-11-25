@@ -16,9 +16,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
-import InfoIcon from '@material-ui/icons/Info';
+import BookIcon from '@material-ui/icons/Book';
+import HelpIcon from '@material-ui/icons/Help';
+import MailIcon from '@material-ui/icons/Mail';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import { v4 as uuidv4 } from 'uuid';
 import { Memo, MemosAction } from './useMemo';
 
@@ -124,33 +125,49 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <List>
         <Link
           color="inherit"
-          href="https://twitter.com/hata6502"
+          href="https://kohsei-san.b-hood.site/lp/blog/"
           rel="noreferrer"
           target="_blank"
           underline="none"
         >
           <ListItem button>
             <ListItemIcon>
-              <TwitterIcon />
+              <BookIcon />
             </ListItemIcon>
 
-            <ListItemText primary="Twitter" />
+            <ListItemText primary="ブログ" />
           </ListItem>
         </Link>
 
         <Link
           color="inherit"
-          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
+          href="https://github.com/hata6502/kohsei-san"
           rel="noreferrer"
           target="_blank"
           underline="none"
         >
           <ListItem button>
             <ListItemIcon>
-              <InfoIcon />
+              <MailIcon />
             </ListItemIcon>
 
-            <ListItemText primary="このアプリについて" />
+            <ListItemText primary="お問い合わせ" />
+          </ListItem>
+        </Link>
+
+        <Link
+          color="inherit"
+          href="https://github.com/hata6502/kohsei-san/issues"
+          rel="noreferrer"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <HelpIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="FAQ" />
           </ListItem>
         </Link>
       </List>

@@ -12,15 +12,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Edit from './Edit';
-import Landing from './Landing';
+import Empty from './Empty';
 import Sidebar, { SidebarProps } from './Sidebar';
 import useMemo from './useMemo';
 
 const sidebarWidth = 250;
-
-const Logo = styled.div`
-  cursor: pointer;
-`;
 
 const Main = styled.main`
   flex-grow: 1;
@@ -43,8 +39,6 @@ const Title = styled(Typography)`
   ${({ theme }) => `
     margin-left: ${theme.spacing(1)}px;
   `}
-  cursor: pointer;
-  flex-grow: 1;
 `;
 
 const TopBar = styled(AppBar)`
@@ -73,7 +67,6 @@ const App: React.FunctionComponent = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleAppTitleClick: React.MouseEventHandler = () => dispatchMemoId('');
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
   const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
   const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
@@ -104,16 +97,11 @@ const App: React.FunctionComponent = () => {
               <MenuIcon />
             </IconButton>
           </Hidden>
+          {(isLinting && <CircularProgress color="secondary" />) || (
+            <img alt="" src="favicon.png" style={{ width: 48 }} />
+          )}
 
-          <Logo onClick={handleAppTitleClick}>
-            {(isLinting && <CircularProgress color="secondary" />) || (
-              <img alt="" src="favicon.png" style={{ width: 48 }} />
-            )}
-          </Logo>
-
-          <Title onClick={handleAppTitleClick} variant="h6">
-            {(isLinting && '校正中…') || '校正さん'}
-          </Title>
+          <Title variant="h6">{(isLinting && '校正中…') || '校正さん'}</Title>
         </Toolbar>
       </TopBar>
 
@@ -140,7 +128,7 @@ const App: React.FunctionComponent = () => {
             key={memoId}
             memo={memo}
           />
-        )) || <Landing />}
+        )) || <Empty />}
       </Main>
 
       <Snackbar open={isSaveErrorOpen}>
