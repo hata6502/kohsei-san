@@ -6482,7 +6482,6 @@ known-css-properties@^0.19.0:
 
 kuromoji@0.1.1, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.5"
-  uid a63abea1de99a4547101155fb573fad6932a18ef
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/a63abea1de99a4547101155fb573fad6932a18ef"
   dependencies:
     async "^2.0.1"
@@ -10118,6 +10117,11 @@ textlint-rule-ja-hiragana-keishikimeishi@^1.0.2:
   dependencies:
     kuromojin "^1.3.2"
     morpheme-match-all "^1.1.0"
+
+textlint-rule-ja-joyo-or-jinmeiyo-kanji@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-joyo-or-jinmeiyo-kanji/-/textlint-rule-ja-joyo-or-jinmeiyo-kanji-1.0.0.tgz#f4523b88649c36cd975fa4bc23b66affc3652793"
+  integrity sha512-p3J6uJEptiLNgfPzecFRcK3Wn5ObTuTe3Z/h3ruXIQZhxc85aQq2640qf2741njpkCjoSxCzb+M1zufSNOfuhQ==
 
 textlint-rule-ja-nakaguro-or-halfwidth-space-between-katakana@^2.0.1:
   version "2.0.1"
