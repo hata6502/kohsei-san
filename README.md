@@ -21,7 +21,6 @@
 
 - [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
 - [azu/textlint-rule-date-weekday-mismatch](https://github.com/azu/textlint-rule-date-weekday-mismatch)
-- [hata6502/textlint-rule-en-spell](https://github.com/hata6502/textlint-rule-en-spell)
 - [hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji](https://github.com/hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji)
 - [hata6502/textlint-rule-ja-no-inappropriate-words](https://github.com/hata6502/textlint-rule-ja-no-inappropriate-words)
 - [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)

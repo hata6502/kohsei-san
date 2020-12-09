@@ -4,7 +4,6 @@ import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import * as textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-ignore
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
-import textlintRuleEnSpell from 'textlint-rule-en-spell';
 // @ts-ignore
 import * as textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
 // @ts-ignore
@@ -57,10 +56,6 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
-      },
-      {
-        ruleId: 'en-spell',
-        rule: textlintRuleEnSpell,
       },
       {
         ruleId: 'ja-hiragana-fukushi',
