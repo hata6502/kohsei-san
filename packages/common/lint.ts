@@ -2,6 +2,7 @@
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 // @ts-ignore
 import * as textlintPluginText from '@textlint/textlint-plugin-text';
+import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-ignore
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 // @ts-ignore
@@ -41,6 +42,12 @@ const kernel = new TextlintKernel();
 const lint = (text: string): Promise<TextlintResult> =>
   kernel.lintText(text, {
     ext: '.txt',
+    filterRules: [
+      {
+        ruleId: 'urls',
+        rule: textlintFilterRuleURLs,
+      },
+    ],
     plugins: [
       {
         pluginId: 'text',

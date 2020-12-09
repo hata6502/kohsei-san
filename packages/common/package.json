@@ -9,6 +9,7 @@
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
     "sudachi-synonyms-dictionary": "^5.0.1",
+    "textlint-filter-rule-urls": "^1.0.1",
     "textlint-rule-date-weekday-mismatch": "^1.0.5",
     "textlint-rule-ja-hiragana-fukushi": "^1.2.0",
     "textlint-rule-ja-hiragana-hojodoushi": "hata6502/textlint-rule-ja-hiragana-hojodoushi",
