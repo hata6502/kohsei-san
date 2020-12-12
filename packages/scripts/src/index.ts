@@ -5,7 +5,7 @@
  *
  * (例) Wikipedia の記事データを元に計算します。
  * $ wp2txt -i jawiki-latest-pages-articles1.xml-p1p106178.bz2 -o ~/wikipedia -f 0
- * $ echo -n > ~/scores.txt && ls ~/wikipedia/* | xargs -IXXX sh -c "node dist/main.js XXX >> ~/scores.txt"
+ * $ echo -n > ~/scores.txt && ls ~/wikipedia | xargs -IXXX sh -c "node dist/main.js ~/wikipedia/XXX >> ~/scores.txt"
  */
 
 // @proofdict/textlint-rule-proofdict を動作させるため。
