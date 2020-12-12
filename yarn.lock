@@ -10117,9 +10117,9 @@ textlint-rule-ja-hiragana-keishikimeishi@^1.0.2:
     morpheme-match-all "^1.1.0"
 
 textlint-rule-ja-joyo-or-jinmeiyo-kanji@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/textlint-rule-ja-joyo-or-jinmeiyo-kanji/-/textlint-rule-ja-joyo-or-jinmeiyo-kanji-1.0.0.tgz#f4523b88649c36cd975fa4bc23b66affc3652793"
-  integrity sha512-p3J6uJEptiLNgfPzecFRcK3Wn5ObTuTe3Z/h3ruXIQZhxc85aQq2640qf2741njpkCjoSxCzb+M1zufSNOfuhQ==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-joyo-or-jinmeiyo-kanji/-/textlint-rule-ja-joyo-or-jinmeiyo-kanji-1.0.1.tgz#0c88a4cbc2f51c400a5a0c554fb1398449c69a8f"
+  integrity sha512-PIhySHT5wi9R3lT2si2sYRlJTYSOT7CzPUwGZqolhOBqnTVSxKvbaRjYsMSrfhOaonMd2lTCCcdZhamhWBmBqg==
 
 textlint-rule-ja-nakaguro-or-halfwidth-space-between-katakana@^2.0.1:
   version "2.0.1"
