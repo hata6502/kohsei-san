@@ -1,4 +1,4 @@
-THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY BE CONTAINED IN PORTIONS OF THE WORKSPACE AGGREGATOR C7741629 2864 40E6 B680 A9300CE22D5F PRODUCT.
+THE FOLLOWING SETS FORTH ATTRIBUTION NOTICES FOR THIRD PARTY SOFTWARE THAT MAY BE CONTAINED IN PORTIONS OF THE WORKSPACE AGGREGATOR 715FFFDF 7C52 4897 B1FF AD90B3753B62 PRODUCT.
 
 -----
 
@@ -5938,7 +5938,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: comma-separated-tokens, hast-util-from-parse5, hast-util-parse-selector, hastscript, is-alphabetical, is-alphanumerical, is-decimal, is-hexadecimal, is-whitespace-character, is-word-character, markdown-escapes, mathml-tag-names, mdast-util-compact, nspell, space-separated-tokens, state-toggle, unist-util-remove-position, unist-util-stringify-position, unist-util-visit-parents, vfile-location, web-namespaces. A copy of the source code may be downloaded from https://github.com/wooorm/comma-separated-tokens.git (comma-separated-tokens), https://github.com/syntax-tree/hast-util-from-parse5.git (hast-util-from-parse5), https://github.com/syntax-tree/hast-util-parse-selector.git (hast-util-parse-selector), https://github.com/syntax-tree/hastscript.git (hastscript), https://github.com/wooorm/is-alphabetical.git (is-alphabetical), https://github.com/wooorm/is-alphanumerical.git (is-alphanumerical), https://github.com/wooorm/is-decimal.git (is-decimal), https://github.com/wooorm/is-hexadecimal.git (is-hexadecimal), https://github.com/wooorm/is-whitespace-character.git (is-whitespace-character), https://github.com/wooorm/is-word-character.git (is-word-character), https://github.com/wooorm/markdown-escapes.git (markdown-escapes), https://github.com/wooorm/mathml-tag-names.git (mathml-tag-names), https://github.com/syntax-tree/mdast-util-compact.git (mdast-util-compact), https://github.com/wooorm/nspell.git (nspell), https://github.com/wooorm/space-separated-tokens.git (space-separated-tokens), https://github.com/wooorm/state-toggle.git (state-toggle), https://github.com/syntax-tree/unist-util-remove-position.git (unist-util-remove-position), https://github.com/syntax-tree/unist-util-stringify-position.git (unist-util-stringify-position), https://github.com/syntax-tree/unist-util-visit-parents.git (unist-util-visit-parents), https://github.com/vfile/vfile-location.git (vfile-location), https://github.com/wooorm/web-namespaces.git (web-namespaces). This software contains the following license and notice below:
+The following software may be included in this product: comma-separated-tokens, hast-util-from-parse5, hast-util-parse-selector, hastscript, is-alphabetical, is-alphanumerical, is-decimal, is-hexadecimal, is-whitespace-character, is-word-character, markdown-escapes, mathml-tag-names, mdast-util-compact, space-separated-tokens, state-toggle, unist-util-remove-position, unist-util-stringify-position, unist-util-visit-parents, vfile-location, web-namespaces. A copy of the source code may be downloaded from https://github.com/wooorm/comma-separated-tokens.git (comma-separated-tokens), https://github.com/syntax-tree/hast-util-from-parse5.git (hast-util-from-parse5), https://github.com/syntax-tree/hast-util-parse-selector.git (hast-util-parse-selector), https://github.com/syntax-tree/hastscript.git (hastscript), https://github.com/wooorm/is-alphabetical.git (is-alphabetical), https://github.com/wooorm/is-alphanumerical.git (is-alphanumerical), https://github.com/wooorm/is-decimal.git (is-decimal), https://github.com/wooorm/is-hexadecimal.git (is-hexadecimal), https://github.com/wooorm/is-whitespace-character.git (is-whitespace-character), https://github.com/wooorm/is-word-character.git (is-word-character), https://github.com/wooorm/markdown-escapes.git (markdown-escapes), https://github.com/wooorm/mathml-tag-names.git (mathml-tag-names), https://github.com/syntax-tree/mdast-util-compact.git (mdast-util-compact), https://github.com/wooorm/space-separated-tokens.git (space-separated-tokens), https://github.com/wooorm/state-toggle.git (state-toggle), https://github.com/syntax-tree/unist-util-remove-position.git (unist-util-remove-position), https://github.com/syntax-tree/unist-util-stringify-position.git (unist-util-stringify-position), https://github.com/syntax-tree/unist-util-visit-parents.git (unist-util-visit-parents), https://github.com/vfile/vfile-location.git (vfile-location), https://github.com/wooorm/web-namespaces.git (web-namespaces). This software contains the following license and notice below:
 
 (The MIT License)
 
@@ -7113,358 +7113,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
------
-
-The following software may be included in this product: dictionary-en. A copy of the source code may be downloaded from https://github.com/wooorm/dictionaries/tree/main/dictionaries/en. This software contains the following license and notice below:
-
-en_US Hunspell Dictionary
-Version 2019.10.06
-Sun Oct 6 20:44:03 2019 -0400 [755d6dd]
-http://wordlist.sourceforge.net
-
-README file for English Hunspell dictionaries derived from SCOWL.
-
-These dictionaries are created using the speller/make-hunspell-dict
-script in SCOWL.
-
-The following dictionaries are available:
-
-  en_US (American)
-  en_CA (Canadian)
-  en_GB-ise (British with "ise" spelling)
-  en_GB-ize (British with "ize" spelling)
-  en_AU (Australian)
-
-  en_US-large
-  en_CA-large
-  en_GB-large (with both "ise" and "ize" spelling)
-  en_AU-large
-
-The normal (non-large) dictionaries correspond to SCOWL size 60 and,
-to encourage consistent spelling, generally only include one spelling
-variant for a word.  The large dictionaries correspond to SCOWL size
-70 and may include multiple spelling for a word when both variants are
-considered almost equal.  The larger dictionaries however (1) have not
-been as carefully checked for errors as the normal dictionaries and
-thus may contain misspelled or invalid words; and (2) contain
-uncommon, yet valid, words that might cause problems as they are
-likely to be misspellings of more common words (for example, "ort" and
-"calender").
-
-To get an idea of the difference in size, here are 25 random words
-only found in the large dictionary for American English:
-
-  Bermejo Freyr's Guenevere Hatshepsut Nottinghamshire arrestment
-  crassitudes crural dogwatches errorless fetial flaxseeds godroon
-  incretion jalapeño's kelpie kishkes neuroglias pietisms pullulation
-  stemwinder stenoses syce thalassic zees
-
-The en_US, en_CA and en_AU are the official dictionaries for Hunspell.
-The en_GB and large dictionaries are made available on an experimental
-basis.  If you find them useful please send me a quick email at
-kevina@gnu.org.
-
-If none of these dictionaries suite you (for example, maybe you want
-the normal dictionary that also includes common variants) additional
-dictionaries can be generated at http://app.aspell.net/create or by
-modifying speller/make-hunspell-dict in SCOWL.  Please do let me know
-if you end up publishing a customized dictionary.
-
-If a word is not found in the dictionary or a word is there you think
-shouldn't be, you can lookup the word up at http://app.aspell.net/lookup
-to help determine why that is.
-
-General comments on these list can be sent directly to me at
-kevina@gnu.org or to the wordlist-devel mailing lists
-(https://lists.sourceforge.net/lists/listinfo/wordlist-devel).  If you
-have specific issues with any of these dictionaries please file a bug
-report at https://github.com/kevina/wordlist/issues.
-
-IMPORTANT CHANGES INTRODUCED In 2016.11.20:
-
-New Australian dictionaries thanks to the work of Benjamin Titze
-(btitze@protonmail.ch).
-
-IMPORTANT CHANGES INTRODUCED IN 2016.04.24:
-
-The dictionaries are now in UTF-8 format instead of ISO-8859-1.  This
-was required to handle smart quotes correctly.
-
-IMPORTANT CHANGES INTRODUCED IN 2016.01.19:
-
-"SET UTF8" was changes to "SET UTF-8" in the affix file as some
-versions of Hunspell do not recognize "UTF8".
-
-ADDITIONAL NOTES:
-
-The NOSUGGEST flag was added to certain taboo words.  While I made an
-honest attempt to flag the strongest taboo words with the NOSUGGEST
-flag, I MAKE NO GUARANTEE THAT I FLAGGED EVERY POSSIBLE TABOO WORD.
-The list was originally derived from Németh László, however I removed
-some words which, while being considered taboo by some dictionaries,
-are not really considered swear words in today's society.
-
-COPYRIGHT, SOURCES, and CREDITS:
-
-The English dictionaries come directly from SCOWL
-and is thus under the same copyright of SCOWL.  The affix file is
-a heavily modified version of the original english.aff file which was
-released as part of Geoff Kuenning's Ispell and as such is covered by
-his BSD license.  Part of SCOWL is also based on Ispell thus the
-Ispell copyright is included with the SCOWL copyright.
-
-The collective work is Copyright 2000-2018 by Kevin Atkinson as well
-as any of the copyrights mentioned below:
-
-  Copyright 2000-2018 by Kevin Atkinson
-
-  Permission to use, copy, modify, distribute and sell these word
-  lists, the associated scripts, the output created from the scripts,
-  and its documentation for any purpose is hereby granted without fee,
-  provided that the above copyright notice appears in all copies and
-  that both that copyright notice and this permission notice appear in
-  supporting documentation. Kevin Atkinson makes no representations
-  about the suitability of this array for any purpose. It is provided
-  "as is" without express or implied warranty.
-
-Alan Beale <biljir@pobox.com> also deserves special credit as he has,
-in addition to providing the 12Dicts package and being a major
-contributor to the ENABLE word list, given me an incredible amount of
-feedback and created a number of special lists (those found in the
-Supplement) in order to help improve the overall quality of SCOWL.
-
-The 10 level includes the 1000 most common English words (according to
-the Moby (TM) Words II [MWords] package), a subset of the 1000 most
-common words on the Internet (again, according to Moby Words II), and
-frequently class 16 from Brian Kelk's "UK English Wordlist
-with Frequency Classification".
-
-The MWords package was explicitly placed in the public domain:
-
-    The Moby lexicon project is complete and has
-    been place into the public domain. Use, sell,
-    rework, excerpt and use in any way on any platform.
-
-    Placing this material on internal or public servers is
-    also encouraged. The compiler is not aware of any
-    export restrictions so freely distribute world-wide.
-
-    You can verify the public domain status by contacting
-
-    Grady Ward
-    3449 Martha Ct.
-    Arcata, CA  95521-4884
-
-    grady@netcom.com
-    grady@northcoast.com
-
-The "UK English Wordlist With Frequency Classification" is also in the
-Public Domain:
-
-  Date: Sat, 08 Jul 2000 20:27:21 +0100
-  From: Brian Kelk <Brian.Kelk@cl.cam.ac.uk>
-
-  > I was wondering what the copyright status of your "UK English
-  > Wordlist With Frequency Classification" word list as it seems to
-  > be lacking any copyright notice.
-
-  There were many many sources in total, but any text marked
-  "copyright" was avoided. Locally-written documentation was one
-  source. An earlier version of the list resided in a filespace called
-  PUBLIC on the University mainframe, because it was considered public
-  domain.
-
-  Date: Tue, 11 Jul 2000 19:31:34 +0100
-
-  > So are you saying your word list is also in the public domain?
-
-  That is the intention.
-
-The 20 level includes frequency classes 7-15 from Brian's word list.
-
-The 35 level includes frequency classes 2-6 and words appearing in at
-least 11 of 12 dictionaries as indicated in the 12Dicts package.  All
-words from the 12Dicts package have had likely inflections added via
-my inflection database.
-
-The 12Dicts package and Supplement is in the Public Domain.
-
-The WordNet database, which was used in the creation of the
-Inflections database, is under the following copyright:
-
-  This software and database is being provided to you, the LICENSEE,
-  by Princeton University under the following license.  By obtaining,
-  using and/or copying this software and database, you agree that you
-  have read, understood, and will comply with these terms and
-  conditions.:
-
-  Permission to use, copy, modify and distribute this software and
-  database and its documentation for any purpose and without fee or
-  royalty is hereby granted, provided that you agree to comply with
-  the following copyright notice and statements, including the
-  disclaimer, and that the same appear on ALL copies of the software,
-  database and documentation, including modifications that you make
-  for internal use or for distribution.
-
-  WordNet 1.6 Copyright 1997 by Princeton University.  All rights
-  reserved.
-
-  THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND PRINCETON
-  UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR
-  IMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON
-  UNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-
-  ABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE
-  LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT INFRINGE ANY
-  THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
-
-  The name of Princeton University or Princeton may not be used in
-  advertising or publicity pertaining to distribution of the software
-  and/or database.  Title to copyright in this software, database and
-  any associated documentation shall at all times remain with
-  Princeton University and LICENSEE agrees to preserve same.
-
-The 40 level includes words from Alan's 3esl list found in version 4.0
-of his 12dicts package.  Like his other stuff the 3esl list is also in the
-public domain.
-
-The 50 level includes Brian's frequency class 1, words appearing
-in at least 5 of 12 of the dictionaries as indicated in the 12Dicts
-package, and uppercase words in at least 4 of the previous 12
-dictionaries.  A decent number of proper names is also included: The
-top 1000 male, female, and Last names from the 1990 Census report; a
-list of names sent to me by Alan Beale; and a few names that I added
-myself.  Finally a small list of abbreviations not commonly found in
-other word lists is included.
-
-The name files form the Census report is a government document which I
-don't think can be copyrighted.
-
-The file special-jargon.50 uses common.lst and word.lst from the
-"Unofficial Jargon File Word Lists" which is derived from "The Jargon
-File".  All of which is in the Public Domain.  This file also contain
-a few extra UNIX terms which are found in the file "unix-terms" in the
-special/ directory.
-
-The 55 level includes words from Alan's 2of4brif list found in version
-4.0 of his 12dicts package.  Like his other stuff the 2of4brif is also
-in the public domain.
-
-The 60 level includes all words appearing in at least 2 of the 12
-dictionaries as indicated by the 12Dicts package.
-
-The 70 level includes Brian's frequency class 0 and the 74,550 common
-dictionary words from the MWords package.  The common dictionary words,
-like those from the 12Dicts package, have had all likely inflections
-added.  The 70 level also included the 5desk list from version 4.0 of
-the 12Dics package which is in the public domain.
-
-The 80 level includes the ENABLE word list, all the lists in the
-ENABLE supplement package (except for ABLE), the "UK Advanced Cryptics
-Dictionary" (UKACD), the list of signature words from the YAWL package,
-and the 10,196 places list from the MWords package.
-
-The ENABLE package, mainted by M\Cooper <thegrendel@theriver.com>,
-is in the Public Domain:
-
-  The ENABLE master word list, WORD.LST, is herewith formally released
-  into the Public Domain. Anyone is free to use it or distribute it in
-  any manner they see fit. No fee or registration is required for its
-  use nor are "contributions" solicited (if you feel you absolutely
-  must contribute something for your own peace of mind, the authors of
-  the ENABLE list ask that you make a donation on their behalf to your
-  favorite charity). This word list is our gift to the Scrabble
-  community, as an alternate to "official" word lists. Game designers
-  may feel free to incorporate the WORD.LST into their games. Please
-  mention the source and credit us as originators of the list. Note
-  that if you, as a game designer, use the WORD.LST in your product,
-  you may still copyright and protect your product, but you may *not*
-  legally copyright or in any way restrict redistribution of the
-  WORD.LST portion of your product. This *may* under law restrict your
-  rights to restrict your users' rights, but that is only fair.
-
-UKACD, by J Ross Beresford <ross@bryson.demon.co.uk>, is under the
-following copyright:
-
-  Copyright (c) J Ross Beresford 1993-1999. All Rights Reserved.
-
-  The following restriction is placed on the use of this publication:
-  if The UK Advanced Cryptics Dictionary is used in a software package
-  or redistributed in any form, the copyright notice must be
-  prominently displayed and the text of this document must be included
-  verbatim.
-
-  There are no other restrictions: I would like to see the list
-  distributed as widely as possible.
-
-The 95 level includes the 354,984 single words, 256,772 compound
-words, 4,946 female names and the 3,897 male names, and 21,986 names
-from the MWords package, ABLE.LST from the ENABLE Supplement, and some
-additional words found in my part-of-speech database that were not
-found anywhere else.
-
-Accent information was taken from UKACD.
-
-The VarCon package was used to create the American, British, Canadian,
-and Australian word list.  It is under the following copyright:
-
-  Copyright 2000-2016 by Kevin Atkinson
-
-  Permission to use, copy, modify, distribute and sell this array, the
-  associated software, and its documentation for any purpose is hereby
-  granted without fee, provided that the above copyright notice appears
-  in all copies and that both that copyright notice and this permission
-  notice appear in supporting documentation. Kevin Atkinson makes no
-  representations about the suitability of this array for any
-  purpose. It is provided "as is" without express or implied warranty.
-
-  Copyright 2016 by Benjamin Titze
-
-  Permission to use, copy, modify, distribute and sell this array, the
-  associated software, and its documentation for any purpose is hereby
-  granted without fee, provided that the above copyright notice appears
-  in all copies and that both that copyright notice and this permission
-  notice appear in supporting documentation. Benjamin Titze makes no
-  representations about the suitability of this array for any
-  purpose. It is provided "as is" without express or implied warranty.
-
-  Since the original words lists come from the Ispell distribution:
-
-  Copyright 1993, Geoff Kuenning, Granada Hills, CA
-  All rights reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
-
-  1. Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
-  2. Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
-  3. All modifications to the source code must be clearly marked as
-     such.  Binary redistributions based on modified source code
-     must be clearly marked as modified versions in the documentation
-     and/or other materials provided with the distribution.
-  (clause 4 removed with permission from Geoff Kuenning)
-  5. The name of Geoff Kuenning may not be used to endorse or promote
-     products derived from this software without specific prior
-     written permission.
-
-  THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS IS'' AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF KUENNING OR CONTRIBUTORS BE LIABLE
-  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-  SUCH DAMAGE.
-
-Build Date: Sun Oct  6 20:46:19 EDT 2019
-Wordlist Command: mk-list --accents=strip en_US 60
 
 -----
 
@@ -17310,11 +16958,375 @@ SUCH DAMAGE.
 
 -----
 
-The following software may be included in this product: textlint-rule-en-spell, workspace-aggregator-c7741629-2864-40e6-b680-a9300ce22d5f. A copy of the source code may be downloaded from git+https://github.com/blue-hood/textlint-rule-en-spell.git (textlint-rule-en-spell), https://github.com/blue-hood/kohsei-san (workspace-aggregator-c7741629-2864-40e6-b680-a9300ce22d5f). This software contains the following license and notice below:
+The following software may be included in this product: textlint-filter-rule-ja-named-entities, textlint-rule-ja-joyo-or-jinmeiyo-kanji. A copy of the source code may be downloaded from https://github.com/hata6502/textlint-filter-rule-ja-named-entities (textlint-filter-rule-ja-named-entities), git+https://github.com/hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji.git (textlint-rule-ja-joyo-or-jinmeiyo-kanji). This software contains the following license and notice below:
+
+Creative Commons Legal Code
+
+Attribution-ShareAlike 3.0 Unported
+
+    CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
+    LEGAL SERVICES. DISTRIBUTION OF THIS LICENSE DOES NOT CREATE AN
+    ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+    INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+    REGARDING THE INFORMATION PROVIDED, AND DISCLAIMS LIABILITY FOR
+    DAMAGES RESULTING FROM ITS USE.
+
+License
+
+THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS CREATIVE
+COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). THE WORK IS PROTECTED BY
+COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS
+AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+
+BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE
+TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE EXTENT THIS LICENSE MAY
+BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU THE RIGHTS
+CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND
+CONDITIONS.
+
+1. Definitions
+
+ a. "Adaptation" means a work based upon the Work, or upon the Work and
+    other pre-existing works, such as a translation, adaptation,
+    derivative work, arrangement of music or other alterations of a
+    literary or artistic work, or phonogram or performance and includes
+    cinematographic adaptations or any other form in which the Work may be
+    recast, transformed, or adapted including in any form recognizably
+    derived from the original, except that a work that constitutes a
+    Collection will not be considered an Adaptation for the purpose of
+    this License. For the avoidance of doubt, where the Work is a musical
+    work, performance or phonogram, the synchronization of the Work in
+    timed-relation with a moving image ("synching") will be considered an
+    Adaptation for the purpose of this License.
+ b. "Collection" means a collection of literary or artistic works, such as
+    encyclopedias and anthologies, or performances, phonograms or
+    broadcasts, or other works or subject matter other than works listed
+    in Section 1(f) below, which, by reason of the selection and
+    arrangement of their contents, constitute intellectual creations, in
+    which the Work is included in its entirety in unmodified form along
+    with one or more other contributions, each constituting separate and
+    independent works in themselves, which together are assembled into a
+    collective whole. A work that constitutes a Collection will not be
+    considered an Adaptation (as defined below) for the purposes of this
+    License.
+ c. "Creative Commons Compatible License" means a license that is listed
+    at https://creativecommons.org/compatiblelicenses that has been
+    approved by Creative Commons as being essentially equivalent to this
+    License, including, at a minimum, because that license: (i) contains
+    terms that have the same purpose, meaning and effect as the License
+    Elements of this License; and, (ii) explicitly permits the relicensing
+    of adaptations of works made available under that license under this
+    License or a Creative Commons jurisdiction license with the same
+    License Elements as this License.
+ d. "Distribute" means to make available to the public the original and
+    copies of the Work or Adaptation, as appropriate, through sale or
+    other transfer of ownership.
+ e. "License Elements" means the following high-level license attributes
+    as selected by Licensor and indicated in the title of this License:
+    Attribution, ShareAlike.
+ f. "Licensor" means the individual, individuals, entity or entities that
+    offer(s) the Work under the terms of this License.
+ g. "Original Author" means, in the case of a literary or artistic work,
+    the individual, individuals, entity or entities who created the Work
+    or if no individual or entity can be identified, the publisher; and in
+    addition (i) in the case of a performance the actors, singers,
+    musicians, dancers, and other persons who act, sing, deliver, declaim,
+    play in, interpret or otherwise perform literary or artistic works or
+    expressions of folklore; (ii) in the case of a phonogram the producer
+    being the person or legal entity who first fixes the sounds of a
+    performance or other sounds; and, (iii) in the case of broadcasts, the
+    organization that transmits the broadcast.
+ h. "Work" means the literary and/or artistic work offered under the terms
+    of this License including without limitation any production in the
+    literary, scientific and artistic domain, whatever may be the mode or
+    form of its expression including digital form, such as a book,
+    pamphlet and other writing; a lecture, address, sermon or other work
+    of the same nature; a dramatic or dramatico-musical work; a
+    choreographic work or entertainment in dumb show; a musical
+    composition with or without words; a cinematographic work to which are
+    assimilated works expressed by a process analogous to cinematography;
+    a work of drawing, painting, architecture, sculpture, engraving or
+    lithography; a photographic work to which are assimilated works
+    expressed by a process analogous to photography; a work of applied
+    art; an illustration, map, plan, sketch or three-dimensional work
+    relative to geography, topography, architecture or science; a
+    performance; a broadcast; a phonogram; a compilation of data to the
+    extent it is protected as a copyrightable work; or a work performed by
+    a variety or circus performer to the extent it is not otherwise
+    considered a literary or artistic work.
+ i. "You" means an individual or entity exercising rights under this
+    License who has not previously violated the terms of this License with
+    respect to the Work, or who has received express permission from the
+    Licensor to exercise rights under this License despite a previous
+    violation.
+ j. "Publicly Perform" means to perform public recitations of the Work and
+    to communicate to the public those public recitations, by any means or
+    process, including by wire or wireless means or public digital
+    performances; to make available to the public Works in such a way that
+    members of the public may access these Works from a place and at a
+    place individually chosen by them; to perform the Work to the public
+    by any means or process and the communication to the public of the
+    performances of the Work, including by public digital performance; to
+    broadcast and rebroadcast the Work by any means including signs,
+    sounds or images.
+ k. "Reproduce" means to make copies of the Work by any means including
+    without limitation by sound or visual recordings and the right of
+    fixation and reproducing fixations of the Work, including storage of a
+    protected performance or phonogram in digital form or other electronic
+    medium.
+
+2. Fair Dealing Rights. Nothing in this License is intended to reduce,
+limit, or restrict any uses free from copyright or rights arising from
+limitations or exceptions that are provided for in connection with the
+copyright protection under copyright law or other applicable laws.
+
+3. License Grant. Subject to the terms and conditions of this License,
+Licensor hereby grants You a worldwide, royalty-free, non-exclusive,
+perpetual (for the duration of the applicable copyright) license to
+exercise the rights in the Work as stated below:
+
+ a. to Reproduce the Work, to incorporate the Work into one or more
+    Collections, and to Reproduce the Work as incorporated in the
+    Collections;
+ b. to create and Reproduce Adaptations provided that any such Adaptation,
+    including any translation in any medium, takes reasonable steps to
+    clearly label, demarcate or otherwise identify that changes were made
+    to the original Work. For example, a translation could be marked "The
+    original work was translated from English to Spanish," or a
+    modification could indicate "The original work has been modified.";
+ c. to Distribute and Publicly Perform the Work including as incorporated
+    in Collections; and,
+ d. to Distribute and Publicly Perform Adaptations.
+ e. For the avoidance of doubt:
+
+     i. Non-waivable Compulsory License Schemes. In those jurisdictions in
+        which the right to collect royalties through any statutory or
+        compulsory licensing scheme cannot be waived, the Licensor
+        reserves the exclusive right to collect such royalties for any
+        exercise by You of the rights granted under this License;
+    ii. Waivable Compulsory License Schemes. In those jurisdictions in
+        which the right to collect royalties through any statutory or
+        compulsory licensing scheme can be waived, the Licensor waives the
+        exclusive right to collect such royalties for any exercise by You
+        of the rights granted under this License; and,
+   iii. Voluntary License Schemes. The Licensor waives the right to
+        collect royalties, whether individually or, in the event that the
+        Licensor is a member of a collecting society that administers
+        voluntary licensing schemes, via that society, from any exercise
+        by You of the rights granted under this License.
+
+The above rights may be exercised in all media and formats whether now
+known or hereafter devised. The above rights include the right to make
+such modifications as are technically necessary to exercise the rights in
+other media and formats. Subject to Section 8(f), all rights not expressly
+granted by Licensor are hereby reserved.
+
+4. Restrictions. The license granted in Section 3 above is expressly made
+subject to and limited by the following restrictions:
+
+ a. You may Distribute or Publicly Perform the Work only under the terms
+    of this License. You must include a copy of, or the Uniform Resource
+    Identifier (URI) for, this License with every copy of the Work You
+    Distribute or Publicly Perform. You may not offer or impose any terms
+    on the Work that restrict the terms of this License or the ability of
+    the recipient of the Work to exercise the rights granted to that
+    recipient under the terms of the License. You may not sublicense the
+    Work. You must keep intact all notices that refer to this License and
+    to the disclaimer of warranties with every copy of the Work You
+    Distribute or Publicly Perform. When You Distribute or Publicly
+    Perform the Work, You may not impose any effective technological
+    measures on the Work that restrict the ability of a recipient of the
+    Work from You to exercise the rights granted to that recipient under
+    the terms of the License. This Section 4(a) applies to the Work as
+    incorporated in a Collection, but this does not require the Collection
+    apart from the Work itself to be made subject to the terms of this
+    License. If You create a Collection, upon notice from any Licensor You
+    must, to the extent practicable, remove from the Collection any credit
+    as required by Section 4(c), as requested. If You create an
+    Adaptation, upon notice from any Licensor You must, to the extent
+    practicable, remove from the Adaptation any credit as required by
+    Section 4(c), as requested.
+ b. You may Distribute or Publicly Perform an Adaptation only under the
+    terms of: (i) this License; (ii) a later version of this License with
+    the same License Elements as this License; (iii) a Creative Commons
+    jurisdiction license (either this or a later license version) that
+    contains the same License Elements as this License (e.g.,
+    Attribution-ShareAlike 3.0 US)); (iv) a Creative Commons Compatible
+    License. If you license the Adaptation under one of the licenses
+    mentioned in (iv), you must comply with the terms of that license. If
+    you license the Adaptation under the terms of any of the licenses
+    mentioned in (i), (ii) or (iii) (the "Applicable License"), you must
+    comply with the terms of the Applicable License generally and the
+    following provisions: (I) You must include a copy of, or the URI for,
+    the Applicable License with every copy of each Adaptation You
+    Distribute or Publicly Perform; (II) You may not offer or impose any
+    terms on the Adaptation that restrict the terms of the Applicable
+    License or the ability of the recipient of the Adaptation to exercise
+    the rights granted to that recipient under the terms of the Applicable
+    License; (III) You must keep intact all notices that refer to the
+    Applicable License and to the disclaimer of warranties with every copy
+    of the Work as included in the Adaptation You Distribute or Publicly
+    Perform; (IV) when You Distribute or Publicly Perform the Adaptation,
+    You may not impose any effective technological measures on the
+    Adaptation that restrict the ability of a recipient of the Adaptation
+    from You to exercise the rights granted to that recipient under the
+    terms of the Applicable License. This Section 4(b) applies to the
+    Adaptation as incorporated in a Collection, but this does not require
+    the Collection apart from the Adaptation itself to be made subject to
+    the terms of the Applicable License.
+ c. If You Distribute, or Publicly Perform the Work or any Adaptations or
+    Collections, You must, unless a request has been made pursuant to
+    Section 4(a), keep intact all copyright notices for the Work and
+    provide, reasonable to the medium or means You are utilizing: (i) the
+    name of the Original Author (or pseudonym, if applicable) if supplied,
+    and/or if the Original Author and/or Licensor designate another party
+    or parties (e.g., a sponsor institute, publishing entity, journal) for
+    attribution ("Attribution Parties") in Licensor's copyright notice,
+    terms of service or by other reasonable means, the name of such party
+    or parties; (ii) the title of the Work if supplied; (iii) to the
+    extent reasonably practicable, the URI, if any, that Licensor
+    specifies to be associated with the Work, unless such URI does not
+    refer to the copyright notice or licensing information for the Work;
+    and (iv) , consistent with Ssection 3(b), in the case of an
+    Adaptation, a credit identifying the use of the Work in the Adaptation
+    (e.g., "French translation of the Work by Original Author," or
+    "Screenplay based on original Work by Original Author"). The credit
+    required by this Section 4(c) may be implemented in any reasonable
+    manner; provided, however, that in the case of a Adaptation or
+    Collection, at a minimum such credit will appear, if a credit for all
+    contributing authors of the Adaptation or Collection appears, then as
+    part of these credits and in a manner at least as prominent as the
+    credits for the other contributing authors. For the avoidance of
+    doubt, You may only use the credit required by this Section for the
+    purpose of attribution in the manner set out above and, by exercising
+    Your rights under this License, You may not implicitly or explicitly
+    assert or imply any connection with, sponsorship or endorsement by the
+    Original Author, Licensor and/or Attribution Parties, as appropriate,
+    of You or Your use of the Work, without the separate, express prior
+    written permission of the Original Author, Licensor and/or Attribution
+    Parties.
+ d. Except as otherwise agreed in writing by the Licensor or as may be
+    otherwise permitted by applicable law, if You Reproduce, Distribute or
+    Publicly Perform the Work either by itself or as part of any
+    Adaptations or Collections, You must not distort, mutilate, modify or
+    take other derogatory action in relation to the Work which would be
+    prejudicial to the Original Author's honor or reputation. Licensor
+    agrees that in those jurisdictions (e.g. Japan), in which any exercise
+    of the right granted in Section 3(b) of this License (the right to
+    make Adaptations) would be deemed to be a distortion, mutilation,
+    modification or other derogatory action prejudicial to the Original
+    Author's honor and reputation, the Licensor will waive or not assert,
+    as appropriate, this Section, to the fullest extent permitted by the
+    applicable national law, to enable You to reasonably exercise Your
+    right under Section 3(b) of this License (right to make Adaptations)
+    but not otherwise.
+
+5. Representations, Warranties and Disclaimer
+
+UNLESS OTHERWISE MUTUALLY AGREED TO BY THE PARTIES IN WRITING, LICENSOR
+OFFERS THE WORK AS-IS AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY
+KIND CONCERNING THE WORK, EXPRESS, IMPLIED, STATUTORY OR OTHERWISE,
+INCLUDING, WITHOUT LIMITATION, WARRANTIES OF TITLE, MERCHANTIBILITY,
+FITNESS FOR A PARTICULAR PURPOSE, NONINFRINGEMENT, OR THE ABSENCE OF
+LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OF ABSENCE OF ERRORS,
+WHETHER OR NOT DISCOVERABLE. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION
+OF IMPLIED WARRANTIES, SO SUCH EXCLUSION MAY NOT APPLY TO YOU.
+
+6. Limitation on Liability. EXCEPT TO THE EXTENT REQUIRED BY APPLICABLE
+LAW, IN NO EVENT WILL LICENSOR BE LIABLE TO YOU ON ANY LEGAL THEORY FOR
+ANY SPECIAL, INCIDENTAL, CONSEQUENTIAL, PUNITIVE OR EXEMPLARY DAMAGES
+ARISING OUT OF THIS LICENSE OR THE USE OF THE WORK, EVEN IF LICENSOR HAS
+BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+7. Termination
+
+ a. This License and the rights granted hereunder will terminate
+    automatically upon any breach by You of the terms of this License.
+    Individuals or entities who have received Adaptations or Collections
+    from You under this License, however, will not have their licenses
+    terminated provided such individuals or entities remain in full
+    compliance with those licenses. Sections 1, 2, 5, 6, 7, and 8 will
+    survive any termination of this License.
+ b. Subject to the above terms and conditions, the license granted here is
+    perpetual (for the duration of the applicable copyright in the Work).
+    Notwithstanding the above, Licensor reserves the right to release the
+    Work under different license terms or to stop distributing the Work at
+    any time; provided, however that any such election will not serve to
+    withdraw this License (or any other license that has been, or is
+    required to be, granted under the terms of this License), and this
+    License will continue in full force and effect unless terminated as
+    stated above.
+
+8. Miscellaneous
+
+ a. Each time You Distribute or Publicly Perform the Work or a Collection,
+    the Licensor offers to the recipient a license to the Work on the same
+    terms and conditions as the license granted to You under this License.
+ b. Each time You Distribute or Publicly Perform an Adaptation, Licensor
+    offers to the recipient a license to the original Work on the same
+    terms and conditions as the license granted to You under this License.
+ c. If any provision of this License is invalid or unenforceable under
+    applicable law, it shall not affect the validity or enforceability of
+    the remainder of the terms of this License, and without further action
+    by the parties to this agreement, such provision shall be reformed to
+    the minimum extent necessary to make such provision valid and
+    enforceable.
+ d. No term or provision of this License shall be deemed waived and no
+    breach consented to unless such waiver or consent shall be in writing
+    and signed by the party to be charged with such waiver or consent.
+ e. This License constitutes the entire agreement between the parties with
+    respect to the Work licensed here. There are no understandings,
+    agreements or representations with respect to the Work not specified
+    here. Licensor shall not be bound by any additional provisions that
+    may appear in any communication from You. This License may not be
+    modified without the mutual written agreement of the Licensor and You.
+ f. The rights granted under, and the subject matter referenced, in this
+    License were drafted utilizing the terminology of the Berne Convention
+    for the Protection of Literary and Artistic Works (as amended on
+    September 28, 1979), the Rome Convention of 1961, the WIPO Copyright
+    Treaty of 1996, the WIPO Performances and Phonograms Treaty of 1996
+    and the Universal Copyright Convention (as revised on July 24, 1971).
+    These rights and subject matter take effect in the relevant
+    jurisdiction in which the License terms are sought to be enforced
+    according to the corresponding provisions of the implementation of
+    those treaty provisions in the applicable national law. If the
+    standard suite of rights granted under applicable copyright law
+    includes additional rights not granted under this License, such
+    additional rights are deemed to be included in the License; this
+    License is not intended to restrict the license of any rights under
+    applicable law.
+
+
+Creative Commons Notice
+
+    Creative Commons is not a party to this License, and makes no warranty
+    whatsoever in connection with the Work. Creative Commons will not be
+    liable to You or any party on any legal theory for any damages
+    whatsoever, including without limitation any general, special,
+    incidental or consequential damages arising in connection to this
+    license. Notwithstanding the foregoing two (2) sentences, if Creative
+    Commons has expressly identified itself as the Licensor hereunder, it
+    shall have all rights and obligations of Licensor.
+
+    Except for the limited purpose of indicating to the public that the
+    Work is licensed under the CCPL, Creative Commons does not authorize
+    the use by either party of the trademark "Creative Commons" or any
+    related trademark or logo of Creative Commons without the prior
+    written consent of Creative Commons. Any permitted use will be in
+    compliance with Creative Commons' then-current trademark usage
+    guidelines, as may be published on its website or otherwise made
+    available upon request from time to time. For the avoidance of doubt,
+    this trademark restriction does not form part of the License.
+
+    Creative Commons may be contacted at https://creativecommons.org/.
+
+-----
+
+The following software may be included in this product: textlint-filter-rule-urls, textlint-rule-ja-no-inappropriate-words, workspace-aggregator-715fffdf-7c52-4897-b1ff-ad90b3753b62. A copy of the source code may be downloaded from https://github.com/hata6502/textlint-filter-rule-urls (textlint-filter-rule-urls), git+https://github.com/hata6502/textlint-rule-ja-no-inappropriate-words.git (textlint-rule-ja-no-inappropriate-words), https://github.com/blue-hood/kohsei-san (workspace-aggregator-715fffdf-7c52-4897-b1ff-ad90b3753b62). This software contains the following license and notice below:
 
 MIT License
 
-Copyright (c) 2020 Hood
+Copyright (c) 2020 Tomoyuki Hata
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18856,37 +18868,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
------
-
-The following software may be included in this product: zlibjs. A copy of the source code may be downloaded from git://github.com/imaya/zlib.js.git. This software contains the following license and notice below:
-
-/**
- * @license
- * zlib.js
- * JavaScript Zlib Library
- * https://github.com/imaya/zlib.js
- *
- * The MIT License
- *
- * Copyright (c) 2012 imaya
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 

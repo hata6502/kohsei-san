@@ -10058,6 +10058,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+textlint-filter-rule-ja-named-entities@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-filter-rule-ja-named-entities/-/textlint-filter-rule-ja-named-entities-1.0.0.tgz#57a2e00c135b9605482543f0d8504d079c6d7804"
+  integrity sha512-074uL2JS2cdJr4QwnqsiBdb34lm5Rm1bWpJYHFfWwUfEtDbz0S6rmgd56eEFwI2B+1dP3o9F8TlZ63i/IYNLlw==
+
 textlint-filter-rule-urls@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/textlint-filter-rule-urls/-/textlint-filter-rule-urls-1.0.1.tgz#06607503fab3d973916f461d3f9c01e0b303a5e8"
