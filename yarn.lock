@@ -7260,6 +7260,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
+negaposi@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/negaposi/-/negaposi-1.1.0.tgz#d49aadab46d33313488913fd69018958c8f175ad"
+  integrity sha512-tfNXxMZnvD7efBAF6euoZLbbLpS9XDNzEHITxLYXdjnhyaPdJsGmM12hFqyghTHy0K1vaCaBq/TampVYtNvbpQ==
+
 negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"

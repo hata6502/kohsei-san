@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -85,6 +86,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [deviation, setDeviation] = useState<number>();
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
+  const [negaposiScore, setNegaposiScore] = useState<number>();
   const [pins, setPins] = useState<Pin[]>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
   const [popoverMessages, setPopoverMessages] = useState<Message['messages']>([]);
@@ -233,6 +235,22 @@ const Edit: React.FunctionComponent<EditProps> = ({
     }
   }, [dispatchIsLinting, memo.result, memo.text]);
 
+  useEffect(() => {
+    let isUnmounted = false;
+
+    (async () => {
+      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
+
+      if (!isUnmounted) {
+        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
+      }
+    })();
+
+    return () => {
+      isUnmounted = true;
+    };
+  }, [memo.text]);
+
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
@@ -310,15 +328,45 @@ const Edit: React.FunctionComponent<EditProps> = ({
       <Paper>
         <Box pb={2} pt={2}>
           <Container>
-            <Chip
-              clickable
-              component="a"
-              href="https://github.com/blue-hood/kohsei-san#校正偏差値"
-              label={`校正偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
-              rel="noreferrer"
-              size="small"
-              target="_blank"
-            />
+            <Grid container spacing={1} wrap="wrap">
+              <Grid item>
+                <Chip
+                  clickable
+                  component="a"
+                  href="https://github.com/hata6502/kohsei-san#校正偏差値"
+                  label={`校正偏差値 ${
+                    deviation && isDisplayResult ? Math.round(deviation) : '??'
+                  }`}
+                  rel="noreferrer"
+                  size="small"
+                  target="_blank"
+                />
+              </Grid>
+
+              <Grid item>
+                <Chip
+                  clickable
+                  component="a"
+                  href="https://github.com/hata6502/kohsei-san#ネガポジ判定"
+                  label={`ネガポジ判定 ${
+                    !isDisplayResult || negaposiScore === undefined
+                      ? '??'
+                      : negaposiScore < -0.6
+                      ? '😢'
+                      : negaposiScore < -0.2
+                      ? '😧'
+                      : negaposiScore < 0.2
+                      ? '😐'
+                      : negaposiScore < 0.6
+                      ? '😃'
+                      : '😄'
+                  }`}
+                  rel="noreferrer"
+                  size="small"
+                  target="_blank"
+                />
+              </Grid>
+            </Grid>
 
             <Box
               border={1}
