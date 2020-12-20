@@ -51,7 +51,19 @@
 ## 校正偏差値
 
 Wikipedia の記事データをスコアリングして統計をとることで、文章の品質を表す「校正偏差値」を導入しています。
-詳しくは[ソースコード](https://github.com/hata6502/kohsei-san/blob/master/packages/scripts/src/index.ts)を確認してください。
+詳しくは[ソースコード](https://github.com/hata6502/kohsei-san/blob/master/packages/scripts/src/index.ts)を参照してください。
+
+## ネガポジ判定
+
+文章中に含まれる言葉を分析して、文章がネガティブであるかポジティブであるかを５段階で判定できます。
+
+|😢|すごくネガティブ|
+|😧|ネガティブ|
+|😐|ふつう|
+|😃|ポジティブ|
+|😄|すごくポジティブ|
+
+詳しくは[negaposi](https://github.com/hata6502/negaposi)を参照してください。
 
 ## プライバシーポリシー
 

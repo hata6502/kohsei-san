@@ -59,6 +59,7 @@
     "http-server": "^0.12.1",
     "istanbul-lib-coverage": "^3.0.0",
     "kuromoji": "^0.1.2",
+    "negaposi": "^1.1.0",
     "nyc": "^15.0.0",
     "path": "^0.12.7",
     "raw-loader": "^4.0.1",
