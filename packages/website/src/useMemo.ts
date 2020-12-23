@@ -33,7 +33,11 @@ const useMemo = () => {
           ? [
               {
                 id: uuidv4(),
-                text: `${titleParam ?? ''}\n${textParam ?? ''}\n${urlParam ?? ''}`,
+                text: [
+                  ...(titleParam ? [titleParam] : []),
+                  ...(textParam ? [textParam] : []),
+                  ...(urlParam ? [urlParam] : []),
+                ].join('\n\n'),
               },
             ]
           : []),

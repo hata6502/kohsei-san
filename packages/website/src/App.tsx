@@ -120,7 +120,7 @@ const App: React.FunctionComponent = () => {
       </Navigation>
 
       <Main>
-        {(memo && (
+        {memo ? (
           <Edit
             dispatchIsLinting={dispatchIsLinting}
             dispatchMemos={dispatchMemos}
@@ -128,7 +128,9 @@ const App: React.FunctionComponent = () => {
             key={memoId}
             memo={memo}
           />
-        )) || <Empty />}
+        ) : (
+          <Empty />
+        )}
       </Main>
 
       <Snackbar open={isSaveErrorOpen}>
