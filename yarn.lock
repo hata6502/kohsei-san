@@ -7261,9 +7261,9 @@ natural-compare@^1.4.0:
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
 negaposi@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/negaposi/-/negaposi-1.2.0.tgz#1020ebfb08fb108786d2cd0c1c6e744bc3c96403"
-  integrity sha512-MxfypeF7kZuf27x7liF1EVQiPz3LTnYFY8KhIrcjUA1xqx1QQyo8gJBszNlabtSYb76mcYEuEAHsF/9WEKEoRw==
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/negaposi/-/negaposi-1.3.1.tgz#5ac055c99e967e72a2f7839d50fb280e14d77b46"
+  integrity sha512-7eEv6XphxbdJrCEn1yLcS4F33y7Wfjiy0VWdBTIzouKgyRDr6/GGylEjaR1BdnDEd6W4+2pwbIkU10ZHM5Tj+g==
 
 negotiator@0.6.2:
   version "0.6.2"
