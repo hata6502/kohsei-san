@@ -128,23 +128,32 @@ const Edit: React.FunctionComponent<EditProps> = ({
   useEffect(() => {
     const lintWorker = new Worker('lintWorker.js');
 
-    lintWorker.addEventListener('error', () => {
+    const handleLintWorkerError = () => {
       dispatchIsLinting(false);
       setIsLintErrorOpen(true);
-    });
+    };
 
-    lintWorker.addEventListener('message', (event: MessageEvent<TextlintResult>) =>
+    const handleLintWorkerMessage = (event: MessageEvent<TextlintResult>) =>
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => ({
           ...prevMemo,
           ...(prevMemo.id === memo.id && { result: event.data }),
         }))
-      )
-    );
+      );
+
+    lintWorker.addEventListener('error', handleLintWorkerError);
+    lintWorker.addEventListener('message', handleLintWorkerMessage);
 
     setLintWorker(lintWorker);
 
-    return () => lintWorker.terminate();
+    return () => {
+      lintWorker.removeEventListener('error', handleLintWorkerError);
+      lintWorker.removeEventListener('message', handleLintWorkerMessage);
+
+      lintWorker.terminate();
+
+      setLintWorker(undefined);
+    };
   }, [dispatchIsLinting, dispatchMemos, memo.id]);
 
   useEffect(() => {
