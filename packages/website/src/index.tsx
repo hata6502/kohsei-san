@@ -21,26 +21,26 @@ declare module 'styled-components' {
 }
 
 const renderFatalError = ({ message }: { message: string }) =>
-ReactDOM.render(
-  <>
-    {message}
-    
-    <address>
-      <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
-        Twitter
-      </a>
-      <br />
-      <a
-        href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
-        rel="noreferrer"
-        target="_blank"
-      >
-        このアプリについて
-      </a>
-    </address>
-  </>,
-  document.querySelector('.app')
-);
+  ReactDOM.render(
+    <>
+      {message}
+
+      <address>
+        <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
+          Twitter
+        </a>
+        <br />
+        <a
+          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
+          rel="noreferrer"
+          target="_blank"
+        >
+          このアプリについて
+        </a>
+      </address>
+    </>,
+    document.querySelector('.app')
+  );
 
 const main = () => {
   if (process.env.NODE_ENV === 'production') {
@@ -61,7 +61,7 @@ const main = () => {
   }
 
   if (!window.Worker) {
-    renderFatalError({message: '校正さんを使用するには、Web Worker を有効にしてください。'});
+    renderFatalError({ message: '校正さんを使用するには、Web Worker を有効にしてください。' });
 
     return;
   }
@@ -84,7 +84,7 @@ const main = () => {
       localStorage.length === 0;
 
     if (unavailable) {
-      renderFatalError({message: '校正さんを使用するには、localStorage を有効にしてください。'});
+      renderFatalError({ message: '校正さんを使用するには、localStorage を有効にしてください。' });
 
       return;
     }

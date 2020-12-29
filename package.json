@@ -26,6 +26,7 @@
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
+    "kuromojin": "hata6502/kuromojin",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2",
     "node-forge": "^0.10.0"

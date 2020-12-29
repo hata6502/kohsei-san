@@ -32,9 +32,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'docs'),
   },
-  plugins: [
-    new CopyPlugin([{ from: 'resources' }]),
-  ],
+  plugins: [new CopyPlugin([{ from: 'resources' }])],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },

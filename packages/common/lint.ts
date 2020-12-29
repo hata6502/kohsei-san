@@ -61,22 +61,22 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRulePresetJapanese.rules[key],
         options: textlintRulePresetJapanese.rulesConfig[key],
       })),
-      /*{
+      {
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
       },
-      {
+      /*{
         ruleId: 'ja-hiragana-keishikimeishi',
         rule: textlintRuleJaHiraganaKeishikimeishi,
-      },
+      },*/
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
       },
-      {
+      /*{
         ruleId: 'ja-no-abusage',
         rule: textlintRuleJaNoAbusage,
-      },
+      },*/
       {
         ruleId: 'ja-no-inappropriate-words',
         rule: textlintRuleJaNoInappropriateWords,
@@ -97,23 +97,23 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'no-hankaku-kana',
         rule: textlintRuleNoHankakuKana,
       },
-      {
+      /*{
         ruleId: 'no-insert-dropping-sa',
         rule: textlintRuleNoInsertDroppingSa,
-      },
+      },*/
       {
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',
         rule: textlintRuleNoMixedZenkakuAndHankakuAlphabet,
       },
-      {
+      /*{
         ruleId: 'no-synonyms',
         rule: textlintRuleNoSynonyms,
-      },
+      },*/
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
       },
-      {
+      /*{
         ruleId: 'proofdict',
         rule: textlintRuleProofdict,
         options: {

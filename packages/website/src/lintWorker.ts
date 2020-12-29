@@ -1,3 +1,8 @@
+import 'core-js';
+import 'regenerator-runtime/runtime';
+
+import lint from 'common/lint';
+
 declare global {
   interface Window {
     kuromojin?: {
@@ -13,6 +18,4 @@ self.kuromojin = {
 
 self['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
-import lint from 'common/lint';
-
-lint('TEST');
+lint('TEST').then((result) => console.log(result));
