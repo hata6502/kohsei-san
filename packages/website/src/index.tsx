@@ -12,24 +12,35 @@ import {
   Theme,
   ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core/styles';
-import * as BrowserFS from 'browserfs';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import initializeDict from './dict';
-
-declare global {
-  interface Window {
-    kuromojin?: {
-      dicPath?: string;
-    };
-    ['sudachi-synonyms-dictionary']?: string;
-  }
-}
 
 declare module 'styled-components' {
   // eslint-disable-next-line
   export interface DefaultTheme extends Theme { }
 }
+
+const renderFatalError = ({ message }: { message: string }) =>
+  ReactDOM.render(
+    <>
+      {message}
+
+      <address>
+        <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
+          Twitter
+        </a>
+        <br />
+        <a
+          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
+          rel="noreferrer"
+          target="_blank"
+        >
+          このアプリについて
+        </a>
+      </address>
+    </>,
+    document.querySelector('.app')
+  );
 
 const main = () => {
   if (process.env.NODE_ENV === 'production') {
@@ -49,6 +60,12 @@ const main = () => {
     }
   }
 
+  if (!window.Worker) {
+    renderFatalError({ message: '校正さんを使用するには、Web Worker を有効にしてください。' });
+
+    return;
+  }
+
   try {
     const localStorageTest = 'localStorageTest';
 
@@ -65,49 +82,11 @@ const main = () => {
       localStorage.length === 0;
 
     if (unavailable) {
-      ReactDOM.render(
-        <>
-          校正さんを使用するには、localStorage を有効にしてください。
-          <address>
-            <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
-              Twitter
-            </a>
-            <br />
-            <a
-              href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
-              rel="noreferrer"
-              target="_blank"
-            >
-              このアプリについて
-            </a>
-          </address>
-        </>,
-        document.querySelector('.app')
-      );
+      renderFatalError({ message: '校正さんを使用するには、localStorage を有効にしてください。' });
 
       return;
     }
   }
-
-  window.kuromojin = {
-    dicPath: 'dict',
-  };
-
-  window['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
-
-  BrowserFS.install(window);
-  BrowserFS.configure(
-    {
-      fs: 'LocalStorage',
-    },
-    (exception) => {
-      if (exception) {
-        throw exception;
-      }
-    }
-  );
-
-  initializeDict();
 
   const theme = createMuiTheme(
     {

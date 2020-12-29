@@ -7,15 +7,9 @@ import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-ignore
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 // @ts-ignore
-import * as textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
-// @ts-ignore
-import * as textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
-// @ts-ignore
 import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-ignore
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
-// @ts-ignore
-import * as textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
 // @ts-ignore
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
 // @ts-ignore
@@ -35,7 +29,6 @@ import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-ignore
 import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 /* eslint-enable @typescript-eslint/ban-ts-ignore */
 
 const kernel = new TextlintKernel();
@@ -70,30 +63,12 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRuleDateWeekdayMismatch,
       },
       {
-        ruleId: 'ja-hiragana-fukushi',
-        rule: textlintRuleJaHiraganaFukushi,
-        options: {
-          rulePath: 'fukushi.yml',
-        },
-      },
-      {
-        ruleId: 'ja-hiragana-hojodoushi',
-        rule: textlintRuleJaHiraganaHojodoushi,
-        options: {
-          rulePath: 'hojodoushi.yml',
-        },
-      },
-      {
         ruleId: 'ja-hiragana-keishikimeishi',
         rule: textlintRuleJaHiraganaKeishikimeishi,
       },
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
-      },
-      {
-        ruleId: 'ja-no-abusage',
-        rule: textlintRuleJaNoAbusage,
       },
       {
         ruleId: 'ja-no-inappropriate-words',
@@ -130,13 +105,6 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
-      },
-      {
-        ruleId: 'proofdict',
-        rule: textlintRuleProofdict,
-        options: {
-          dictURL: 'https://hata6502.github.io/proof-dictionary/',
-        },
       },
     ],
   });

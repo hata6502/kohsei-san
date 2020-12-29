@@ -20,7 +20,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
-import { TextlintMessage } from '@textlint/kernel';
+import { TextlintMessage, TextlintResult } from '@textlint/kernel';
 import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
@@ -86,6 +86,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const [deviation, setDeviation] = useState<number>();
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
+  const [lintWorker, setLintWorker] = useState<Worker>();
   const [negaposiScore, setNegaposiScore] = useState<number>();
   const [pins, setPins] = useState<Pin[]>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
@@ -115,39 +116,45 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [memo.text]);
 
   useEffect(() => {
-    if (memo.result) {
+    if (!lintWorker || memo.result) {
       return;
     }
 
-    let isUnmounted = false;
+    lintWorker.postMessage(memo.text);
 
     dispatchIsLinting(true);
+  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
 
-    setTimeout(async () => {
-      try {
-        const { default: lint } = await import(/* webpackChunkName: "lint" */ 'common/lint');
-        const result = await lint(memo.text);
+  useEffect(() => {
+    const lintWorker = new Worker('lintWorker.js');
 
-        dispatchMemos((prevMemos) =>
-          prevMemos.map((prevMemo) => ({
-            ...prevMemo,
-            ...(prevMemo.id === memo.id && { result }),
-          }))
-        );
-      } catch (exception) {
-        if (!isUnmounted) {
-          dispatchIsLinting(false);
-          setIsLintErrorOpen(true);
-        }
+    const handleLintWorkerError = () => {
+      dispatchIsLinting(false);
+      setIsLintErrorOpen(true);
+    };
 
-        throw exception;
-      }
-    });
+    const handleLintWorkerMessage = (event: MessageEvent<TextlintResult>) =>
+      dispatchMemos((prevMemos) =>
+        prevMemos.map((prevMemo) => ({
+          ...prevMemo,
+          ...(prevMemo.id === memo.id && { result: event.data }),
+        }))
+      );
+
+    lintWorker.addEventListener('error', handleLintWorkerError);
+    lintWorker.addEventListener('message', handleLintWorkerMessage);
+
+    setLintWorker(lintWorker);
 
     return () => {
-      isUnmounted = true;
+      lintWorker.removeEventListener('error', handleLintWorkerError);
+      lintWorker.removeEventListener('message', handleLintWorkerMessage);
+
+      lintWorker.terminate();
+
+      setLintWorker(undefined);
     };
-  }, [dispatchIsLinting, dispatchMemos, memo.id, memo.result, memo.text]);
+  }, [dispatchIsLinting, dispatchMemos, memo.id]);
 
   useEffect(() => {
     if (!memo.result) {
