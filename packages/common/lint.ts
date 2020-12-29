@@ -65,7 +65,7 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRulePresetJapanese.rules[key],
         options: textlintRulePresetJapanese.rulesConfig[key],
       })),
-      {
+      /*{
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
       },
@@ -137,7 +137,7 @@ const lint = (text: string): Promise<TextlintResult> =>
         options: {
           dictURL: 'https://hata6502.github.io/proof-dictionary/',
         },
-      },
+      },*/
     ],
   });
 
