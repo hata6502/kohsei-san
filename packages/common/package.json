@@ -14,7 +14,6 @@
     "textlint-rule-date-weekday-mismatch": "^1.0.5",
     "textlint-rule-ja-hiragana-keishikimeishi": "hata6502/textlint-rule-ja-hiragana-keishikimeishi",
     "textlint-rule-ja-joyo-or-jinmeiyo-kanji": "^1.0.0",
-    "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-inappropriate-words": "^1.0.3",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",
