@@ -9891,10 +9891,9 @@ subarg@^1.0.0:
   dependencies:
     minimist "^1.1.0"
 
-sudachi-synonyms-dictionary@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/sudachi-synonyms-dictionary/-/sudachi-synonyms-dictionary-5.0.1.tgz#e51c3bd57c72b1aece0fe8b37558858356bd6b53"
-  integrity sha512-MSLBwyztRT4BPstyfM8M8DntQ/sJhRyq43S/vGfRq3/JuBbKFUzrI9rpoiQOc+35el5WrIm4K3fJyLhsSEOIqw==
+sudachi-synonyms-dictionary@^5.0.1, sudachi-synonyms-dictionary@hata6502/sudachi-synonyms-dictionary:
+  version "6.0.1"
+  resolved "https://codeload.github.com/hata6502/sudachi-synonyms-dictionary/tar.gz/e6aa3ea4c0581e2c1f6f06361ed72cd260f69851"
 
 sugarss@^2.0.0:
   version "2.0.0"
@@ -10080,15 +10079,7 @@ textlint-rule-ja-hiragana-hojodoushi@hata6502/textlint-rule-ja-hiragana-hojodous
     kuromojin "^1.3.2"
     morpheme-match-all "^1.1.0"
 
-textlint-rule-ja-hiragana-keishikimeishi@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/textlint-rule-ja-hiragana-keishikimeishi/-/textlint-rule-ja-hiragana-keishikimeishi-1.0.2.tgz#d17329e105a9fe9f0fc943c60414e0e6679dcd98"
-  integrity sha512-tu9z5PGNtAsoHwR/UgIYuLQ/JPHmpCJAJOG0yjscj9Y5unAkU1Yb1mL4im218WRZ7XRBqCFwWLmicX2IbvVXWw==
-  dependencies:
-    kuromojin "^1.3.2"
-    morpheme-match-all "^1.1.0"
-
-textlint-rule-ja-hiragana-keishikimeishi@hata6502/textlint-rule-ja-hiragana-keishikimeishi:
+textlint-rule-ja-hiragana-keishikimeishi@^1.0.2, textlint-rule-ja-hiragana-keishikimeishi@hata6502/textlint-rule-ja-hiragana-keishikimeishi:
   version "1.0.2"
   resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-keishikimeishi/tar.gz/c5c5101f8d2fd1de7fe9dd75e3c164e8ee06eed4"
   dependencies:

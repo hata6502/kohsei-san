@@ -29,7 +29,8 @@
     "kuromojin": "hata6502/kuromojin",
     "lodash": "^4.17.15",
     "minimist": "^1.2.2",
-    "node-forge": "^0.10.0"
+    "node-forge": "^0.10.0",
+    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",

@@ -105,10 +105,10 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',
         rule: textlintRuleNoMixedZenkakuAndHankakuAlphabet,
       },
-      /*{
+      {
         ruleId: 'no-synonyms',
         rule: textlintRuleNoSynonyms,
-      },*/
+      },
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
