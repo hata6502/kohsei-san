@@ -29,7 +29,6 @@ import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-ignore
 import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 /* eslint-enable @typescript-eslint/ban-ts-ignore */
 
 const kernel = new TextlintKernel();
@@ -107,13 +106,6 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
       },
-      /*{
-        ruleId: 'proofdict',
-        rule: textlintRuleProofdict,
-        options: {
-          dictURL: 'https://hata6502.github.io/proof-dictionary/',
-        },
-      },*/
     ],
   });
 
