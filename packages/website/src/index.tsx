@@ -66,8 +66,6 @@ const main = () => {
     return;
   }
 
-  const lintWorker = new Worker('lintWorker.js');
-
   try {
     const localStorageTest = 'localStorageTest';
 

@@ -12,10 +12,16 @@ declare global {
   }
 }
 
+// eslint-disable-next-line no-restricted-globals
 self.kuromojin = {
   dicPath: 'dict',
 };
 
+// eslint-disable-next-line no-restricted-globals
 self['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
-lint('TEST').then((result) => console.log(result));
+onmessage = async (event: MessageEvent<string>) => {
+  const result = await lint(event.data);
+
+  postMessage(result);
+};
