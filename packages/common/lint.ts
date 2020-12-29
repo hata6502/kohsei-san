@@ -7,10 +7,6 @@ import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-ignore
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 // @ts-ignore
-import * as textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
-// @ts-ignore
-import * as textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
-// @ts-ignore
 import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-ignore
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
@@ -68,20 +64,6 @@ const lint = (text: string): Promise<TextlintResult> =>
       /*{
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
-      },
-      {
-        ruleId: 'ja-hiragana-fukushi',
-        rule: textlintRuleJaHiraganaFukushi,
-        options: {
-          rulePath: 'fukushi.yml',
-        },
-      },
-      {
-        ruleId: 'ja-hiragana-hojodoushi',
-        rule: textlintRuleJaHiraganaHojodoushi,
-        options: {
-          rulePath: 'hojodoushi.yml',
-        },
       },
       {
         ruleId: 'ja-hiragana-keishikimeishi',
