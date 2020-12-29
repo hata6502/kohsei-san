@@ -6469,7 +6469,7 @@ kuromoji@0.1.1, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
     async "^2.0.1"
     doublearray "0.0.2"
 
-kuromojin@^1.0.2, kuromojin@^1.1.0, kuromojin@^1.2.1, kuromojin@^1.3.1, kuromojin@^1.3.2, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@hata6502/kuromojin:
+kuromojin@^1.0.2, kuromojin@^1.1.0, kuromojin@^1.2.1, kuromojin@^1.3.1, kuromojin@^1.3.2, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@hata6502/kuromojin:
   version "2.1.5"
   resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/1ee50906f05243cf8b07a5c095dcac9bbdafe6ac"
   dependencies:
@@ -10086,6 +10086,13 @@ textlint-rule-ja-hiragana-keishikimeishi@^1.0.2:
   integrity sha512-tu9z5PGNtAsoHwR/UgIYuLQ/JPHmpCJAJOG0yjscj9Y5unAkU1Yb1mL4im218WRZ7XRBqCFwWLmicX2IbvVXWw==
   dependencies:
     kuromojin "^1.3.2"
+    morpheme-match-all "^1.1.0"
+
+textlint-rule-ja-hiragana-keishikimeishi@hata6502/textlint-rule-ja-hiragana-keishikimeishi:
+  version "1.0.2"
+  resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-keishikimeishi/tar.gz/c5c5101f8d2fd1de7fe9dd75e3c164e8ee06eed4"
+  dependencies:
+    kuromojin "^2.1.1"
     morpheme-match-all "^1.1.0"
 
 textlint-rule-ja-joyo-or-jinmeiyo-kanji@^1.0.0:
