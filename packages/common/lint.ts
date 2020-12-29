@@ -90,10 +90,10 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'no-hankaku-kana',
         rule: textlintRuleNoHankakuKana,
       },
-      /*{
+      {
         ruleId: 'no-insert-dropping-sa',
         rule: textlintRuleNoInsertDroppingSa,
-      },*/
+      },
       {
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',
         rule: textlintRuleNoMixedZenkakuAndHankakuAlphabet,
