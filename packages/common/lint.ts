@@ -1,35 +1,35 @@
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 // @ts-expect-error
-import * as textlintPluginText from '@textlint/textlint-plugin-text';
+import textlintPluginText from '@textlint/textlint-plugin-text';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
-import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
+import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 // @ts-expect-error
-import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
+import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-expect-error
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
 // @ts-expect-error
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
 // @ts-expect-error
-import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
+import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-expect-error
-import * as textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
+import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
 // @ts-expect-error
-import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
+import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-expect-error
-import * as textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
+import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
 // @ts-expect-error
-import * as textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
+import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 // @ts-expect-error
-import * as textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
+import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 // @ts-expect-error
-import * as textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
+import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 // @ts-expect-error
-import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
+import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-expect-error
-import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
+import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 
 const kernel = new TextlintKernel();
 
