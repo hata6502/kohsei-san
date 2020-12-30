@@ -13,7 +13,7 @@ if (require.main) {
   require.main.filename = '';
 }
 
-import * as fs from 'fs';
+import fs from 'fs';
 import lint from 'common/lint';
 import score from 'common/score';
 
