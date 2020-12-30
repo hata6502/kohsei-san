@@ -20,8 +20,11 @@ self.kuromojin = {
 // eslint-disable-next-line no-restricted-globals
 self['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
-onmessage = async (event: MessageEvent<string>) => {
+// eslint-disable-next-line no-restricted-globals
+addEventListener('message', async (event: MessageEvent<string>) => {
   const result = await lint(event.data);
 
   postMessage(result);
-};
+});
+
+lint('初回校正時でもキャッシュにヒットさせるため。');
