@@ -66,6 +66,8 @@ const main = () => {
     return;
   }
 
+  const lintWorker = new Worker('lintWorker.js');
+
   try {
     const localStorageTest = 'localStorageTest';
 
@@ -113,7 +115,7 @@ const main = () => {
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <ThemeProvider theme={theme}>
-            <App />
+            <App lintWorker={lintWorker} />
           </ThemeProvider>
         </MuiThemeProvider>
       </StylesProvider>

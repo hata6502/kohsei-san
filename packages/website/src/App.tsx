@@ -52,7 +52,7 @@ const TopBar = styled(AppBar)`
   z-index: 998;
 `;
 
-const App: React.FunctionComponent = () => {
+const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) => {
   const {
     dispatchMemoId,
     dispatchMemos,
@@ -126,6 +126,7 @@ const App: React.FunctionComponent = () => {
             dispatchMemos={dispatchMemos}
             isLinting={isLinting}
             key={memoId}
+            lintWorker={lintWorker}
             memo={memo}
           />
         ) : (

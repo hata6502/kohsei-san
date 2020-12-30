@@ -74,6 +74,7 @@ export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
+  lintWorker: Worker;
   memo: Memo;
 }
 
@@ -81,12 +82,12 @@ const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
   dispatchMemos,
   isLinting,
+  lintWorker,
   memo,
 }) => {
   const [deviation, setDeviation] = useState<number>();
   const [isLintErrorOpen, setIsLintErrorOpen] = useState(false);
   const [isTextContainerFocus, setIsTextContainerFocus] = useState(false);
-  const [lintWorker, setLintWorker] = useState<Worker>();
   const [negaposiScore, setNegaposiScore] = useState<number>();
   const [pins, setPins] = useState<Pin[]>();
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
@@ -126,8 +127,6 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
 
   useEffect(() => {
-    const lintWorker = new Worker('lintWorker.js');
-
     const handleLintWorkerError = () => {
       dispatchIsLinting(false);
       setIsLintErrorOpen(true);
@@ -144,17 +143,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
     lintWorker.addEventListener('error', handleLintWorkerError);
     lintWorker.addEventListener('message', handleLintWorkerMessage);
 
-    setLintWorker(lintWorker);
-
     return () => {
       lintWorker.removeEventListener('error', handleLintWorkerError);
       lintWorker.removeEventListener('message', handleLintWorkerMessage);
-
-      lintWorker.terminate();
-
-      setLintWorker(undefined);
     };
-  }, [dispatchIsLinting, dispatchMemos, memo.id]);
+  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id]);
 
   useEffect(() => {
     if (!memo.result) {
