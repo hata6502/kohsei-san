@@ -124,6 +124,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
     lintWorker.postMessage(memo.text);
 
     dispatchIsLinting(true);
+
+    return () => dispatchIsLinting(false);
   }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
 
   useEffect(() => {
@@ -330,7 +332,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
           <Container>
             <Grid container spacing={1} wrap="wrap">
               <Grid item>
-                <Chip label={`${memo.text.length}文字`} size="small" />
+                <Chip label={`${memo.text.length} 文字`} size="small" />
               </Grid>
 
               <Grid item>
@@ -338,9 +340,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   clickable
                   component="a"
                   href="https://github.com/hata6502/kohsei-san#校正偏差値"
-                  label={`校正偏差値 ${
-                    deviation && isDisplayResult ? Math.round(deviation) : '??'
-                  }`}
+                  label={`偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
                   rel="noreferrer"
                   size="small"
                   target="_blank"
@@ -352,7 +352,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   clickable
                   component="a"
                   href="https://github.com/hata6502/kohsei-san#ネガポジ判定"
-                  label={`ネガポジ判定 ${
+                  label={`ネガポジ ${
                     !isDisplayResult || negaposiScore === undefined
                       ? '??'
                       : negaposiScore < -0.6
