@@ -38,12 +38,17 @@ const MessagePopover = styled(Popover)`
   word-break: break-all;
 `;
 
-const Pin = styled(FeedbackIcon)`
+const PinIcon = styled(FeedbackIcon)`
   ${({ theme }) => `
     background-color: ${theme.palette.background.paper};
   `}
-  cursor: pointer;
   opacity: 0.5;
+  vertical-align: middle;
+`;
+
+const PinTarget = styled.div`
+  cursor: pointer;
+  padding: 12px;
   position: absolute;
   transform: translateY(-100%);
 `;
@@ -221,9 +226,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
           const rangeRect = range.getBoundingClientRect();
 
           return {
-            left: rangeRect.left - textBoxRect.left,
+            left: rangeRect.left - textBoxRect.left - 12,
             message,
-            top: rangeRect.top - textBoxRect.top,
+            top: rangeRect.top - textBoxRect.top + 12,
           };
         })
       );
@@ -397,15 +402,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   </Typography>
 
                   {isDisplayResult &&
-                    pins?.map(({ top, left, message }) => (
-                      <Pin
+                    pins?.map(({ left, message, top }) => (
+                      <PinTarget
                         key={message.index}
-                        color="primary"
+                        style={{ left, top }}
                         onClick={({ currentTarget }) => {
                           handlePinClick({ currentTarget, messages: message.messages });
                         }}
-                        style={{ top, left }}
-                      />
+                      >
+                        <PinIcon color="primary" />
+                      </PinTarget>
                     ))}
 
                   <MessagePopover
