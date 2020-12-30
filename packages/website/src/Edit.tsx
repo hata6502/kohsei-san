@@ -393,7 +393,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                   <Typography component="div" variant="body1">
                     <TextContainer
                       // https://github.com/w3c/editing/issues/162
-                      // @ts-ignore
+                      // @ts-expect-error
                       contentEditable="plaintext-only"
                       onBlur={handleTextContainerBlur}
                       onFocus={handleTextContainerFocus}

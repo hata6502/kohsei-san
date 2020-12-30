@@ -1,37 +1,35 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintPluginText from '@textlint/textlint-plugin-text';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
-// @ts-ignore
+// @ts-expect-error
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
-// @ts-ignore
+// @ts-expect-error
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
-// @ts-ignore
+// @ts-expect-error
 import * as textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-/* eslint-enable @typescript-eslint/ban-ts-ignore */
 
 const kernel = new TextlintKernel();
 
