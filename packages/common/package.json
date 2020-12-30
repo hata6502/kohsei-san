@@ -15,6 +15,7 @@
     "textlint-rule-ja-joyo-or-jinmeiyo-kanji": "^1.0.0",
     "textlint-rule-ja-no-inappropriate-words": "^1.0.3",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
+    "textlint-rule-ja-no-successive-word": "^1.2.0",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-no-hankaku-kana": "^1.0.2",

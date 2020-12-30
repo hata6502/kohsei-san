@@ -15,6 +15,8 @@ import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriat
 // @ts-ignore
 import * as textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-ignore
+import * as textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
+// @ts-ignore
 import * as textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-ignore
 import * as textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
@@ -77,6 +79,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-no-redundant-expression',
         rule: textlintRuleJaNoRedundantExpression,
+      },
+      {
+        ruleId: 'ja-no-successive-word',
+        rule: textlintRuleJaNoSuccessiveWord,
       },
       {
         ruleId: 'ja-unnatural-alphabet',
