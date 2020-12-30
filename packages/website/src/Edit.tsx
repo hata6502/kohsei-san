@@ -330,6 +330,10 @@ const Edit: React.FunctionComponent<EditProps> = ({
           <Container>
             <Grid container spacing={1} wrap="wrap">
               <Grid item>
+                <Chip label={`${memo.text.length}文字`} size="small" />
+              </Grid>
+
+              <Grid item>
                 <Chip
                   clickable
                   component="a"
