@@ -141,7 +141,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 
         <Link
           color="inherit"
-          href="https://github.com/hata6502/kohsei-san"
+          href="https://twitter.com/hata6502"
           rel="noreferrer"
           target="_blank"
           underline="none"

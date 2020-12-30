@@ -13,7 +13,7 @@
 
 > その場ですぐに文章を校正できるメモ帳アプリです。オフラインで完全無料、スマートフォンアプリとしてもご利用いただけます。
 
-### 🏠 [Homepage](https://kohsei-san.b-hood.site/)
+### 🏠 [Homepage](https://kohsei-san.b-hood.site/lp/)
 
 ## 校正ルール
 
