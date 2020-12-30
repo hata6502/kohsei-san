@@ -1,5 +1,4 @@
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
-// @ts-expect-error
 import textlintPluginText from '@textlint/textlint-plugin-text';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
