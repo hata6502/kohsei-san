@@ -2822,6 +2822,11 @@ browserify@^16.1.0:
     vm-browserify "^1.0.0"
     xtend "^4.0.0"
 
+browserslist-config-google@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/browserslist-config-google/-/browserslist-config-google-2.0.0.tgz#397b8038b0c84c824e2762d582285d24924f6ec2"
+  integrity sha512-kfSzwT0sSkLquGpMLe//wK5zgyMBEs3Nf1N4BnFNHoY34g7BNGQbontOF/Yoi6Xs3Swai3sTOycKn1yOP5N+ng==
+
 browserslist@^4.12.0, browserslist@^4.6.0, browserslist@^4.8.5:
   version "4.13.0"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.13.0.tgz#42556cba011e1b0a2775b611cba6a8eca18e940d"
@@ -2983,9 +2988,9 @@ camelize@^1.0.0:
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
 caniuse-lite@^1.0.30001093, caniuse-lite@^1.0.30001097:
-  version "1.0.30001102"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001102.tgz#3275e7a8d09548f955f665e532df88de0b63741a"
-  integrity sha512-fOjqRmHjRXv1H1YD6QVLb96iKqnu17TjcLSaX64TwhGYed0P1E1CCWZ9OujbbK4Z/7zax7zAzvQidzdtjx8RcA==
+  version "1.0.30001171"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001171.tgz"
+  integrity sha512-5Alrh8TTYPG9IH4UkRqEBZoEToWRLvPbSQokvzSz0lii8/FOWKG4keO1HoYfPWs8IF/NH/dyNPg1cmJGvV3Zlg==
 
 caseless@~0.12.0:
   version "0.12.0"
