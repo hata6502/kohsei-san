@@ -24,6 +24,7 @@
 - [hata6502/textlint-rule-ja-hiragana-keishikimeishi](https://github.com/hata6502/textlint-rule-ja-hiragana-keishikimeishi)
 - [hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji](https://github.com/hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji)
 - [hata6502/textlint-rule-ja-no-inappropriate-words](https://github.com/hata6502/textlint-rule-ja-no-inappropriate-words)
+- [hata6502/textlint-rule-no-dropping-i](https://github.com/hata6502/textlint-rule-no-dropping-i)
 - [hata6502/textlint-rule-no-insert-dropping-sa](https://github.com/hata6502/textlint-rule-no-insert-dropping-sa)
 - [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)
 - [textlint-ja/textlint-rule-ja-no-redundant-expression](https://github.com/textlint-ja/textlint-rule-ja-no-redundant-expression)

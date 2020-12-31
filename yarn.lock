@@ -1911,6 +1911,13 @@
     ejs "^2.6.1"
     magic-string "^0.25.0"
 
+"@textlint-ja/textlint-rule-no-dropping-i@hata6502/textlint-rule-no-dropping-i":
+  version "1.0.1"
+  resolved "https://codeload.github.com/hata6502/textlint-rule-no-dropping-i/tar.gz/531ddbd0de12995d0ba3273316a4ae043d6b9720"
+  dependencies:
+    kuromojin "^2.1.1"
+    textlint-rule-helper "^1.1.4"
+
 "@textlint-ja/textlint-rule-no-insert-dropping-sa@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@textlint-ja/textlint-rule-no-insert-dropping-sa/-/textlint-rule-no-insert-dropping-sa-1.0.1.tgz#ef36819be8301998a764a87bd8ecca2a8e004849"

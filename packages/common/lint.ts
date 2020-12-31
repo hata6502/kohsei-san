@@ -1,5 +1,10 @@
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import textlintPluginText from '@textlint/textlint-plugin-text';
+// @ts-expect-error
+import textlintRuleNoDroppingI from '@textlint-ja/textlint-rule-no-dropping-i';
+// @ts-expect-error
+import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
+import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
@@ -21,10 +26,7 @@ import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-
 // @ts-expect-error
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 // @ts-expect-error
-import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
-// @ts-expect-error
 import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
-import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 // @ts-expect-error
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-expect-error
@@ -88,6 +90,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'max-appearence-count-of-words',
         rule: textlintRuleMaxAppearenceCountOfWords,
+      },
+      {
+        ruleId: 'no-dropping-i',
+        rule: textlintRuleNoDroppingI,
       },
       {
         ruleId: 'no-hankaku-kana',
