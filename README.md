@@ -15,6 +15,12 @@
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/lp/)
 
+## ビジョン
+
+- 機能拡張よりも、モバイルフレンドリーな UI を優先します。
+- カスタマイズ性よりも、統一された校正ルールを追求します。
+- サーバーを設けず、オフラインで完結させます。
+
 ## 校正ルール
 
 [textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
@@ -35,12 +41,6 @@
 - [textlint-ja/textlint-rule-no-synonyms](https://github.com/textlint-ja/textlint-rule-no-synonyms)
 - [textlint-ja/textlint-rule-prefer-tari-tari](https://github.com/textlint-ja/textlint-rule-prefer-tari-tari)
 
-## ビジョン
-
-- 機能拡張よりも、モバイルフレンドリーな UI を優先します。
-- カスタマイズ性よりも、統一された校正ルールを追求します。
-- サーバーを設けず、オフラインで完結させます。
-
 ## 校正偏差値
 
 Wikipedia の記事データをスコアリングして統計をとることで、文章の品質を表す「校正偏差値」を導入しています。
@@ -50,11 +50,11 @@ Wikipedia の記事データをスコアリングして統計をとることで�
 
 文章中に含まれる言葉を分析して、文章がネガティブであるか、ポジティブであるかを５段階で判定します。
 
-- 😢：すごくネガティブ
-- 😧：ネガティブ
-- 😐：ふつう
-- 😃：ポジティブ
-- 😄：すごくポジティブ
+- 😢 　すごくネガティブ
+- 😧 　ネガティブ
+- 😐 　ふつう
+- 😃 　ポジティブ
+- 😄 　すごくポジティブ
 
 詳しくは[hata6502/negaposi](https://github.com/hata6502/negaposi)を参照してください。
 
@@ -115,7 +115,7 @@ yarn test
 
 ## Author
 
-<img alt="Tomoyuki Hata" src="https://avatars.githubusercontent.com/hata6502" width="48" /> **Tomoyuki Hata <hato6502@gmail.com> (https://github.com/hata6502)**
+<img alt="Tomoyuki Hata" src="https://avatars.githubusercontent.com/hata6502" width="48" /> **Tomoyuki Hata <hato6502@gmail.com>**
 
 ## 🤝 Contributing
 
