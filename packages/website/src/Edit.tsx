@@ -20,8 +20,9 @@ import ShareIcon from '@material-ui/icons/Share';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import Alert, { AlertProps } from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
-import { TextlintMessage, TextlintResult } from '@textlint/kernel';
+import type { TextlintMessage } from '@textlint/kernel';
 import score from 'common/score';
+import type { LintWorkerMessage } from './lintWorker';
 import { Memo, MemosAction } from './useMemo';
 
 const lintingTimeoutLimitMS = 10000;
@@ -157,13 +158,18 @@ const Edit: React.FunctionComponent<EditProps> = ({
       setIsLintErrorOpen(true);
     };
 
-    const handleLintWorkerMessage = (event: MessageEvent<TextlintResult>) =>
+    const handleLintWorkerMessage = (event: MessageEvent<LintWorkerMessage>) => {
+      if (event.data.text !== memo.text) {
+        return;
+      }
+
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => ({
           ...prevMemo,
-          ...(prevMemo.id === memo.id && { result: event.data }),
+          ...(prevMemo.id === memo.id && { result: event.data.result }),
         }))
       );
+    };
 
     lintWorker.addEventListener('error', handleLintWorkerError);
     lintWorker.addEventListener('message', handleLintWorkerMessage);
@@ -172,7 +178,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
       lintWorker.removeEventListener('error', handleLintWorkerError);
       lintWorker.removeEventListener('message', handleLintWorkerMessage);
     };
-  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id]);
+  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
 
   useEffect(() => {
     if (!memo.result) {
