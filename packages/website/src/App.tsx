@@ -65,6 +65,11 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);
 
+  const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
+    (_: boolean, action: boolean) => action,
+    false
+  );
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
@@ -101,7 +106,9 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
             <img alt="" src="favicon.png" style={{ width: 48 }} />
           )}
 
-          <Title variant="h6">{(isLinting && '校正中…') || '校正さん'}</Title>
+          <Title variant="h6">
+            {isLinting ? (isLintingHeavy ? 'お待ちください…' : '校正中…') : '校正さん'}
+          </Title>
         </Toolbar>
       </TopBar>
 
@@ -123,6 +130,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
         {memo ? (
           <Edit
             dispatchIsLinting={dispatchIsLinting}
+            dispatchIsLintingHeavy={dispatchIsLintingHeavy}
             dispatchMemos={dispatchMemos}
             isLinting={isLinting}
             key={memoId}

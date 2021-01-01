@@ -24,6 +24,7 @@ import { TextlintMessage, TextlintResult } from '@textlint/kernel';
 import score from 'common/score';
 import { Memo, MemosAction } from './useMemo';
 
+const lintingTimeoutLimitMS = 10000;
 const scoreAverage = 0.003685109284;
 const scoreVariance = 0.00001274531341;
 
@@ -77,6 +78,7 @@ interface Pin {
 
 export interface EditProps {
   dispatchIsLinting: React.Dispatch<boolean>;
+  dispatchIsLintingHeavy: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
   lintWorker: Worker;
@@ -85,6 +87,7 @@ export interface EditProps {
 
 const Edit: React.FunctionComponent<EditProps> = ({
   dispatchIsLinting,
+  dispatchIsLintingHeavy,
   dispatchMemos,
   isLinting,
   lintWorker,
@@ -128,10 +131,25 @@ const Edit: React.FunctionComponent<EditProps> = ({
 
     lintWorker.postMessage(memo.text);
 
-    dispatchIsLinting(true);
+    const lintingTimeoutID = setTimeout(() => dispatchIsLintingHeavy(true), lintingTimeoutLimitMS);
 
-    return () => dispatchIsLinting(false);
-  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
+    dispatchIsLinting(true);
+    dispatchIsLintingHeavy(false);
+
+    return () => {
+      clearTimeout(lintingTimeoutID);
+
+      dispatchIsLinting(false);
+    };
+  }, [
+    dispatchIsLinting,
+    dispatchIsLintingHeavy,
+    dispatchMemos,
+    lintWorker,
+    memo.id,
+    memo.result,
+    memo.text,
+  ]);
 
   useEffect(() => {
     const handleLintWorkerError = () => {
