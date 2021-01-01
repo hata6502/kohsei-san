@@ -82,6 +82,9 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-no-successive-word',
         rule: textlintRuleJaNoSuccessiveWord,
+        options: {
+          allow: ['/[\\u2000-\\u2DFF\\u2E00-\\u33FF\\uF900-\\uFFFD]/'],
+        },
       },
       {
         ruleId: 'ja-unnatural-alphabet',

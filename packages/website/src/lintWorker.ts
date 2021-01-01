@@ -9,7 +9,7 @@ declare global {
     kuromojin?: {
       dicPath?: string;
     };
-    ['sudachi-synonyms-dictionary']?: string;
+    'sudachi-synonyms-dictionary'?: string;
   }
 }
 
