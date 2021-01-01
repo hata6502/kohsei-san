@@ -17,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BookIcon from '@material-ui/icons/Book';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import HelpIcon from '@material-ui/icons/Help';
 import MailIcon from '@material-ui/icons/Mail';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
@@ -168,6 +169,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
             </ListItemIcon>
 
             <ListItemText primary="FAQ" />
+          </ListItem>
+        </Link>
+
+        <Link
+          color="inherit"
+          href="https://github.com/sponsors/hata6502"
+          rel="noreferrer"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <FavoriteIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="投げ銭" />
           </ListItem>
         </Link>
       </List>
