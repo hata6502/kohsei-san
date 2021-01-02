@@ -12,6 +12,10 @@ import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch
 // @ts-expect-error
 import textlintRuleJaHiraganaDaimeishi from 'textlint-rule-ja-hiragana-daimeishi';
 // @ts-expect-error
+import textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
+// @ts-expect-error
+import textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
+// @ts-expect-error
 import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
 // @ts-expect-error
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
@@ -68,6 +72,14 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-hiragana-daimeishi',
         rule: textlintRuleJaHiraganaDaimeishi,
+      },
+      {
+        ruleId: 'ja-hiragana-fukushi',
+        rule: textlintRuleJaHiraganaFukushi,
+      },
+      {
+        ruleId: 'ja-hiragana-hojodoushi',
+        rule: textlintRuleJaHiraganaHojodoushi,
       },
       {
         ruleId: 'ja-hiragana-keishikimeishi',
