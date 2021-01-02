@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const staticFs = require('babel-plugin-static-fs');
 
 module.exports = {
   entry: {
@@ -13,7 +14,16 @@ module.exports = {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
         options: {
-          plugins: ['istanbul'],
+          plugins: [
+            'istanbul',
+            [
+              staticFs,
+              {
+                target: 'browser',
+                dynamic: false,
+              },
+            ],
+          ],
           presets: [
             [
               '@babel/preset-env',
