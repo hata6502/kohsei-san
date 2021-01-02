@@ -10724,6 +10724,15 @@ textlint-rule-ja-hiragana-fukushi@^1.2.0:
     morpheme-match-all "^1.1.0"
     untildify "^4.0.0"
 
+textlint-rule-ja-hiragana-fukushi@hata6502/textlint-rule-ja-hiragana-fukushi:
+  version "1.3.1"
+  resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-fukushi/tar.gz/3da1ae396dbd28d7c9cc7ab44483e3d7599afb93"
+  dependencies:
+    js-yaml "^3.8.2"
+    kuromojin "^2.1.1"
+    morpheme-match-all "^1.1.0"
+    untildify "^4.0.0"
+
 textlint-rule-ja-hiragana-hojodoushi@hata6502/textlint-rule-ja-hiragana-hojodoushi:
   version "1.0.5"
   resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-hojodoushi/tar.gz/e60bf477df44765829aa12947f3313969c366f57"
