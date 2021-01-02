@@ -10725,11 +10725,11 @@ textlint-rule-ja-hiragana-fukushi@^1.2.0:
     untildify "^4.0.0"
 
 textlint-rule-ja-hiragana-hojodoushi@hata6502/textlint-rule-ja-hiragana-hojodoushi:
-  version "1.1.0"
-  resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-hojodoushi/tar.gz/dfe3c10e90c623f2655265787121ba9fc4f133a6"
+  version "1.0.5"
+  resolved "https://codeload.github.com/hata6502/textlint-rule-ja-hiragana-hojodoushi/tar.gz/e60bf477df44765829aa12947f3313969c366f57"
   dependencies:
     js-yaml "^3.8.2"
-    kuromojin "^1.3.2"
+    kuromojin "^2.1.1"
     morpheme-match-all "^1.1.0"
 
 textlint-rule-ja-hiragana-keishikimeishi@^1.0.2, textlint-rule-ja-hiragana-keishikimeishi@^1.1.0:

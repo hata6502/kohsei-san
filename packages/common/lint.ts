@@ -73,10 +73,10 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'ja-hiragana-daimeishi',
         rule: textlintRuleJaHiraganaDaimeishi,
       },
-      {
+      /*{
         ruleId: 'ja-hiragana-fukushi',
         rule: textlintRuleJaHiraganaFukushi,
-      },
+      },*/
       {
         ruleId: 'ja-hiragana-hojodoushi',
         rule: textlintRuleJaHiraganaHojodoushi,
