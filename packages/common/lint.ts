@@ -20,6 +20,8 @@ import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keis
 // @ts-expect-error
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
 // @ts-expect-error
+import textlintRuleJaNoAbusage from 'textlint-rule-ja-no-abusage';
+// @ts-expect-error
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
 // @ts-expect-error
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
@@ -88,6 +90,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
+      },
+      {
+        ruleId: 'ja-no-abusage',
+        rule: textlintRuleJaNoAbusage,
       },
       {
         ruleId: 'ja-no-inappropriate-words',

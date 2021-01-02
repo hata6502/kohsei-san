@@ -17,6 +17,7 @@
     "textlint-rule-ja-hiragana-hojodoushi": "hata6502/textlint-rule-ja-hiragana-hojodoushi",
     "textlint-rule-ja-hiragana-keishikimeishi": "^1.1.0",
     "textlint-rule-ja-joyo-or-jinmeiyo-kanji": "^1.0.0",
+    "textlint-rule-ja-no-abusage": "^2.0.1",
     "textlint-rule-ja-no-inappropriate-words": "^1.0.3",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-no-successive-word": "^1.2.0",
