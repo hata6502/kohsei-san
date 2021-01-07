@@ -120,9 +120,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [dispatchMemos, memo.id]);
 
   useEffect(() => {
-    if (textRef.current && textRef.current.innerText !== memo.text) {
-      textRef.current.innerText = memo.text;
+    if (!textRef.current) {
+      return;
     }
+
+    textRef.current.innerText = memo.text;
   }, [memo.text]);
 
   useEffect(() => {
@@ -333,20 +335,22 @@ const Edit: React.FunctionComponent<EditProps> = ({
   };
 
   const handleTextContainerBlur: React.FocusEventHandler = () => {
-    dispatchMemos((prevMemos) =>
-      prevMemos.map((prevMemo) => {
-        if (!textRef.current) {
-          throw new Error();
-        }
+    if (!textRef.current) {
+      throw new Error();
+    }
 
-        return {
-          ...prevMemo,
-          ...(prevMemo.id === memo.id && {
-            result: undefined,
-            text: textRef.current.innerText,
-          }),
-        };
-      })
+    const text = textRef.current.innerText;
+
+    textRef.current.innerText = text;
+
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
+        ...prevMemo,
+        ...(prevMemo.id === memo.id && {
+          result: undefined,
+          text,
+        }),
+      }))
     );
 
     setIsTextContainerFocus(false);
@@ -416,9 +420,7 @@ const Edit: React.FunctionComponent<EditProps> = ({
                 <div {...props} ref={textBoxRef}>
                   <Typography component="div" variant="body1">
                     <TextContainer
-                      // https://github.com/w3c/editing/issues/162
-                      // @ts-expect-error
-                      contentEditable="plaintext-only"
+                      contentEditable="true"
                       onBlur={handleTextContainerBlur}
                       onFocus={handleTextContainerFocus}
                       ref={textRef}
