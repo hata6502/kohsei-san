@@ -2,8 +2,8 @@ import 'core-js';
 import 'regenerator-runtime/runtime';
 
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { jaJP } from '@material-ui/core/locale';
 import {
@@ -14,22 +14,27 @@ import {
 } from '@material-ui/core/styles';
 import * as Sentry from '@sentry/browser';
 import App from './App';
+import supportedBrowsers from './supportedBrowsers.json';
+import { supportedBrowsersRegExp } from './supportedBrowsersRegExp';
 
 declare module 'styled-components' {
   // eslint-disable-next-line
-  export interface DefaultTheme extends Theme { }
+  export interface DefaultTheme extends Theme {}
 }
 
-const renderFatalError = ({ message }: { message: string }) =>
+const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   ReactDOM.render(
     <>
       {message}
+      <br />
 
       <address>
         <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
           Twitter
         </a>
+
         <br />
+
         <a
           href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
           rel="noreferrer"
@@ -58,6 +63,23 @@ const main = () => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
     }
+  }
+
+  if (!supportedBrowsersRegExp.test(navigator.userAgent)) {
+    renderFatalError({
+      message: (
+        <>
+          校正さんを使用するには、下記のウェブブラウザからアクセスしてください。
+          <ul>
+            {supportedBrowsers.browsers.map((browser) => (
+              <li key={browser}>{browser}</li>
+            ))}
+          </ul>
+        </>
+      ),
+    });
+
+    return;
   }
 
   if (!window.Worker) {

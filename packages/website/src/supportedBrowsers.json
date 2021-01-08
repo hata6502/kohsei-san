@@ -1,0 +1,18 @@
+{
+  "browsers": [
+    "and_chr 87",
+    "chrome 87",
+    "chrome 86",
+    "chrome 85",
+    "edge 87",
+    "edge 86",
+    "ios_saf 14.0-14.3",
+    "ios_saf 13.4-13.7",
+    "ios_saf 13.3",
+    "ios_saf 13.2",
+    "ios_saf 13.0-13.1",
+    "safari 14",
+    "safari 13.1",
+    "safari 13"
+  ]
+}

@@ -7,10 +7,13 @@
     "cypress": "rimraf .nyc_output && cypress",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "start": "http-server docs",
-    "test": "tsc --noEmit && yarn cypress run"
+    "supportedBrowsers": "browserslist --json > src/supportedBrowsers.json",
+    "supportedBrowsersRegExp": "echo \"const supportedBrowsersRegExp = $(browserslist-useragent-regexp --allowHigherVersions);\n\nexport { supportedBrowsersRegExp };\" > src/supportedBrowsersRegExp.ts",
+    "test": "tsc --noEmit && yarn cypress run --browser chrome --headless"
   },
   "browserslist": [
-    "extends browserslist-config-google/no-ie"
+    "extends browserslist-config-google/no-ie",
+    "not firefox >= 81"
   ],
   "nyc": {
     "reporter": [
@@ -43,7 +46,9 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-static-fs": "^3.0.0",
+    "browserslist": "^4.16.1",
     "browserslist-config-google": "^2.0.0",
+    "browserslist-useragent-regexp": "^2.1.1",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "3",
     "cypress": "^4.2.0",
