@@ -1,7 +1,7 @@
-import React, { useReducer, useState } from 'react';
+import React, { useCallback, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import Alert, { AlertProps } from '@material-ui/lab/Alert';
+import Alert from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import Edit from './Edit';
 import Empty from './Empty';
-import Sidebar, { SidebarProps } from './Sidebar';
+import Sidebar from './Sidebar';
 import useMemo from './useMemo';
 
 const sidebarWidth = 250;
@@ -72,9 +72,9 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleMenuIconClick: React.MouseEventHandler = () => setIsSidebarOpen(true);
-  const handleSaveErrorClose: AlertProps['onClose'] = () => setIsSaveErrorOpen(false);
-  const handleSidebarClose: SidebarProps['onClose'] = () => setIsSidebarOpen(false);
+  const handleMenuIconClick = useCallback(() => setIsSidebarOpen(true), [setIsSidebarOpen]);
+  const handleSaveErrorClose = useCallback(() => setIsSaveErrorOpen(false), [setIsSaveErrorOpen]);
+  const handleSidebarClose = useCallback(() => setIsSidebarOpen(false), [setIsSidebarOpen]);
 
   const memo = memos.find(({ id }) => id === memoId);
   const title = titleParam === null ? '校正さん' : `「${titleParam}」の校正結果 | 校正さん`;

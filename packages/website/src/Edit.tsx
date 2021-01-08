@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -11,14 +11,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import Popover, { PopoverProps } from '@material-ui/core/Popover';
+import Popover from '@material-ui/core/Popover';
 import Snackbar from '@material-ui/core/Snackbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
-import Alert, { AlertProps } from '@material-ui/lab/Alert';
+import Alert from '@material-ui/lab/Alert';
 import * as Sentry from '@sentry/browser';
 import type { TextlintMessage } from '@textlint/kernel';
 import score from 'common/score';
@@ -287,42 +287,42 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
-  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
-    if (!message.fix) {
-      throw new Error();
-    }
+  const handleFixClick = useCallback(
+    ({ message }: { message: TextlintMessage }) => {
+      if (!message.fix) {
+        throw new Error();
+      }
 
-    const { range, text } = message.fix;
+      const { range, text } = message.fix;
 
-    dispatchMemos((prevMemos) =>
-      prevMemos.map((prevMemo) => ({
-        ...prevMemo,
-        ...(prevMemo.id === memo.id && {
-          result: undefined,
-          text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
-        }),
-      }))
-    );
+      dispatchMemos((prevMemos) =>
+        prevMemos.map((prevMemo) => ({
+          ...prevMemo,
+          ...(prevMemo.id === memo.id && {
+            result: undefined,
+            text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
+          }),
+        }))
+      );
 
-    setPopoverAnchorEl(undefined);
-  };
+      setPopoverAnchorEl(undefined);
+    },
+    [dispatchMemos, memo.id, setPopoverAnchorEl]
+  );
 
-  const handleLintErrorClose: AlertProps['onClose'] = () => setIsLintErrorOpen(false);
+  const handleLintErrorClose = useCallback(() => setIsLintErrorOpen(false), [setIsLintErrorOpen]);
 
-  const handlePinClick = ({
-    currentTarget,
-    messages,
-  }: {
-    currentTarget: Element;
-    messages: Message['messages'];
-  }) => {
-    setPopoverAnchorEl(currentTarget);
-    setPopoverMessages(messages);
-  };
+  const handlePinClick = useCallback(
+    ({ currentTarget, messages }: { currentTarget: Element; messages: Message['messages'] }) => {
+      setPopoverAnchorEl(currentTarget);
+      setPopoverMessages(messages);
+    },
+    [setPopoverAnchorEl, setPopoverMessages]
+  );
 
-  const handlePopoverClose: PopoverProps['onClose'] = () => setPopoverAnchorEl(undefined);
+  const handlePopoverClose = useCallback(() => setPopoverAnchorEl(undefined), [setPopoverAnchorEl]);
 
-  const handleShareClick: React.MouseEventHandler = async () => {
+  const handleShareClick = useCallback(async () => {
     try {
       await navigator.share?.({
         text: memo.text,
@@ -332,9 +332,9 @@ const Edit: React.FunctionComponent<EditProps> = ({
         throw exception;
       }
     }
-  };
+  }, [memo.text]);
 
-  const handleTextContainerBlur: React.FocusEventHandler = () => {
+  const handleTextContainerBlur = useCallback(() => {
     if (!textRef.current) {
       throw new Error();
     }
@@ -354,9 +354,11 @@ const Edit: React.FunctionComponent<EditProps> = ({
     );
 
     setIsTextContainerFocus(false);
-  };
+  }, [dispatchMemos, memo.id, setIsTextContainerFocus]);
 
-  const handleTextContainerFocus: React.FocusEventHandler = () => setIsTextContainerFocus(true);
+  const handleTextContainerFocus = useCallback(() => setIsTextContainerFocus(true), [
+    setIsTextContainerFocus,
+  ]);
 
   return (
     <EditContainer maxWidth="md">

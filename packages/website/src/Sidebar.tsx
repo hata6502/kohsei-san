@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -57,8 +57,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     { id: undefined, memo: undefined }
   );
 
-  const handleAddClick: React.MouseEventHandler = () => {
+  const handleAddClick = useCallback(() => {
     const id = uuidv4();
+
+    dispatchMemoId(id);
 
     dispatchMemos((prevMemos) => [
       ...prevMemos,
@@ -72,28 +74,30 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       },
     ]);
 
-    dispatchMemoId(id);
+    onClose?.();
+  }, [dispatchMemoId, dispatchMemos, onClose]);
 
-    if (onClose) {
-      onClose();
-    }
-  };
-
-  const handleDeleteDialogAgree: React.MouseEventHandler = () => {
+  const handleDeleteDialogAgree = useCallback(() => {
     dispatchDeleteMemo(undefined);
     dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
-  };
+  }, [deleteMemo.id, dispatchDeleteMemo, dispatchMemos]);
 
-  const handleDeleteDialogClose = () => dispatchDeleteMemo(undefined);
-  const handleDeleteClick = (id: string) => dispatchDeleteMemo(id);
+  const handleDeleteDialogClose = useCallback(() => dispatchDeleteMemo(undefined), [
+    dispatchDeleteMemo,
+  ]);
 
-  const handleMemoClick = (id: string) => {
-    dispatchMemoId(id);
+  const handleDeleteClick = useCallback((id: string) => dispatchDeleteMemo(id), [
+    dispatchDeleteMemo,
+  ]);
 
-    if (onClose) {
-      onClose();
-    }
-  };
+  const handleMemoClick = useCallback(
+    (id: string) => {
+      dispatchMemoId(id);
+
+      onClose?.();
+    },
+    [dispatchMemoId, onClose]
+  );
 
   return (
     <DrawerContainer>
