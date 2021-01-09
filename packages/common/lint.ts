@@ -22,6 +22,8 @@ import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo
 // @ts-expect-error
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
 // @ts-expect-error
+import textlintRuleJaNoOrthographicVariants from 'textlint-rule-ja-no-orthographic-variants';
+// @ts-expect-error
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-expect-error
 import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
@@ -92,6 +94,10 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-no-inappropriate-words',
         rule: textlintRuleJaNoInappropriateWords,
+      },
+      {
+        ruleId: 'ja-no-orthographic-variants',
+        rule: textlintRuleJaNoOrthographicVariants,
       },
       {
         ruleId: 'ja-no-redundant-expression',

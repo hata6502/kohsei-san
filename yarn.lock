@@ -10861,6 +10861,13 @@ textlint-rule-ja-no-inappropriate-words@^1.0.3:
   dependencies:
     kuromojin "^2.0.0"
 
+textlint-rule-ja-no-orthographic-variants@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-orthographic-variants/-/textlint-rule-ja-no-orthographic-variants-1.0.0.tgz#ff8d46c6b0cad9d0fdb5631c226c7e45f7e84185"
+  integrity sha512-uapcUSHNwRTzPW6jQ5ZBZJjUPozPFXwZY32llXH5J0tWQJ5RHH38a9i1Fqgv3vYmi3RBPwxI86eR+e7zudpBdA==
+  dependencies:
+    kuromojin "^2.0.0"
+
 textlint-rule-ja-no-redundant-expression@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-redundant-expression/-/textlint-rule-ja-no-redundant-expression-3.0.1.tgz#414d49f276ea4b772632d760c74831ebee1bda74"
