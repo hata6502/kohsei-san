@@ -20,8 +20,8 @@ jobs:
       - run: yarn test
       - uses: codecov/codecov-action@v1
       - uses: actions/upload-artifact@v2
+        if: failure()
         with:
-          path: packages/website/cypress/screenshots
-      - uses: actions/upload-artifact@v2
-        with:
-          path: packages/website/cypress/videos
+          path: |
+            packages/website/cypress/screenshots
+            packages/website/cypress/videos
