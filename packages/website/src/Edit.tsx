@@ -120,7 +120,8 @@ const Edit: React.FunctionComponent<EditProps> = ({
   }, [dispatchMemos, memo.id]);
 
   useEffect(() => {
-    if (!textRef.current) {
+    // Undo できるようにする。
+    if (!textRef.current || textRef.current.innerText === memo.text) {
       return;
     }
 
