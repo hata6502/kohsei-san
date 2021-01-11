@@ -19,8 +19,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BookIcon from '@material-ui/icons/Book';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import HelpIcon from '@material-ui/icons/Help';
-import MailIcon from '@material-ui/icons/Mail';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import { v4 as uuidv4 } from 'uuid';
 import { Memo, MemosAction } from './useMemo';
@@ -131,22 +129,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <List>
         <Link
           color="inherit"
-          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <LibraryBooksIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="文例ストック" />
-          </ListItem>
-        </Link>
-
-        <Link
-          color="inherit"
           href="https://kohsei-san.b-hood.site/lp/blog/"
           rel="noreferrer"
           target="_blank"
@@ -163,38 +145,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 
         <Link
           color="inherit"
-          href="https://twitter.com/hata6502"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="お問い合わせ" />
-          </ListItem>
-        </Link>
-
-        <Link
-          color="inherit"
-          href="https://github.com/hata6502/kohsei-san/discussions"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <HelpIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="FAQ" />
-          </ListItem>
-        </Link>
-
-        <Link
-          color="inherit"
           href="https://github.com/sponsors/hata6502"
           rel="noreferrer"
           target="_blank"
@@ -206,6 +156,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
             </ListItemIcon>
 
             <ListItemText primary="投げ銭" />
+          </ListItem>
+        </Link>
+
+        <Link
+          color="inherit"
+          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
+          rel="noreferrer"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="文例ストック" />
           </ListItem>
         </Link>
       </List>
