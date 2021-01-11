@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "_generate-supported-browsers": "browserslist --json > src/supportedBrowsers.json",
+    "_generate-supported-browsers-regexp": "echo \"const supportedBrowsersRegExp = $(browserslist-useragent-regexp --allowHigherVersions);\n\nexport { supportedBrowsersRegExp };\" > src/supportedBrowsersRegExp.ts",
     "build": "rimraf docs && webpack --config webpack.prod.js",
+    "build-browser-check": "yarn _generate-supported-browsers && yarn _generate-supported-browsers-regexp && webpack --config webpack.browserCheck.js",
     "cypress": "rimraf .nyc_output && cypress",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "start": "http-server docs",
-    "supportedBrowsers": "browserslist --json > src/supportedBrowsers.json",
-    "supportedBrowsersRegExp": "echo \"const supportedBrowsersRegExp = $(browserslist-useragent-regexp --allowHigherVersions);\n\nexport { supportedBrowsersRegExp };\" > src/supportedBrowsersRegExp.ts",
     "test": "tsc --noEmit && yarn cypress run --browser chrome --headless"
   },
   "browserslist": [

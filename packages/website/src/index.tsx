@@ -14,8 +14,6 @@ import {
 } from '@material-ui/core/styles';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-import supportedBrowsers from './supportedBrowsers.json';
-import { supportedBrowsersRegExp } from './supportedBrowsersRegExp';
 
 declare module 'styled-components' {
   // eslint-disable-next-line
@@ -63,23 +61,6 @@ const main = () => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
     }
-  }
-
-  if (!supportedBrowsersRegExp.test(navigator.userAgent)) {
-    renderFatalError({
-      message: (
-        <>
-          校正さんを使用するには、下記のウェブブラウザからアクセスしてください。
-          <ul>
-            {supportedBrowsers.browsers.map((browser) => (
-              <li key={browser}>{browser}</li>
-            ))}
-          </ul>
-        </>
-      ),
-    });
-
-    return;
   }
 
   if (!window.Worker) {

@@ -1,3 +1,4 @@
 **/node_modules/**
 /packages/scripts/dist/**
 /packages/website/docs/**
+/packages/website/resources/**
