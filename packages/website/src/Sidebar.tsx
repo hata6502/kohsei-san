@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -128,6 +129,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <Divider />
 
       <List>
+        <Link
+          color="inherit"
+          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
+          rel="noreferrer"
+          target="_blank"
+          underline="none"
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="文例ストック" />
+          </ListItem>
+        </Link>
+
         <Link
           color="inherit"
           href="https://kohsei-san.b-hood.site/lp/blog/"

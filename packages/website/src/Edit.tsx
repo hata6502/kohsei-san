@@ -6,6 +6,7 @@ import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -16,6 +17,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
+import PublishIcon from '@material-ui/icons/Publish';
 import ShareIcon from '@material-ui/icons/Share';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import Alert from '@material-ui/lab/Alert';
@@ -288,6 +290,20 @@ const Edit: React.FunctionComponent<EditProps> = ({
   const isDisplayResult = !isTextContainerFocus && !isLinting;
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
+  const publishToBunreiStockURLSearchParams = new URLSearchParams();
+
+  publishToBunreiStockURLSearchParams.set(
+    'text',
+    `---
+#文例ストック
+title: 
+license: CC0 1.0 Universal
+---
+
+${memo.text.slice(0, 280)}
+`
+  );
+
   const handleFixClick = useCallback(
     ({ message }: { message: TextlintMessage }) => {
       if (!message.fix) {
@@ -497,18 +513,36 @@ const Edit: React.FunctionComponent<EditProps> = ({
                 </Alert>
               ))}
 
-            {navigator.share && (
-              <Box mt={1}>
-                <Button
-                  color="primary"
-                  onClick={handleShareClick}
-                  startIcon={<ShareIcon />}
-                  variant="contained"
-                >
-                  共有
-                </Button>
-              </Box>
-            )}
+            <Box mt={2}>
+              <Grid container spacing={1}>
+                <Grid item>
+                  <Link
+                    color="inherit"
+                    href={`https://twitter.com/share?${publishToBunreiStockURLSearchParams.toString()}`}
+                    rel="noreferrer"
+                    target="_blank"
+                    underline="none"
+                  >
+                    <Button color="primary" startIcon={<PublishIcon />} variant="contained">
+                      文例ストックに投稿
+                    </Button>
+                  </Link>
+                </Grid>
+
+                {navigator.share && (
+                  <Grid item>
+                    <Button
+                      color="primary"
+                      onClick={handleShareClick}
+                      startIcon={<ShareIcon />}
+                      variant="contained"
+                    >
+                      共有
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+            </Box>
           </Container>
         </Box>
       </Paper>
