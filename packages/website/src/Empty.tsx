@@ -17,7 +17,7 @@ const Empty: React.FunctionComponent = () => (
   <EmptyContainer>
     <Grid container alignItems="center" direction="column" spacing={2}>
       <Grid item>
-        <img alt="" src="j260_12_0.svg" style={{ width: '100%' }} />
+        <img alt="" src="j260_12_0.svg" style={{ width: 140 }} />
       </Grid>
 
       <Grid item>
