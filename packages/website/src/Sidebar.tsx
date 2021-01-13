@@ -127,13 +127,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <Divider />
 
       <List>
-        <Link
-          color="inherit"
-          href="https://kohsei-san.b-hood.site/lp/blog/"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
+        <Link color="inherit" href="lp/blog/" rel="noopener" target="_blank" underline="none">
           <ListItem button>
             <ListItemIcon>
               <BookIcon />
