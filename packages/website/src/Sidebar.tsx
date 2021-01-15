@@ -116,7 +116,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
         ))}
 
         <ListItem button onClick={handleAddClick}>
-          <ListItemIcon>
+          <ListItemIcon data-testid="sidebar-component-add-memo">
             <NoteAddIcon />
           </ListItemIcon>
 
