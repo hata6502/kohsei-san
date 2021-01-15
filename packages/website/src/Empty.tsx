@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const EmptyContainer = styled(Container)`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(10)}px;
+    margin-top: ${theme.spacing(2)}px;
   `}
 `;
 

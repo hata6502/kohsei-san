@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Edit from './Edit';
 import Empty from './Empty';
@@ -52,6 +53,10 @@ const TopBar = styled(AppBar)`
   z-index: 998;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  toolbar: theme.mixins.toolbar,
+}));
+
 const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) => {
   const {
     dispatchMemoId,
@@ -71,6 +76,8 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
   );
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const classes = useStyles();
 
   const handleMenuIconClick = useCallback(() => setIsSidebarOpen(true), [setIsSidebarOpen]);
   const handleSaveErrorClose = useCallback(() => setIsSaveErrorOpen(false), [setIsSaveErrorOpen]);
@@ -127,6 +134,8 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
       </Navigation>
 
       <Main>
+        <div className={classes.toolbar} />
+
         {memo ? (
           <Edit
             dispatchIsLinting={dispatchIsLinting}

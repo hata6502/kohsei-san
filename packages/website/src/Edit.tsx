@@ -34,7 +34,7 @@ const scoreVariance = 0.00001274531341;
 const EditContainer = styled(Container)`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(10)}px;
+    margin-top: ${theme.spacing(2)}px;
   `}
 `;
 
