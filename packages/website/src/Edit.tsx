@@ -382,7 +382,7 @@ ${memo.text.slice(0, 280)}
           <Container>
             <Grid container spacing={1} wrap="wrap">
               <Grid item>
-                <Chip label={`${memo.text.length} 文字`} size="small" />
+                <Chip label={`${isDisplayResult ? memo.text.length : '??'} 文字`} size="small" />
               </Grid>
 
               <Grid item>
