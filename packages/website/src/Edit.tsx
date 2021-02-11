@@ -31,6 +31,8 @@ const lintingTimeoutLimitMS = 10000;
 const scoreAverage = 0.003685109284;
 const scoreVariance = 0.00001274531341;
 
+const removeExtraNewLine = (text: string) => (text === '\n' ? '' : text);
+
 const EditContainer = styled(Container)`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing(2)}px;
@@ -110,10 +112,16 @@ const Edit: React.FunctionComponent<EditProps> = ({
   useEffect(() => {
     const dispatchText = () =>
       dispatchMemos((prevMemos) =>
-        prevMemos.map((prevMemo) => ({
-          ...prevMemo,
-          ...(prevMemo.id === memo.id && { text: textRef.current?.innerText }),
-        }))
+        prevMemos.map((prevMemo) => {
+          if (!textRef.current) {
+            throw new Error();
+          }
+
+          return {
+            ...prevMemo,
+            ...(prevMemo.id === memo.id && { text: removeExtraNewLine(textRef.current.innerText) }),
+          };
+        })
       );
 
     window.addEventListener('beforeunload', dispatchText);
@@ -362,7 +370,7 @@ ${memo.text.slice(0, 280)}
           ...prevMemo,
           ...(prevMemo.id === memo.id && {
             result: undefined,
-            text: textRef.current.innerText,
+            text: removeExtraNewLine(textRef.current.innerText),
           }),
         };
       })
