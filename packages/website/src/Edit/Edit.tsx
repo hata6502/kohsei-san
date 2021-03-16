@@ -4,12 +4,16 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Container from '@material-ui/core/Container';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import FeedbackIcon from '@material-ui/icons/Feedback';
-import PublishIcon from '@material-ui/icons/Publish';
 import ShareIcon from '@material-ui/icons/Share';
+import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
 import score from 'common/score';
 import type { LintWorkerMessage } from '../lintWorker';
@@ -44,6 +48,7 @@ const Edit: React.FunctionComponent<{
 }) => {
   const [deviation, setDeviation] = useState<number>();
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
+  const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
   const [negaposiScore, setNegaposiScore] = useState<number>();
 
   useEffect(() => {
@@ -123,20 +128,6 @@ const Edit: React.FunctionComponent<{
 
   const isDisplayResult = !isTextContainerFocused && !isLinting;
 
-  const publishToBunreiStockURLSearchParams = new URLSearchParams();
-
-  publishToBunreiStockURLSearchParams.set(
-    'text',
-    `---
-#文例ストック
-title: 
-license: CC0 1.0 Universal
----
-
-${memo.text.slice(0, 280)}
-`
-  );
-
   const handleShareClick = useCallback(async () => {
     try {
       await navigator.share?.({
@@ -148,6 +139,30 @@ ${memo.text.slice(0, 280)}
       }
     }
   }, [memo.text]);
+
+  const handleTweetButtonClick = useCallback(() => setIsTweetDialogOpen(true), []);
+
+  const handleTweetDialogAgree = useCallback(() => {
+    const urlSearchParams = new URLSearchParams();
+
+    urlSearchParams.set(
+      'text',
+      `---
+#文例ストック
+title: 
+license: CC0 1.0 Universal
+---
+
+${memo.text.slice(0, 280)}
+`
+    );
+
+    window.open(`https://twitter.com/share?${urlSearchParams.toString()}`);
+
+    setIsTweetDialogOpen(false);
+  }, [memo.text]);
+
+  const handleTweetDialogClose = useCallback(() => setIsTweetDialogOpen(false), []);
 
   return (
     <EditContainer maxWidth="md">
@@ -221,17 +236,14 @@ ${memo.text.slice(0, 280)}
             <Box mt={2}>
               <Grid container spacing={1}>
                 <Grid item>
-                  <Link
-                    color="inherit"
-                    href={`https://twitter.com/share?${publishToBunreiStockURLSearchParams.toString()}`}
-                    rel="noreferrer"
-                    target="_blank"
-                    underline="none"
+                  <Button
+                    color="primary"
+                    startIcon={<TwitterIcon />}
+                    variant="outlined"
+                    onClick={handleTweetButtonClick}
                   >
-                    <Button color="primary" startIcon={<PublishIcon />} variant="contained">
-                      文例ストックに投稿
-                    </Button>
-                  </Link>
+                    #文例ストック でツイート
+                  </Button>
                 </Grid>
 
                 {navigator.share && (
@@ -240,7 +252,7 @@ ${memo.text.slice(0, 280)}
                       color="primary"
                       onClick={handleShareClick}
                       startIcon={<ShareIcon />}
-                      variant="contained"
+                      variant="outlined"
                     >
                       共有
                     </Button>
@@ -251,6 +263,24 @@ ${memo.text.slice(0, 280)}
           </Container>
         </Box>
       </Paper>
+
+      <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
+        <DialogTitle>Twitter に投稿しますか？</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>ハッシュタグ #文例ストック が付きます。</DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleTweetDialogClose} color="primary" autoFocus>
+            投稿しない
+          </Button>
+
+          <Button onClick={handleTweetDialogAgree} color="primary">
+            投稿する
+          </Button>
+        </DialogActions>
+      </Dialog>
     </EditContainer>
   );
 };

@@ -8,7 +8,7 @@ describe('sidebar', () => {
     cy.findByText('(空のメモ)').should('exist');
 
     cy.get('nav li button').click();
-    cy.findByText('はい').click();
+    cy.findByText('削除する').click();
     cy.findByText('(空のメモ)').should('not.exist');
   });
 });

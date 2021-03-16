@@ -184,11 +184,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 
         <DialogActions>
           <Button onClick={handleDeleteDialogClose} color="primary" autoFocus>
-            いいえ
+            削除しない
           </Button>
 
           <Button onClick={handleDeleteDialogAgree} color="primary">
-            はい
+            削除する
           </Button>
         </DialogActions>
       </Dialog>
