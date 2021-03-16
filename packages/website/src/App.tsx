@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import Edit from './Edit';
+import { Edit } from './Edit';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
 import useMemo from './useMemo';
