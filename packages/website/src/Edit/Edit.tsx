@@ -242,7 +242,7 @@ ${memo.text.slice(0, 280)}
                     variant="outlined"
                     onClick={handleTweetButtonClick}
                   >
-                    #文例ストック でツイート
+                    文例ストックにツイート
                   </Button>
                 </Grid>
 
@@ -265,7 +265,7 @@ ${memo.text.slice(0, 280)}
       </Paper>
 
       <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
-        <DialogTitle>Twitter に投稿しますか？</DialogTitle>
+        <DialogTitle>文章を Twitter に投稿しますか？</DialogTitle>
 
         <DialogContent>
           <DialogContentText>ハッシュタグ #文例ストック が付きます。</DialogContentText>
