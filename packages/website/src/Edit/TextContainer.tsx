@@ -272,17 +272,18 @@ const TextContainer: React.FunctionComponent<{
             />
           </Typography>
 
-          {pins.map(({ left, message, top }) => (
-            <PinTarget
-              key={message.index}
-              style={{ left, top }}
-              onClick={({ currentTarget }) => {
-                handlePinClick({ currentTarget, messages: message.messages });
-              }}
-            >
-              <PinIcon color="primary" />
-            </PinTarget>
-          ))}
+          {!isTextContainerFocused &&
+            pins.map(({ left, message, top }) => (
+              <PinTarget
+                key={message.index}
+                style={{ left, top }}
+                onClick={({ currentTarget }) => {
+                  handlePinClick({ currentTarget, messages: message.messages });
+                }}
+              >
+                <PinIcon color="primary" />
+              </PinTarget>
+            ))}
 
           <MessagePopover
             anchorEl={popoverAnchorEl}
