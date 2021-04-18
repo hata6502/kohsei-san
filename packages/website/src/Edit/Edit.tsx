@@ -46,10 +46,39 @@ const Edit: React.FunctionComponent<{
   lintWorker,
   memo,
 }) => {
-  const [deviation, setDeviation] = useState<number>();
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
   const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
   const [negaposiScore, setNegaposiScore] = useState<number>();
+
+  const deviation =
+    memo.result &&
+    50 -
+      ((score({ result: memo.result, text: memo.text }) - scoreAverage) /
+        Math.sqrt(scoreVariance)) *
+        10;
+
+  useEffect(
+    () => () => {
+      dispatchIsLinting(false);
+    },
+    [dispatchIsLinting]
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    (async () => {
+      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
+
+      if (isMounted) {
+        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [memo.text, setNegaposiScore]);
 
   useEffect(() => {
     if (!lintWorker || memo.result) {
@@ -60,35 +89,10 @@ const Edit: React.FunctionComponent<{
 
     const lintingTimeoutID = setTimeout(() => dispatchIsLintingHeavy(true), lintingTimeoutLimitMS);
 
-    dispatchIsLinting(true);
     dispatchIsLintingHeavy(false);
 
-    let isUnmounted = false;
-
-    (async () => {
-      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
-
-      if (!isUnmounted) {
-        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
-      }
-    })();
-
-    return () => {
-      isUnmounted = true;
-
-      clearTimeout(lintingTimeoutID);
-
-      dispatchIsLinting(false);
-    };
-  }, [
-    dispatchIsLinting,
-    dispatchIsLintingHeavy,
-    dispatchMemos,
-    lintWorker,
-    memo.id,
-    memo.result,
-    memo.text,
-  ]);
+    return () => clearTimeout(lintingTimeoutID);
+  }, [dispatchIsLintingHeavy, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
 
   useEffect(() => {
     const handleLintWorkerError = () => {
@@ -108,13 +112,6 @@ const Edit: React.FunctionComponent<{
           ...(prevMemo.id === memo.id && { result: event.data.result }),
         }))
       );
-
-      setDeviation(
-        50 -
-          ((score({ result: event.data.result, text: memo.text }) - scoreAverage) /
-            Math.sqrt(scoreVariance)) *
-            10
-      );
     };
 
     lintWorker.addEventListener('error', handleLintWorkerError);
@@ -126,7 +123,7 @@ const Edit: React.FunctionComponent<{
     };
   }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
 
-  const isDisplayResult = !isTextContainerFocused && !isLinting;
+  const shouldDisplayResult = !isTextContainerFocused && !isLinting;
 
   const handleShareClick = useCallback(async () => {
     try {
@@ -171,7 +168,10 @@ ${memo.text.slice(0, 280)}
           <Container>
             <Grid container spacing={1} wrap="wrap">
               <Grid item>
-                <Chip label={`${isDisplayResult ? memo.text.length : '??'} 文字`} size="small" />
+                <Chip
+                  label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
+                  size="small"
+                />
               </Grid>
 
               <Grid item>
@@ -179,7 +179,9 @@ ${memo.text.slice(0, 280)}
                   clickable
                   component="a"
                   href="https://github.com/hata6502/kohsei-san#校正偏差値"
-                  label={`偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
+                  label={`偏差値 ${
+                    deviation !== undefined && shouldDisplayResult ? Math.round(deviation) : '??'
+                  }`}
                   rel="noreferrer"
                   size="small"
                   target="_blank"
@@ -192,7 +194,7 @@ ${memo.text.slice(0, 280)}
                   component="a"
                   href="https://github.com/hata6502/kohsei-san#ネガポジ判定"
                   label={`ネガポジ ${
-                    !isDisplayResult || negaposiScore === undefined
+                    !shouldDisplayResult || negaposiScore === undefined
                       ? '??'
                       : negaposiScore < -0.6
                       ? '😢'
@@ -217,9 +219,10 @@ ${memo.text.slice(0, 280)}
               dispatchMemos={dispatchMemos}
               isTextContainerFocused={isTextContainerFocused}
               memo={memo}
+              shouldDisplayResult={shouldDisplayResult}
             />
 
-            {isDisplayResult &&
+            {shouldDisplayResult &&
               memo.result &&
               (memo.result.messages.length === 0 ? (
                 <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
