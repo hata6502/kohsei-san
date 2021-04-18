@@ -9,6 +9,9 @@ import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-ent
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
 import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
+import textlintRuleEnSpell from 'textlint-rule-en-spell';
+// @ts-expect-error
+import textlintRuleGeneralNovelStyleJa from 'textlint-rule-general-novel-style-ja';
 // @ts-expect-error
 import textlintRuleJaHiraganaDaimeishi from 'textlint-rule-ja-hiragana-daimeishi';
 // @ts-expect-error
@@ -20,13 +23,19 @@ import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keis
 // @ts-expect-error
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
 // @ts-expect-error
+import textlintRuleJaKyoikuKanji from 'textlint-rule-ja-kyoiku-kanji';
+// @ts-expect-error
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
+// @ts-expect-error
+import textlintRuleJaNoMixedPeriod from 'textlint-rule-ja-no-mixed-period';
 // @ts-expect-error
 import textlintRuleJaNoOrthographicVariants from 'textlint-rule-ja-no-orthographic-variants';
 // @ts-expect-error
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-expect-error
 import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
+// @ts-expect-error
+import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
 // @ts-expect-error
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-expect-error
@@ -71,6 +80,14 @@ const lint = (text: string): Promise<TextlintResult> =>
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
       },
+      { // TODO: option
+        ruleId: 'en-spell',
+        rule: textlintRuleEnSpell,
+      }, //TODO: option
+      {
+        ruleId: 'general-novel-style-ja',
+        rule: textlintRuleGeneralNovelStyleJa,
+      },
       {
         ruleId: 'ja-hiragana-daimeishi',
         rule: textlintRuleJaHiraganaDaimeishi,
@@ -90,11 +107,19 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
+      },  // TODO: option
+      {
+        ruleId: 'ja-kyoiku-kanji',
+        rule: textlintRuleJaKyoikuKanji,
       },
       {
         ruleId: 'ja-no-inappropriate-words',
         rule: textlintRuleJaNoInappropriateWords,
       },
+      {
+        ruleId: 'ja-no-mixed-period',
+        rule: textlintRuleJaNoMixedPeriod,
+      }, // TODO: option
       {
         ruleId: 'ja-no-orthographic-variants',
         rule: textlintRuleJaNoOrthographicVariants,
@@ -109,6 +134,10 @@ const lint = (text: string): Promise<TextlintResult> =>
         options: {
           allow: ['/[\\u2000-\\u2DFF\\u2E00-\\u33FF\\uF900-\\uFFFD]/'],
         },
+      }, // TODO: option
+      {
+        ruleId: 'ja-no-weak-phrase',
+        rule: textlintRuleJaNoWeakPhrase,
       },
       {
         ruleId: 'ja-unnatural-alphabet',

@@ -21,30 +21,6 @@
 - カスタマイズ性よりも、統一された校正ルールを追求します。
 - サーバーを設けず、オフラインで完結させます。
 
-## 校正ルール
-
-[textlint/textlint](https://github.com/textlint/textlint) のもとで次の校正ルールを使用しています。
-
-- [textlint-ja/textlint-rule-preset-japanese](https://github.com/textlint-ja/textlint-rule-preset-japanese)
-- [azu/textlint-rule-date-weekday-mismatch](https://github.com/azu/textlint-rule-date-weekday-mismatch)
-- [hata6502/textlint-rule-ja-hiragana-daimeishi](https://github.com/hata6502/textlint-rule-ja-hiragana-daimeishi)
-- [hata6502/textlint-rule-ja-hiragana-fukushi](https://github.com/hata6502/textlint-rule-ja-hiragana-fukushi)
-- [hata6502/textlint-rule-ja-hiragana-hojodoushi](https://github.com/hata6502/textlint-rule-ja-hiragana-hojodoushi)
-- [hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji](https://github.com/hata6502/textlint-rule-ja-joyo-or-jinmeiyo-kanji)
-- [hata6502/textlint-rule-ja-no-inappropriate-words](https://github.com/hata6502/textlint-rule-ja-no-inappropriate-words)
-- [hata6502/textlint-rule-ja-no-orthographic-variants](https://github.com/hata6502/textlint-rule-ja-no-orthographic-variants)
-- [hata6502/textlint-rule-no-dropping-i](https://github.com/hata6502/textlint-rule-no-dropping-i)
-- [hata6502/textlint-rule-no-insert-dropping-sa](https://github.com/hata6502/textlint-rule-no-insert-dropping-sa)
-- [KeitaMoromizato/textlint-rule-max-appearence-count-of-words](https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words)
-- [lostandfound/textlint-rule-ja-hiragana-keishikimeishi](https://github.com/lostandfound/textlint-rule-ja-hiragana-keishikimeishi)
-- [textlint-ja/textlint-rule-ja-no-redundant-expression](https://github.com/textlint-ja/textlint-rule-ja-no-redundant-expression)
-- [textlint-ja/textlint-rule-ja-no-successive-word](https://github.com/textlint-ja/textlint-rule-ja-no-successive-word)
-- [textlint-ja/textlint-rule-ja-unnatural-alphabet](https://github.com/textlint-ja/textlint-rule-ja-unnatural-alphabet)
-- [textlint-ja/textlint-rule-no-hankaku-kana](https://github.com/textlint-ja/textlint-rule-no-hankaku-kana)
-- [textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet](https://github.com/textlint-ja/textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet)
-- [textlint-ja/textlint-rule-no-synonyms](https://github.com/textlint-ja/textlint-rule-no-synonyms)
-- [textlint-ja/textlint-rule-prefer-tari-tari](https://github.com/textlint-ja/textlint-rule-prefer-tari-tari)
-
 ## 校正偏差値
 
 Wikipedia の記事データをスコアリングして統計をとることで、文章の品質を表す「校正偏差値」を導入しています。
