@@ -39,6 +39,8 @@ import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-expect-error
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
+// @ts-expect-error
+import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
 const kernel = new TextlintKernel();
 
@@ -62,11 +64,13 @@ const lint = (text: string): Promise<TextlintResult> =>
       },
     ],
     rules: [
-      ...Object.keys(textlintRulePresetJapanese.rules).map((key) => ({
-        ruleId: key,
-        rule: textlintRulePresetJapanese.rules[key],
-        options: textlintRulePresetJapanese.rulesConfig[key],
-      })),
+      ...Object.keys(textlintRulePresetJapanese.rules)
+        .filter((key) => !['sentence-length'].includes(key))
+        .map((key) => ({
+          ruleId: key,
+          rule: textlintRulePresetJapanese.rules[key],
+          options: textlintRulePresetJapanese.rulesConfig[key],
+        })),
       {
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
@@ -141,6 +145,16 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
+      },
+      {
+        ruleId: 'sentence-length',
+        rule: textlintRuleSentenceLength,
+        options: {
+          exclusionPatterns: [
+            // This line is under the CC BY-SA 4.0.
+            '/https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/',
+          ],
+        },
       },
     ],
   });
