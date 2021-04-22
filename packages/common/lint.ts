@@ -9,7 +9,6 @@ import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-ent
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
 import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
-// @ts-expect-error
 import textlintRuleEnSpell from 'textlint-rule-en-spell';
 // @ts-expect-error
 import textlintRuleGeneralNovelStyleJa from 'textlint-rule-general-novel-style-ja';
@@ -58,9 +57,27 @@ import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
 // @ts-expect-error
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
+interface LintOption {
+  enSpell?: boolean;
+  generalNovelStyleJa?: boolean;
+  jaKyoikuKanji?: boolean;
+  jaNoMixedPeriod?: boolean;
+  jaNoWeakPhrase?: boolean;
+  maxAppearenceCountOfWords?: boolean;
+  presetJaSpacing?: boolean;
+  presetJaTechnicalWriting?: boolean;
+  presetJTFStyle?: boolean;
+}
+
 const kernel = new TextlintKernel();
 
-const lint = (text: string): Promise<TextlintResult> =>
+const lint = ({
+  lintOption,
+  text,
+}: {
+  lintOption: LintOption;
+  text: string;
+}): Promise<TextlintResult> =>
   kernel.lintText(text, {
     ext: '.txt',
     filterRules: [
@@ -80,11 +97,13 @@ const lint = (text: string): Promise<TextlintResult> =>
       },
     ],
     rules: [
-      ...Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
-        ruleId: key,
-        rule: textlintRulePresetJaSpacing.rules[key],
-        options: textlintRulePresetJaSpacing.rulesConfig[key],
-      })),
+      ...(lintOption.presetJaSpacing
+        ? Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
+            ruleId: key,
+            rule: textlintRulePresetJaSpacing.rules[key],
+            options: textlintRulePresetJaSpacing.rulesConfig[key],
+          }))
+        : []),
       ...Object.keys(textlintRulePresetJapanese.rules)
         .filter((key) => !['sentence-length'].includes(key))
         .map((key) => ({
@@ -92,31 +111,42 @@ const lint = (text: string): Promise<TextlintResult> =>
           rule: textlintRulePresetJapanese.rules[key],
           options: textlintRulePresetJapanese.rulesConfig[key],
         })),
-      ...Object.keys(textlintRulePresetJaTechnicalWriting.rules)
-        .filter((key) => !['sentence-length'].includes(key))
-        .map((key) => ({
-          ruleId: key,
-          rule: textlintRulePresetJaTechnicalWriting.rules[key],
-          options: textlintRulePresetJaTechnicalWriting.rulesConfig[key],
-        })),
-      ...Object.keys(textlintRulePresetJTFStyle.rules).map((key) => ({
-        ruleId: key,
-        rule: textlintRulePresetJTFStyle.rules[key],
-        options: textlintRulePresetJTFStyle.rulesConfig[key],
-      })),
+      ...(lintOption.presetJaTechnicalWriting
+        ? Object.keys(textlintRulePresetJaTechnicalWriting.rules)
+            .filter((key) => !['sentence-length'].includes(key))
+            .map((key) => ({
+              ruleId: key,
+              rule: textlintRulePresetJaTechnicalWriting.rules[key],
+              options: textlintRulePresetJaTechnicalWriting.rulesConfig[key],
+            }))
+        : []),
+      ...(lintOption.presetJTFStyle
+        ? Object.keys(textlintRulePresetJTFStyle.rules).map((key) => ({
+            ruleId: key,
+            rule: textlintRulePresetJTFStyle.rules[key],
+            options: textlintRulePresetJTFStyle.rulesConfig[key],
+          }))
+        : []),
       {
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
       },
-      {
-        // TODO: option
-        ruleId: 'en-spell',
-        rule: textlintRuleEnSpell,
-      }, //TODO: option
-      {
-        ruleId: 'general-novel-style-ja',
-        rule: textlintRuleGeneralNovelStyleJa,
-      },
+      ...(lintOption.enSpell
+        ? [
+            {
+              ruleId: 'en-spell',
+              rule: textlintRuleEnSpell,
+            },
+          ]
+        : []),
+      ...(lintOption.generalNovelStyleJa
+        ? [
+            {
+              ruleId: 'general-novel-style-ja',
+              rule: textlintRuleGeneralNovelStyleJa,
+            },
+          ]
+        : []),
       {
         ruleId: 'ja-hiragana-daimeishi',
         rule: textlintRuleJaHiraganaDaimeishi,
@@ -136,19 +166,27 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
-      }, // TODO: option
-      {
-        ruleId: 'ja-kyoiku-kanji',
-        rule: textlintRuleJaKyoikuKanji,
       },
+      ...(lintOption.jaKyoikuKanji
+        ? [
+            {
+              ruleId: 'ja-kyoiku-kanji',
+              rule: textlintRuleJaKyoikuKanji,
+            },
+          ]
+        : []),
       {
         ruleId: 'ja-no-inappropriate-words',
         rule: textlintRuleJaNoInappropriateWords,
       },
-      {
-        ruleId: 'ja-no-mixed-period',
-        rule: textlintRuleJaNoMixedPeriod,
-      }, // TODO: option
+      ...(lintOption.jaNoMixedPeriod
+        ? [
+            {
+              ruleId: 'ja-no-mixed-period',
+              rule: textlintRuleJaNoMixedPeriod,
+            },
+          ]
+        : []),
       {
         ruleId: 'ja-no-orthographic-variants',
         rule: textlintRuleJaNoOrthographicVariants,
@@ -163,20 +201,27 @@ const lint = (text: string): Promise<TextlintResult> =>
         options: {
           allow: ['/[\\u2000-\\u2DFF\\u2E00-\\u33FF\\uF900-\\uFFFD]/'],
         },
-      }, // TODO: option
-      {
-        ruleId: 'ja-no-weak-phrase',
-        rule: textlintRuleJaNoWeakPhrase,
       },
+      ...(lintOption.jaNoWeakPhrase
+        ? [
+            {
+              ruleId: 'ja-no-weak-phrase',
+              rule: textlintRuleJaNoWeakPhrase,
+            },
+          ]
+        : []),
       {
         ruleId: 'ja-unnatural-alphabet',
         rule: textlintRuleJaUnnaturalAlphabet,
       },
-      {
-        // TODO: option
-        ruleId: 'max-appearence-count-of-words',
-        rule: textlintRuleMaxAppearenceCountOfWords,
-      },
+      ...(lintOption.maxAppearenceCountOfWords
+        ? [
+            {
+              ruleId: 'max-appearence-count-of-words',
+              rule: textlintRuleMaxAppearenceCountOfWords,
+            },
+          ]
+        : []),
       {
         ruleId: 'no-dropping-i',
         rule: textlintRuleNoDroppingI,
@@ -214,4 +259,5 @@ const lint = (text: string): Promise<TextlintResult> =>
     ],
   });
 
-export default lint;
+export { lint };
+export type { LintOption };

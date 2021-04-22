@@ -15,8 +15,9 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
-import type { LintWorkerMessage } from '../lintWorker';
+import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import type { Memo, MemosAction } from '../useMemo';
+import type { Setting } from '../useSetting';
 import { TextContainer } from './TextContainer';
 
 const lintingTimeoutLimitMS = 10000;
@@ -35,6 +36,7 @@ const Edit: React.FunctionComponent<{
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
+  setting: Setting;
 }> = ({
   dispatchIsLinting,
   dispatchIsLintingHeavy,
@@ -42,6 +44,7 @@ const Edit: React.FunctionComponent<{
   isLinting,
   lintWorker,
   memo,
+  setting,
 }) => {
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
   const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
@@ -75,7 +78,12 @@ const Edit: React.FunctionComponent<{
       return;
     }
 
-    lintWorker.postMessage(memo.text);
+    const message: LintWorkerLintMessage = {
+      lintOption: setting.lintOption,
+      text: memo.text,
+    };
+
+    lintWorker.postMessage(message);
 
     const lintingTimeoutID = setTimeout(() => dispatchIsLintingHeavy(true), lintingTimeoutLimitMS);
 
@@ -100,7 +108,7 @@ const Edit: React.FunctionComponent<{
       throw new Error();
     };
 
-    const handleLintWorkerMessage = (event: MessageEvent<LintWorkerMessage>) => {
+    const handleLintWorkerMessage = (event: MessageEvent<LintWorkerResultMessage>) => {
       if (event.data.text !== memo.text) {
         return;
       }
