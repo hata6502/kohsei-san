@@ -227,7 +227,6 @@ const TextContainer: React.FunctionComponent<{
   const handlePopoverClose = useCallback(() => setPopoverAnchorEl(undefined), [setPopoverAnchorEl]);
 
   const handleTextContainerBlur = useCallback(() => {
-    dispatchIsLinting(true);
     dispatchIsTextContainerFocused(false);
 
     dispatchMemos((prevMemos) =>
@@ -245,7 +244,7 @@ const TextContainer: React.FunctionComponent<{
         };
       })
     );
-  }, [dispatchIsLinting, dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
+  }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
 
   const handleTextContainerFocus = useCallback(() => dispatchIsTextContainerFocused(true), [
     dispatchIsTextContainerFocused,

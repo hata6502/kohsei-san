@@ -89,10 +89,19 @@ const Edit: React.FunctionComponent<{
 
     const lintingTimeoutID = setTimeout(() => dispatchIsLintingHeavy(true), lintingTimeoutLimitMS);
 
+    dispatchIsLinting(true);
     dispatchIsLintingHeavy(false);
 
     return () => clearTimeout(lintingTimeoutID);
-  }, [dispatchIsLintingHeavy, dispatchMemos, lintWorker, memo.id, memo.result, memo.text]);
+  }, [
+    dispatchIsLinting,
+    dispatchIsLintingHeavy,
+    dispatchMemos,
+    lintWorker,
+    memo.id,
+    memo.result,
+    memo.text,
+  ]);
 
   useEffect(() => {
     const handleLintWorkerError = () => {
