@@ -93,8 +93,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
     <Sidebar
       dispatchMemoId={dispatchMemoId}
       dispatchMemos={dispatchMemos}
+      dispatchSetting={dispatchSetting}
       memoId={memoId}
       memos={memos}
+      setting={setting}
       onClose={handleSidebarClose}
     />
   );

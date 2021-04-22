@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,8 +20,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import BookIcon from '@material-ui/icons/Book';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { v4 as uuidv4 } from 'uuid';
-import { Memo, MemosAction } from './useMemo';
+import { SettingDialog } from './SettingDialog';
+import type { Memo, MemosAction } from './useMemo';
+import type { Setting } from './useSetting';
 
 const DrawerContainer = styled.div`
   width: 250px;
@@ -36,16 +39,20 @@ const MemoText = styled(ListItemText)`
 export interface SidebarProps {
   dispatchMemoId: React.Dispatch<string>;
   dispatchMemos: React.Dispatch<MemosAction>;
+  dispatchSetting: React.Dispatch<React.SetStateAction<Setting>>;
   memoId: string;
   memos: Memo[];
+  setting: Setting;
   onClose?: () => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = ({
   dispatchMemoId,
   dispatchMemos,
+  dispatchSetting,
   memoId,
   memos,
+  setting,
   onClose,
 }) => {
   const [deleteMemo, dispatchDeleteMemo] = useReducer(
@@ -55,6 +62,8 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     }),
     { id: undefined, memo: undefined }
   );
+
+  const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
 
   const handleAddClick = useCallback(() => {
     const id = uuidv4();
@@ -98,6 +107,9 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     [dispatchMemoId, onClose]
   );
 
+  const handleSettingClick = useCallback(() => setIsSettingDialogOpen(true), []);
+  const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
+
   return (
     <DrawerContainer>
       <List>
@@ -126,6 +138,30 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 
       <Divider />
 
+      <ListItem button onClick={handleSettingClick}>
+        <ListItemIcon>
+          <SettingsIcon />
+        </ListItemIcon>
+
+        <ListItemText primary="設定" />
+      </ListItem>
+
+      <Link
+        color="inherit"
+        href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
+        rel="noreferrer"
+        target="_blank"
+        underline="none"
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <LibraryBooksIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="文例ストック" />
+        </ListItem>
+      </Link>
+
       <List>
         <Link color="inherit" href="lp/blog/" rel="noopener" target="_blank" underline="none">
           <ListItem button>
@@ -152,22 +188,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
             <ListItemText primary="投げ銭" />
           </ListItem>
         </Link>
-
-        <Link
-          color="inherit"
-          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <LibraryBooksIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="文例ストック" />
-          </ListItem>
-        </Link>
       </List>
 
       <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
@@ -192,6 +212,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           </Button>
         </DialogActions>
       </Dialog>
+
+      <SettingDialog
+        dispatchSetting={dispatchSetting}
+        open={isSettingDialogOpen}
+        setting={setting}
+        onClose={handleSettingDialogClose}
+      />
     </DrawerContainer>
   );
 };
