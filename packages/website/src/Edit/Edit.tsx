@@ -231,17 +231,26 @@ ${memo.text.slice(0, 280)}
               shouldDisplayResult={shouldDisplayResult}
             />
 
-            {shouldDisplayResult &&
-              memo.result &&
+            {memo.result &&
               (memo.result.messages.length === 0 ? (
-                <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
+                <Alert
+                  severity="success"
+                  style={{
+                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                  }}
+                >
+                  校正を通過しました。おめでとうございます！
+                </Alert>
               ) : (
-                <Alert severity="info">
-                  <div>
-                    自動校正によるメッセージがあります。
-                    <FeedbackIcon color="primary" />
-                    を押して参考にしてみてください。
-                  </div>
+                <Alert
+                  severity="info"
+                  style={{
+                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                  }}
+                >
+                  自動校正によるメッセージがあります。
+                  <FeedbackIcon color="primary" />
+                  を押して参考にしてみてください。
                 </Alert>
               ))}
 

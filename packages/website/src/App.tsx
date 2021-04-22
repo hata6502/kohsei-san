@@ -104,12 +104,14 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
 
       <TopBar color="inherit">
         <Toolbar>
-          <Hidden smUp implementation="css">
+          <Hidden smUp>
             <IconButton onClick={handleMenuIconClick}>
               <MenuIcon />
             </IconButton>
           </Hidden>
-          {(isLinting && <CircularProgress color="secondary" />) || (
+          {isLinting ? (
+            <CircularProgress color="secondary" />
+          ) : (
             <img alt="" src="favicon.png" style={{ width: 48 }} />
           )}
 
@@ -120,13 +122,13 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
       </TopBar>
 
       <Navigation>
-        <Hidden smUp implementation="css">
+        <Hidden smUp>
           <Drawer open={isSidebarOpen} variant="temporary" onClose={handleSidebarClose}>
             {sidebarContent}
           </Drawer>
         </Hidden>
 
-        <Hidden xsDown implementation="css">
+        <Hidden xsDown>
           <Drawer open variant="permanent">
             {sidebarContent}
           </Drawer>
