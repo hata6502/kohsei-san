@@ -15,14 +15,11 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
-import score from 'common/score';
 import type { LintWorkerMessage } from '../lintWorker';
 import type { Memo, MemosAction } from '../useMemo';
 import { TextContainer } from './TextContainer';
 
 const lintingTimeoutLimitMS = 10000;
-const scoreAverage = 0.003685109284;
-const scoreVariance = 0.00001274531341;
 
 const EditContainer = styled(Container)`
   ${({ theme }) => `
@@ -49,13 +46,6 @@ const Edit: React.FunctionComponent<{
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
   const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
   const [negaposiScore, setNegaposiScore] = useState<number>();
-
-  const deviation =
-    memo.result &&
-    50 -
-      ((score({ result: memo.result, text: memo.text }) - scoreAverage) /
-        Math.sqrt(scoreVariance)) *
-        10;
 
   useEffect(
     () => () => {
@@ -180,20 +170,6 @@ ${memo.text.slice(0, 280)}
                 <Chip
                   label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
                   size="small"
-                />
-              </Grid>
-
-              <Grid item>
-                <Chip
-                  clickable
-                  component="a"
-                  href="https://github.com/hata6502/kohsei-san#校正偏差値"
-                  label={`偏差値 ${
-                    deviation !== undefined && shouldDisplayResult ? Math.round(deviation) : '??'
-                  }`}
-                  rel="noreferrer"
-                  size="small"
-                  target="_blank"
                 />
               </Grid>
 
