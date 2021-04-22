@@ -110,6 +110,9 @@ Give a ⭐️ if this project helped you!
 The following creations are included in this product:
 
 - [ISOMETRIC](https://isometric.online/license/)
+- [Stack Overflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url)
+  - Asked by [bigbob](https://stackoverflow.com/users/460129/bigbob)
+  - Answered by [Daveo](https://stackoverflow.com/users/165839/daveo)
 
 Please see [DISCLAIMER.md](https://github.com/blue-hood/kohsei-san/blob/master/DISCLAIMER.md) for others.
 

@@ -106,6 +106,7 @@ const main = () => {
       typography: {
         fontFamily:
           '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+        fontWeightMedium: 600,
       },
     },
     jaJP

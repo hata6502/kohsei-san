@@ -38,6 +38,7 @@ const PinTarget = styled.div`
 
 const Content = styled.div`
   ${({ theme }) => `
+    padding: ${theme.spacing(2)}px;
     &:empty::before {
       content: '校正する文章を入力';
       color: ${theme.palette.text.disabled};
@@ -64,12 +65,14 @@ const TextContainer: React.FunctionComponent<{
   dispatchMemos: React.Dispatch<MemosAction>;
   isTextContainerFocused: boolean;
   memo: Memo;
+  shouldDisplayResult: boolean;
 }> = ({
   dispatchIsLinting,
   dispatchIsTextContainerFocused,
   dispatchMemos,
   isTextContainerFocused,
   memo,
+  shouldDisplayResult,
 }) => {
   const [pins, setPins] = useState<Pin[]>([]);
 
@@ -224,6 +227,8 @@ const TextContainer: React.FunctionComponent<{
   const handlePopoverClose = useCallback(() => setPopoverAnchorEl(undefined), [setPopoverAnchorEl]);
 
   const handleTextContainerBlur = useCallback(() => {
+    dispatchIsTextContainerFocused(false);
+
     dispatchMemos((prevMemos) =>
       prevMemos.map((prevMemo) => {
         if (!textRef.current) {
@@ -239,9 +244,7 @@ const TextContainer: React.FunctionComponent<{
         };
       })
     );
-
-    dispatchIsTextContainerFocused(false);
-  }, [dispatchMemos, memo.id, dispatchIsTextContainerFocused]);
+  }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
 
   const handleTextContainerFocus = useCallback(() => dispatchIsTextContainerFocused(true), [
     dispatchIsTextContainerFocused,
@@ -254,7 +257,6 @@ const TextContainer: React.FunctionComponent<{
       borderRadius="borderRadius"
       mb={2}
       mt={1}
-      p={2}
       position="relative"
     >
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -272,7 +274,7 @@ const TextContainer: React.FunctionComponent<{
             />
           </Typography>
 
-          {!isTextContainerFocused &&
+          {shouldDisplayResult &&
             pins.map(({ left, message, top }) => (
               <PinTarget
                 key={message.index}

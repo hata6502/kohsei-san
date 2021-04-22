@@ -8,20 +8,13 @@
  * $ echo -n > ~/scores.txt && ls ~/wikipedia | xargs -IXXX sh -c "node dist/main.js ~/wikipedia/XXX >> ~/scores.txt"
  */
 
-// @proofdict/textlint-rule-proofdict を動作させるため。
-if (require.main) {
-  require.main.filename = '';
-}
-
 import fs from 'fs';
 import lint from 'common/lint';
 import score from 'common/score';
 
-const main = async (): Promise<void> => {
+(async () => {
   const text = fs.readFileSync(process.argv[2]).toString();
   const result = await lint(text);
 
   console.log(score({ result, text }));
-};
-
-main();
+})();

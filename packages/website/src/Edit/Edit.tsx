@@ -15,14 +15,11 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
-import score from 'common/score';
 import type { LintWorkerMessage } from '../lintWorker';
 import type { Memo, MemosAction } from '../useMemo';
 import { TextContainer } from './TextContainer';
 
 const lintingTimeoutLimitMS = 10000;
-const scoreAverage = 0.003685109284;
-const scoreVariance = 0.00001274531341;
 
 const EditContainer = styled(Container)`
   ${({ theme }) => `
@@ -46,10 +43,32 @@ const Edit: React.FunctionComponent<{
   lintWorker,
   memo,
 }) => {
-  const [deviation, setDeviation] = useState<number>();
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
   const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
   const [negaposiScore, setNegaposiScore] = useState<number>();
+
+  useEffect(
+    () => () => {
+      dispatchIsLinting(false);
+    },
+    [dispatchIsLinting]
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    (async () => {
+      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
+
+      if (isMounted) {
+        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [memo.text, setNegaposiScore]);
 
   useEffect(() => {
     if (!lintWorker || memo.result) {
@@ -63,23 +82,7 @@ const Edit: React.FunctionComponent<{
     dispatchIsLinting(true);
     dispatchIsLintingHeavy(false);
 
-    let isUnmounted = false;
-
-    (async () => {
-      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
-
-      if (!isUnmounted) {
-        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
-      }
-    })();
-
-    return () => {
-      isUnmounted = true;
-
-      clearTimeout(lintingTimeoutID);
-
-      dispatchIsLinting(false);
-    };
+    return () => clearTimeout(lintingTimeoutID);
   }, [
     dispatchIsLinting,
     dispatchIsLintingHeavy,
@@ -108,13 +111,6 @@ const Edit: React.FunctionComponent<{
           ...(prevMemo.id === memo.id && { result: event.data.result }),
         }))
       );
-
-      setDeviation(
-        50 -
-          ((score({ result: event.data.result, text: memo.text }) - scoreAverage) /
-            Math.sqrt(scoreVariance)) *
-            10
-      );
     };
 
     lintWorker.addEventListener('error', handleLintWorkerError);
@@ -126,7 +122,7 @@ const Edit: React.FunctionComponent<{
     };
   }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
 
-  const isDisplayResult = !isTextContainerFocused && !isLinting;
+  const shouldDisplayResult = !isTextContainerFocused && !isLinting;
 
   const handleShareClick = useCallback(async () => {
     try {
@@ -171,18 +167,9 @@ ${memo.text.slice(0, 280)}
           <Container>
             <Grid container spacing={1} wrap="wrap">
               <Grid item>
-                <Chip label={`${isDisplayResult ? memo.text.length : '??'} 文字`} size="small" />
-              </Grid>
-
-              <Grid item>
                 <Chip
-                  clickable
-                  component="a"
-                  href="https://github.com/hata6502/kohsei-san#校正偏差値"
-                  label={`偏差値 ${deviation && isDisplayResult ? Math.round(deviation) : '??'}`}
-                  rel="noreferrer"
+                  label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
                   size="small"
-                  target="_blank"
                 />
               </Grid>
 
@@ -192,7 +179,7 @@ ${memo.text.slice(0, 280)}
                   component="a"
                   href="https://github.com/hata6502/kohsei-san#ネガポジ判定"
                   label={`ネガポジ ${
-                    !isDisplayResult || negaposiScore === undefined
+                    !shouldDisplayResult || negaposiScore === undefined
                       ? '??'
                       : negaposiScore < -0.6
                       ? '😢'
@@ -217,19 +204,29 @@ ${memo.text.slice(0, 280)}
               dispatchMemos={dispatchMemos}
               isTextContainerFocused={isTextContainerFocused}
               memo={memo}
+              shouldDisplayResult={shouldDisplayResult}
             />
 
-            {isDisplayResult &&
-              memo.result &&
+            {memo.result &&
               (memo.result.messages.length === 0 ? (
-                <Alert severity="success">校正を通過しました。おめでとうございます！</Alert>
+                <Alert
+                  severity="success"
+                  style={{
+                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                  }}
+                >
+                  校正を通過しました。おめでとうございます！
+                </Alert>
               ) : (
-                <Alert severity="info">
-                  <div>
-                    自動校正によるメッセージがあります。
-                    <FeedbackIcon color="primary" />
-                    を押して参考にしてみてください。
-                  </div>
+                <Alert
+                  severity="info"
+                  style={{
+                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                  }}
+                >
+                  自動校正によるメッセージがあります。
+                  <FeedbackIcon color="primary" />
+                  を押して参考にしてみてください。
                 </Alert>
               ))}
 
