@@ -9,6 +9,7 @@ import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-ent
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
 import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
+// @ts-expect-error
 import textlintRuleEnSpell from 'textlint-rule-en-spell';
 // @ts-expect-error
 import textlintRuleGeneralNovelStyleJa from 'textlint-rule-general-novel-style-ja';
@@ -47,7 +48,13 @@ import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed
 // @ts-expect-error
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
 // @ts-expect-error
+import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
+// @ts-expect-error
+import textlintRulePresetJaTechnicalWriting from 'textlint-rule-preset-ja-technical-writing';
+// @ts-expect-error
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
+// @ts-expect-error
+import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
 // @ts-expect-error
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
@@ -73,6 +80,11 @@ const lint = (text: string): Promise<TextlintResult> =>
       },
     ],
     rules: [
+      ...Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
+        ruleId: key,
+        rule: textlintRulePresetJaSpacing.rules[key],
+        options: textlintRulePresetJaSpacing.rulesConfig[key],
+      })),
       ...Object.keys(textlintRulePresetJapanese.rules)
         .filter((key) => !['sentence-length'].includes(key))
         .map((key) => ({
@@ -80,11 +92,24 @@ const lint = (text: string): Promise<TextlintResult> =>
           rule: textlintRulePresetJapanese.rules[key],
           options: textlintRulePresetJapanese.rulesConfig[key],
         })),
+      ...Object.keys(textlintRulePresetJaTechnicalWriting.rules)
+        .filter((key) => !['sentence-length'].includes(key))
+        .map((key) => ({
+          ruleId: key,
+          rule: textlintRulePresetJaTechnicalWriting.rules[key],
+          options: textlintRulePresetJaTechnicalWriting.rulesConfig[key],
+        })),
+      ...Object.keys(textlintRulePresetJTFStyle.rules).map((key) => ({
+        ruleId: key,
+        rule: textlintRulePresetJTFStyle.rules[key],
+        options: textlintRulePresetJTFStyle.rulesConfig[key],
+      })),
       {
         ruleId: 'date-weekday-mismatch',
         rule: textlintRuleDateWeekdayMismatch,
       },
-      { // TODO: option
+      {
+        // TODO: option
         ruleId: 'en-spell',
         rule: textlintRuleEnSpell,
       }, //TODO: option
@@ -111,7 +136,7 @@ const lint = (text: string): Promise<TextlintResult> =>
       {
         ruleId: 'ja-joyo-or-jinmeiyo-kanji',
         rule: textlintRuleJaJoyoOrJinmeiyoKanji,
-      },  // TODO: option
+      }, // TODO: option
       {
         ruleId: 'ja-kyoiku-kanji',
         rule: textlintRuleJaKyoikuKanji,
@@ -148,6 +173,7 @@ const lint = (text: string): Promise<TextlintResult> =>
         rule: textlintRuleJaUnnaturalAlphabet,
       },
       {
+        // TODO: option
         ruleId: 'max-appearence-count-of-words',
         rule: textlintRuleMaxAppearenceCountOfWords,
       },
