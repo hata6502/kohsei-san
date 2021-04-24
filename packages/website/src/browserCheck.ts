@@ -6,7 +6,7 @@ if (!supportedBrowsersRegExp.test(navigator.userAgent)) {
 
 ${supportedBrowsers.browsers.map((browser) => `・${browser}`).join('\n')}
 
-Twitter　https://twitter.com/hata6502
-このアプリについて　https://github.com/hata6502/kohsei-san/blob/master/README.md
+Twitter https://twitter.com/hata6502
+このアプリについて https://github.com/hata6502/kohsei-san/blob/master/README.md
 `);
 }

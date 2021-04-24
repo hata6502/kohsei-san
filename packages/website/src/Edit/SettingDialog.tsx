@@ -132,66 +132,66 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
 
         <FormControl disabled={setting.mode !== 'professional'}>
           <FormControlLabel
-            checked={setting.lintOption.enSpell ?? false}
-            control={<Checkbox />}
-            label="enSpell"
-            onChange={handleEnSpellChange}
-          />
-
-          <FormControlLabel
             checked={setting.lintOption.generalNovelStyleJa ?? false}
             control={<Checkbox />}
-            label="generalNovelStyleJa"
+            label="小説の一般的な作法"
             onChange={handleGeneralNovelStyleJaChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.jaKyoikuKanji ?? false}
-            control={<Checkbox />}
-            label="jaKyoikuKanji"
-            onChange={handleJaKyoikuKanjiChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.jaNoMixedPeriod ?? false}
-            control={<Checkbox />}
-            label="jaNoMixedPeriod"
-            onChange={handleJaNoMixedPeriodChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.jaNoWeakPhrase ?? false}
-            control={<Checkbox />}
-            label="jaNoWeakPhrase"
-            onChange={handleJaNoWeakPhraseChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
-            control={<Checkbox />}
-            label="maxAppearenceCountOfWords"
-            onChange={handleMaxAppearenceCountOfWordsChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.presetJaSpacing ?? false}
-            control={<Checkbox />}
-            label="presetJaSpacing"
-            onChange={handlePresetJaSpacingChange}
           />
 
           <FormControlLabel
             checked={setting.lintOption.presetJaTechnicalWriting ?? false}
             control={<Checkbox />}
-            label="presetJaTechnicalWriting"
+            label="技術文書"
             onChange={handlePresetJaTechnicalWritingChange}
           />
 
           <FormControlLabel
             checked={setting.lintOption.presetJTFStyle ?? false}
             control={<Checkbox />}
-            label="presetJTFStyle"
+            label="JTF日本語標準スタイルガイド(翻訳用）"
             onChange={handlePresetJTFStyleChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.jaNoWeakPhrase ?? false}
+            control={<Checkbox />}
+            label="弱い表現の禁止"
+            onChange={handleJaNoWeakPhraseChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
+            control={<Checkbox />}
+            label="単語の出現回数の上限"
+            onChange={handleMaxAppearenceCountOfWordsChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.jaNoMixedPeriod ?? false}
+            control={<Checkbox />}
+            label="句点の統一"
+            onChange={handleJaNoMixedPeriodChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.presetJaSpacing ?? false}
+            control={<Checkbox />}
+            label="スペースの統一"
+            onChange={handlePresetJaSpacingChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.jaKyoikuKanji ?? false}
+            control={<Checkbox />}
+            label="教育漢字のみ許可"
+            onChange={handleJaKyoikuKanjiChange}
+          />
+
+          <FormControlLabel
+            checked={setting.lintOption.enSpell ?? false}
+            control={<Checkbox />}
+            label="英語のスペルチェック"
+            onChange={handleEnSpellChange}
           />
         </FormControl>
       </DialogContent>

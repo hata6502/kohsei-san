@@ -16,10 +16,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
-import { SettingDialog } from '../SettingDialog';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import { useDispatchSetting } from '../useMemo';
 import type { Memo, MemosAction } from '../useMemo';
+import { SettingDialog } from './SettingDialog';
 import { TextContainer } from './TextContainer';
 
 const lintingTimeoutLimitMS = 10000;
