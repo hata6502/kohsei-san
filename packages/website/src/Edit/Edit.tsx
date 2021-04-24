@@ -84,7 +84,12 @@ const Edit: React.FunctionComponent<{
     }
 
     const message: LintWorkerLintMessage = {
-      lintOption: memo.setting.lintOption,
+      lintOption: {
+        professional: true,
+        standard: false,
+      }[memo.setting.mode]
+        ? memo.setting.lintOption
+        : {},
       text: memo.text,
     };
 

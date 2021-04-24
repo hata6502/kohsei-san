@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import type { FormControlLabelProps } from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@material-ui/core/Typography';
-import type { DispatchSetting, Setting } from './useMemo';
+import type { DispatchSetting, Setting } from '../useMemo';
 
 const useLintOptionChange = ({
   dispatchSetting,
