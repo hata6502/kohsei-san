@@ -2,7 +2,8 @@ import 'core-js';
 import 'regenerator-runtime/runtime';
 
 import type { TextlintResult } from '@textlint/kernel';
-import lint from 'common/lint';
+import { lint } from 'common/lint';
+import type { LintOption } from 'common/lint';
 
 declare global {
   interface Window {
@@ -21,23 +22,28 @@ self.kuromojin = {
 // eslint-disable-next-line no-restricted-globals
 self['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
-interface LintWorkerMessage {
+interface LintWorkerLintMessage {
+  lintOption: LintOption;
+  text: string;
+}
+
+interface LintWorkerResultMessage {
   result: TextlintResult;
   text: string;
 }
 
 // eslint-disable-next-line no-restricted-globals
-addEventListener('message', async (event: MessageEvent<string>) => {
-  const text = event.data;
+addEventListener('message', async (event: MessageEvent<LintWorkerLintMessage>) => {
+  const text = event.data.text;
 
-  const message: LintWorkerMessage = {
-    result: await lint(text),
+  const message: LintWorkerResultMessage = {
+    result: await lint({ lintOption: event.data.lintOption, text }),
     text,
   };
 
   postMessage(message);
 });
 
-lint('初回校正時でもキャッシュにヒットさせるため。');
+lint({ lintOption: {}, text: '初回校正時でもキャッシュにヒットさせるため。' });
 
-export type { LintWorkerMessage };
+export type { LintWorkerLintMessage, LintWorkerResultMessage };

@@ -31,7 +31,7 @@ const PinIcon = styled(FeedbackIcon)`
 
 const PinTarget = styled.div`
   cursor: pointer;
-  padding: 12px;
+  padding: 8px;
   position: absolute;
   transform: translateY(-100%);
 `;
@@ -174,9 +174,9 @@ const TextContainer: React.FunctionComponent<{
           const rangeRect = range.getBoundingClientRect();
 
           return {
-            left: rangeRect.left - textBoxRect.left - 12,
+            left: rangeRect.left - textBoxRect.left - 8,
             message,
-            top: rangeRect.top - textBoxRect.top + 12,
+            top: rangeRect.top - textBoxRect.top + 8,
           };
         })
       );

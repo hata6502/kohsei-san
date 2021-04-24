@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Edit } from './Edit';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
-import useMemo from './useMemo';
+import { useMemo } from './useMemo';
 
 const sidebarWidth = 250;
 
@@ -140,11 +140,11 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
 
         {memo ? (
           <Edit
+            key={memoId}
             dispatchIsLinting={dispatchIsLinting}
             dispatchIsLintingHeavy={dispatchIsLintingHeavy}
             dispatchMemos={dispatchMemos}
             isLinting={isLinting}
-            key={memoId}
             lintWorker={lintWorker}
             memo={memo}
           />

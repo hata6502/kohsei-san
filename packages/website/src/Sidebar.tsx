@@ -21,7 +21,8 @@ import BookIcon from '@material-ui/icons/Book';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import { v4 as uuidv4 } from 'uuid';
-import { Memo, MemosAction } from './useMemo';
+import { initialSetting } from './useMemo';
+import type { Memo, MemosAction } from './useMemo';
 
 const DrawerContainer = styled.div`
   width: 250px;
@@ -34,9 +35,9 @@ const MemoText = styled(ListItemText)`
 `;
 
 export interface SidebarProps {
-  dispatchMemoId: React.Dispatch<string>;
+  dispatchMemoId: React.Dispatch<Memo['id']>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  memoId: string;
+  memoId: Memo['id'];
   memos: Memo[];
   onClose?: () => void;
 }
@@ -49,7 +50,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   onClose,
 }) => {
   const [deleteMemo, dispatchDeleteMemo] = useReducer(
-    (prevDeleteMemo: { id?: string; memo?: Memo }, id: string | undefined) => ({
+    (prevDeleteMemo: { id?: Memo['id']; memo?: Memo }, id: Memo['id'] | undefined) => ({
       id,
       memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
     }),
@@ -69,6 +70,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           filePath: '<text>',
           messages: [],
         },
+        setting: initialSetting,
         text: '',
       },
     ]);
@@ -85,12 +87,12 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     dispatchDeleteMemo,
   ]);
 
-  const handleDeleteClick = useCallback((id: string) => dispatchDeleteMemo(id), [
+  const handleDeleteClick = useCallback((id: Memo['id']) => dispatchDeleteMemo(id), [
     dispatchDeleteMemo,
   ]);
 
   const handleMemoClick = useCallback(
-    (id: string) => {
+    (id: Memo['id']) => {
       dispatchMemoId(id);
 
       onClose?.();
@@ -126,6 +128,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 
       <Divider />
 
+      <Link
+        color="inherit"
+        href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
+        rel="noreferrer"
+        target="_blank"
+        underline="none"
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <LibraryBooksIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="文例ストック" />
+        </ListItem>
+      </Link>
+
       <List>
         <Link color="inherit" href="lp/blog/" rel="noopener" target="_blank" underline="none">
           <ListItem button>
@@ -150,22 +168,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
             </ListItemIcon>
 
             <ListItemText primary="投げ銭" />
-          </ListItem>
-        </Link>
-
-        <Link
-          color="inherit"
-          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <LibraryBooksIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="文例ストック" />
           </ListItem>
         </Link>
       </List>
