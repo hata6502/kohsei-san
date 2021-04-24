@@ -38,6 +38,7 @@ const useDispatchSetting = ({
         prevMemos.map((prevMemo) => ({
           ...prevMemo,
           ...(prevMemo.id === memoId && {
+            result: undefined,
             setting: action(prevMemo.setting),
           }),
         }))
