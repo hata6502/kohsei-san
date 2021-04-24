@@ -1,15 +1,49 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import { TextlintResult } from '@textlint/kernel';
 import { v4 as uuidv4 } from 'uuid';
+import type { LintOption } from 'common/lint';
 
-export interface Memo {
+interface Setting {
+  mode: 'standard' | 'professional';
+  lintOption: LintOption;
+}
+
+const initialSetting: Setting = {
+  mode: 'standard',
+  lintOption: {},
+};
+
+interface Memo {
   id: string;
   result?: TextlintResult;
+  setting: Setting;
   text: string;
 }
 
-export type MemosAction = (prevState: Memo[]) => Memo[];
+type MemosAction = (prevMemo: Memo[]) => Memo[];
+
+type DispatchSetting = (action: (prevSetting: Setting) => Setting) => void;
+
+const useDispatchSetting = ({
+  dispatchMemos,
+  memoId,
+}: {
+  dispatchMemos: React.Dispatch<MemosAction>;
+  memoId: Memo['id'];
+}) =>
+  useCallback<DispatchSetting>(
+    (action) =>
+      dispatchMemos((prevMemos) =>
+        prevMemos.map((prevMemo) => ({
+          ...prevMemo,
+          ...(prevMemo.id === memoId && {
+            setting: action(prevMemo.setting),
+          }),
+        }))
+      ),
+    [dispatchMemos, memoId]
+  );
 
 const useMemo = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -25,14 +59,22 @@ const useMemo = () => {
     undefined,
     (): Memo[] => {
       const memosItem = localStorage.getItem('memos');
-      const localStorageMemos: Memo[] = memosItem ? JSON.parse(memosItem) : [];
+      const localStorageMemos: Partial<Memo>[] = memosItem ? JSON.parse(memosItem) : [];
 
       return [
-        ...localStorageMemos,
+        ...localStorageMemos.map(
+          (localStorageMemo): Memo => ({
+            id: uuidv4(),
+            setting: initialSetting,
+            text: '',
+            ...localStorageMemo,
+          })
+        ),
         ...(isShared
           ? [
               {
                 id: uuidv4(),
+                setting: initialSetting,
                 text: [
                   ...(titleParam ? [titleParam] : []),
                   ...(textParam ? [textParam] : []),
@@ -46,7 +88,7 @@ const useMemo = () => {
   );
 
   const [memoId, dispatchMemoId] = useReducer(
-    (_: string, action: string) => action,
+    (_: Memo['id'], action: Memo['id']) => action,
     undefined,
     () => (isShared ? memos[memos.length - 1].id : localStorage.getItem('memoId') ?? '')
   );
@@ -81,4 +123,5 @@ const useMemo = () => {
   };
 };
 
-export default useMemo;
+export { initialSetting, useDispatchSetting, useMemo };
+export type { DispatchSetting, Memo, MemosAction, Setting };

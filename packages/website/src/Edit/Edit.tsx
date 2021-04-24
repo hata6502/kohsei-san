@@ -12,12 +12,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import FeedbackIcon from '@material-ui/icons/Feedback';
+import SettingsIcon from '@material-ui/icons/Settings';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
+import { SettingDialog } from '../SettingDialog';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
+import { useDispatchSetting } from '../useMemo';
 import type { Memo, MemosAction } from '../useMemo';
-import type { Setting } from '../useSetting';
 import { TextContainer } from './TextContainer';
 
 const lintingTimeoutLimitMS = 10000;
@@ -36,7 +38,6 @@ const Edit: React.FunctionComponent<{
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
-  setting: Setting;
 }> = ({
   dispatchIsLinting,
   dispatchIsLintingHeavy,
@@ -44,11 +45,15 @@ const Edit: React.FunctionComponent<{
   isLinting,
   lintWorker,
   memo,
-  setting,
 }) => {
   const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
+
+  const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
   const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
+
   const [negaposiScore, setNegaposiScore] = useState<number>();
+
+  const dispatchSetting = useDispatchSetting({ dispatchMemos, memoId: memo.id });
 
   useEffect(
     () => () => {
@@ -79,7 +84,7 @@ const Edit: React.FunctionComponent<{
     }
 
     const message: LintWorkerLintMessage = {
-      lintOption: setting.lintOption,
+      lintOption: memo.setting.lintOption,
       text: memo.text,
     };
 
@@ -98,6 +103,7 @@ const Edit: React.FunctionComponent<{
     lintWorker,
     memo.id,
     memo.result,
+    memo.setting.lintOption,
     memo.text,
   ]);
 
@@ -143,6 +149,9 @@ const Edit: React.FunctionComponent<{
       }
     }
   }, [memo.text]);
+
+  const handleSettingButtonClick = useCallback(() => setIsSettingDialogOpen(true), []);
+  const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
 
   const handleTweetButtonClick = useCallback(() => setIsTweetDialogOpen(true), []);
 
@@ -240,34 +249,51 @@ ${memo.text.slice(0, 280)}
 
             <Box mt={2}>
               <Grid container spacing={1}>
+                {navigator.share && (
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={handleShareClick}
+                      startIcon={<ShareIcon />}
+                    >
+                      共有
+                    </Button>
+                  </Grid>
+                )}
+
                 <Grid item>
                   <Button
+                    variant="outlined"
                     color="primary"
                     startIcon={<TwitterIcon />}
-                    variant="outlined"
                     onClick={handleTweetButtonClick}
                   >
                     文例ストックにツイート
                   </Button>
                 </Grid>
 
-                {navigator.share && (
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      onClick={handleShareClick}
-                      startIcon={<ShareIcon />}
-                      variant="outlined"
-                    >
-                      共有
-                    </Button>
-                  </Grid>
-                )}
+                <Grid item>
+                  <Button
+                    variant="outlined"
+                    startIcon={<SettingsIcon />}
+                    onClick={handleSettingButtonClick}
+                  >
+                    設定
+                  </Button>
+                </Grid>
               </Grid>
             </Box>
           </Container>
         </Box>
       </Paper>
+
+      <SettingDialog
+        dispatchSetting={dispatchSetting}
+        open={isSettingDialogOpen}
+        setting={memo.setting}
+        onClose={handleSettingDialogClose}
+      />
 
       <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
         <DialogTitle>文章を Twitter に投稿しますか？</DialogTitle>

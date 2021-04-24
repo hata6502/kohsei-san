@@ -15,8 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Edit } from './Edit';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
-import useMemo from './useMemo';
-import { useSetting } from './useSetting';
+import { useMemo } from './useMemo';
 
 const sidebarWidth = 250;
 
@@ -69,8 +68,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
     titleParam,
   } = useMemo();
 
-  const { dispatchSetting, setting } = useSetting();
-
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);
 
   const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
@@ -93,10 +90,8 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
     <Sidebar
       dispatchMemoId={dispatchMemoId}
       dispatchMemos={dispatchMemos}
-      dispatchSetting={dispatchSetting}
       memoId={memoId}
       memos={memos}
-      setting={setting}
       onClose={handleSidebarClose}
     />
   );
@@ -152,7 +147,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
             isLinting={isLinting}
             lintWorker={lintWorker}
             memo={memo}
-            setting={setting}
           />
         ) : (
           <Empty />

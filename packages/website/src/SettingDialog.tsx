@@ -10,13 +10,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import type { FormControlLabelProps } from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import Typography from '@material-ui/core/Typography';
-import type { Setting } from './useSetting';
+import type { DispatchSetting, Setting } from './useMemo';
 
 const useLintOptionChange = ({
   dispatchSetting,
   key,
 }: {
-  dispatchSetting: React.Dispatch<React.SetStateAction<Setting>>;
+  dispatchSetting: DispatchSetting;
   key: keyof Setting['lintOption'];
 }) =>
   useCallback<NonNullable<FormControlLabelProps['onChange']>>(
@@ -35,7 +35,7 @@ const useModeDispatch = ({
   dispatchSetting,
   mode,
 }: {
-  dispatchSetting: React.Dispatch<React.SetStateAction<Setting>>;
+  dispatchSetting: DispatchSetting;
   mode: Setting['mode'];
 }) =>
   useCallback(
@@ -44,11 +44,11 @@ const useModeDispatch = ({
         ...prevSetting,
         mode,
       })),
-    [dispatchSetting]
+    [dispatchSetting, mode]
   );
 
 interface SettingDialogProps {
-  dispatchSetting: React.Dispatch<React.SetStateAction<Setting>>;
+  dispatchSetting: DispatchSetting;
   open: DialogProps['open'];
   setting: Setting;
   onClose?: () => void;
@@ -62,33 +62,40 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
 }) => {
   const handleProfessionalModeChange = useModeDispatch({ dispatchSetting, mode: 'professional' });
   const handleStandardModeChange = useModeDispatch({ dispatchSetting, mode: 'standard' });
-
   const handleEnSpellChange = useLintOptionChange({ dispatchSetting, key: 'enSpell' });
+
   const handleGeneralNovelStyleJaChange = useLintOptionChange({
     dispatchSetting,
     key: 'generalNovelStyleJa',
   });
+
   const handleJaKyoikuKanjiChange = useLintOptionChange({ dispatchSetting, key: 'jaKyoikuKanji' });
+
   const handleJaNoMixedPeriodChange = useLintOptionChange({
     dispatchSetting,
     key: 'jaNoMixedPeriod',
   });
+
   const handleJaNoWeakPhraseChange = useLintOptionChange({
     dispatchSetting,
     key: 'jaNoWeakPhrase',
   });
+
   const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
     dispatchSetting,
     key: 'maxAppearenceCountOfWords',
   });
+
   const handlePresetJaSpacingChange = useLintOptionChange({
     dispatchSetting,
     key: 'presetJaSpacing',
   });
+
   const handlePresetJaTechnicalWritingChange = useLintOptionChange({
     dispatchSetting,
     key: 'presetJaTechnicalWriting',
   });
+
   const handlePresetJTFStyleChange = useLintOptionChange({
     dispatchSetting,
     key: 'presetJTFStyle',
@@ -96,7 +103,7 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>校正設定</DialogTitle>
+      <DialogTitle>設定</DialogTitle>
 
       <DialogContent>
         <Box mb={4}>

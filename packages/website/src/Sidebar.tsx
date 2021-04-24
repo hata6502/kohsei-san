@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer, useState } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,11 +20,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import BookIcon from '@material-ui/icons/Book';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import SettingsIcon from '@material-ui/icons/Settings';
 import { v4 as uuidv4 } from 'uuid';
-import { SettingDialog } from './SettingDialog';
+import { initialSetting } from './useMemo';
 import type { Memo, MemosAction } from './useMemo';
-import type { Setting } from './useSetting';
 
 const DrawerContainer = styled.div`
   width: 250px;
@@ -37,33 +35,27 @@ const MemoText = styled(ListItemText)`
 `;
 
 export interface SidebarProps {
-  dispatchMemoId: React.Dispatch<string>;
+  dispatchMemoId: React.Dispatch<Memo['id']>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  dispatchSetting: React.Dispatch<React.SetStateAction<Setting>>;
-  memoId: string;
+  memoId: Memo['id'];
   memos: Memo[];
-  setting: Setting;
   onClose?: () => void;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = ({
   dispatchMemoId,
   dispatchMemos,
-  dispatchSetting,
   memoId,
   memos,
-  setting,
   onClose,
 }) => {
   const [deleteMemo, dispatchDeleteMemo] = useReducer(
-    (prevDeleteMemo: { id?: string; memo?: Memo }, id: string | undefined) => ({
+    (prevDeleteMemo: { id?: Memo['id']; memo?: Memo }, id: Memo['id'] | undefined) => ({
       id,
       memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
     }),
     { id: undefined, memo: undefined }
   );
-
-  const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
 
   const handleAddClick = useCallback(() => {
     const id = uuidv4();
@@ -78,6 +70,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           filePath: '<text>',
           messages: [],
         },
+        setting: initialSetting,
         text: '',
       },
     ]);
@@ -94,21 +87,18 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
     dispatchDeleteMemo,
   ]);
 
-  const handleDeleteClick = useCallback((id: string) => dispatchDeleteMemo(id), [
+  const handleDeleteClick = useCallback((id: Memo['id']) => dispatchDeleteMemo(id), [
     dispatchDeleteMemo,
   ]);
 
   const handleMemoClick = useCallback(
-    (id: string) => {
+    (id: Memo['id']) => {
       dispatchMemoId(id);
 
       onClose?.();
     },
     [dispatchMemoId, onClose]
   );
-
-  const handleSettingClick = useCallback(() => setIsSettingDialogOpen(true), []);
-  const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
 
   return (
     <DrawerContainer>
@@ -137,14 +127,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       </List>
 
       <Divider />
-
-      <ListItem button onClick={handleSettingClick}>
-        <ListItemIcon>
-          <SettingsIcon />
-        </ListItemIcon>
-
-        <ListItemText primary="設定" />
-      </ListItem>
 
       <Link
         color="inherit"
@@ -212,13 +194,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           </Button>
         </DialogActions>
       </Dialog>
-
-      <SettingDialog
-        dispatchSetting={dispatchSetting}
-        open={isSettingDialogOpen}
-        setting={setting}
-        onClose={handleSettingDialogClose}
-      />
     </DrawerContainer>
   );
 };
