@@ -26,21 +26,9 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
       {message}
       <br />
 
-      <address>
-        <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">
-          Twitter
-        </a>
-
-        <br />
-
-        <a
-          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
-          rel="noreferrer"
-          target="_blank"
-        >
-          このアプリについて
-        </a>
-      </address>
+      <a href="https://helpfeel.com/kohsei-san/" rel="noreferrer" target="_blank">
+        ヘルプ
+      </a>
     </>,
     document.querySelector('.app')
   );
