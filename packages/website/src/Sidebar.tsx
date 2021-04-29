@@ -43,176 +43,172 @@ export interface SidebarProps {
   onClose?: () => void;
 }
 
-const Sidebar: React.FunctionComponent<SidebarProps> = ({
-  dispatchMemoId,
-  dispatchMemos,
-  memoId,
-  memos,
-  onClose,
-}) => {
-  const [deleteMemo, dispatchDeleteMemo] = useReducer(
-    (prevDeleteMemo: { id?: Memo['id']; memo?: Memo }, id: Memo['id'] | undefined) => ({
-      id,
-      memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
-    }),
-    { id: undefined, memo: undefined }
-  );
-
-  const handleAddClick = useCallback(() => {
-    const id = uuidv4();
-
-    dispatchMemoId(id);
-
-    dispatchMemos((prevMemos) => [
-      ...prevMemos,
-      {
+const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
+  ({ dispatchMemoId, dispatchMemos, memoId, memos, onClose }) => {
+    const [deleteMemo, dispatchDeleteMemo] = useReducer(
+      (prevDeleteMemo: { id?: Memo['id']; memo?: Memo }, id: Memo['id'] | undefined) => ({
         id,
-        result: {
-          filePath: '<text>',
-          messages: [],
-        },
-        setting: initialSetting,
-        text: '',
-      },
-    ]);
+        memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
+      }),
+      { id: undefined, memo: undefined }
+    );
 
-    onClose?.();
-  }, [dispatchMemoId, dispatchMemos, onClose]);
+    const handleAddClick = useCallback(() => {
+      const id = uuidv4();
 
-  const handleDeleteDialogAgree = useCallback(() => {
-    dispatchDeleteMemo(undefined);
-    dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
-  }, [deleteMemo.id, dispatchDeleteMemo, dispatchMemos]);
-
-  const handleDeleteDialogClose = useCallback(() => dispatchDeleteMemo(undefined), [
-    dispatchDeleteMemo,
-  ]);
-
-  const handleDeleteClick = useCallback((id: Memo['id']) => dispatchDeleteMemo(id), [
-    dispatchDeleteMemo,
-  ]);
-
-  const handleMemoClick = useCallback(
-    (id: Memo['id']) => {
       dispatchMemoId(id);
 
+      dispatchMemos((prevMemos) => [
+        ...prevMemos,
+        {
+          id,
+          result: {
+            filePath: '<text>',
+            messages: [],
+          },
+          setting: initialSetting,
+          text: '',
+        },
+      ]);
+
       onClose?.();
-    },
-    [dispatchMemoId, onClose]
-  );
+    }, [dispatchMemoId, dispatchMemos, onClose]);
 
-  return (
-    <DrawerContainer>
-      <List>
-        {memos.map(({ id, result, text }) => (
-          <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-            {result?.messages.length === 0 && <CheckIcon color="secondary" />}
+    const handleDeleteDialogAgree = useCallback(() => {
+      dispatchDeleteMemo(undefined);
+      dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
+    }, [deleteMemo.id, dispatchDeleteMemo, dispatchMemos]);
 
-            <MemoText primary={text.trim() || '(空のメモ)'} />
+    const handleDeleteDialogClose = useCallback(() => dispatchDeleteMemo(undefined), [
+      dispatchDeleteMemo,
+    ]);
 
-            <ListItemSecondaryAction>
-              <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+    const handleDeleteClick = useCallback((id: Memo['id']) => dispatchDeleteMemo(id), [
+      dispatchDeleteMemo,
+    ]);
 
-        <ListItem button onClick={handleAddClick}>
-          <ListItemIcon data-testid="sidebar-component-add-memo">
-            <NoteAddIcon />
-          </ListItemIcon>
+    const handleMemoClick = useCallback(
+      (id: Memo['id']) => {
+        dispatchMemoId(id);
 
-          <ListItemText primary="メモを追加" />
-        </ListItem>
-      </List>
+        onClose?.();
+      },
+      [dispatchMemoId, onClose]
+    );
 
-      <Divider />
+    return (
+      <DrawerContainer>
+        <List>
+          {memos.map(({ id, result, text }) => (
+            <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
+              {result?.messages.length === 0 && <CheckIcon color="secondary" />}
 
-      <List>
-        <Link
-          color="inherit"
-          href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <LibraryBooksIcon />
+              <MemoText primary={text.trim() || '(空のメモ)'} />
+
+              <ListItemSecondaryAction>
+                <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+
+          <ListItem button onClick={handleAddClick}>
+            <ListItemIcon data-testid="sidebar-component-add-memo">
+              <NoteAddIcon />
             </ListItemIcon>
 
-            <ListItemText primary="文例ストック" />
+            <ListItemText primary="メモを追加" />
           </ListItem>
-        </Link>
+        </List>
 
-        <Link color="inherit" href="lp/blog/" rel="noopener" target="_blank" underline="none">
-          <ListItem button>
-            <ListItemIcon>
-              <BookIcon />
-            </ListItemIcon>
+        <Divider />
 
-            <ListItemText primary="ブログ" />
-          </ListItem>
-        </Link>
+        <List>
+          <Link
+            color="inherit"
+            href="https://twitter.com/search?q=%23%E6%96%87%E4%BE%8B%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <LibraryBooksIcon />
+              </ListItemIcon>
 
-        <Link
-          color="inherit"
-          href="https://helpfeel.com/kohsei-san/"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <HelpIcon />
-            </ListItemIcon>
+              <ListItemText primary="文例ストック" />
+            </ListItem>
+          </Link>
 
-            <ListItemText primary="ヘルプ" />
-          </ListItem>
-        </Link>
+          <Link color="inherit" href="lp/blog/" rel="noopener" target="_blank" underline="none">
+            <ListItem button>
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
 
-        <Link
-          color="inherit"
-          href="https://github.com/sponsors/hata6502"
-          rel="noreferrer"
-          target="_blank"
-          underline="none"
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <FavoriteIcon />
-            </ListItemIcon>
+              <ListItemText primary="ブログ" />
+            </ListItem>
+          </Link>
 
-            <ListItemText primary="投げ銭" />
-          </ListItem>
-        </Link>
-      </List>
+          <Link
+            color="inherit"
+            href="https://helpfeel.com/kohsei-san/"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <HelpIcon />
+              </ListItemIcon>
 
-      <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
-        <DialogTitle>
-          メモ「
-          {(deleteMemo.memo?.text.trim() || '(空のメモ)').substring(0, 10)}
-          {((deleteMemo.memo?.text.trim().length || 0) > 10 && '…') || ''}
-          」を削除しますか？
-        </DialogTitle>
+              <ListItemText primary="ヘルプ" />
+            </ListItem>
+          </Link>
 
-        <DialogContent>
-          <DialogContentText>削除を元に戻すことはできません。</DialogContentText>
-        </DialogContent>
+          <Link
+            color="inherit"
+            href="https://github.com/sponsors/hata6502"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <FavoriteIcon />
+              </ListItemIcon>
 
-        <DialogActions>
-          <Button onClick={handleDeleteDialogClose} color="primary" autoFocus>
-            削除しない
-          </Button>
+              <ListItemText primary="投げ銭" />
+            </ListItem>
+          </Link>
+        </List>
 
-          <Button onClick={handleDeleteDialogAgree} color="primary">
-            削除する
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </DrawerContainer>
-  );
-};
+        <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
+          <DialogTitle>
+            メモ「
+            {(deleteMemo.memo?.text.trim() || '(空のメモ)').substring(0, 10)}
+            {((deleteMemo.memo?.text.trim().length || 0) > 10 && '…') || ''}
+            」を削除しますか？
+          </DialogTitle>
+
+          <DialogContent>
+            <DialogContentText>削除を元に戻すことはできません。</DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleDeleteDialogClose} color="primary" autoFocus>
+              削除しない
+            </Button>
+
+            <Button onClick={handleDeleteDialogAgree} color="primary">
+              削除する
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </DrawerContainer>
+    );
+  }
+);
 
 export default Sidebar;

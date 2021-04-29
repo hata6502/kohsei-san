@@ -38,134 +38,131 @@ const Edit: React.FunctionComponent<{
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
-}> = ({
-  dispatchIsLinting,
-  dispatchIsLintingHeavy,
-  dispatchMemos,
-  isLinting,
-  lintWorker,
-  memo,
-}) => {
-  const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
+}> = React.memo(
+  ({ dispatchIsLinting, dispatchIsLintingHeavy, dispatchMemos, isLinting, lintWorker, memo }) => {
+    const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
 
-  const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
-  const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
+    const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
+    const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
 
-  const [negaposiScore, setNegaposiScore] = useState<number>();
+    const [negaposiScore, setNegaposiScore] = useState<number>();
 
-  const dispatchSetting = useDispatchSetting({ dispatchMemos, memoId: memo.id });
+    const dispatchSetting = useDispatchSetting({ dispatchMemos, memoId: memo.id });
 
-  useEffect(
-    () => () => {
-      dispatchIsLinting(false);
-    },
-    [dispatchIsLinting]
-  );
+    useEffect(
+      () => () => {
+        dispatchIsLinting(false);
+      },
+      [dispatchIsLinting]
+    );
 
-  useEffect(() => {
-    let isMounted = true;
+    useEffect(() => {
+      let isMounted = true;
 
-    (async () => {
-      const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
+      (async () => {
+        const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
 
-      if (isMounted) {
-        setNegaposiScore(analyzeNegaposi({ text: memo.text }));
-      }
-    })();
+        if (isMounted) {
+          setNegaposiScore(analyzeNegaposi({ text: memo.text }));
+        }
+      })();
 
-    return () => {
-      isMounted = false;
-    };
-  }, [memo.text, setNegaposiScore]);
+      return () => {
+        isMounted = false;
+      };
+    }, [memo.text, setNegaposiScore]);
 
-  useEffect(() => {
-    if (!lintWorker || memo.result) {
-      return;
-    }
-
-    const message: LintWorkerLintMessage = {
-      lintOption: {
-        professional: true,
-        standard: false,
-      }[memo.setting.mode]
-        ? memo.setting.lintOption
-        : {},
-      text: memo.text,
-    };
-
-    lintWorker.postMessage(message);
-
-    const lintingTimeoutID = setTimeout(() => dispatchIsLintingHeavy(true), lintingTimeoutLimitMS);
-
-    dispatchIsLinting(true);
-    dispatchIsLintingHeavy(false);
-
-    return () => clearTimeout(lintingTimeoutID);
-  }, [
-    dispatchIsLinting,
-    dispatchIsLintingHeavy,
-    dispatchMemos,
-    lintWorker,
-    memo.id,
-    memo.result,
-    memo.setting.lintOption,
-    memo.text,
-  ]);
-
-  useEffect(() => {
-    const handleLintWorkerError = () => {
-      dispatchIsLinting(false);
-
-      throw new Error();
-    };
-
-    const handleLintWorkerMessage = (event: MessageEvent<LintWorkerResultMessage>) => {
-      if (event.data.text !== memo.text) {
+    useEffect(() => {
+      if (!lintWorker || memo.result) {
         return;
       }
 
-      dispatchMemos((prevMemos) =>
-        prevMemos.map((prevMemo) => ({
-          ...prevMemo,
-          ...(prevMemo.id === memo.id && { result: event.data.result }),
-        }))
-      );
-    };
-
-    lintWorker.addEventListener('error', handleLintWorkerError);
-    lintWorker.addEventListener('message', handleLintWorkerMessage);
-
-    return () => {
-      lintWorker.removeEventListener('error', handleLintWorkerError);
-      lintWorker.removeEventListener('message', handleLintWorkerMessage);
-    };
-  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
-
-  const shouldDisplayResult = !isTextContainerFocused && !isLinting;
-
-  const handleShareClick = useCallback(async () => {
-    try {
-      await navigator.share?.({
+      const message: LintWorkerLintMessage = {
+        lintOption: {
+          professional: true,
+          standard: false,
+        }[memo.setting.mode]
+          ? memo.setting.lintOption
+          : {},
         text: memo.text,
-      });
-    } catch (exception) {
-      if (!(exception instanceof DOMException) || exception.code !== DOMException.ABORT_ERR) {
-        throw exception;
+      };
+
+      lintWorker.postMessage(message);
+
+      const lintingTimeoutID = setTimeout(
+        () => dispatchIsLintingHeavy(true),
+        lintingTimeoutLimitMS
+      );
+
+      dispatchIsLinting(true);
+      dispatchIsLintingHeavy(false);
+
+      return () => clearTimeout(lintingTimeoutID);
+    }, [
+      dispatchIsLinting,
+      dispatchIsLintingHeavy,
+      dispatchMemos,
+      lintWorker,
+      memo.id,
+      memo.result,
+      memo.setting.lintOption,
+      memo.text,
+    ]);
+
+    useEffect(() => {
+      const handleLintWorkerError = () => {
+        dispatchIsLinting(false);
+
+        throw new Error();
+      };
+
+      const handleLintWorkerMessage = (event: MessageEvent<LintWorkerResultMessage>) => {
+        if (event.data.text !== memo.text) {
+          return;
+        }
+
+        dispatchMemos((prevMemos) =>
+          prevMemos.map((prevMemo) => ({
+            ...prevMemo,
+            ...(prevMemo.id === memo.id && { result: event.data.result }),
+          }))
+        );
+      };
+
+      lintWorker.addEventListener('error', handleLintWorkerError);
+      lintWorker.addEventListener('message', handleLintWorkerMessage);
+
+      return () => {
+        lintWorker.removeEventListener('error', handleLintWorkerError);
+        lintWorker.removeEventListener('message', handleLintWorkerMessage);
+      };
+    }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
+
+    const shouldDisplayResult = !isTextContainerFocused && !isLinting;
+
+    const handleShareClick = useCallback(async () => {
+      try {
+        await navigator.share?.({
+          text: memo.text,
+        });
+      } catch (exception) {
+        if (!(exception instanceof DOMException) || exception.code !== DOMException.ABORT_ERR) {
+          throw exception;
+        }
       }
-    }
-  }, [memo.text]);
+    }, [memo.text]);
 
-  const handleSettingButtonClick = useCallback(() => setIsSettingDialogOpen(true), []);
-  const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
+    const handleSettingButtonClick = useCallback(() => setIsSettingDialogOpen(true), []);
+    const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
 
-  const handleTweetButtonClick = useCallback(() => setIsTweetDialogOpen(true), []);
+    const handleTweetButtonClick = useCallback(() => setIsTweetDialogOpen(true), []);
 
-  const handleTweetDialogAgree = useCallback(() => {
-    const urlSearchParams = new URLSearchParams();
+    const handleTweetDialogAgree = useCallback(() => {
+      const urlSearchParams = new URLSearchParams();
 
-    urlSearchParams.set(
-      'text',
-      `---
+      urlSearchParams.set(
+        'text',
+        `---
 #文例ストック
 title: 
 license: CC0 1.0 Universal
@@ -173,152 +170,153 @@ license: CC0 1.0 Universal
 
 ${memo.text.slice(0, 280)}
 `
-    );
+      );
 
-    window.open(`https://twitter.com/share?${urlSearchParams.toString()}`);
+      window.open(`https://twitter.com/share?${urlSearchParams.toString()}`);
 
-    setIsTweetDialogOpen(false);
-  }, [memo.text]);
+      setIsTweetDialogOpen(false);
+    }, [memo.text]);
 
-  const handleTweetDialogClose = useCallback(() => setIsTweetDialogOpen(false), []);
+    const handleTweetDialogClose = useCallback(() => setIsTweetDialogOpen(false), []);
 
-  return (
-    <EditContainer maxWidth="md">
-      <Paper>
-        <Box pb={2} pt={2}>
-          <Container>
-            <Grid container spacing={1} wrap="wrap">
-              <Grid item>
-                <Chip
-                  label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
-                  size="small"
-                />
+    return (
+      <EditContainer maxWidth="md">
+        <Paper>
+          <Box pb={2} pt={2}>
+            <Container>
+              <Grid container spacing={1} wrap="wrap">
+                <Grid item>
+                  <Chip
+                    label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
+                    size="small"
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Chip
+                    clickable
+                    component="a"
+                    href="https://helpfeel.com/kohsei-san/%E3%83%8D%E3%82%AC%E3%83%9D%E3%82%B8%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B%EF%BC%9F-6085405379aaac001c0346e9"
+                    label={`ネガポジ ${
+                      !shouldDisplayResult || negaposiScore === undefined
+                        ? '??'
+                        : negaposiScore < -0.6
+                        ? '😢'
+                        : negaposiScore < -0.2
+                        ? '😧'
+                        : negaposiScore < 0.2
+                        ? '😐'
+                        : negaposiScore < 0.6
+                        ? '😃'
+                        : '😄'
+                    }`}
+                    rel="noreferrer"
+                    size="small"
+                    target="_blank"
+                  />
+                </Grid>
               </Grid>
 
-              <Grid item>
-                <Chip
-                  clickable
-                  component="a"
-                  href="https://helpfeel.com/kohsei-san/%E3%83%8D%E3%82%AC%E3%83%9D%E3%82%B8%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B%EF%BC%9F-6085405379aaac001c0346e9"
-                  label={`ネガポジ ${
-                    !shouldDisplayResult || negaposiScore === undefined
-                      ? '??'
-                      : negaposiScore < -0.6
-                      ? '😢'
-                      : negaposiScore < -0.2
-                      ? '😧'
-                      : negaposiScore < 0.2
-                      ? '😐'
-                      : negaposiScore < 0.6
-                      ? '😃'
-                      : '😄'
-                  }`}
-                  rel="noreferrer"
-                  size="small"
-                  target="_blank"
-                />
-              </Grid>
-            </Grid>
+              <TextContainer
+                dispatchIsLinting={dispatchIsLinting}
+                dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
+                dispatchMemos={dispatchMemos}
+                isTextContainerFocused={isTextContainerFocused}
+                memo={memo}
+                shouldDisplayResult={shouldDisplayResult}
+              />
 
-            <TextContainer
-              dispatchIsLinting={dispatchIsLinting}
-              dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
-              dispatchMemos={dispatchMemos}
-              isTextContainerFocused={isTextContainerFocused}
-              memo={memo}
-              shouldDisplayResult={shouldDisplayResult}
-            />
+              {memo.result &&
+                (memo.result.messages.length === 0 ? (
+                  <Alert
+                    severity="success"
+                    style={{
+                      visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                    }}
+                  >
+                    校正を通過しました。おめでとうございます！
+                  </Alert>
+                ) : (
+                  <Alert
+                    severity="info"
+                    style={{
+                      visibility: shouldDisplayResult ? 'visible' : 'hidden',
+                    }}
+                  >
+                    自動校正によるメッセージがあります。
+                    <FeedbackIcon color="primary" />
+                    を押して参考にしてみてください。
+                  </Alert>
+                ))}
 
-            {memo.result &&
-              (memo.result.messages.length === 0 ? (
-                <Alert
-                  severity="success"
-                  style={{
-                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
-                  }}
-                >
-                  校正を通過しました。おめでとうございます！
-                </Alert>
-              ) : (
-                <Alert
-                  severity="info"
-                  style={{
-                    visibility: shouldDisplayResult ? 'visible' : 'hidden',
-                  }}
-                >
-                  自動校正によるメッセージがあります。
-                  <FeedbackIcon color="primary" />
-                  を押して参考にしてみてください。
-                </Alert>
-              ))}
+              <Box mt={2}>
+                <Grid container spacing={1}>
+                  {navigator.share && (
+                    <Grid item>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleShareClick}
+                        startIcon={<ShareIcon />}
+                      >
+                        共有
+                      </Button>
+                    </Grid>
+                  )}
 
-            <Box mt={2}>
-              <Grid container spacing={1}>
-                {navigator.share && (
                   <Grid item>
                     <Button
                       variant="outlined"
                       color="primary"
-                      onClick={handleShareClick}
-                      startIcon={<ShareIcon />}
+                      startIcon={<TwitterIcon />}
+                      onClick={handleTweetButtonClick}
                     >
-                      共有
+                      文例ストックにツイート
                     </Button>
                   </Grid>
-                )}
 
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<TwitterIcon />}
-                    onClick={handleTweetButtonClick}
-                  >
-                    文例ストックにツイート
-                  </Button>
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      startIcon={<SettingsIcon />}
+                      onClick={handleSettingButtonClick}
+                    >
+                      設定
+                    </Button>
+                  </Grid>
                 </Grid>
+              </Box>
+            </Container>
+          </Box>
+        </Paper>
 
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    startIcon={<SettingsIcon />}
-                    onClick={handleSettingButtonClick}
-                  >
-                    設定
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Container>
-        </Box>
-      </Paper>
+        <SettingDialog
+          dispatchSetting={dispatchSetting}
+          open={isSettingDialogOpen}
+          setting={memo.setting}
+          onClose={handleSettingDialogClose}
+        />
 
-      <SettingDialog
-        dispatchSetting={dispatchSetting}
-        open={isSettingDialogOpen}
-        setting={memo.setting}
-        onClose={handleSettingDialogClose}
-      />
+        <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
+          <DialogTitle>文章を Twitter に投稿しますか？</DialogTitle>
 
-      <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
-        <DialogTitle>文章を Twitter に投稿しますか？</DialogTitle>
+          <DialogContent>
+            <DialogContentText>ハッシュタグ #文例ストック が付きます。</DialogContentText>
+          </DialogContent>
 
-        <DialogContent>
-          <DialogContentText>ハッシュタグ #文例ストック が付きます。</DialogContentText>
-        </DialogContent>
+          <DialogActions>
+            <Button onClick={handleTweetDialogClose} color="primary" autoFocus>
+              投稿しない
+            </Button>
 
-        <DialogActions>
-          <Button onClick={handleTweetDialogClose} color="primary" autoFocus>
-            投稿しない
-          </Button>
-
-          <Button onClick={handleTweetDialogAgree} color="primary">
-            投稿する
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </EditContainer>
-  );
-};
+            <Button onClick={handleTweetDialogAgree} color="primary">
+              投稿する
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </EditContainer>
+    );
+  }
+);
 
 export { Edit };

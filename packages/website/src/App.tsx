@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) => {
+const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintWorker }) => {
   const {
     dispatchMemoId,
     dispatchMemos,
@@ -161,6 +161,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({ lintWorker }) =>
       </Snackbar>
     </Root>
   );
-};
+});
 
 export default App;

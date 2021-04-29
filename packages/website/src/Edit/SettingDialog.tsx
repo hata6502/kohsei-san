@@ -54,149 +54,149 @@ interface SettingDialogProps {
   onClose?: () => void;
 }
 
-const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
-  dispatchSetting,
-  open,
-  setting,
-  onClose,
-}) => {
-  const handleProfessionalModeChange = useModeDispatch({ dispatchSetting, mode: 'professional' });
-  const handleStandardModeChange = useModeDispatch({ dispatchSetting, mode: 'standard' });
-  const handleEnSpellChange = useLintOptionChange({ dispatchSetting, key: 'enSpell' });
+const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
+  ({ dispatchSetting, open, setting, onClose }) => {
+    const handleProfessionalModeChange = useModeDispatch({ dispatchSetting, mode: 'professional' });
+    const handleStandardModeChange = useModeDispatch({ dispatchSetting, mode: 'standard' });
+    const handleEnSpellChange = useLintOptionChange({ dispatchSetting, key: 'enSpell' });
 
-  const handleGeneralNovelStyleJaChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'generalNovelStyleJa',
-  });
+    const handleGeneralNovelStyleJaChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'generalNovelStyleJa',
+    });
 
-  const handleJaKyoikuKanjiChange = useLintOptionChange({ dispatchSetting, key: 'jaKyoikuKanji' });
+    const handleJaKyoikuKanjiChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'jaKyoikuKanji',
+    });
 
-  const handleJaNoMixedPeriodChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'jaNoMixedPeriod',
-  });
+    const handleJaNoMixedPeriodChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'jaNoMixedPeriod',
+    });
 
-  const handleJaNoWeakPhraseChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'jaNoWeakPhrase',
-  });
+    const handleJaNoWeakPhraseChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'jaNoWeakPhrase',
+    });
 
-  const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'maxAppearenceCountOfWords',
-  });
+    const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'maxAppearenceCountOfWords',
+    });
 
-  const handlePresetJaSpacingChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'presetJaSpacing',
-  });
+    const handlePresetJaSpacingChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'presetJaSpacing',
+    });
 
-  const handlePresetJaTechnicalWritingChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'presetJaTechnicalWriting',
-  });
+    const handlePresetJaTechnicalWritingChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'presetJaTechnicalWriting',
+    });
 
-  const handlePresetJTFStyleChange = useLintOptionChange({
-    dispatchSetting,
-    key: 'presetJTFStyle',
-  });
+    const handlePresetJTFStyleChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'presetJTFStyle',
+    });
 
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>設定</DialogTitle>
+    return (
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>設定</DialogTitle>
 
-      <DialogContent>
-        <Box mb={4}>
+        <DialogContent>
+          <Box mb={4}>
+            <FormControlLabel
+              checked={setting.mode === 'standard'}
+              control={<Radio color="primary" />}
+              label="スタンダードモード"
+              onChange={handleStandardModeChange}
+            />
+
+            <Typography variant="body1" gutterBottom>
+              校正さんの統一された校正設定。 設定を決める必要はありません。
+            </Typography>
+          </Box>
+
           <FormControlLabel
-            checked={setting.mode === 'standard'}
+            checked={setting.mode === 'professional'}
             control={<Radio color="primary" />}
-            label="スタンダードモード"
-            onChange={handleStandardModeChange}
+            label="プロフェッショナルモード"
+            onChange={handleProfessionalModeChange}
           />
 
           <Typography variant="body1" gutterBottom>
-            校正さんの統一された校正設定。 設定を決める必要はありません。
+            メモごとに校正設定を追加してカスタマイズできます。
           </Typography>
-        </Box>
 
-        <FormControlLabel
-          checked={setting.mode === 'professional'}
-          control={<Radio color="primary" />}
-          label="プロフェッショナルモード"
-          onChange={handleProfessionalModeChange}
-        />
+          <FormControl disabled={setting.mode !== 'professional'}>
+            <FormControlLabel
+              checked={setting.lintOption.generalNovelStyleJa ?? false}
+              control={<Checkbox />}
+              label="小説の一般的な作法"
+              onChange={handleGeneralNovelStyleJaChange}
+            />
 
-        <Typography variant="body1" gutterBottom>
-          メモごとに校正設定を追加してカスタマイズできます。
-        </Typography>
+            <FormControlLabel
+              checked={setting.lintOption.presetJaTechnicalWriting ?? false}
+              control={<Checkbox />}
+              label="技術文書"
+              onChange={handlePresetJaTechnicalWritingChange}
+            />
 
-        <FormControl disabled={setting.mode !== 'professional'}>
-          <FormControlLabel
-            checked={setting.lintOption.generalNovelStyleJa ?? false}
-            control={<Checkbox />}
-            label="小説の一般的な作法"
-            onChange={handleGeneralNovelStyleJaChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.presetJTFStyle ?? false}
+              control={<Checkbox />}
+              label="JTF日本語標準スタイルガイド(翻訳用）"
+              onChange={handlePresetJTFStyleChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.presetJaTechnicalWriting ?? false}
-            control={<Checkbox />}
-            label="技術文書"
-            onChange={handlePresetJaTechnicalWritingChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.jaNoWeakPhrase ?? false}
+              control={<Checkbox />}
+              label="弱い表現の禁止"
+              onChange={handleJaNoWeakPhraseChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.presetJTFStyle ?? false}
-            control={<Checkbox />}
-            label="JTF日本語標準スタイルガイド(翻訳用）"
-            onChange={handlePresetJTFStyleChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
+              control={<Checkbox />}
+              label="単語の出現回数の上限"
+              onChange={handleMaxAppearenceCountOfWordsChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.jaNoWeakPhrase ?? false}
-            control={<Checkbox />}
-            label="弱い表現の禁止"
-            onChange={handleJaNoWeakPhraseChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.jaNoMixedPeriod ?? false}
+              control={<Checkbox />}
+              label="句点の統一"
+              onChange={handleJaNoMixedPeriodChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
-            control={<Checkbox />}
-            label="単語の出現回数の上限"
-            onChange={handleMaxAppearenceCountOfWordsChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.presetJaSpacing ?? false}
+              control={<Checkbox />}
+              label="スペースの統一"
+              onChange={handlePresetJaSpacingChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.jaNoMixedPeriod ?? false}
-            control={<Checkbox />}
-            label="句点の統一"
-            onChange={handleJaNoMixedPeriodChange}
-          />
+            <FormControlLabel
+              checked={setting.lintOption.jaKyoikuKanji ?? false}
+              control={<Checkbox />}
+              label="教育漢字のみ許可"
+              onChange={handleJaKyoikuKanjiChange}
+            />
 
-          <FormControlLabel
-            checked={setting.lintOption.presetJaSpacing ?? false}
-            control={<Checkbox />}
-            label="スペースの統一"
-            onChange={handlePresetJaSpacingChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.jaKyoikuKanji ?? false}
-            control={<Checkbox />}
-            label="教育漢字のみ許可"
-            onChange={handleJaKyoikuKanjiChange}
-          />
-
-          <FormControlLabel
-            checked={setting.lintOption.enSpell ?? false}
-            control={<Checkbox />}
-            label="英語のスペルチェック"
-            onChange={handleEnSpellChange}
-          />
-        </FormControl>
-      </DialogContent>
-    </Dialog>
-  );
-};
+            <FormControlLabel
+              checked={setting.lintOption.enSpell ?? false}
+              control={<Checkbox />}
+              label="英語のスペルチェック"
+              onChange={handleEnSpellChange}
+            />
+          </FormControl>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+);
 
 export { SettingDialog };
