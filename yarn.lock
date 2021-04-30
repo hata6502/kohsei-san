@@ -11777,10 +11777,10 @@ textlint-rule-ja-no-mixed-period@^2.1.1:
     check-ends-with-period "^1.0.1"
     textlint-rule-helper "^2.0.0"
 
-textlint-rule-ja-no-orthographic-variants@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-orthographic-variants/-/textlint-rule-ja-no-orthographic-variants-1.0.2.tgz#5893e94cf96909ab31feaf94f74e4853c0b34dde"
-  integrity sha512-FZ6oUWYZ6Mevfj4iur5RseZJZCWLJz4SdREr9rWTK3yopmtwk81jI1g0kVLLQpl119rNHFOH0/rRAhp072lbGw==
+textlint-rule-ja-no-orthographic-variants@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-orthographic-variants/-/textlint-rule-ja-no-orthographic-variants-2.0.0.tgz#561e0a85feea12aa17ff8963f4975e1b4badaaf3"
+  integrity sha512-Pafp97l4HaNiCpGqEHhJ6G4OQN7+P0nk8vuWW7muz5OGw09xs5u88m03q+K3iLyI5Q7gMHNYUKM6Ld3yRF0wew==
   dependencies:
     kuromojin "^3.0.0"
 
