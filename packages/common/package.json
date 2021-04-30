@@ -25,7 +25,7 @@
     "textlint-rule-ja-no-orthographic-variants": "^1.0.0",
     "textlint-rule-ja-no-redundant-expression": "^3.0.1",
     "textlint-rule-ja-no-successive-word": "^1.2.0",
-    "textlint-rule-ja-no-weak-phrase": "^1.0.5",
+    "textlint-rule-ja-no-weak-phrase": "^2.0.0",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-no-hankaku-kana": "^1.0.2",
