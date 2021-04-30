@@ -7787,6 +7787,7 @@ known-css-properties@^0.21.0:
 
 kuromoji@0.1.2, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.6"
+  uid f49846a56f456ab83bf86017c27d638442dbed71
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/f49846a56f456ab83bf86017c27d638442dbed71"
   dependencies:
     async "^2.0.1"
@@ -7794,6 +7795,7 @@ kuromoji@0.1.2, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
 
 kuromojin@^1.0.2, kuromojin@^1.1.0, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
   version "3.0.0"
+  uid "01734477b6fc84a31a92d8b5d36775ec955cbe42"
   resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/01734477b6fc84a31a92d8b5d36775ec955cbe42"
   dependencies:
     kuromoji "0.1.2"
@@ -11507,6 +11509,7 @@ subarg@^1.0.0:
 
 sudachi-synonyms-dictionary@^5.0.1, sudachi-synonyms-dictionary@hata6502/sudachi-synonyms-dictionary:
   version "6.0.1"
+  uid e6aa3ea4c0581e2c1f6f06361ed72cd260f69851
   resolved "https://codeload.github.com/hata6502/sudachi-synonyms-dictionary/tar.gz/e6aa3ea4c0581e2c1f6f06361ed72cd260f69851"
 
 sugarss@^2.0.0:
@@ -11840,6 +11843,15 @@ textlint-rule-ja-no-weak-phrase@^1.0.5:
   integrity sha512-cEanJSwVPRCSIg1gd2lGEMqp2WWN2QPR0JiDO8zOkikNsAuFBJm8jwo7hyig4URCgcEuERCnaHzxpAcebarGVQ==
   dependencies:
     kuromojin "^2.0.0"
+    morpheme-match "^2.0.4"
+    morpheme-match-all "^2.0.5"
+
+textlint-rule-ja-no-weak-phrase@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-weak-phrase/-/textlint-rule-ja-no-weak-phrase-2.0.0.tgz#7e1fde8fa57113d6e79ef997b3f6a7712fe7f515"
+  integrity sha512-jZ1/3VnE8Bz/p0CCe/+BVOmWE1cZwpDkjKb6hnq39nGk3OD4XPW7biYavK/4/mZhk4bh2+Vtu1xV26lg8d+vBw==
+  dependencies:
+    kuromojin "^3.0.0"
     morpheme-match "^2.0.4"
     morpheme-match-all "^2.0.5"
 
