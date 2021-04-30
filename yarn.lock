@@ -7787,6 +7787,7 @@ known-css-properties@^0.21.0:
 
 kuromoji@0.1.2, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.6"
+  uid f49846a56f456ab83bf86017c27d638442dbed71
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/f49846a56f456ab83bf86017c27d638442dbed71"
   dependencies:
     async "^2.0.1"
@@ -7794,6 +7795,7 @@ kuromoji@0.1.2, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
 
 kuromojin@^1.0.2, kuromojin@^1.1.0, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
   version "3.0.0"
+  uid "01734477b6fc84a31a92d8b5d36775ec955cbe42"
   resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/01734477b6fc84a31a92d8b5d36775ec955cbe42"
   dependencies:
     kuromoji "0.1.2"
@@ -11507,6 +11509,7 @@ subarg@^1.0.0:
 
 sudachi-synonyms-dictionary@^5.0.1, sudachi-synonyms-dictionary@hata6502/sudachi-synonyms-dictionary:
   version "6.0.1"
+  uid e6aa3ea4c0581e2c1f6f06361ed72cd260f69851
   resolved "https://codeload.github.com/hata6502/sudachi-synonyms-dictionary/tar.gz/e6aa3ea4c0581e2c1f6f06361ed72cd260f69851"
 
 sugarss@^2.0.0:
@@ -11790,10 +11793,10 @@ textlint-rule-ja-no-mixed-period@^2.1.1:
     check-ends-with-period "^1.0.1"
     textlint-rule-helper "^2.0.0"
 
-textlint-rule-ja-no-orthographic-variants@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-orthographic-variants/-/textlint-rule-ja-no-orthographic-variants-1.0.2.tgz#5893e94cf96909ab31feaf94f74e4853c0b34dde"
-  integrity sha512-FZ6oUWYZ6Mevfj4iur5RseZJZCWLJz4SdREr9rWTK3yopmtwk81jI1g0kVLLQpl119rNHFOH0/rRAhp072lbGw==
+textlint-rule-ja-no-orthographic-variants@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-orthographic-variants/-/textlint-rule-ja-no-orthographic-variants-2.0.0.tgz#561e0a85feea12aa17ff8963f4975e1b4badaaf3"
+  integrity sha512-Pafp97l4HaNiCpGqEHhJ6G4OQN7+P0nk8vuWW7muz5OGw09xs5u88m03q+K3iLyI5Q7gMHNYUKM6Ld3yRF0wew==
   dependencies:
     kuromojin "^3.0.0"
 
