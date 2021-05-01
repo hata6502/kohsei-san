@@ -5,6 +5,8 @@ import textlintRuleNoDroppingI from '@textlint-ja/textlint-rule-no-dropping-i';
 // @ts-expect-error
 import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
+// @ts-expect-error
+import textlintRuleNoZeroWidthSpaces from 'textlint-rule-no-zero-width-spaces';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error
@@ -241,6 +243,10 @@ const lint = ({
       {
         ruleId: 'no-synonyms',
         rule: textlintRuleNoSynonyms,
+      },
+      {
+        ruleId: 'no-zero-width-spaces',
+        rule: textlintRuleNoZeroWidthSpaces,
       },
       {
         ruleId: 'prefer-tari-tari',

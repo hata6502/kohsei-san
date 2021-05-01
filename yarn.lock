@@ -12067,6 +12067,11 @@ textlint-rule-no-nfd@^1.0.1, textlint-rule-no-nfd@^1.0.2:
     textlint-rule-helper "^2.1.1"
     unorm "^1.4.1"
 
+textlint-rule-no-zero-width-spaces@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-no-zero-width-spaces/-/textlint-rule-no-zero-width-spaces-1.0.0.tgz#9a23ad166f386d27a5d272c9304343df686cab1b"
+  integrity sha512-NNuY6W5xm2a/YogxK5yZEwojSsrw4zhQoGgAr6FSxGBKDanB8NZgKWjPUe96pv+4jQ0CNSvn+noi/boJik5o/A==
+
 textlint-rule-prefer-tari-tari@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/textlint-rule-prefer-tari-tari/-/textlint-rule-prefer-tari-tari-1.0.3.tgz#0164a473c55810dab87a1a3848156614fbc7f149"
