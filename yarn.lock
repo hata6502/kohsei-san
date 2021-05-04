@@ -11779,10 +11779,10 @@ textlint-rule-ja-nakaguro-or-halfwidth-space-between-katakana@^2.0.2:
     match-index "^1.0.3"
     textlint-rule-helper "^2.1.1"
 
-textlint-rule-ja-no-inappropriate-words@^1.0.3:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-inappropriate-words/-/textlint-rule-ja-no-inappropriate-words-1.0.5.tgz#5eb3c1cc1604440f90ceaa5d65aa497c7e4479aa"
-  integrity sha512-UrDhMozguQlW4vnsHQ6rcaV+NasWGG/AByN1R4fDgS/0ak7uG/JE/8NEBzj4oG4aUygGGpXTvlz3iAnMWdHxlg==
+textlint-rule-ja-no-inappropriate-words@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-no-inappropriate-words/-/textlint-rule-ja-no-inappropriate-words-2.0.0.tgz#8b229614f71e24cced888514cf5456bfe2141b35"
+  integrity sha512-gS2g8BqXv33D0QDz301aZh7EgWc2Vz70qBGJG0T3Dbtzxj/omqQCpxJtpVs5JKoGIBNkmxN5L+l0nf5TZ/luAw==
   dependencies:
     kuromojin "^3.0.0"
 
