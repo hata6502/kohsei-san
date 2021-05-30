@@ -45,6 +45,8 @@ import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-
 // @ts-expect-error
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 // @ts-expect-error
+import textlintRuleNoKangxiRadicals from 'textlint-rule-no-kangxi-radicals';
+// @ts-expect-error
 import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
 // @ts-expect-error
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
@@ -235,6 +237,10 @@ const lint = ({
       {
         ruleId: 'no-insert-dropping-sa',
         rule: textlintRuleNoInsertDroppingSa,
+      },
+      {
+        ruleId: 'no-kangxi-radicals',
+        rule: textlintRuleNoKangxiRadicals,
       },
       {
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',

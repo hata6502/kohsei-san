@@ -79,13 +79,15 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
     }, [deleteMemo.id, dispatchDeleteMemo, dispatchMemos]);
 
-    const handleDeleteDialogClose = useCallback(() => dispatchDeleteMemo(undefined), [
-      dispatchDeleteMemo,
-    ]);
+    const handleDeleteDialogClose = useCallback(
+      () => dispatchDeleteMemo(undefined),
+      [dispatchDeleteMemo]
+    );
 
-    const handleDeleteClick = useCallback((id: Memo['id']) => dispatchDeleteMemo(id), [
-      dispatchDeleteMemo,
-    ]);
+    const handleDeleteClick = useCallback(
+      (id: Memo['id']) => dispatchDeleteMemo(id),
+      [dispatchDeleteMemo]
+    );
 
     const handleMemoClick = useCallback(
       (id: Memo['id']) => {
