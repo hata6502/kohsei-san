@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type { CompositionEventHandler } from 'react';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -12,6 +13,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
+// @ts-expect-error
+import { toHanAscii, toHebon } from 'jaconv';
 import type { TextlintMessage } from '@textlint/kernel';
 import type { Memo, MemosAction } from '../useMemo';
 
@@ -232,7 +235,7 @@ const TextContainer: React.FunctionComponent<{
       [setPopoverAnchorEl]
     );
 
-    const handleTextContainerBlur = useCallback(() => {
+    const handleBlur = useCallback(() => {
       dispatchIsTextContainerFocused(false);
 
       dispatchMemos((prevMemos) =>
@@ -252,7 +255,44 @@ const TextContainer: React.FunctionComponent<{
       );
     }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
 
-    const handleTextContainerFocus = useCallback(
+    const handleCompositionUpdate: CompositionEventHandler = useCallback((event) => {
+      const data = event.data;
+      const unnaturalAlphabetRegExp = /[ぁ-んー][ａ-ｚＡ-Ｚ]+[ぁ-んー]/;
+
+      if (!unnaturalAlphabetRegExp.test(data)) {
+        return;
+      }
+
+      const convertedText = toHanAscii(toHebon(data)).toLowerCase();
+      const selection = window.getSelection();
+      const currentRange = selection?.getRangeAt(0);
+
+      if (!currentRange || !(currentRange.startContainer instanceof Text) || !selection) {
+        throw new Error();
+      }
+
+      currentRange.startContainer.replaceData(
+        currentRange.startOffset,
+        currentRange.endOffset - currentRange.startOffset,
+        convertedText
+      );
+
+      selection.removeAllRanges();
+
+      // IME 変換を終了させてから、キャレットを設置する。
+      setTimeout(() => {
+        const nextRange = document.createRange();
+
+        nextRange.setStart(
+          currentRange.startContainer,
+          currentRange.startOffset + convertedText.length
+        );
+
+        selection.addRange(nextRange);
+      });
+    }, []);
+
+    const handleFocus = useCallback(
       () => dispatchIsTextContainerFocused(true),
       [dispatchIsTextContainerFocused]
     );
@@ -275,8 +315,9 @@ const TextContainer: React.FunctionComponent<{
                 // https://github.com/w3c/editing/issues/162
                 // @ts-expect-error
                 contentEditable="plaintext-only"
-                onBlur={handleTextContainerBlur}
-                onFocus={handleTextContainerFocus}
+                onBlur={handleBlur}
+                onCompositionUpdate={handleCompositionUpdate}
+                onFocus={handleFocus}
                 ref={textRef}
               />
             </Typography>
