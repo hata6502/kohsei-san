@@ -61,7 +61,6 @@
     "eslint-plugin-react-hooks": "2.x",
     "http-server": "^0.12.1",
     "istanbul-lib-coverage": "^3.0.0",
-    "jaconv": "^1.0.4",
     "kuromoji": "^0.1.2",
     "negaposi": "^1.2.0",
     "nyc": "^15.0.0",
