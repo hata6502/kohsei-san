@@ -144,6 +144,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
             key={memoId}
             dispatchIsLinting={dispatchIsLinting}
             dispatchIsLintingHeavy={dispatchIsLintingHeavy}
+            dispatchMemoId={dispatchMemoId}
             dispatchMemos={dispatchMemos}
             isLinting={isLinting}
             lintWorker={lintWorker}

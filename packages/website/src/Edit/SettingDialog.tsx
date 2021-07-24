@@ -102,7 +102,7 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
 
     return (
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>設定</DialogTitle>
+        <DialogTitle>校正設定</DialogTitle>
 
         <DialogContent>
           <Box mb={4}>

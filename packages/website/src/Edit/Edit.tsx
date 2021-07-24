@@ -12,10 +12,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import FeedbackIcon from '@material-ui/icons/Feedback';
-import SettingsIcon from '@material-ui/icons/Settings';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Alert from '@material-ui/lab/Alert';
+import { v4 as uuidv4 } from 'uuid';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import { useDispatchSetting } from '../useMemo';
 import type { Memo, MemosAction } from '../useMemo';
@@ -34,16 +34,26 @@ const EditContainer = styled(Container)`
 const Edit: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsLintingHeavy: React.Dispatch<boolean>;
+  dispatchMemoId: React.Dispatch<Memo['id']>;
   dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
 }> = React.memo(
-  ({ dispatchIsLinting, dispatchIsLintingHeavy, dispatchMemos, isLinting, lintWorker, memo }) => {
+  ({
+    dispatchIsLinting,
+    dispatchIsLintingHeavy,
+    dispatchMemoId,
+    dispatchMemos,
+    isLinting,
+    lintWorker,
+    memo,
+  }) => {
     const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
 
     const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
     const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     const [negaposiScore, setNegaposiScore] = useState<number>();
 
@@ -180,6 +190,31 @@ ${memo.text.slice(0, 280)}
 
     const handleTweetDialogClose = useCallback(() => setIsTweetDialogOpen(false), []);
 
+    const handleCopyButtonClick = useCallback(() => {
+      const id = uuidv4();
+
+      dispatchMemos((prevMemos) => [
+        ...prevMemos,
+        {
+          ...memo,
+          id,
+        },
+      ]);
+
+      dispatchMemoId(id);
+    }, [dispatchMemoId, dispatchMemos, memo]);
+
+    const handleDeleteButtonClick = useCallback(() => setIsDeleteDialogOpen(true), []);
+
+    const handleDeleteDialogAgree = useCallback(() => {
+      dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== memo.id));
+    }, [dispatchMemos, memo.id]);
+
+    const handleDeleteDialogClose = useCallback(
+      () => setIsDeleteDialogOpen(false),
+      [setIsDeleteDialogOpen]
+    );
+
     return (
       <EditContainer maxWidth="md">
         <Paper>
@@ -272,17 +307,25 @@ ${memo.text.slice(0, 280)}
                       startIcon={<TwitterIcon />}
                       onClick={handleTweetButtonClick}
                     >
-                      文例ストックにツイート
+                      文例ストック
                     </Button>
                   </Grid>
 
                   <Grid item>
-                    <Button
-                      variant="outlined"
-                      startIcon={<SettingsIcon />}
-                      onClick={handleSettingButtonClick}
-                    >
-                      設定
+                    <Button variant="outlined" onClick={handleSettingButtonClick}>
+                      校正設定
+                    </Button>
+                  </Grid>
+
+                  <Grid item>
+                    <Button variant="outlined" onClick={handleCopyButtonClick}>
+                      コピー
+                    </Button>
+                  </Grid>
+
+                  <Grid item>
+                    <Button variant="outlined" onClick={handleDeleteButtonClick}>
+                      削除
                     </Button>
                   </Grid>
                 </Grid>
@@ -312,6 +355,24 @@ ${memo.text.slice(0, 280)}
 
             <Button onClick={handleTweetDialogAgree} color="primary">
               投稿する
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={isDeleteDialogOpen} onClose={handleDeleteDialogClose}>
+          <DialogTitle>メモを削除しますか？</DialogTitle>
+
+          <DialogContent>
+            <DialogContentText>削除を元に戻すことはできません。</DialogContentText>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={handleDeleteDialogClose} color="secondary" autoFocus>
+              削除しない
+            </Button>
+
+            <Button onClick={handleDeleteDialogAgree} color="secondary">
+              削除する
             </Button>
           </DialogActions>
         </Dialog>

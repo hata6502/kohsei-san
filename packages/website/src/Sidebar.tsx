@@ -1,22 +1,13 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import BookIcon from '@material-ui/icons/Book';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HelpIcon from '@material-ui/icons/Help';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
@@ -45,14 +36,6 @@ export interface SidebarProps {
 
 const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
   ({ dispatchMemoId, dispatchMemos, memoId, memos, onClose }) => {
-    const [deleteMemo, dispatchDeleteMemo] = useReducer(
-      (prevDeleteMemo: { id?: Memo['id']; memo?: Memo }, id: Memo['id'] | undefined) => ({
-        id,
-        memo: memos.find((memo) => memo.id === id) || prevDeleteMemo.memo,
-      }),
-      { id: undefined, memo: undefined }
-    );
-
     const handleAddClick = useCallback(() => {
       const id = uuidv4();
 
@@ -74,21 +57,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       onClose?.();
     }, [dispatchMemoId, dispatchMemos, onClose]);
 
-    const handleDeleteDialogAgree = useCallback(() => {
-      dispatchDeleteMemo(undefined);
-      dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== deleteMemo.id));
-    }, [deleteMemo.id, dispatchDeleteMemo, dispatchMemos]);
-
-    const handleDeleteDialogClose = useCallback(
-      () => dispatchDeleteMemo(undefined),
-      [dispatchDeleteMemo]
-    );
-
-    const handleDeleteClick = useCallback(
-      (id: Memo['id']) => dispatchDeleteMemo(id),
-      [dispatchDeleteMemo]
-    );
-
     const handleMemoClick = useCallback(
       (id: Memo['id']) => {
         dispatchMemoId(id);
@@ -106,12 +74,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
               {result?.messages.length === 0 && <CheckCircleOutlineIcon color="primary" />}
 
               <MemoText primary={text.trim() || '(空のメモ)'} />
-
-              <ListItemSecondaryAction>
-                <IconButton edge="end" onClick={() => handleDeleteClick(id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
             </ListItem>
           ))}
 
@@ -191,29 +153,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
             </ListItem>
           </Link>
         </List>
-
-        <Dialog open={Boolean(deleteMemo.id)} onClose={handleDeleteDialogClose}>
-          <DialogTitle>
-            メモ「
-            {(deleteMemo.memo?.text.trim() || '(空のメモ)').substring(0, 10)}
-            {((deleteMemo.memo?.text.trim().length || 0) > 10 && '…') || ''}
-            」を削除しますか？
-          </DialogTitle>
-
-          <DialogContent>
-            <DialogContentText>削除を元に戻すことはできません。</DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={handleDeleteDialogClose} color="secondary" autoFocus>
-              削除しない
-            </Button>
-
-            <Button onClick={handleDeleteDialogAgree} color="secondary">
-              削除する
-            </Button>
-          </DialogActions>
-        </Dialog>
       </DrawerContainer>
     );
   }
