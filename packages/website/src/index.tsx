@@ -85,10 +85,10 @@ const main = () => {
     {
       palette: {
         primary: {
-          main: '#f15d69',
+          main: '#00a39b',
         },
         secondary: {
-          main: '#00a39b',
+          main: '#f15d69',
         },
       },
       typography: {

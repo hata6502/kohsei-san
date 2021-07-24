@@ -245,7 +245,7 @@ ${memo.text.slice(0, 280)}
                     }}
                   >
                     自動校正によるメッセージがあります。
-                    <FeedbackIcon color="primary" />
+                    <FeedbackIcon color="secondary" />
                     を押して参考にしてみてください。
                   </Alert>
                 ))}

@@ -15,7 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import BookIcon from '@material-ui/icons/Book';
-import CheckIcon from '@material-ui/icons/Check';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HelpIcon from '@material-ui/icons/Help';
@@ -103,7 +103,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         <List>
           {memos.map(({ id, result, text }) => (
             <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-              {result?.messages.length === 0 && <CheckIcon color="secondary" />}
+              {result?.messages.length === 0 && <CheckCircleOutlineIcon color="primary" />}
 
               <MemoText primary={text.trim() || '(空のメモ)'} />
 
@@ -205,11 +205,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={handleDeleteDialogClose} color="primary" autoFocus>
+            <Button onClick={handleDeleteDialogClose} color="secondary" autoFocus>
               削除しない
             </Button>
 
-            <Button onClick={handleDeleteDialogAgree} color="primary">
+            <Button onClick={handleDeleteDialogAgree} color="secondary">
               削除する
             </Button>
           </DialogActions>

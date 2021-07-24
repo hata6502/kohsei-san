@@ -289,7 +289,7 @@ const TextContainer: React.FunctionComponent<{
                     handlePinClick({ currentTarget, messages: message.messages });
                   }}
                 >
-                  <PinIcon color="primary" />
+                  <PinIcon color="secondary" />
                 </PinTarget>
               ))}
 
