@@ -4,10 +4,13 @@
     <meta charset="utf-8" />
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' 'unsafe-eval';
+      connect-src 'self' sentry.io;
+      img-src 'self' data:;
 
       script-src-elem
         'self'
         'unsafe-inline'
+        sentry.io
         www.google-analytics.com
         www.googletagmanager.com;
 
