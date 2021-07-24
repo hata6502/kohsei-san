@@ -258,76 +258,77 @@ const TextContainer: React.FunctionComponent<{
     );
 
     return (
-      <Box
-        border={1}
-        borderColor={isTextContainerFocused ? 'primary.main' : 'grey.500'}
-        borderRadius="borderRadius"
-        mb={2}
-        mt={1}
-        position="relative"
-      >
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        {(props: any) => (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <div {...props} ref={textBoxRef}>
-            <Typography component="div" variant="body1">
-              <Content
-                // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
-                contentEditable="plaintext-only"
-                onBlur={handleTextContainerBlur}
-                onFocus={handleTextContainerFocus}
-                ref={textRef}
-              />
-            </Typography>
+      <Box pb={2} pt={1}>
+        <Box
+          border={isTextContainerFocused ? 2 : 1}
+          borderColor={isTextContainerFocused ? 'primary.main' : 'grey.500'}
+          borderRadius="borderRadius"
+          m={isTextContainerFocused ? 0 : '1px'}
+          position="relative"
+        >
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {(props: any) => (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <div {...props} ref={textBoxRef}>
+              <Typography component="div" variant="body1">
+                <Content
+                  // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
+                  contentEditable="plaintext-only"
+                  onBlur={handleTextContainerBlur}
+                  onFocus={handleTextContainerFocus}
+                  ref={textRef}
+                />
+              </Typography>
 
-            {shouldDisplayResult &&
-              pins.map(({ left, message, top }) => (
-                <PinTarget
-                  key={message.index}
-                  style={{ left, top }}
-                  onClick={({ currentTarget }) => {
-                    handlePinClick({ currentTarget, messages: message.messages });
-                  }}
-                >
-                  <PinIcon color="secondary" />
-                </PinTarget>
-              ))}
+              {shouldDisplayResult &&
+                pins.map(({ left, message, top }) => (
+                  <PinTarget
+                    key={message.index}
+                    style={{ left, top }}
+                    onClick={({ currentTarget }) => {
+                      handlePinClick({ currentTarget, messages: message.messages });
+                    }}
+                  >
+                    <PinIcon color="secondary" />
+                  </PinTarget>
+                ))}
 
-            <MessagePopover
-              anchorEl={popoverAnchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              onClose={handlePopoverClose}
-              open={isPopoverOpen}
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-            >
-              <Container maxWidth="sm">
-                <List>
-                  {popoverMessages.map((message, index) => (
-                    <ListItem key={index}>
-                      <ListItemText primary={message.message} />
+              <MessagePopover
+                anchorEl={popoverAnchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                onClose={handlePopoverClose}
+                open={isPopoverOpen}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <Container maxWidth="sm">
+                  <List>
+                    {popoverMessages.map((message, index) => (
+                      <ListItem key={index}>
+                        <ListItemText primary={message.message} />
 
-                      <ListItemSecondaryAction>
-                        {message.fix && (
-                          <Tooltip title="自動修正">
-                            <IconButton edge="end" onClick={() => handleFixClick({ message })}>
-                              <SpellcheckIcon />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  ))}
-                </List>
-              </Container>
-            </MessagePopover>
-          </div>
-        )}
+                        <ListItemSecondaryAction>
+                          {message.fix && (
+                            <Tooltip title="自動修正">
+                              <IconButton edge="end" onClick={() => handleFixClick({ message })}>
+                                <SpellcheckIcon />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Container>
+              </MessagePopover>
+            </div>
+          )}
+        </Box>
       </Box>
     );
   }

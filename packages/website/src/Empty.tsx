@@ -39,7 +39,7 @@ const Empty: React.FunctionComponent = React.memo(() => (
           }).toString()}`}
           underline="none"
         >
-          <Button variant="contained" color="primary">
+          <Button variant="outlined" color="primary">
             メモを追加
           </Button>
         </Link>
