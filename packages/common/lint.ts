@@ -1,64 +1,64 @@
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import textlintPluginText from '@textlint/textlint-plugin-text';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoDroppingI from '@textlint-ja/textlint-rule-no-dropping-i';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoZeroWidthSpaces from 'textlint-rule-no-zero-width-spaces';
 import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
 import textlintRuleEnSpell from 'textlint-rule-en-spell';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleGeneralNovelStyleJa from 'textlint-rule-general-novel-style-ja';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaHiraganaDaimeishi from 'textlint-rule-ja-hiragana-daimeishi';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaHiraganaFukushi from 'textlint-rule-ja-hiragana-fukushi';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaHiraganaHojodoushi from 'textlint-rule-ja-hiragana-hojodoushi';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keishikimeishi';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaKyoikuKanji from 'textlint-rule-ja-kyoiku-kanji';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoMixedPeriod from 'textlint-rule-ja-no-mixed-period';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoOrthographicVariants from 'textlint-rule-ja-no-orthographic-variants';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoKangxiRadicals from 'textlint-rule-no-kangxi-radicals';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoMixedZenkakuAndHankakuAlphabet from 'textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRulePreferTariTari from 'textlint-rule-prefer-tari-tari';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRulePresetJaSpacing from 'textlint-rule-preset-ja-spacing';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRulePresetJaTechnicalWriting from 'textlint-rule-preset-ja-technical-writing';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
-// @ts-expect-error
+// @ts-expect-error 型が定義されていない。
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
 interface LintOption {

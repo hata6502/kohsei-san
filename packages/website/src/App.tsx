@@ -66,6 +66,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
     memos,
     setIsSaveErrorOpen,
     titleParam,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   } = useMemo();
 
   const [isLinting, dispatchIsLinting] = useReducer((_: boolean, action: boolean) => action, false);

@@ -272,8 +272,7 @@ const TextContainer: React.FunctionComponent<{
           <div {...props} ref={textBoxRef}>
             <Typography component="div" variant="body1">
               <Content
-                // https://github.com/w3c/editing/issues/162
-                // @ts-expect-error
+                // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
                 contentEditable="plaintext-only"
                 onBlur={handleTextContainerBlur}
                 onFocus={handleTextContainerFocus}

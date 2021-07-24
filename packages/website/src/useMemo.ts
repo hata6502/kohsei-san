@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import * as Sentry from '@sentry/browser';
 import { TextlintResult } from '@textlint/kernel';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +32,7 @@ const useDispatchSetting = ({
 }: {
   dispatchMemos: React.Dispatch<MemosAction>;
   memoId: Memo['id'];
-}) =>
+}): DispatchSetting =>
   useCallback<DispatchSetting>(
     (action) =>
       dispatchMemos((prevMemos) =>
@@ -46,7 +47,15 @@ const useDispatchSetting = ({
     [dispatchMemos, memoId]
   );
 
-const useMemo = () => {
+const useMemo = (): {
+  dispatchMemoId: Dispatch<string>;
+  dispatchMemos: Dispatch<MemosAction>;
+  isSaveErrorOpen: boolean;
+  memoId: string;
+  memos: Memo[];
+  setIsSaveErrorOpen: Dispatch<SetStateAction<boolean>>;
+  titleParam: string | null;
+} => {
   const searchParams = new URLSearchParams(window.location.search);
 
   const textParam = searchParams.get('text');

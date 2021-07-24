@@ -106,6 +106,7 @@ const Edit: React.FunctionComponent<{
       memo.id,
       memo.result,
       memo.setting.lintOption,
+      memo.setting.mode,
       memo.text,
     ]);
 
