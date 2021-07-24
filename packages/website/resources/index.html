@@ -2,6 +2,17 @@
 <html lang="ja">
   <head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self' 'unsafe-eval';
+
+      script-src-elem
+        'self'
+        'unsafe-inline'
+        www.google-analytics.com
+        www.googletagmanager.com;
+
+      style-src 'self' 'unsafe-inline';
+    ">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106651880-5"></script>

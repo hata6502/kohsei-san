@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { jaJP } from '@material-ui/core/locale';
 import {
-  createMuiTheme,
+  createTheme,
   StylesProvider,
   Theme,
   ThemeProvider as MuiThemeProvider,
@@ -81,7 +81,7 @@ const main = () => {
     }
   }
 
-  const theme = createMuiTheme(
+  const theme = createTheme(
     {
       palette: {
         primary: {
