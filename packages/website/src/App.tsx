@@ -77,12 +77,18 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
   );
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
 
   const classes = useStyles();
 
   const handleMenuIconClick = useCallback(() => setIsSidebarOpen(true), [setIsSidebarOpen]);
   const handleSaveErrorClose = useCallback(() => setIsSaveErrorOpen(false), [setIsSaveErrorOpen]);
   const handleSidebarClose = useCallback(() => setIsSidebarOpen(false), [setIsSidebarOpen]);
+
+  const handleCopiedSnackbarClose = useCallback(
+    () => dispatchIsCopiedSnackbarOpen(false),
+    [dispatchIsCopiedSnackbarOpen]
+  );
 
   const memo = memos.find(({ id }) => id === memoId);
   const title = titleParam === null ? '校正さん' : `「${titleParam}」の校正結果 | 校正さん`;
@@ -142,6 +148,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
         {memo ? (
           <Edit
             key={memoId}
+            dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
             dispatchIsLinting={dispatchIsLinting}
             dispatchIsLintingHeavy={dispatchIsLintingHeavy}
             dispatchMemoId={dispatchMemoId}
@@ -154,6 +161,14 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
           <Empty />
         )}
       </Main>
+
+      <Snackbar
+        autoHideDuration={6000}
+        open={isCopiedSnackbarOpen}
+        onClose={handleCopiedSnackbarClose}
+      >
+        <Alert severity="success">メモをコピーしました。</Alert>
+      </Snackbar>
 
       <Snackbar open={isSaveErrorOpen}>
         <Alert onClose={handleSaveErrorClose} severity="error">
