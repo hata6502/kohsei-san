@@ -1720,6 +1720,15 @@
     kuromojin "^2.1.1"
     textlint-rule-helper "^1.1.4"
 
+"@textlint-ja/textlint-rule-no-filler@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@textlint-ja/textlint-rule-no-filler/-/textlint-rule-no-filler-1.1.0.tgz#3cfe700e18a1b915f6175974c64d637e7732df4f"
+  integrity sha512-4yWdtS378xxBrkzmQWYZf2u6GefNMAv5xORSIY+xXVqDseddaDKm/m6n0JQFbbNvZQgFyXQotF+ILn6O5wy7CQ==
+  dependencies:
+    kuromojin "^3.0.0"
+    sentence-splitter "^3.2.1"
+    textlint-util-to-string "^3.1.1"
+
 "@textlint-ja/textlint-rule-no-insert-dropping-sa@hata6502/textlint-rule-no-insert-dropping-sa":
   version "1.0.2"
   resolved "https://codeload.github.com/hata6502/textlint-rule-no-insert-dropping-sa/tar.gz/40f12c47adc6229a7ecf92f37aa4f6e4c7e5e569"
@@ -9973,7 +9982,7 @@ sentence-splitter@^2.0.0:
     concat-stream "^1.5.2"
     structured-source "^3.0.2"
 
-sentence-splitter@^3.0.11, sentence-splitter@^3.2.0:
+sentence-splitter@^3.0.11, sentence-splitter@^3.2.0, sentence-splitter@^3.2.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/sentence-splitter/-/sentence-splitter-3.2.2.tgz#b02a28c08bbad4bd3b6ec6f619d50e3fd3596d07"
   integrity sha512-hMvaodgK9Fay928uiQoTMEWjXpCERdKD2uKo7BbSyP+uWTo+wHiRjN+ZShyI99rW0VuoV4Cuw8FUmaRcnpN7Ug==

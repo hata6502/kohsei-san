@@ -2,6 +2,7 @@ import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoDroppingI from '@textlint-ja/textlint-rule-no-dropping-i';
+import textlintRuleNoFiller from '@textlint-ja/textlint-rule-no-filler';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
@@ -68,6 +69,7 @@ interface LintOption {
   jaNoMixedPeriod?: boolean;
   jaNoWeakPhrase?: boolean;
   maxAppearenceCountOfWords?: boolean;
+  noFiller?: boolean;
   presetJaSpacing?: boolean;
   presetJaTechnicalWriting?: boolean;
   presetJTFStyle?: boolean;
@@ -230,6 +232,14 @@ const lint = ({
         ruleId: 'no-dropping-i',
         rule: textlintRuleNoDroppingI,
       },
+      ...(lintOption.noFiller
+        ? [
+            {
+              ruleId: 'no-filler',
+              rule: textlintRuleNoFiller,
+            },
+          ]
+        : []),
       {
         ruleId: 'no-hankaku-kana',
         rule: textlintRuleNoHankakuKana,

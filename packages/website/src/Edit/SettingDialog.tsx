@@ -85,6 +85,11 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
       key: 'maxAppearenceCountOfWords',
     });
 
+    const handleNoFillerChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'noFiller',
+    });
+
     const handlePresetJaSpacingChange = useLintOptionChange({
       dispatchSetting,
       key: 'presetJaSpacing',
@@ -170,6 +175,13 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
               control={<Checkbox />}
               label="句点の統一"
               onChange={handleJaNoMixedPeriodChange}
+            />
+
+            <FormControlLabel
+              checked={setting.lintOption.noFiller ?? false}
+              control={<Checkbox />}
+              label="フィラーの禁止"
+              onChange={handleNoFillerChange}
             />
 
             <FormControlLabel
