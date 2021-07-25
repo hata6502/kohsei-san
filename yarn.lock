@@ -7246,7 +7246,8 @@ kuromoji@0.1.2, kuromoji@^0.1.2, kuromoji@hata6502/kuromoji.js:
 
 kuromojin@^1.0.2, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
   version "3.0.0"
-  resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/01734477b6fc84a31a92d8b5d36775ec955cbe42"
+  uid cb049312163d3d4423285188850363278fc431d5
+  resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/cb049312163d3d4423285188850363278fc431d5"
   dependencies:
     kuromoji "0.1.2"
     lru_map "^0.4.1"
