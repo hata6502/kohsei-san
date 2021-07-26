@@ -9,12 +9,12 @@
  */
 
 import fs from 'fs';
-import lint from 'common/lint';
+import { lint } from 'common/lint';
 import score from 'common/score';
 
 (async () => {
   const text = fs.readFileSync(process.argv[2]).toString();
-  const result = await lint(text);
+  const result = await lint({ lintOption: {}, text });
 
   console.log(score({ result, text }));
 })();

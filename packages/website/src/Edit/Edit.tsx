@@ -290,18 +290,21 @@ ${memo.text.slice(0, 280)}
 
               <Box mt={2}>
                 <Grid container spacing={1}>
-                  {navigator.share && (
-                    <Grid item>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={handleShareClick}
-                        startIcon={<ShareIcon />}
-                      >
-                        共有
-                      </Button>
-                    </Grid>
-                  )}
+                  {
+                    // @ts-expect-error navigator.share() が存在しない環境もある。
+                    navigator.share && (
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={handleShareClick}
+                          startIcon={<ShareIcon />}
+                        >
+                          共有
+                        </Button>
+                      </Grid>
+                    )
+                  }
 
                   <Grid item>
                     <Button
