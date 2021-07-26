@@ -29,6 +29,7 @@
     "lodash": "^4.17.20",
     "minimist": "^1.2.2",
     "node-forge": "^0.10.0",
+    "prh": "hata6502/prh",
     "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary"
   },
   "dependencies": {

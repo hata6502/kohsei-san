@@ -1,3 +1,4 @@
+import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-expect-error 型が定義されていない。
@@ -267,6 +268,15 @@ const lint = ({
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
+      },
+      {
+        ruleId: 'proofdict',
+        rule: textlintRuleProofdict,
+        options: {
+          // 10 分
+          autoUpdateInterval: 600000,
+          dictURL: 'https://hata6502.github.io/proof-dictionary/',
+        },
       },
       {
         ruleId: 'sentence-length',
