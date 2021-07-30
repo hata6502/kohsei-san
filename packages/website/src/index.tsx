@@ -3,22 +3,10 @@ import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from 'styled-components';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { jaJP } from '@material-ui/core/locale';
-import {
-  createTheme,
-  StylesProvider,
-  Theme,
-  ThemeProvider as MuiThemeProvider,
-} from '@material-ui/core/styles';
+import { StylesProvider } from '@material-ui/core/styles';
 import * as Sentry from '@sentry/browser';
 import App from './App';
-
-declare module 'styled-components' {
-  // eslint-disable-next-line
-  export interface DefaultTheme extends Theme {}
-}
+import { ThemeProvider } from './ThemeProvider';
 
 const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   ReactDOM.render(
@@ -81,37 +69,12 @@ const main = () => {
     }
   }
 
-  const theme = createTheme(
-    {
-      palette: {
-        primary: {
-          main: '#00a39b',
-        },
-        secondary: {
-          main: '#f15d69',
-        },
-      },
-      typography: {
-        fontFamily:
-          '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
-        fontWeightMedium: 600,
-      },
-    },
-    jaJP
-  );
-
   ReactDOM.render(
-    <>
-      <CssBaseline />
-
-      <StylesProvider injectFirst>
-        <MuiThemeProvider theme={theme}>
-          <ThemeProvider theme={theme}>
-            <App lintWorker={lintWorker} />
-          </ThemeProvider>
-        </MuiThemeProvider>
-      </StylesProvider>
-    </>,
+    <StylesProvider injectFirst>
+      <ThemeProvider>
+        <App lintWorker={lintWorker} />
+      </ThemeProvider>
+    </StylesProvider>,
     document.querySelector('.app')
   );
 };

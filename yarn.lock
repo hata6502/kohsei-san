@@ -9086,8 +9086,9 @@ pretty-format@^26.6.2:
     react-is "^17.0.1"
 
 prh@5.4.4, prh@^5.4.4, prh@hata6502/prh:
-  version "5.4.5"
-  resolved "https://codeload.github.com/hata6502/prh/tar.gz/23ce1b0121fc7f35c038af8954702ff3592fab02"
+  version "5.4.6"
+  uid "88b497e336bac5cc53393b370a41909e90f8b496"
+  resolved "https://codeload.github.com/hata6502/prh/tar.gz/88b497e336bac5cc53393b370a41909e90f8b496"
   dependencies:
     commandpost "^1.2.1"
     diff "^4.0.1"
