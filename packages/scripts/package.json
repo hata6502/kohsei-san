@@ -10,6 +10,6 @@
     "rimraf": "^3.0.2",
     "ts-loader": "^7.0.4",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^4.7.2"
   }
 }
