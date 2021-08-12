@@ -25,7 +25,7 @@ const Main = styled.main`
 
 const Navigation = styled.nav`
   ${({ theme }) => `
-    ${theme.breakpoints.up('sm')} {
+    ${theme.breakpoints.up('md')} {
       flex-shrink: 0;
       width: ${sidebarWidth}px;
     }
@@ -44,7 +44,7 @@ const Title = styled(Typography)`
 
 const TopBar = styled(AppBar)`
   ${({ theme }) => `
-    ${theme.breakpoints.up('sm')} {
+    ${theme.breakpoints.up('md')} {
       width: calc(100% - ${sidebarWidth}px);
     }
   `}
@@ -111,7 +111,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
 
       <TopBar color="inherit">
         <Toolbar>
-          <Hidden smUp>
+          <Hidden mdUp>
             <IconButton onClick={handleMenuIconClick}>
               <MenuIcon />
             </IconButton>
@@ -129,13 +129,13 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
       </TopBar>
 
       <Navigation>
-        <Hidden smUp>
+        <Hidden mdUp>
           <Drawer open={isSidebarOpen} variant="temporary" onClose={handleSidebarClose}>
             {sidebarContent}
           </Drawer>
         </Hidden>
 
-        <Hidden xsDown>
+        <Hidden smDown>
           <Drawer open variant="permanent">
             {sidebarContent}
           </Drawer>

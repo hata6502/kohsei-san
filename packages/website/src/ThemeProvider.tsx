@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import type { FunctionComponent } from 'react';
 import {
   CssBaseline,
@@ -15,7 +15,7 @@ declare module 'styled-components' {
   export interface DefaultTheme extends Theme { }
 }
 
-const ThemeProvider: FunctionComponent = ({ children }) => {
+const ThemeProvider: FunctionComponent = memo(({ children }) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
@@ -49,6 +49,6 @@ const ThemeProvider: FunctionComponent = ({ children }) => {
       </StyledThemeProvider>
     </MuiThemeProvider>
   );
-};
+});
 
 export { ThemeProvider };
