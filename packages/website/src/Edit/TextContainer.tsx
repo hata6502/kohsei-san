@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
+import * as Sentry from '@sentry/browser';
 import type { TextlintMessage } from '@textlint/kernel';
 import type { Memo, MemosAction } from '../useMemo';
 
@@ -59,6 +60,56 @@ interface Pin {
   top: React.CSSProperties['top'];
 }
 
+const getPins = ({
+  lintMessages,
+  text,
+  textBoxRect,
+}: {
+  lintMessages: LintMessage[];
+  text: HTMLDivElement;
+  textBoxRect: DOMRect;
+}) => {
+  const pins: Pin[] = [];
+  const range = document.createRange();
+
+  for (const lintMessage of lintMessages) {
+    let childNodesIndex = 0;
+    let offset = lintMessage.index;
+
+    for (childNodesIndex = 0; childNodesIndex < text.childNodes.length; childNodesIndex += 1) {
+      const child = text.childNodes[childNodesIndex];
+      const length =
+        (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+
+      if (!length) {
+        return { reject: new Error('child.length is not defined') };
+      }
+
+      if (offset < length) {
+        range.setStart(child, offset);
+
+        break;
+      }
+
+      offset -= length;
+    }
+
+    if (childNodesIndex >= text.childNodes.length) {
+      return { reject: new Error('childNodesIndex >= text.childNodes.length') };
+    }
+
+    const rangeRect = range.getBoundingClientRect();
+
+    pins.push({
+      left: rangeRect.left - textBoxRect.left - 8,
+      message: lintMessage,
+      top: rangeRect.top - textBoxRect.top + 8,
+    });
+  }
+
+  return { resolve: pins };
+};
+
 const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsTextContainerFocused: React.Dispatch<React.SetStateAction<boolean>>;
@@ -88,7 +139,7 @@ const TextContainer: React.FunctionComponent<{
         dispatchMemos((prevMemos) =>
           prevMemos.map((prevMemo) => {
             if (!textRef.current) {
-              throw new Error();
+              throw new Error('textRef.current is not defined');
             }
 
             return {
@@ -121,7 +172,7 @@ const TextContainer: React.FunctionComponent<{
 
       try {
         if (!textRef.current || !textBoxRef.current) {
-          throw new Error();
+          throw new Error('textRef.current or textBoxRef.current is not defined');
         }
 
         const mergedMessages: LintMessage[] = [];
@@ -139,50 +190,20 @@ const TextContainer: React.FunctionComponent<{
           }
         });
 
-        const range = document.createRange();
-        const text = textRef.current;
-        const textBoxRect = textBoxRef.current.getBoundingClientRect();
+        const getPinsResult = getPins({
+          lintMessages: mergedMessages,
+          text: textRef.current,
+          textBoxRect: textBoxRef.current.getBoundingClientRect(),
+        });
 
-        setPins(
-          mergedMessages.map((message) => {
-            let childNodesIndex = 0;
-            let offset = message.index;
+        if (getPinsResult.reject) {
+          console.error(getPinsResult.reject);
+          Sentry.captureException(getPinsResult.reject);
 
-            for (
-              childNodesIndex = 0;
-              childNodesIndex < text.childNodes.length;
-              childNodesIndex += 1
-            ) {
-              const child = text.childNodes[childNodesIndex];
-              const length =
-                (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
-
-              if (!length) {
-                throw new Error('不明な DOM ノードです。');
-              }
-
-              if (offset < length) {
-                range.setStart(child, offset);
-
-                break;
-              }
-
-              offset -= length;
-            }
-
-            if (childNodesIndex >= text.childNodes.length) {
-              throw new Error('ピンの位置が見つかりませんでした。');
-            }
-
-            const rangeRect = range.getBoundingClientRect();
-
-            return {
-              left: rangeRect.left - textBoxRect.left - 8,
-              message,
-              top: rangeRect.top - textBoxRect.top + 8,
-            };
-          })
-        );
+          return;
+        } else {
+          setPins(getPinsResult.resolve);
+        }
       } finally {
         dispatchIsLinting(false);
       }
@@ -193,7 +214,7 @@ const TextContainer: React.FunctionComponent<{
     const handleFixClick = useCallback(
       ({ message }: { message: TextlintMessage }) => {
         if (!message.fix) {
-          throw new Error();
+          throw new Error('message.fix is not defined');
         }
 
         const { range, text } = message.fix;
@@ -238,7 +259,7 @@ const TextContainer: React.FunctionComponent<{
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => {
           if (!textRef.current) {
-            throw new Error();
+            throw new Error('textRef.current is not defined');
           }
 
           return {
