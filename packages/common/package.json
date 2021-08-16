@@ -7,7 +7,7 @@
     "@textlint-ja/textlint-rule-no-dropping-i": "hata6502/textlint-rule-no-dropping-i",
     "@textlint-ja/textlint-rule-no-filler": "^1.1.0",
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "hata6502/textlint-rule-no-insert-dropping-sa",
-    "@textlint-ja/textlint-rule-no-synonyms": "^1.0.2",
+    "@textlint-ja/textlint-rule-no-synonyms": "^1.3.0",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
     "sudachi-synonyms-dictionary": "^5.0.1",
