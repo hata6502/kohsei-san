@@ -5,8 +5,6 @@
   "description": "その場ですぐに文章を校正できるメモ帳アプリです。オフラインで会員登録不要、スマホアプリとしてもご利用いただけます。",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "favicon.png",
