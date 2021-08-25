@@ -107,22 +107,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
           <Link
             color="inherit"
-            href="https://scrapbox.io/kohsei-san-help/"
-            rel="noopener"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
-              <ListItemIcon>
-                <BookIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="ブログ" />
-            </ListItem>
-          </Link>
-
-          <Link
-            color="inherit"
             href="https://helpfeel.com/hata6502/?kinds=%E6%A0%A1%E6%AD%A3%E3%81%95%E3%82%93"
             rel="noreferrer"
             target="_blank"
