@@ -1853,10 +1853,10 @@
     kuromojin "^2.1.1"
     morpheme-match-all "^1.1.0"
 
-"@textlint-ja/textlint-rule-no-synonyms@^1.0.2":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@textlint-ja/textlint-rule-no-synonyms/-/textlint-rule-no-synonyms-1.1.0.tgz#ae359ccc29756674de4c6e9110ed2975996fef62"
-  integrity sha512-abGjQcWVuPCv9jewewTXe05rx/dKWWTc7diIl5ANA9VQYjny4tML2VVicuxLaBrhh4ds1DFqOB7RoMmE7DjCmw==
+"@textlint-ja/textlint-rule-no-synonyms@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@textlint-ja/textlint-rule-no-synonyms/-/textlint-rule-no-synonyms-1.3.0.tgz#809d1fcf09f3a06b9058eba4fbb6d6be6dd9f8e0"
+  integrity sha512-mOB85gFGnSx6LgoUdCQFyATjcfsi0UaWO8Q4EBna/cq+ZGlmg2vcDGozk1hNLhX8u1PMzZDxDwrQOqx1zW+42w==
   dependencies:
     textlint-rule-helper "^2.1.1"
     tiny-segmenter "^0.2.0"
