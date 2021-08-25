@@ -14,7 +14,11 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
       {message}
       <br />
 
-      <a href="https://helpfeel.com/kohsei-san/" rel="noreferrer" target="_blank">
+      <a
+        href="https://helpfeel.com/hata6502/?kinds=%E6%A0%A1%E6%AD%A3%E3%81%95%E3%82%93"
+        rel="noreferrer"
+        target="_blank"
+      >
         ヘルプ
       </a>
     </>,
