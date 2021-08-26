@@ -11,10 +11,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import ShareIcon from '@material-ui/icons/Share';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import Alert from '@material-ui/lab/Alert';
 import { v4 as uuidv4 } from 'uuid';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import { useDispatchSetting } from '../useMemo';
@@ -264,29 +262,6 @@ ${memo.text.slice(0, 280)}
                 memo={memo}
                 shouldDisplayResult={shouldDisplayResult}
               />
-
-              {memo.result &&
-                (memo.result.messages.length === 0 ? (
-                  <Alert
-                    severity="success"
-                    style={{
-                      visibility: shouldDisplayResult ? 'visible' : 'hidden',
-                    }}
-                  >
-                    校正を通過しました。おめでとうございます！
-                  </Alert>
-                ) : (
-                  <Alert
-                    severity="info"
-                    style={{
-                      visibility: shouldDisplayResult ? 'visible' : 'hidden',
-                    }}
-                  >
-                    自動校正によるメッセージがあります。
-                    <FeedbackIcon color="secondary" />
-                    を押して参考にしてみてください。
-                  </Alert>
-                ))}
 
               <Box mt={2}>
                 <Grid container spacing={1}>

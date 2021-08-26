@@ -43,6 +43,8 @@ import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-expect-error 型が定義されていない。
+import textlintRuleJaSudachiSynonymSuggestion from 'textlint-rule-ja-sudachi-synonym-suggestion';
+// @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
@@ -69,6 +71,7 @@ interface LintOption {
   jaKyoikuKanji?: boolean;
   jaNoMixedPeriod?: boolean;
   jaNoWeakPhrase?: boolean;
+  jaSudachiSynonymSuggestion?: boolean;
   maxAppearenceCountOfWords?: boolean;
   noFiller?: boolean;
   presetJaSpacing?: boolean;
@@ -214,6 +217,17 @@ const lint = ({
             {
               ruleId: 'ja-no-weak-phrase',
               rule: textlintRuleJaNoWeakPhrase,
+            },
+          ]
+        : []),
+      ...(lintOption.jaSudachiSynonymSuggestion
+        ? [
+            {
+              ruleId: 'ja-sudachi-synonym-suggestion',
+              rule: textlintRuleJaSudachiSynonymSuggestion,
+              options: {
+                severity: 'info',
+              },
             },
           ]
         : []),

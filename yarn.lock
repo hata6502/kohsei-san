@@ -9078,7 +9078,6 @@ pretty-format@^27.0.2:
 
 prh@5.4.4, prh@^5.4.4, prh@hata6502/prh:
   version "5.4.6"
-  uid "88b497e336bac5cc53393b370a41909e90f8b496"
   resolved "https://codeload.github.com/hata6502/prh/tar.gz/88b497e336bac5cc53393b370a41909e90f8b496"
   dependencies:
     commandpost "^1.2.1"
@@ -11132,6 +11131,13 @@ textlint-rule-ja-space-between-half-and-full-width@^2.2.0:
   dependencies:
     match-index "^1.0.1"
     textlint-rule-helper "^2.2.0"
+
+textlint-rule-ja-sudachi-synonym-suggestion@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-sudachi-synonym-suggestion/-/textlint-rule-ja-sudachi-synonym-suggestion-1.1.2.tgz#1c53c827af309b816eac09f33cfb40f98a76d191"
+  integrity sha512-yXcgdIwmG82ysipFz50EzFuc/lm8hTydxGalm2Z5SpioHL/j82/Bo5u8KqCvF9F/ogUVc5LHmMNDuIg2l6Hluw==
+  dependencies:
+    kuromojin "^3.0.0"
 
 textlint-rule-ja-unnatural-alphabet@2.0.1, textlint-rule-ja-unnatural-alphabet@^2.0.1:
   version "2.0.1"

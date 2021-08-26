@@ -10,24 +10,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Popover from '@material-ui/core/Popover';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import * as Sentry from '@sentry/browser';
-import type { TextlintMessage } from '@textlint/kernel';
-import type { Memo, MemosAction } from '../useMemo';
+import type { TextlintMessage, TextlintRuleSeverityLevel } from '@textlint/kernel';
+import type { Memo, MemosAction } from '../../useMemo';
+import { PinIcon } from './PinIcon';
 
 const removeExtraNewLine = (text: string) => (text === '\n' ? '' : text);
 
 const MessagePopover = styled(Popover)`
   word-break: break-all;
-`;
-
-const PinIcon = styled(FeedbackIcon)`
-  ${({ theme }) => `
-    background-color: ${theme.palette.background.paper};
-  `}
-  opacity: 0.5;
-  vertical-align: middle;
 `;
 
 const PinTarget = styled.div`
@@ -302,17 +294,23 @@ const TextContainer: React.FunctionComponent<{
               </Typography>
 
               {shouldDisplayResult &&
-                pins.map(({ left, message, top }) => (
-                  <PinTarget
-                    key={message.index}
-                    style={{ left, top }}
-                    onClick={({ currentTarget }) => {
-                      handlePinClick({ currentTarget, messages: message.messages });
-                    }}
-                  >
-                    <PinIcon color="secondary" />
-                  </PinTarget>
-                ))}
+                pins.map(({ left, message, top }) => {
+                  const severity = Math.max(
+                    ...message.messages.map((message) => message.severity)
+                  ) as TextlintRuleSeverityLevel;
+
+                  return (
+                    <PinTarget
+                      key={message.index}
+                      style={{ left, top }}
+                      onClick={({ currentTarget }) => {
+                        handlePinClick({ currentTarget, messages: message.messages });
+                      }}
+                    >
+                      <PinIcon severity={severity} />
+                    </PinTarget>
+                  );
+                })}
 
               <MessagePopover
                 anchorEl={popoverAnchorEl}

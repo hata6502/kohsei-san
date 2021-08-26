@@ -80,6 +80,11 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
       key: 'jaNoWeakPhrase',
     });
 
+    const handleJaSudachiSynonymSuggestionChange = useLintOptionChange({
+      dispatchSetting,
+      key: 'jaSudachiSynonymSuggestion',
+    });
+
     const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
       dispatchSetting,
       key: 'maxAppearenceCountOfWords',
@@ -161,6 +166,13 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
               control={<Checkbox />}
               label="弱い表現の禁止"
               onChange={handleJaNoWeakPhraseChange}
+            />
+
+            <FormControlLabel
+              checked={setting.lintOption.jaSudachiSynonymSuggestion ?? false}
+              control={<Checkbox />}
+              label="他の表現の提案"
+              onChange={handleJaSudachiSynonymSuggestionChange}
             />
 
             <FormControlLabel
