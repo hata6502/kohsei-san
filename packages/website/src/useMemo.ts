@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import * as Sentry from '@sentry/browser';
 import { TextlintResult } from '@textlint/kernel';
 import { v4 as uuidv4 } from 'uuid';
-import type { LintOption } from 'common/lint';
+import type { LintOption } from './lint';
 
 interface Setting {
   mode: 'standard' | 'professional';

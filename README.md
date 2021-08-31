@@ -66,10 +66,6 @@ yarn fix
 ## Run tests
 
 ```sh
-cd packages/website
-yarn build
-yarn start & yarn wait-on http://127.0.0.1:8080
-cd ../..
 yarn test
 ```
 
@@ -79,7 +75,7 @@ yarn test
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/blue-hood/kohsei-san/issues).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/hata6502/kohsei-san/issues).
 
 ## Show your support
 
@@ -93,8 +89,8 @@ The following creations are included in this product:
 - [Stack Overflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url)
   - Asked by [bigbob](https://stackoverflow.com/users/460129/bigbob)
   - Answered by [Daveo](https://stackoverflow.com/users/165839/daveo)
-
-Please see [DISCLAIMER.md](https://github.com/blue-hood/kohsei-san/blob/master/DISCLAIMER.md) for others.
+- [hata6502/kuromoji.js](https://github.com/hata6502/kuromoji.js/blob/master/LICENSE-2.0.txt)
+- [hata6502/sudachi-synonyms-dictionary](https://github.com/hata6502/sudachi-synonyms-dictionary)
 
 ---
 

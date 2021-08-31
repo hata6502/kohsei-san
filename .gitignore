@@ -1,11 +1,3 @@
-.cache
-.DS_Store
-.vscode
-node_modules
-yarn-error.log
-packages/scripts/dist
-packages/website/.nyc_output
-packages/website/coverage
-packages/website/cypress/screenshots
-packages/website/cypress/videos
-packages/website/docs
+/node_modules
+/packages/website/docs
+/packages/website/node_modules

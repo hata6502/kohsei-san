@@ -2,26 +2,26 @@
   "name": "kohsei-san",
   "version": "0.0.0",
   "private": true,
-  "description": "その場ですぐに文章を校正できるメモ帳アプリです。オフラインで完全無料、スマートフォンアプリとしてもご利用いただけます。",
   "homepage": "https://kohsei-san.b-hood.site/",
   "bugs": {
-    "url": "https://github.com/blue-hood/kohsei-san/issues"
+    "url": "https://github.com/hata6502/kohsei-san/issues"
   },
-  "repository": "https://github.com/blue-hood/kohsei-san",
+  "repository": "https://github.com/hata6502/kohsei-san",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/hata6502"
+  },
   "license": "MIT",
-  "author": "Hood <hato6502@gmail.com> (https://github.com/blue-hood)",
+  "author": "Tomoyuki Hata <hato6502@gmail.com>",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "fix": "yarn eslint --fix && yarn prettier --write",
-    "generate-disclaimer": "yarn licenses generate-disclaimer --ignore-platform > DISCLAIMER.md",
-    "prettier": "prettier '**/*.{html,json,md,yml}'",
-    "stylelint": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "test": "yarn eslint && yarn stylelint && yarn prettier --check && yarn test-scripts && yarn test-website",
-    "test-scripts": "cd packages/scripts && yarn test",
-    "test-website": "cd packages/website && yarn test"
+    "_eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "fix": "yarn _eslint --fix && yarn _prettier --write",
+    "_prettier": "prettier '**/*.{html,json,md,yml}'",
+    "test": "yarn _eslint && yarn _prettier --check && yarn _test-website",
+    "_test-website": "cd packages/website && yarn test"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
@@ -32,7 +32,7 @@
     "prh": "hata6502/prh",
     "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary"
   },
-  "dependencies": {
+  "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "babel-eslint": "^10.1.0",
@@ -49,12 +49,6 @@
     "kuromoji": "hata6502/kuromoji.js",
     "kuromojin": "hata6502/kuromojin",
     "prettier": "^2.0.2",
-    "stylelint": "^13.13.1",
-    "stylelint-config-prettier": "^8.0.2",
-    "stylelint-config-standard": "^22.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-prettier": "^1.2.0",
-    "stylelint-processor-styled-components": "^1.10.0",
     "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
     "typescript": "^4.1.3"
   }
