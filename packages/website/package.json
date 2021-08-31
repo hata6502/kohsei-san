@@ -53,7 +53,7 @@
     "react-is": "^17.0.2",
     "regenerator-runtime": "^0.13.5",
     "rimraf": "^3.0.2",
-    "styled-components": "^5.0.1",
+    "styled-components": "^5.3.1",
     "sudachi-synonyms-dictionary": "^5.0.1",
     "textlint-filter-rule-ja-named-entities": "^1.0.0",
     "textlint-filter-rule-urls": "^1.0.1",
