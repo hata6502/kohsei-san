@@ -2,8 +2,8 @@ import 'core-js';
 import 'regenerator-runtime/runtime';
 
 import type { TextlintResult } from '@textlint/kernel';
-import { lint } from 'common/lint';
-import type { LintOption } from 'common/lint';
+import { lint } from './lint';
+import type { LintOption } from './lint';
 
 declare global {
   interface Window {

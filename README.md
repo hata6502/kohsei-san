@@ -3,9 +3,6 @@
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://codecov.io/gh/hata6502/kohsei-san">
-    <img src="https://codecov.io/gh/hata6502/kohsei-san/branch/master/graph/badge.svg" />
-  </a>
   <a href="https://twitter.com/hata6502" target="_blank">
     <img alt="Twitter: hata6502" src="https://img.shields.io/twitter/follow/hata6502.svg?style=social" />
   </a>
