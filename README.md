@@ -12,12 +12,6 @@
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/lp/)
 
-## ビジョン
-
-- 機能拡張よりも、モバイルフレンドリーな UI を優先します。
-- カスタマイズ性よりも、統一された校正ルールを追求します。
-- サーバーを設けず、オフラインで完結させます。
-
 ## プライバシーポリシー
 
 アクセス解析として[Google アナリティクス](https://marketingplatform.google.com/about/analytics/terms/jp/)を利用しています。
@@ -49,12 +43,6 @@ yarn start
 ```sh
 cd packages/website
 yarn dev
-```
-
-## Generate disclaimer
-
-```sh
-yarn generate-disclaimer
 ```
 
 ## Lint and format
