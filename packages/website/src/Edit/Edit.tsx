@@ -55,8 +55,6 @@ const Edit: React.FunctionComponent<{
     const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-    const [negaposiScore, setNegaposiScore] = useState<number>();
-
     const dispatchSetting = useDispatchSetting({ dispatchMemos, memoId: memo.id });
 
     useEffect(
@@ -65,22 +63,6 @@ const Edit: React.FunctionComponent<{
       },
       [dispatchIsLinting]
     );
-
-    useEffect(() => {
-      let isMounted = true;
-
-      (async () => {
-        const { analyzeNegaposi } = await import(/* webpackChunkName: "negaposi" */ 'negaposi');
-
-        if (isMounted) {
-          setNegaposiScore(analyzeNegaposi({ text: memo.text }));
-        }
-      })();
-
-      return () => {
-        isMounted = false;
-      };
-    }, [memo.text, setNegaposiScore]);
 
     useEffect(() => {
       if (!lintWorker || memo.result) {
@@ -226,30 +208,6 @@ ${memo.text.slice(0, 280)}
                   <Chip
                     label={`${shouldDisplayResult ? memo.text.length : '??'} 文字`}
                     size="small"
-                  />
-                </Grid>
-
-                <Grid item>
-                  <Chip
-                    clickable
-                    component="a"
-                    href="https://helpfeel.com/hata6502/%E3%83%8D%E3%82%AC%E3%83%9D%E3%82%B8%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B%EF%BC%9F-6120707ef2b85a001d7fab57"
-                    label={`ネガポジ ${
-                      !shouldDisplayResult || negaposiScore === undefined
-                        ? '??'
-                        : negaposiScore < -0.6
-                        ? '😢'
-                        : negaposiScore < -0.2
-                        ? '😧'
-                        : negaposiScore < 0.2
-                        ? '😐'
-                        : negaposiScore < 0.6
-                        ? '😃'
-                        : '😄'
-                    }`}
-                    rel="noreferrer"
-                    size="small"
-                    target="_blank"
                   />
                 </Grid>
               </Grid>
