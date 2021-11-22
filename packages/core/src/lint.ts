@@ -1,4 +1,3 @@
-import textlintRuleProofdict from '@proofdict/textlint-rule-proofdict';
 import { TextlintKernel, TextlintResult } from '@textlint/kernel';
 import textlintPluginText from '@textlint/textlint-plugin-text';
 // @ts-expect-error 型が定義されていない。
@@ -9,11 +8,7 @@ import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert
 import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoZeroWidthSpaces from 'textlint-rule-no-zero-width-spaces';
-import textlintFilterRuleJaNamedEntities from 'textlint-filter-rule-ja-named-entities';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
-// @ts-expect-error 型が定義されていない。
-import textlintRuleDateWeekdayMismatch from 'textlint-rule-date-weekday-mismatch';
-import textlintRuleEnSpell from 'textlint-rule-en-spell';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleGeneralNovelStyleJa from 'textlint-rule-general-novel-style-ja';
 // @ts-expect-error 型が定義されていない。
@@ -33,8 +28,6 @@ import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriat
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoMixedPeriod from 'textlint-rule-ja-no-mixed-period';
 // @ts-expect-error 型が定義されていない。
-import textlintRuleJaNoOrthographicVariants from 'textlint-rule-ja-no-orthographic-variants';
-// @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoRedundantExpression from 'textlint-rule-ja-no-redundant-expression';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word';
@@ -42,8 +35,6 @@ import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word'
 import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
-// @ts-expect-error 型が定義されていない。
-import textlintRuleJaSudachiSynonymSuggestion from 'textlint-rule-ja-sudachi-synonym-suggestion';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
 // @ts-expect-error 型が定義されていない。
@@ -66,12 +57,10 @@ import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
 interface LintOption {
-  enSpell?: boolean;
   generalNovelStyleJa?: boolean;
   jaKyoikuKanji?: boolean;
   jaNoMixedPeriod?: boolean;
   jaNoWeakPhrase?: boolean;
-  jaSudachiSynonymSuggestion?: boolean;
   maxAppearenceCountOfWords?: boolean;
   noFiller?: boolean;
   presetJaSpacing?: boolean;
@@ -91,10 +80,6 @@ const lint = ({
   kernel.lintText(text, {
     ext: '.txt',
     filterRules: [
-      {
-        ruleId: 'ja-named-entities',
-        rule: textlintFilterRuleJaNamedEntities,
-      },
       {
         ruleId: 'urls',
         rule: textlintFilterRuleURLs,
@@ -136,18 +121,6 @@ const lint = ({
             rule: textlintRulePresetJTFStyle.rules[key],
             options: textlintRulePresetJTFStyle.rulesConfig[key],
           }))
-        : []),
-      {
-        ruleId: 'date-weekday-mismatch',
-        rule: textlintRuleDateWeekdayMismatch,
-      },
-      ...(lintOption.enSpell
-        ? [
-            {
-              ruleId: 'en-spell',
-              rule: textlintRuleEnSpell,
-            },
-          ]
         : []),
       ...(lintOption.generalNovelStyleJa
         ? [
@@ -198,10 +171,6 @@ const lint = ({
           ]
         : []),
       {
-        ruleId: 'ja-no-orthographic-variants',
-        rule: textlintRuleJaNoOrthographicVariants,
-      },
-      {
         ruleId: 'ja-no-redundant-expression',
         rule: textlintRuleJaNoRedundantExpression,
       },
@@ -217,17 +186,6 @@ const lint = ({
             {
               ruleId: 'ja-no-weak-phrase',
               rule: textlintRuleJaNoWeakPhrase,
-            },
-          ]
-        : []),
-      ...(lintOption.jaSudachiSynonymSuggestion
-        ? [
-            {
-              ruleId: 'ja-sudachi-synonym-suggestion',
-              rule: textlintRuleJaSudachiSynonymSuggestion,
-              options: {
-                severity: 'info',
-              },
             },
           ]
         : []),
@@ -282,15 +240,6 @@ const lint = ({
       {
         ruleId: 'prefer-tari-tari',
         rule: textlintRulePreferTariTari,
-      },
-      {
-        ruleId: 'proofdict',
-        rule: textlintRuleProofdict,
-        options: {
-          // 10 分
-          autoUpdateInterval: 600000,
-          dictURL: 'https://hata6502.github.io/proof-dictionary/',
-        },
       },
       {
         ruleId: 'sentence-length',

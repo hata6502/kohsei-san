@@ -18,10 +18,10 @@
   ],
   "scripts": {
     "_eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
-    "fix": "yarn _eslint --fix && yarn _prettier --write",
     "_prettier": "prettier '**/*.{html,json,md,yml}'",
-    "test": "yarn _eslint && yarn _prettier --check && yarn _test-website",
-    "_test-website": "cd packages/website && yarn test"
+    "_test-website": "cd packages/website && yarn test",
+    "fix": "yarn _eslint --fix && yarn _prettier --write",
+    "test": "yarn _eslint && yarn _prettier --check && yarn _test-website"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
@@ -30,7 +30,9 @@
     "minimist": "^1.2.2",
     "node-forge": "^0.10.0",
     "prh": "hata6502/prh",
-    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary"
+    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
+    "textlint-rule-no-nfd": "hata6502/textlint-rule-no-nfd",
+    "textlint-rule-prefer-tari-tari": "hata6502/textlint-rule-prefer-tari-tari"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.28.4",

@@ -58,7 +58,6 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
   ({ dispatchSetting, open, setting, onClose }) => {
     const handleProfessionalModeChange = useModeDispatch({ dispatchSetting, mode: 'professional' });
     const handleStandardModeChange = useModeDispatch({ dispatchSetting, mode: 'standard' });
-    const handleEnSpellChange = useLintOptionChange({ dispatchSetting, key: 'enSpell' });
 
     const handleGeneralNovelStyleJaChange = useLintOptionChange({
       dispatchSetting,
@@ -78,11 +77,6 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
     const handleJaNoWeakPhraseChange = useLintOptionChange({
       dispatchSetting,
       key: 'jaNoWeakPhrase',
-    });
-
-    const handleJaSudachiSynonymSuggestionChange = useLintOptionChange({
-      dispatchSetting,
-      key: 'jaSudachiSynonymSuggestion',
     });
 
     const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
@@ -169,13 +163,6 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
             />
 
             <FormControlLabel
-              checked={setting.lintOption.jaSudachiSynonymSuggestion ?? false}
-              control={<Checkbox />}
-              label="他の表現の提案"
-              onChange={handleJaSudachiSynonymSuggestionChange}
-            />
-
-            <FormControlLabel
               checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
               control={<Checkbox />}
               label="単語の出現回数の上限"
@@ -208,13 +195,6 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
               control={<Checkbox />}
               label="教育漢字のみ許可"
               onChange={handleJaKyoikuKanjiChange}
-            />
-
-            <FormControlLabel
-              checked={setting.lintOption.enSpell ?? false}
-              control={<Checkbox />}
-              label="英語のスペルチェック"
-              onChange={handleEnSpellChange}
             />
           </FormControl>
         </DialogContent>
