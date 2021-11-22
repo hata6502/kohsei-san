@@ -1,3 +1,4 @@
 /node_modules
+/packages/core/node_modules
 /packages/website/docs
 /packages/website/node_modules
