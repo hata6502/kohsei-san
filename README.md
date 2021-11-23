@@ -12,12 +12,6 @@
 
 ### 🏠 [Homepage](https://kohsei-san.b-hood.site/lp/)
 
-## プライバシーポリシー
-
-アクセス解析として[Google アナリティクス](https://marketingplatform.google.com/about/analytics/terms/jp/)を利用しています。
-また、エラー収集として[Sentry](https://sentry.io/welcome/)を利用しています。
-送信される情報は匿名で収集されており、個人を特定するものではありません。
-
 ## Install
 
 ```sh
@@ -68,17 +62,6 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-## Disclaimer
-
-The following creations are included in this product:
-
-- [ISOMETRIC](https://isometric.online/license/)
-- [Stack Overflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url)
-  - Asked by [bigbob](https://stackoverflow.com/users/460129/bigbob)
-  - Answered by [Daveo](https://stackoverflow.com/users/165839/daveo)
-- [hata6502/kuromoji.js](https://github.com/hata6502/kuromoji.js/blob/master/LICENSE-2.0.txt)
-- [hata6502/sudachi-synonyms-dictionary](https://github.com/hata6502/sudachi-synonyms-dictionary)
 
 ---
 

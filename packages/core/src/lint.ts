@@ -5,7 +5,6 @@ import textlintRuleNoDroppingI from '@textlint-ja/textlint-rule-no-dropping-i';
 import textlintRuleNoFiller from '@textlint-ja/textlint-rule-no-filler';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
-import textlintRuleNoSynonyms from '@textlint-ja/textlint-rule-no-synonyms';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoZeroWidthSpaces from 'textlint-rule-no-zero-width-spaces';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
@@ -23,8 +22,6 @@ import textlintRuleJaHiraganaKeishikimeishi from 'textlint-rule-ja-hiragana-keis
 import textlintRuleJaJoyoOrJinmeiyoKanji from 'textlint-rule-ja-joyo-or-jinmeiyo-kanji';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaKyoikuKanji from 'textlint-rule-ja-kyoiku-kanji';
-// @ts-expect-error 型が定義されていない。
-import textlintRuleJaNoInappropriateWords from 'textlint-rule-ja-no-inappropriate-words';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoMixedPeriod from 'textlint-rule-ja-no-mixed-period';
 // @ts-expect-error 型が定義されていない。
@@ -158,10 +155,6 @@ const lint = ({
             },
           ]
         : []),
-      {
-        ruleId: 'ja-no-inappropriate-words',
-        rule: textlintRuleJaNoInappropriateWords,
-      },
       ...(lintOption.jaNoMixedPeriod
         ? [
             {
@@ -228,10 +221,6 @@ const lint = ({
       {
         ruleId: 'no-mixed-zenkaku-and-hankaku-alphabet',
         rule: textlintRuleNoMixedZenkakuAndHankakuAlphabet,
-      },
-      {
-        ruleId: 'no-synonyms',
-        rule: textlintRuleNoSynonyms,
       },
       {
         ruleId: 'no-zero-width-spaces',

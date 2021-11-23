@@ -10,7 +10,6 @@ declare global {
     kuromojin?: {
       dicPath?: string;
     };
-    'sudachi-synonyms-dictionary'?: string;
   }
 }
 
@@ -18,9 +17,6 @@ declare global {
 self.kuromojin = {
   dicPath: 'dict',
 };
-
-// eslint-disable-next-line no-restricted-globals
-self['sudachi-synonyms-dictionary'] = '/dict/sudachi-synonyms-dictionary.json';
 
 interface LintWorkerLintMessage {
   lintOption: LintOption;

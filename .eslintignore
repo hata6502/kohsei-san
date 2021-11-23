@@ -1,3 +1,4 @@
 **/node_modules/**
+/packages/core-bundler/dist/**
 /packages/website/docs/**
 /packages/website/resources/**
