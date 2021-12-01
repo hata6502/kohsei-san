@@ -6,6 +6,8 @@ import textlintRuleNoFiller from '@textlint-ja/textlint-rule-no-filler';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoInsertDroppingSa from '@textlint-ja/textlint-rule-no-insert-dropping-sa';
 // @ts-expect-error 型が定義されていない。
+import textlintRuleNoInsertRe from '@textlint-ja/textlint-rule-no-insert-re';
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoZeroWidthSpaces from 'textlint-rule-no-zero-width-spaces';
 import textlintFilterRuleURLs from 'textlint-filter-rule-urls';
 // @ts-expect-error 型が定義されていない。
@@ -34,6 +36,8 @@ import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
+// @ts-expect-error 型が定義されていない。
+import textlintRuleNoDoubledConjunctiveParticleGa from 'textlint-rule-no-doubled-conjunctive-particle-ga';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
 // @ts-expect-error 型が定義されていない。
@@ -195,6 +199,10 @@ const lint = ({
           ]
         : []),
       {
+        ruleId: 'no-doubled-conjunctive-particle-ga',
+        rule: textlintRuleNoDoubledConjunctiveParticleGa,
+      },
+      {
         ruleId: 'no-dropping-i',
         rule: textlintRuleNoDroppingI,
       },
@@ -213,6 +221,10 @@ const lint = ({
       {
         ruleId: 'no-insert-dropping-sa',
         rule: textlintRuleNoInsertDroppingSa,
+      },
+      {
+        ruleId: 'no-insert-re',
+        rule: textlintRuleNoInsertRe,
       },
       {
         ruleId: 'no-kangxi-radicals',

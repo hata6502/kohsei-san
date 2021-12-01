@@ -1643,6 +1643,14 @@
     kuromojin "^2.1.1"
     morpheme-match-all "^1.1.0"
 
+"@textlint-ja/textlint-rule-no-insert-re@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@textlint-ja/textlint-rule-no-insert-re/-/textlint-rule-no-insert-re-1.0.0.tgz#df15c11e30499ad61c7312a53be42ea336bf4050"
+  integrity sha512-ZY+UIRxkRAY16kS+j/Avm3B8TMPQxixb6mI/f+DZwKzpXUMDIPZFZaJ2q1Gzzp+mEiP/ctHWWm2S82dWTdPQ1w==
+  dependencies:
+    kuromojin "^1.2.1"
+    textlint-rule-helper "^1.1.4"
+
 "@textlint-rule/textlint-rule-no-invalid-control-character@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@textlint-rule/textlint-rule-no-invalid-control-character/-/textlint-rule-no-invalid-control-character-1.2.0.tgz#3e8f03258d06b7deb2592bdb13626659c46abbf5"
@@ -6177,7 +6185,7 @@ kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
   dependencies:
     doublearray "0.0.2"
 
-kuromojin@^1.0.2, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
+kuromojin@^1.0.2, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
   version "3.0.1"
   resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/d36dc9c33550a326f5574188328c3c233849c982"
   dependencies:
