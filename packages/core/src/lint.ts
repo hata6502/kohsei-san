@@ -57,16 +57,17 @@ import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
+// https://scrapbox.io/hata6502/lintOptions
 interface LintOption {
-  generalNovelStyleJa?: boolean;
-  jaKyoikuKanji?: boolean;
-  jaNoMixedPeriod?: boolean;
-  jaNoWeakPhrase?: boolean;
-  maxAppearenceCountOfWords?: boolean;
-  noFiller?: boolean;
-  presetJaSpacing?: boolean;
-  presetJaTechnicalWriting?: boolean;
-  presetJTFStyle?: boolean;
+  presetJaSpacing?: boolean | Record<string, unknown>;
+  presetJaTechnicalWriting?: boolean | Record<string, unknown>;
+  presetJTFStyle?: boolean | Record<string, unknown>;
+  generalNovelStyleJa?: boolean | Record<string, unknown>;
+  jaKyoikuKanji?: boolean | Record<string, unknown>;
+  jaNoMixedPeriod?: boolean | Record<string, unknown>;
+  jaNoWeakPhrase?: boolean | Record<string, unknown>;
+  maxAppearenceCountOfWords?: boolean | Record<string, unknown>;
+  noFiller?: boolean | Record<string, unknown>;
 }
 
 const kernel = new TextlintKernel();
@@ -97,7 +98,8 @@ const lint = ({
         ? Object.keys(textlintRulePresetJaSpacing.rules).map((key) => ({
             ruleId: key,
             rule: textlintRulePresetJaSpacing.rules[key],
-            options: textlintRulePresetJaSpacing.rulesConfig[key],
+            options:
+              lintOption.presetJaSpacing?.[key] ?? textlintRulePresetJaSpacing.rulesConfig[key],
           }))
         : []),
       ...Object.keys(textlintRulePresetJapanese.rules)
@@ -113,14 +115,17 @@ const lint = ({
             .map((key) => ({
               ruleId: key,
               rule: textlintRulePresetJaTechnicalWriting.rules[key],
-              options: textlintRulePresetJaTechnicalWriting.rulesConfig[key],
+              options:
+                lintOption.presetJaTechnicalWriting?.[key] ??
+                textlintRulePresetJaTechnicalWriting.rulesConfig[key],
             }))
         : []),
       ...(lintOption.presetJTFStyle
         ? Object.keys(textlintRulePresetJTFStyle.rules).map((key) => ({
             ruleId: key,
             rule: textlintRulePresetJTFStyle.rules[key],
-            options: textlintRulePresetJTFStyle.rulesConfig[key],
+            options:
+              lintOption.presetJTFStyle?.[key] ?? textlintRulePresetJTFStyle.rulesConfig[key],
           }))
         : []),
       ...(lintOption.generalNovelStyleJa
@@ -128,6 +133,11 @@ const lint = ({
             {
               ruleId: 'general-novel-style-ja',
               rule: textlintRuleGeneralNovelStyleJa,
+              options:
+                typeof lintOption.generalNovelStyleJa === 'object' &&
+                lintOption.generalNovelStyleJa !== null
+                  ? lintOption.generalNovelStyleJa
+                  : undefined,
             },
           ]
         : []),
@@ -156,6 +166,10 @@ const lint = ({
             {
               ruleId: 'ja-kyoiku-kanji',
               rule: textlintRuleJaKyoikuKanji,
+              options:
+                typeof lintOption.jaKyoikuKanji === 'object' && lintOption.jaKyoikuKanji !== null
+                  ? lintOption.jaKyoikuKanji
+                  : undefined,
             },
           ]
         : []),
@@ -164,6 +178,11 @@ const lint = ({
             {
               ruleId: 'ja-no-mixed-period',
               rule: textlintRuleJaNoMixedPeriod,
+              options:
+                typeof lintOption.jaNoMixedPeriod === 'object' &&
+                lintOption.jaNoMixedPeriod !== null
+                  ? lintOption.jaNoMixedPeriod
+                  : undefined,
             },
           ]
         : []),
@@ -183,6 +202,10 @@ const lint = ({
             {
               ruleId: 'ja-no-weak-phrase',
               rule: textlintRuleJaNoWeakPhrase,
+              options:
+                typeof lintOption.jaNoWeakPhrase === 'object' && lintOption.jaNoWeakPhrase !== null
+                  ? lintOption.jaNoWeakPhrase
+                  : undefined,
             },
           ]
         : []),
@@ -195,6 +218,11 @@ const lint = ({
             {
               ruleId: 'max-appearence-count-of-words',
               rule: textlintRuleMaxAppearenceCountOfWords,
+              options:
+                typeof lintOption.maxAppearenceCountOfWords === 'object' &&
+                lintOption.maxAppearenceCountOfWords !== null
+                  ? lintOption.maxAppearenceCountOfWords
+                  : undefined,
             },
           ]
         : []),
@@ -211,6 +239,10 @@ const lint = ({
             {
               ruleId: 'no-filler',
               rule: textlintRuleNoFiller,
+              options:
+                typeof lintOption.noFiller === 'object' && lintOption.noFiller !== null
+                  ? lintOption.noFiller
+                  : undefined,
             },
           ]
         : []),

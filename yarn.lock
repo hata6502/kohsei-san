@@ -6180,8 +6180,8 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
 kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
-  version "0.1.14"
-  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/4863407503592a2354709f2fab03b2d4258e056a"
+  version "0.1.18"
+  resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/4d85eb4940849b56d507bbe52941f6043fa1ed6f"
   dependencies:
     doublearray "0.0.2"
 
