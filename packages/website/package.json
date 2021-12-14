@@ -27,7 +27,7 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "@types/react-helmet": "^6.1.2",
-    "@types/styled-components": "^5.0.1",
+    "@types/styled-components": "^5.1.18",
     "@types/uuid": "^7.0.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-istanbul": "^6.0.0",
