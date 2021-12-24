@@ -3649,9 +3649,9 @@ core-js-pure@^3.0.0, core-js-pure@^3.15.0:
   integrity sha512-oxKe64UH049mJqrKkynWp6Vu0Rlm/BTXO/bJZuN2mmR3RtOFNepLlSWDd1eo16PzHpQAoNG97rLU1V/YxesJjw==
 
 core-js@3:
-  version "3.15.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.2.tgz#740660d2ff55ef34ce664d7e2455119c5bdd3d61"
-  integrity sha512-tKs41J7NJVuaya8DxIOCnl8QuPHx5/ZVbFo1oKgVl1qHFBBrDctzQGtuLjPpRdNTWmKPH6oEvgN/MUID+l485Q==
+  version "3.20.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.20.1.tgz#eb1598047b7813572f1dc24b7c6a95528c99eef3"
+  integrity sha512-btdpStYFQScnNVQ5slVcr858KP0YWYjV16eGJQw8Gg7CWtu/2qNvIM3qVRIR3n1pK2R9NNOrTevbvAYxajwEjg==
 
 core-js@^2.4.0:
   version "2.6.12"
@@ -7405,6 +7405,7 @@ pretty-bytes@^5.3.0:
 
 prh@^5.4.4, prh@hata6502/prh:
   version "5.4.6"
+  uid "88b497e336bac5cc53393b370a41909e90f8b496"
   resolved "https://codeload.github.com/hata6502/prh/tar.gz/88b497e336bac5cc53393b370a41909e90f8b496"
   dependencies:
     commandpost "^1.2.1"
@@ -9255,6 +9256,7 @@ textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet@^1.0.1:
 
 textlint-rule-no-nfd@^1.0.1, textlint-rule-no-nfd@^1.0.2, textlint-rule-no-nfd@hata6502/textlint-rule-no-nfd:
   version "1.0.3"
+  uid "400d1a254ca856ed945d0f3f244458fc4d28048d"
   resolved "https://codeload.github.com/hata6502/textlint-rule-no-nfd/tar.gz/400d1a254ca856ed945d0f3f244458fc4d28048d"
   dependencies:
     match-index "^1.0.3"
@@ -9267,6 +9269,7 @@ textlint-rule-no-zero-width-spaces@^1.0.0, textlint-rule-no-zero-width-spaces@^1
 
 textlint-rule-prefer-tari-tari@^1.0.3, textlint-rule-prefer-tari-tari@hata6502/textlint-rule-prefer-tari-tari:
   version "1.0.4"
+  uid "91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   resolved "https://codeload.github.com/hata6502/textlint-rule-prefer-tari-tari/tar.gz/91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   dependencies:
     nlcst-parse-japanese "^1.1.2"
