@@ -1911,10 +1911,10 @@
   resolved "https://registry.yarnpkg.com/@types/structured-source/-/structured-source-3.0.0.tgz#e95d76037d400c1957f3b709f023b308e92f3829"
   integrity sha512-8u+Wo5+GEXe4jZyQ8TplLp+1A7g32ZcVoE7VZu8VcxnlaEm5I/+T579R7q3qKN76jmK0lRshpo4hl4bj/kEPKA==
 
-"@types/styled-components@^5.0.1":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.11.tgz#a3a1bc0f2cdad7318d8ce219ee507e6b353503b5"
-  integrity sha512-u8g3bSw9KUiZY+S++gh+LlURGraqBe3MC5I5dygrNjGDHWWQfsmZZRTJ9K9oHU2CqWtxChWmJkDI/gp+TZPQMw==
+"@types/styled-components@^5.1.20":
+  version "5.1.20"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.20.tgz#83c545d1b793b846c231ff18e93019ccd2867972"
+  integrity sha512-TvpQceFwnxJJsAzR1aHsYpL5DxWMHRzM2/0EA6sGtRjV6DtJubmNxeoPMPiIPQzKEGNHccwObXO7Hug/iwm1Xw==
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
@@ -7405,6 +7405,7 @@ pretty-bytes@^5.3.0:
 
 prh@^5.4.4, prh@hata6502/prh:
   version "5.4.6"
+  uid "88b497e336bac5cc53393b370a41909e90f8b496"
   resolved "https://codeload.github.com/hata6502/prh/tar.gz/88b497e336bac5cc53393b370a41909e90f8b496"
   dependencies:
     commandpost "^1.2.1"
@@ -9255,6 +9256,7 @@ textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet@^1.0.1:
 
 textlint-rule-no-nfd@^1.0.1, textlint-rule-no-nfd@^1.0.2, textlint-rule-no-nfd@hata6502/textlint-rule-no-nfd:
   version "1.0.3"
+  uid "400d1a254ca856ed945d0f3f244458fc4d28048d"
   resolved "https://codeload.github.com/hata6502/textlint-rule-no-nfd/tar.gz/400d1a254ca856ed945d0f3f244458fc4d28048d"
   dependencies:
     match-index "^1.0.3"
@@ -9267,6 +9269,7 @@ textlint-rule-no-zero-width-spaces@^1.0.0, textlint-rule-no-zero-width-spaces@^1
 
 textlint-rule-prefer-tari-tari@^1.0.3, textlint-rule-prefer-tari-tari@hata6502/textlint-rule-prefer-tari-tari:
   version "1.0.4"
+  uid "91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   resolved "https://codeload.github.com/hata6502/textlint-rule-prefer-tari-tari/tar.gz/91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   dependencies:
     nlcst-parse-japanese "^1.1.2"
