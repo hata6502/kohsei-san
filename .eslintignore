@@ -1,4 +1,4 @@
 **/node_modules/**
-/packages/core-bundler/dist/**
+/packages/scrapbox-lint/dist/**
 /packages/website/docs/**
 /packages/website/resources/**

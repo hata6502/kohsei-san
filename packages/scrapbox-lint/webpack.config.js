@@ -3,11 +3,8 @@
 const staticFs = require('babel-plugin-static-fs');
 const webpack = require('webpack');
 
-module.exports = {
+const commonConfig = {
   mode: 'production',
-  entry: {
-    'kohsei-san-core': './src/index.ts',
-  },
   experiments: {
     outputModule: true,
   },
@@ -43,9 +40,6 @@ module.exports = {
   output: {
     // Prevent to use mjs extension.
     filename: '[name].js',
-    library: {
-      type: 'module',
-    },
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -57,3 +51,24 @@ module.exports = {
     fallback: { os: require.resolve('os-browserify/browser') },
   },
 };
+
+module.exports = [
+  {
+    ...commonConfig,
+    entry: {
+      'scrapbox-lint-main': './src/index.ts',
+    },
+    output: {
+      ...commonConfig.output,
+      library: {
+        type: 'module',
+      },
+    },
+  },
+  {
+    ...commonConfig,
+    entry: {
+      'scrapbox-lint-worker': './src/worker.ts',
+    },
+  },
+];

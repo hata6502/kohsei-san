@@ -1,9 +1,10 @@
 {
-  "name": "core-bundler",
+  "name": "scrapbox-lint",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "tsc --noEmit"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
