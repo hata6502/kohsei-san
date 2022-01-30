@@ -6183,7 +6183,6 @@ kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.8"
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/f923005d219a5529fbd92ea8c225700fb40e9366"
   dependencies:
-    async "^2.0.1"
     doublearray "0.0.2"
 
 kuromojin@^1.0.2, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
