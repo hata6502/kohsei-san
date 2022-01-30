@@ -6183,6 +6183,7 @@ kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.8"
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/f923005d219a5529fbd92ea8c225700fb40e9366"
   dependencies:
+    async "^2.0.1"
     doublearray "0.0.2"
 
 kuromojin@^1.0.2, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
@@ -9089,6 +9090,13 @@ textlint-rule-ja-no-weak-phrase@^2.0.0:
     kuromojin "^3.0.0"
     morpheme-match "^2.0.4"
     morpheme-match-all "^2.0.5"
+
+textlint-rule-ja-simple-user-dictionary@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-ja-simple-user-dictionary/-/textlint-rule-ja-simple-user-dictionary-1.0.0.tgz#8538c3fe373f483bfdd780cb82099120a0153354"
+  integrity sha512-4QSfTGk4hbWQ9t1VQKviW7Kqq/j5QPu+tLH9dnKBeqWxz4Ca6JzSMg5sZP9KER8avqjf6dKReJ1FanHWAvgrpg==
+  dependencies:
+    kuromojin "^3.0.0"
 
 textlint-rule-ja-space-after-exclamation@^2.2.0:
   version "2.2.0"

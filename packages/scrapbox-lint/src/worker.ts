@@ -1,10 +1,11 @@
 import { lint } from 'core';
 
+// @ts-expect-error
 self.kuromojin = {
   dicPath: 'https://storage.googleapis.com/scrapbox-lint/',
 };
 
-let abortHandlingMessageController;
+let abortHandlingMessageController: AbortController;
 
 self.addEventListener('message', (event) => {
   abortHandlingMessageController?.abort();

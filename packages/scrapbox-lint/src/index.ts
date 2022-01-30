@@ -1,3 +1,5 @@
+import { LintOption, lint } from 'core';
+
 export const runScrapboxLint = async ({ lintOptionURL }: { lintOptionURL?: string }) => {
   const popoverElement = document.createElement('div');
 
@@ -17,7 +19,7 @@ export const runScrapboxLint = async ({ lintOptionURL }: { lintOptionURL?: strin
 
   const pinElements: HTMLDivElement[] = [];
   let abortUpdatingPinsController: AbortController;
-  let result;
+  let result: Awaited<ReturnType<typeof lint>> | undefined;
   let updatingPinsPromise: Promise<void>;
 
   const updatePins = () => {
@@ -136,7 +138,7 @@ export const runScrapboxLint = async ({ lintOptionURL }: { lintOptionURL?: strin
 
   new ResizeObserver(updatePins).observe(document.body);
 
-  const getLintOption = async () => {
+  const getLintOption = async (): Promise<LintOption> => {
     if (!lintOptionURL) {
       return {};
     }
@@ -147,7 +149,48 @@ export const runScrapboxLint = async ({ lintOptionURL }: { lintOptionURL?: strin
       throw new Error(`${response.status} ${response.statusText}`);
     }
 
-    return response.json();
+    const { jaSimpleUserDictionary, ...otherLintOption } = await response.json();
+    const dictionary = [...(jaSimpleUserDictionary?.dictionary ?? [])];
+
+    for (const dictionaryPageName of jaSimpleUserDictionary?.dictionaryPages ?? []) {
+      const response = await fetch(`/api/pages/${dictionaryPageName}`);
+
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+
+      const dictionaryPage = await response.json();
+      const lines = dictionaryPage.lines.map(({ text }) => text);
+
+      while (lines.length) {
+        const patternMatch = lines[0]?.match(/^\s(.*)$/);
+
+        if (patternMatch) {
+          lines.shift();
+
+          const messageMatch = lines[0]?.match(/^\s\s(.*)$/);
+          let message;
+
+          if (messageMatch) {
+            lines.shift();
+
+            message = messageMatch[1].trim();
+          }
+
+          dictionary.push({ pattern: patternMatch[1].trim(), message });
+        } else {
+          lines.shift();
+        }
+      }
+    }
+
+    return {
+      ...otherLintOption,
+      jaSimpleUserDictionary: {
+        ...jaSimpleUserDictionary,
+        dictionary,
+      },
+    };
   };
 
   const lintOption = await getLintOption();

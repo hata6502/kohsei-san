@@ -33,6 +33,8 @@ import textlintRuleJaNoSuccessiveWord from 'textlint-rule-ja-no-successive-word'
 // @ts-expect-error 型が定義されていない。
 import textlintRuleJaNoWeakPhrase from 'textlint-rule-ja-no-weak-phrase';
 // @ts-expect-error 型が定義されていない。
+import textlintRuleJaSimpleUserDictionary from 'textlint-rule-ja-simple-user-dictionary';
+// @ts-expect-error 型が定義されていない。
 import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
@@ -66,6 +68,7 @@ interface LintOption {
   jaKyoikuKanji?: boolean | Record<string, unknown>;
   jaNoMixedPeriod?: boolean | Record<string, unknown>;
   jaNoWeakPhrase?: boolean | Record<string, unknown>;
+  jaSimpleUserDictionary?: Record<string, unknown>;
   maxAppearenceCountOfWords?: boolean | Record<string, unknown>;
   noFiller?: boolean | Record<string, unknown>;
 }
@@ -209,6 +212,15 @@ const lint = ({
             },
           ]
         : []),
+      {
+        ruleId: 'ja-simple-user-dictionary',
+        rule: textlintRuleJaSimpleUserDictionary,
+        options:
+          typeof lintOption.jaSimpleUserDictionary === 'object' &&
+          lintOption.jaSimpleUserDictionary !== null
+            ? lintOption.jaSimpleUserDictionary
+            : undefined,
+      },
       {
         ruleId: 'ja-unnatural-alphabet',
         rule: textlintRuleJaUnnaturalAlphabet,
