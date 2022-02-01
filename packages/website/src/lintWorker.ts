@@ -15,7 +15,7 @@ declare global {
 
 // eslint-disable-next-line no-restricted-globals
 self.kuromojin = {
-  dicPath: 'https://kohsei-san.b-hood.site/dict',
+  dicPath: 'https://kohsei-san.b-hood.site/dict/',
 };
 
 interface LintWorkerLintMessage {
