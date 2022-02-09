@@ -12,14 +12,12 @@ import { injectByTextFragments } from './text-fragment-injection.min';
 const injectionConfigs = [
   {
     textFragments: [
-      '%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%99%E3%80%82-,%E5%B0%8F%E8%AA%AC%E3%81%AE%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E4%BD%9C%E6%B3%95,-%E6%8A%80%E8%A1%93%E6%96%87%E6%9B%B8',
+      '%E5%B0%8F%E8%AA%AC%E3%81%AE%E4%B8%80%E8%88%AC%E7%9A%84%E3%81%AA%E4%BD%9C%E6%B3%95',
     ],
     href: 'https://github.com/io-monad/textlint-rule-general-novel-style-ja',
   },
   {
-    textFragments: [
-      '%E7%9A%84%E3%81%AA%E4%BD%9C%E6%B3%95-,%E6%8A%80%E8%A1%93%E6%96%87%E6%9B%B8,-JTF%E6%97%A5%E6%9C%AC%E8%AA%9E%E6%A8%99%E6%BA%96',
-    ],
+    textFragments: ['%E6%8A%80%E8%A1%93%E6%96%87%E6%9B%B8'],
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-technical-writing',
   },
   {
@@ -29,39 +27,29 @@ const injectionConfigs = [
     href: 'https://www.jtf.jp/tips/styleguide',
   },
   {
-    textFragments: [
-      'JTF%E6%97%A5%E6%9C%AC%E8%AA%9E%E6%A8%99%E6%BA%96,%E8%A1%A8%E7%8F%BE%E3%81%AE%E7%A6%81%E6%AD%A2',
-    ],
+    textFragments: ['%E8%A1%A8%E7%8F%BE%E3%81%AE%E7%A6%81%E6%AD%A2'],
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase',
   },
   {
     textFragments: [
-      '%E8%A1%A8%E7%8F%BE%E3%81%AE%E7%A6%81%E6%AD%A2-,%E5%8D%98%E8%AA%9E%E3%81%AE%E5%87%BA%E7%8F%BE%E5%9B%9E%E6%95%B0%E3%81%AE%E4%B8%8A%E9%99%90,-%E5%8F%A5%E7%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80',
+      '%E5%8D%98%E8%AA%9E%E3%81%AE%E5%87%BA%E7%8F%BE%E5%9B%9E%E6%95%B0%E3%81%AE%E4%B8%8A%E9%99%90',
     ],
     href: 'https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words',
   },
   {
-    textFragments: [
-      '%E5%9B%9E%E6%95%B0%E3%81%AE%E4%B8%8A%E9%99%90-,%E5%8F%A5%E7%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80,-%E3%83%95%E3%82%A3%E3%83%A9%E3%83%BC%E3%81%AE%E7%A6%81%E6%AD%A2',
-    ],
+    textFragments: ['%E5%8F%A5%E7%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80'],
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-mixed-period',
   },
   {
-    textFragments: [
-      '%E5%8F%A5%E7%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80-,%E3%83%95%E3%82%A3%E3%83%A9%E3%83%BC%E3%81%AE%E7%A6%81%E6%AD%A2,-%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80',
-    ],
+    textFragments: ['%E3%83%95%E3%82%A3%E3%83%A9%E3%83%BC%E3%81%AE%E7%A6%81%E6%AD%A2'],
     href: 'https://github.com/textlint-ja/textlint-rule-no-filler',
   },
   {
-    textFragments: [
-      '%E3%83%95%E3%82%A3%E3%83%A9%E3%83%BC%E3%81%AE%E7%A6%81%E6%AD%A2-,%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80,-%E6%95%99%E8%82%B2%E6%BC%A2%E5%AD%97%E3%81%AE%E3%81%BF',
-    ],
+    textFragments: ['%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80'],
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-spacing',
   },
   {
-    textFragments: [
-      '%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9%E3%81%AE%E7%B5%B1%E4%B8%80-,%E6%95%99%E8%82%B2%E6%BC%A2%E5%AD%97%E3%81%AE%E3%81%BF%E8%A8%B1%E5%8F%AF',
-    ],
+    textFragments: ['%E6%95%99%E8%82%B2%E6%BC%A2%E5%AD%97%E3%81%AE%E3%81%BF%E8%A8%B1%E5%8F%AF'],
     href: 'https://github.com/textlint-ja/textlint-rule-ja-kyoiku-kanji',
   },
 ];
