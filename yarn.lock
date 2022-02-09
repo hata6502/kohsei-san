@@ -8922,6 +8922,11 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
+text-fragments-polyfill@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/text-fragments-polyfill/-/text-fragments-polyfill-5.2.1.tgz#227f59fa66badee0cf4387e16f67ec491806e233"
+  integrity sha512-p4tSJM/wc7u1wmf4TbVvw86RefbbkUb1s8Dsa8dk15uitKxMQAGK14x035MlZ7NZgNGeO93YLKSLf3vXRX9iSQ==
+
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"

@@ -1,2 +1,3 @@
 packages/website/docs/dict/sudachi-synonyms-dictionary.json
 packages/website/resources/dict/sudachi-synonyms-dictionary.json
+packages/website/src/text-fragment-injection.min.js
