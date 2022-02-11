@@ -11,65 +11,72 @@ import { injectByTextQuote } from './text-quote-injection';
 
 const injectionConfigs = [
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '小説の一般的な作法',
     },
     href: 'https://github.com/io-monad/textlint-rule-general-novel-style-ja',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '技術文書',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-technical-writing',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: 'JTF日本語標準スタイルガイド(翻訳用）',
     },
     href: 'https://www.jtf.jp/tips/styleguide',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '弱い表現の禁止',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '単語の出現回数の上限',
     },
     href: 'https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '句点の統一',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-mixed-period',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: 'フィラーの禁止',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-no-filler',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
-      prefix: 'フィラーの禁止',
       exact: 'スペースの統一',
-      suffix: '教育漢字のみ',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-spacing',
   },
   {
-    selector: {
+    cssSelector: ".MuiDialog-root",
+    textQuoteSelector: {
       type: 'TextQuoteSelector',
       exact: '教育漢字のみ許可',
     },
@@ -152,8 +159,9 @@ const main = () => {
   );
 
   injectByTextQuote(
-    injectionConfigs.map(({ selector, href }) => ({
-      selector,
+    injectionConfigs.map(({ cssSelector, textQuoteSelector, href }) => ({
+      cssSelector,
+      textQuoteSelector,
       inject: (range: Range) => {
         const linkElement = document.createElement('a');
 

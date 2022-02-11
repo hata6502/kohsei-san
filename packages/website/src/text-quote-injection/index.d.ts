@@ -1,7 +1,8 @@
 import { TextQuoteSelector } from "@apache-annotator/selector";
 export declare type CleanUpTextQuoteInjection = (props: unknown) => void;
 export interface TextQuoteInjectionConfig {
-    selector: TextQuoteSelector;
+    cssSelector: string;
+    textQuoteSelector: TextQuoteSelector;
     inject: (match: Range) => unknown;
     cleanUp: CleanUpTextQuoteInjection;
 }
