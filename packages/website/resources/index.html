@@ -6,9 +6,15 @@
       http-equiv="Content-Security-Policy"
       content="
         default-src 'self';
-        connect-src 'self' *.github.io sentry.io;
         font-src 'self' data: https://fonts.gstatic.com;
         frame-src 'self' https://optimize.google.com;
+
+        connect-src
+          'self'
+          https://*.github.io
+          https://sentry.io
+          https://www.google-analytics.com
+          ;
 
         img-src
           'self'
