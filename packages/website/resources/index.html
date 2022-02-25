@@ -7,7 +7,7 @@
       content="
         default-src 'self';
         connect-src 'self' *.github.io sentry.io;
-        font-src https://fonts.gstatic.com;
+        font-src data: https://fonts.gstatic.com;
         frame-src https://optimize.google.com;
 
         img-src
@@ -23,16 +23,11 @@
           'unsafe-eval'
           'unsafe-inline'
           https://optimize.google.com
+          https://sentry.io
           https://www.googleanalytics.com
           https://www.google-analytics.com
           https://www.googleoptimize.com
-          ;
-
-        script-src-elem
-          'self'
-          sentry.io
-          www.google-analytics.com
-          www.googletagmanager.com
+          https://www.googletagmanager.com
           ;
 
         style-src
