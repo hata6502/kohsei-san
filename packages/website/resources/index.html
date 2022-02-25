@@ -5,7 +5,7 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="
-        default-src 'self' 'unsafe-eval';
+        default-src 'self';
         connect-src 'self' *.github.io sentry.io;
         font-src https://fonts.gstatic.com;
         frame-src https://optimize.google.com;
@@ -19,6 +19,7 @@
           ;
 
         script-src
+          'unsafe-eval'
           'unsafe-inline'
           https://optimize.google.com
           https://www.googleanalytics.com
