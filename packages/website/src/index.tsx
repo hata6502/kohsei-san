@@ -11,73 +11,57 @@ import { injectByTextQuote } from './text-quote-injection';
 
 const injectionConfigs = [
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '小説の一般的な作法',
+      prefix: 'ショナルモードメモごとに校正設定を追加してカスタマイズできます。',
+      suffix: '\n          \n        技術文書JTF日本語標準',
     },
     href: 'https://github.com/io-monad/textlint-rule-general-novel-style-ja',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '技術文書',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-technical-writing',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: 'JTF日本語標準スタイルガイド(翻訳用）',
     },
     href: 'https://www.jtf.jp/tips/styleguide',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '弱い表現の禁止',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '単語の出現回数の上限',
     },
     href: 'https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '句点の統一',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-ja-no-mixed-period',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: 'フィラーの禁止',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-no-filler',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: 'スペースの統一',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-spacing',
   },
   {
-    cssSelector: ".MuiDialog-root",
     textQuoteSelector: {
-      type: 'TextQuoteSelector',
       exact: '教育漢字のみ許可',
     },
     href: 'https://github.com/textlint-ja/textlint-rule-ja-kyoiku-kanji',
@@ -159,8 +143,7 @@ const main = () => {
   );
 
   injectByTextQuote(
-    injectionConfigs.map(({ cssSelector, textQuoteSelector, href }) => ({
-      cssSelector,
+    injectionConfigs.map(({ textQuoteSelector, href }) => ({
       textQuoteSelector,
       inject: (range: Range) => {
         const linkElement = document.createElement('a');
