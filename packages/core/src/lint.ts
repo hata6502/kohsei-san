@@ -39,6 +39,8 @@ import textlintRuleJaUnnaturalAlphabet from 'textlint-rule-ja-unnatural-alphabet
 // @ts-expect-error 型が定義されていない。
 import textlintRuleMaxAppearenceCountOfWords from 'textlint-rule-max-appearence-count-of-words';
 // @ts-expect-error 型が定義されていない。
+import textlintRuleNoDifficultWords from 'textlint-rule-no-difficult-words';
+// @ts-expect-error 型が定義されていない。
 import textlintRuleNoDoubledConjunctiveParticleGa from 'textlint-rule-no-doubled-conjunctive-particle-ga';
 // @ts-expect-error 型が定義されていない。
 import textlintRuleNoHankakuKana from 'textlint-rule-no-hankaku-kana';
@@ -238,6 +240,10 @@ const lint = ({
             },
           ]
         : []),
+      {
+        ruleId: 'no-difficult-words',
+        rule: textlintRuleNoDifficultWords,
+      },
       {
         ruleId: 'no-doubled-conjunctive-particle-ga',
         rule: textlintRuleNoDoubledConjunctiveParticleGa,

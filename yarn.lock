@@ -6875,6 +6875,11 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
+normalize-strings@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/normalize-strings/-/normalize-strings-1.1.1.tgz#80f416daf75968899df8262e379a67e46d0b4b5a"
+  integrity sha512-fARPRdTwmrQDLYhmeh7j/eZwrCP6WzxD6uKOdK/hT/uKACAE9AG2Bc2dgqOZLkfmmctHpfcJ9w3AQnfLgg3GYg==
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -7353,10 +7358,15 @@ pkg-up@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-pluralize@8.0.0:
+pluralize@8.0.0, pluralize@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
   integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
+
+pluralize@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
+  integrity sha512-ARhBOdzS3e41FbkW/XWrTEtukqqLoK5+Z/4UeDaLuSW+39JPeFgs4gCGqsrJHVZX0fUrx//4OF0K1CUGwlIFow==
 
 popper.js@1.16.1-lts:
   version "1.16.1-lts"
@@ -8821,6 +8831,15 @@ supports-color@^8.0.0:
   dependencies:
     has-flag "^4.0.0"
 
+syllable@^3.4.0:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/syllable/-/syllable-3.6.1.tgz#1b08a0522c14ebc4db871f5697f68f49616e87d8"
+  integrity sha512-L2yAT4DRi9rwHpHMResxA/VKSM9T7X+eRAOEKoAFvHJxaxjtxT2Rt8qfB6pbrxeOZWsHu+ON0kTc9Oo0lU2PHA==
+  dependencies:
+    normalize-strings "^1.1.0"
+    pluralize "^7.0.0"
+    trim "0.0.1"
+
 table@^6.0.9:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/table/-/table-6.7.1.tgz#ee05592b7143831a8c94f3cee6aae4c1ccef33e2"
@@ -8921,6 +8940,13 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
+
+text-readability@hata6502/readability:
+  version "1.0.5"
+  resolved "https://codeload.github.com/hata6502/readability/tar.gz/ccc66169104149eb06ddd9c10451d52e3ecbfbd7"
+  dependencies:
+    pluralize "^8.0.0"
+    syllable "^3.4.0"
 
 text-table@^0.2.0:
   version "0.2.0"
@@ -9173,6 +9199,13 @@ textlint-rule-max-ten@^4.0.2:
     structured-source "^3.0.2"
     textlint-rule-helper "^2.0.0"
     textlint-util-to-string "^3.1.1"
+
+textlint-rule-no-difficult-words@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-no-difficult-words/-/textlint-rule-no-difficult-words-1.0.0.tgz#1ecc8968c6a44f29b5b445b814077ab1351bef15"
+  integrity sha512-WV8CWFwYp/6vQEXNkHTCqGb7wppXdenNXZXXCM/LeCjfS7Vklb3BrF+Q5Vp3E6Dt2aaSIjJfhKaRw0VzDJnrVQ==
+  dependencies:
+    text-readability hata6502/readability
 
 textlint-rule-no-double-negative-ja@^2.0.0:
   version "2.0.0"
@@ -9486,6 +9519,11 @@ tough-cookie@~2.5.0:
   dependencies:
     psl "^1.1.28"
     punycode "^2.1.1"
+
+trim@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/trim/-/trim-0.0.1.tgz#5858547f6b290757ee95cccc666fb50084c460dd"
+  integrity sha1-WFhUf2spB1fulczMZm+1AITEYN0=
 
 trough@^1.0.0:
   version "1.0.5"

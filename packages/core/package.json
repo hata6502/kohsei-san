@@ -25,6 +25,7 @@
     "textlint-rule-ja-simple-user-dictionary": "^1.0.0",
     "textlint-rule-ja-unnatural-alphabet": "^2.0.1",
     "textlint-rule-max-appearence-count-of-words": "hata6502/textlint-rule-max-appearence-count-of-words",
+    "textlint-rule-no-difficult-words": "^1.0.0",
     "textlint-rule-no-doubled-conjunctive-particle-ga": "^2.0.4",
     "textlint-rule-no-hankaku-kana": "^1.0.2",
     "textlint-rule-no-kangxi-radicals": "^0.1.0",
