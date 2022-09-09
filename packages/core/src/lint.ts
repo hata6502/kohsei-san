@@ -295,12 +295,6 @@ const lint = ({
       {
         ruleId: 'sentence-length',
         rule: textlintRuleSentenceLength,
-        options: {
-          exclusionPatterns: [
-            // This line is under the CC BY-SA 4.0.
-            '/https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/',
-          ],
-        },
       },
     ],
   });
