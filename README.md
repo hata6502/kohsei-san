@@ -10,7 +10,7 @@
 
 > その場ですぐに文章を校正できるメモ帳アプリです。オフラインで会員登録不要、スマホアプリとしてもご利用いただけます。
 
-### 🏠 [Homepage](https://kohsei-san.b-hood.site/lp/)
+### 🏠 [Homepage](https://kohsei-san.hata6502.com/lp/)
 
 ## Install
 

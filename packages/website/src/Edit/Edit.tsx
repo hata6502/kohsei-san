@@ -12,7 +12,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ShareIcon from '@material-ui/icons/Share';
-import TwitterIcon from '@material-ui/icons/Twitter';
 import { v4 as uuidv4 } from 'uuid';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import { useDispatchSetting } from '../useMemo';
@@ -52,7 +51,6 @@ const Edit: React.FunctionComponent<{
     const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
 
     const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
-    const [isTweetDialogOpen, setIsTweetDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     const dispatchSetting = useDispatchSetting({ dispatchMemos, memoId: memo.id });
@@ -148,30 +146,6 @@ const Edit: React.FunctionComponent<{
     const handleSettingButtonClick = useCallback(() => setIsSettingDialogOpen(true), []);
     const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
 
-    const handleTweetButtonClick = useCallback(() => setIsTweetDialogOpen(true), []);
-
-    const handleTweetDialogAgree = useCallback(() => {
-      const urlSearchParams = new URLSearchParams();
-
-      urlSearchParams.set(
-        'text',
-        `---
-#文例ストック
-title: 
-license: CC0 1.0 Universal
----
-
-${memo.text.slice(0, 280)}
-`
-      );
-
-      window.open(`https://twitter.com/share?${urlSearchParams.toString()}`);
-
-      setIsTweetDialogOpen(false);
-    }, [memo.text]);
-
-    const handleTweetDialogClose = useCallback(() => setIsTweetDialogOpen(false), []);
-
     const handleCopyButtonClick = useCallback(() => {
       const id = uuidv4();
 
@@ -240,17 +214,6 @@ ${memo.text.slice(0, 280)}
                   }
 
                   <Grid item>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<TwitterIcon />}
-                      onClick={handleTweetButtonClick}
-                    >
-                      文例ストック
-                    </Button>
-                  </Grid>
-
-                  <Grid item>
                     <Button variant="outlined" onClick={handleSettingButtonClick}>
                       校正設定
                     </Button>
@@ -279,24 +242,6 @@ ${memo.text.slice(0, 280)}
           setting={memo.setting}
           onClose={handleSettingDialogClose}
         />
-
-        <Dialog open={isTweetDialogOpen} onClose={handleTweetDialogClose}>
-          <DialogTitle>文章を Twitter に投稿しますか？</DialogTitle>
-
-          <DialogContent>
-            <DialogContentText>ハッシュタグ #文例ストック が付きます。</DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={handleTweetDialogClose} color="primary" autoFocus>
-              投稿しない
-            </Button>
-
-            <Button onClick={handleTweetDialogAgree} color="primary">
-              投稿する
-            </Button>
-          </DialogActions>
-        </Dialog>
 
         <Dialog open={isDeleteDialogOpen} onClose={handleDeleteDialogClose}>
           <DialogTitle>メモを削除しますか？</DialogTitle>
