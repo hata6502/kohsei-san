@@ -17,12 +17,11 @@
     "packages/*"
   ],
   "scripts": {
-    "_eslint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "_prettier": "prettier '**/*.{html,json,md,yml}'",
     "_test-scrapbox-lint": "cd packages/scrapbox-lint && yarn test",
     "_test-website": "cd packages/website && yarn test",
-    "fix": "yarn _eslint --fix && yarn _prettier --write",
-    "test": "yarn _eslint && yarn _prettier --check && yarn _test-scrapbox-lint && yarn _test-website"
+    "fix": "yarn _prettier --write",
+    "test": "yarn _prettier --check && yarn _test-scrapbox-lint && yarn _test-website"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
@@ -36,19 +35,6 @@
     "textlint-rule-prefer-tari-tari": "hata6502/textlint-rule-prefer-tari-tari"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.31.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-cypress": "^2.11.3",
-    "eslint-plugin-flowtype": "^5.8.1",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "kuromoji": "hata6502/kuromoji.js",
     "kuromojin": "hata6502/kuromojin",
     "prettier": "^2.0.2",
