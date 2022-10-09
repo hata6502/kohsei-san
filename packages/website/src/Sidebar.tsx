@@ -8,8 +8,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ForumIcon from '@material-ui/icons/Forum';
 import HelpIcon from '@material-ui/icons/Help';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import { v4 as uuidv4 } from 'uuid';
 import { initialSetting } from './useMemo';
@@ -88,6 +88,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         <Divider />
 
         <List>
+          <Link
+            color="inherit"
+            href="https://scrapbox.io/kohsei-san/"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <ForumIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="コミュニティ" />
+            </ListItem>
+          </Link>
+
           <Link
             color="inherit"
             href="https://helpfeel.com/hata6502/?kinds=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
