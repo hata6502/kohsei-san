@@ -7,7 +7,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
 import Snackbar from '@material-ui/core/Snackbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -145,18 +144,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
 
       <Main>
         <div className={classes.toolbar} />
-
-        <Alert severity="warning">
-          校正さんはメンテナンスを終了します。さらに高機能な
-          <Link
-            href="https://helpfeel.com/hata6502/scrapbox-lint-61acc979ee8557001f7e0d5e"
-            rel="noopener"
-            target="_blank"
-          >
-            scrapbox-lint
-          </Link>
-          をご利用ください。
-        </Alert>
 
         {memo ? (
           <Edit
