@@ -7,66 +7,6 @@ import { StylesProvider } from '@material-ui/core/styles';
 import * as Sentry from '@sentry/browser';
 import App from './App';
 import { ThemeProvider } from './ThemeProvider';
-import { injectByTextQuote } from './text-quote-injection';
-
-const injectionConfigs = [
-  {
-    textQuoteSelector: {
-      exact: '小説の一般的な作法',
-      prefix: 'ショナルモードメモごとに校正設定を追加してカスタマイズできます。',
-      suffix: '\n          \n        技術文書JTF日本語標準',
-    },
-    href: 'https://github.com/io-monad/textlint-rule-general-novel-style-ja',
-  },
-  {
-    textQuoteSelector: {
-      exact: '技術文書',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-technical-writing',
-  },
-  {
-    textQuoteSelector: {
-      exact: 'JTF日本語標準スタイルガイド(翻訳用）',
-    },
-    href: 'https://www.jtf.jp/tips/styleguide',
-  },
-  {
-    textQuoteSelector: {
-      exact: '弱い表現の禁止',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-ja-no-weak-phrase',
-  },
-  {
-    textQuoteSelector: {
-      exact: '単語の出現回数の上限',
-    },
-    href: 'https://github.com/KeitaMoromizato/textlint-rule-max-appearence-count-of-words',
-  },
-  {
-    textQuoteSelector: {
-      exact: '句点の統一',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-ja-no-mixed-period',
-  },
-  {
-    textQuoteSelector: {
-      exact: 'フィラーの禁止',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-no-filler',
-  },
-  {
-    textQuoteSelector: {
-      exact: 'スペースの統一',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-preset-ja-spacing',
-  },
-  {
-    textQuoteSelector: {
-      exact: '教育漢字のみ許可',
-    },
-    href: 'https://github.com/textlint-ja/textlint-rule-ja-kyoiku-kanji',
-  },
-];
 
 const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   ReactDOM.render(
@@ -140,39 +80,6 @@ const main = () => {
       </ThemeProvider>
     </StylesProvider>,
     document.querySelector('.app')
-  );
-
-  injectByTextQuote(
-    injectionConfigs.map(({ textQuoteSelector, href }) => ({
-      textQuoteSelector,
-      inject: (range: Range) => {
-        const linkElement = document.createElement('a');
-
-        linkElement.href = href;
-        linkElement.rel = 'noopener';
-        linkElement.target = '_blank';
-        linkElement.style.textDecoration = 'none';
-
-        linkElement.innerHTML = `
-          <img
-           src="8737dd05a68d04d808dfdb81c6783be1.png"
-           style="opacity: 0.5; vertical-align: text-bottom; width: 18px; "
-          />
-        `;
-
-        range.collapse();
-        range.insertNode(linkElement);
-
-        return linkElement;
-      },
-      cleanUp: (linkElement) => {
-        if (!(linkElement instanceof HTMLAnchorElement)) {
-          throw new Error('invalid linkElement');
-        }
-
-        linkElement.remove();
-      },
-    }))
   );
 };
 

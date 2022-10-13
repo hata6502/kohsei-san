@@ -1,6 +1,0 @@
-/*!
- * index-of <https://github.com/jonschlinkert/index-of>
- *
- * Copyright (c) 2014-2015 Jon Schlinkert.
- * Licensed under the MIT license.
- */
