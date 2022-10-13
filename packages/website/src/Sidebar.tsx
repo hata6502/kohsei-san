@@ -106,7 +106,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
           <Link
             color="inherit"
-            href="https://helpfeel.com/hata6502/?kinds=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
+            href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
             rel="noreferrer"
             target="_blank"
             underline="none"
