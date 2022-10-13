@@ -76,14 +76,20 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
     false
   );
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
   const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
 
   const classes = useStyles();
 
-  const handleMenuIconClick = useCallback(() => setIsSidebarOpen(true), [setIsSidebarOpen]);
+  const handleMenuIconClick = useCallback(
+    () => dispatchIsSidebarOpen(true),
+    [dispatchIsSidebarOpen]
+  );
   const handleSaveErrorClose = useCallback(() => setIsSaveErrorOpen(false), [setIsSaveErrorOpen]);
-  const handleSidebarClose = useCallback(() => setIsSidebarOpen(false), [setIsSidebarOpen]);
+  const handleSidebarClose = useCallback(
+    () => dispatchIsSidebarOpen(false),
+    [dispatchIsSidebarOpen]
+  );
 
   const handleCopiedSnackbarClose = useCallback(
     () => dispatchIsCopiedSnackbarOpen(false),
@@ -151,6 +157,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
             dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
             dispatchIsLinting={dispatchIsLinting}
             dispatchIsLintingHeavy={dispatchIsLintingHeavy}
+            dispatchIsSidebarOpen={dispatchIsSidebarOpen}
             dispatchMemoId={dispatchMemoId}
             dispatchMemos={dispatchMemos}
             isLinting={isLinting}

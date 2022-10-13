@@ -32,6 +32,7 @@ const Edit: React.FunctionComponent<{
   dispatchIsCopiedSnackbarOpen: React.Dispatch<boolean>;
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsLintingHeavy: React.Dispatch<boolean>;
+  dispatchIsSidebarOpen: React.Dispatch<boolean>;
   dispatchMemoId: React.Dispatch<Memo['id']>;
   dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
@@ -42,6 +43,7 @@ const Edit: React.FunctionComponent<{
     dispatchIsCopiedSnackbarOpen,
     dispatchIsLinting,
     dispatchIsLintingHeavy,
+    dispatchIsSidebarOpen,
     dispatchMemoId,
     dispatchMemos,
     isLinting,
@@ -158,8 +160,9 @@ const Edit: React.FunctionComponent<{
       ]);
 
       dispatchIsCopiedSnackbarOpen(true);
+      dispatchIsSidebarOpen(true);
       dispatchMemoId(id);
-    }, [dispatchIsCopiedSnackbarOpen, dispatchMemoId, dispatchMemos, memo]);
+    }, [dispatchIsCopiedSnackbarOpen, dispatchIsSidebarOpen, dispatchMemoId, dispatchMemos, memo]);
 
     const handleDeleteButtonClick = useCallback(() => setIsDeleteDialogOpen(true), []);
 
