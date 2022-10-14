@@ -86,7 +86,9 @@ const Edit: React.FunctionComponent<{
               .split('\n\n')
               .flatMap((section) => {
                 const lines = section.trim().split('\n');
-                return lines[0] ? [{ pattern: lines[0], message: lines.slice(1).join('\n') }] : [];
+                return lines[0]
+                  ? [{ pattern: lines[0], message: lines.slice(1).join('\n') || undefined }]
+                  : [];
               }) ?? [],
         },
       };
