@@ -73,7 +73,7 @@ const getPins = ({
       const length =
         (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
 
-      if (!length) {
+      if (typeof length !== 'number') {
         return { reject: new Error('child.length is not defined') };
       }
 
