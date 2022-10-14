@@ -38,6 +38,7 @@ const Edit: React.FunctionComponent<{
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
+  memos: Memo[];
 }> = React.memo(
   ({
     dispatchIsCopiedSnackbarOpen,
@@ -49,6 +50,7 @@ const Edit: React.FunctionComponent<{
     isLinting,
     lintWorker,
     memo,
+    memos,
   }) => {
     const [isTextContainerFocused, dispatchIsTextContainerFocused] = useState(false);
 
@@ -69,13 +71,31 @@ const Edit: React.FunctionComponent<{
         return;
       }
 
+      const userDictionaryMemo = memos.find(
+        ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId
+      );
+      const professionalModeLintOption = {
+        ...memo.setting.lintOption,
+        jaSimpleUserDictionary: {
+          dictionary:
+            userDictionaryMemo?.text
+              .trim()
+              .split('\n')
+              .slice(1)
+              .join('\n')
+              .split('\n\n')
+              .flatMap((section) => {
+                const lines = section.trim().split('\n');
+                return lines[0] ? [{ pattern: lines[0], message: lines.slice(1).join('\n') }] : [];
+              }) ?? [],
+        },
+      };
+
       const message: LintWorkerLintMessage = {
         lintOption: {
-          professional: true,
-          standard: false,
-        }[memo.setting.mode]
-          ? memo.setting.lintOption
-          : {},
+          professional: professionalModeLintOption,
+          standard: {},
+        }[memo.setting.mode],
         text: memo.text,
       };
 
@@ -243,6 +263,7 @@ const Edit: React.FunctionComponent<{
           dispatchSetting={dispatchSetting}
           open={isSettingDialogOpen}
           setting={memo.setting}
+          memos={memos}
           onClose={handleSettingDialogClose}
         />
 

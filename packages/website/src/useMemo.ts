@@ -7,7 +7,9 @@ import type { LintOption } from 'core';
 
 interface Setting {
   mode: 'standard' | 'professional';
-  lintOption: LintOption;
+  lintOption: LintOption & {
+    userDictionaryMemoId?: string
+  };
 }
 
 const initialSetting: Setting = {

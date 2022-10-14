@@ -163,6 +163,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(({ lintW
             isLinting={isLinting}
             lintWorker={lintWorker}
             memo={memo}
+            memos={memos}
           />
         ) : (
           <Empty />
