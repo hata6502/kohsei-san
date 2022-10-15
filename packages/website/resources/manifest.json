@@ -2,7 +2,6 @@
   "lang": "ja-JP",
   "name": "校正さん",
   "short_name": "校正さん",
-  "description": "その場ですぐに文章を校正できるメモ帳アプリです。オフラインで会員登録不要、スマホアプリとしてもご利用いただけます。",
   "start_url": ".",
   "display": "standalone",
   "icons": [
@@ -11,5 +10,15 @@
       "sizes": "192x192",
       "type": "image/png"
     }
-  ]
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
