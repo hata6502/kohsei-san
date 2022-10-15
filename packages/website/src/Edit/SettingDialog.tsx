@@ -156,63 +156,63 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
           <Box mb={2}>
             <FormControl disabled={setting.mode !== 'professional'} fullWidth>
               <FormControlLabel
-                checked={setting.lintOption.generalNovelStyleJa ?? false}
+                checked={Boolean(setting.lintOption.generalNovelStyleJa)}
                 control={<Checkbox />}
                 label="小説の一般的な作法"
                 onChange={handleGeneralNovelStyleJaChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.presetJaTechnicalWriting ?? false}
+                checked={Boolean(setting.lintOption.presetJaTechnicalWriting)}
                 control={<Checkbox />}
                 label="技術文書"
                 onChange={handlePresetJaTechnicalWritingChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.presetJTFStyle ?? false}
+                checked={Boolean(setting.lintOption.presetJTFStyle)}
                 control={<Checkbox />}
                 label="JTF日本語標準スタイルガイド(翻訳用）"
                 onChange={handlePresetJTFStyleChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.jaNoWeakPhrase ?? false}
+                checked={Boolean(setting.lintOption.jaNoWeakPhrase)}
                 control={<Checkbox />}
                 label="弱い表現の禁止"
                 onChange={handleJaNoWeakPhraseChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.maxAppearenceCountOfWords ?? false}
+                checked={Boolean(setting.lintOption.maxAppearenceCountOfWords)}
                 control={<Checkbox />}
                 label="単語の出現回数の上限"
                 onChange={handleMaxAppearenceCountOfWordsChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.jaNoMixedPeriod ?? false}
+                checked={Boolean(setting.lintOption.jaNoMixedPeriod)}
                 control={<Checkbox />}
                 label="句点の統一"
                 onChange={handleJaNoMixedPeriodChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.noFiller ?? false}
+                checked={Boolean(setting.lintOption.noFiller)}
                 control={<Checkbox />}
                 label="フィラーの禁止"
                 onChange={handleNoFillerChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.presetJaSpacing ?? false}
+                checked={Boolean(setting.lintOption.presetJaSpacing)}
                 control={<Checkbox />}
                 label="スペースの統一"
                 onChange={handlePresetJaSpacingChange}
               />
 
               <FormControlLabel
-                checked={setting.lintOption.jaKyoikuKanji ?? false}
+                checked={Boolean(setting.lintOption.jaKyoikuKanji)}
                 control={<Checkbox />}
                 label="教育漢字のみ許可"
                 onChange={handleJaKyoikuKanjiChange}

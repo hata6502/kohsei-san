@@ -160,7 +160,7 @@ export const runScrapboxLint = async ({ lintOptionURL }: { lintOptionURL?: strin
       }
 
       const dictionaryPage = await response.json();
-      const lines = dictionaryPage.lines.map(({ text }) => text);
+      const lines = dictionaryPage.lines.map((line: any) => line.text);
 
       while (lines.length) {
         const patternMatch = lines[0]?.match(/^\s(.*)$/);

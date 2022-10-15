@@ -58,7 +58,6 @@ import textlintRulePresetJaTechnicalWriting from 'textlint-rule-preset-ja-techni
 import textlintRulePresetJapanese from 'textlint-rule-preset-japanese';
 // @ts-expect-error 型が定義されていない。
 import textlintRulePresetJTFStyle from 'textlint-rule-preset-jtf-style';
-// @ts-expect-error 型が定義されていない。
 import textlintRuleSentenceLength from 'textlint-rule-sentence-length';
 
 // https://scrapbox.io/hata6502/lintOptions
@@ -104,7 +103,9 @@ const lint = ({
             ruleId: key,
             rule: textlintRulePresetJaSpacing.rules[key],
             options:
-              lintOption.presetJaSpacing?.[key] ?? textlintRulePresetJaSpacing.rulesConfig[key],
+              typeof lintOption.presetJaSpacing === 'object'
+                ? lintOption.presetJaSpacing[key]
+                : textlintRulePresetJaSpacing.rulesConfig[key],
           }))
         : []),
       ...Object.keys(textlintRulePresetJapanese.rules)
@@ -121,8 +122,9 @@ const lint = ({
               ruleId: key,
               rule: textlintRulePresetJaTechnicalWriting.rules[key],
               options:
-                lintOption.presetJaTechnicalWriting?.[key] ??
-                textlintRulePresetJaTechnicalWriting.rulesConfig[key],
+                typeof lintOption.presetJaTechnicalWriting === 'object'
+                  ? lintOption.presetJaTechnicalWriting[key]
+                  : textlintRulePresetJaTechnicalWriting.rulesConfig[key],
             }))
         : []),
       ...(lintOption.presetJTFStyle
@@ -130,7 +132,9 @@ const lint = ({
             ruleId: key,
             rule: textlintRulePresetJTFStyle.rules[key],
             options:
-              lintOption.presetJTFStyle?.[key] ?? textlintRulePresetJTFStyle.rulesConfig[key],
+              typeof lintOption.presetJTFStyle === 'object'
+                ? lintOption.presetJTFStyle[key]
+                : textlintRulePresetJTFStyle.rulesConfig[key],
           }))
         : []),
       ...(lintOption.generalNovelStyleJa
