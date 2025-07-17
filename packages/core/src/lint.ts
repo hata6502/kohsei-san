@@ -88,6 +88,7 @@ const lint = ({
     filterRules: [
       {
         ruleId: 'urls',
+        // @ts-expect-error 型が定義されていない。
         rule: textlintFilterRuleURLs,
       },
     ],

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8" />
@@ -6,68 +6,29 @@
       http-equiv="Content-Security-Policy"
       content="
         default-src 'self';
-        font-src 'self' data: https://fonts.gstatic.com;
-        frame-src 'self' https://optimize.google.com;
-
-        connect-src
-          'self'
-          https://*.github.io
-          https://sentry.io
-          https://www.google-analytics.com
-          ;
-
-        img-src
-          'self'
-          data:
-          https://optimize.google.com
-          https://www.google-analytics.com
-          https://www.googletagmanager.com
-          https://www.gstatic.com
-          ;
-
-        script-src
-          'self'
-          'unsafe-eval'
-          'unsafe-inline'
-          https://optimize.google.com
-          https://sentry.io
-          https://tagmanager.google.com
-          https://www.googleanalytics.com
-          https://www.google-analytics.com
-          https://www.googleoptimize.com
-          https://www.googletagmanager.com
-          ;
 
         style-src
           'self'
           'unsafe-inline'
-          https://fonts.googleapis.com
-          https://optimize.google.com
-          ;
+        ;
       "
     />
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106651880-5"></script>
-    <script src="googleAnalytics.js"></script>
-
-    <script src="https://www.googleoptimize.com/optimize.js?id=GTM-N28S3BC"></script>
-
     <title>校正さん</title>
 
-    <meta
-      name="description"
-      content="文章校正できるメモ帳アプリ"
-    />
+    <meta name="description" content="文章校正できるメモ帳アプリ" />
     <link rel="manifest" href="manifest.json" />
     <meta name="robots" content="noindex" />
-    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-
     <meta
-      property="og:description"
-      content="文章校正できるメモ帳アプリ"
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width"
     />
-    <meta property="og:image" content="https://kohsei-san.hata6502.com/favicon.png" />
+
+    <meta property="og:description" content="文章校正できるメモ帳アプリ" />
+    <meta
+      property="og:image"
+      content="https://kohsei-san.hata6502.com/favicon.png"
+    />
     <meta property="og:title" content="校正さん" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kohsei-san.hata6502.com/" />
@@ -80,23 +41,6 @@
 
   <body>
     <div class="app"></div>
-
-    <script src="browserCheck.js"></script>
     <script src="main.js"></script>
-
-    <noscript>
-      校正さんを使用するには、JavaScript を有効にしてください。<br />
-
-      <address>
-        <a href="https://twitter.com/hata6502" rel="noreferrer" target="_blank">Twitter</a><br />
-
-        <a
-          href="https://github.com/hata6502/kohsei-san/blob/master/README.md"
-          rel="noreferrer"
-          target="_blank"
-          >このアプリについて</a
-        >
-      </address>
-    </noscript>
   </body>
 </html>

@@ -1,3 +1,4 @@
-packages/website/docs/dict/sudachi-synonyms-dictionary.json
-packages/website/resources/dict/sudachi-synonyms-dictionary.json
-packages/website/src/text-quote-injection.js
+/.claude
+/packages/website/docs/dict/sudachi-synonyms-dictionary.json
+/packages/website/resources/dict/sudachi-synonyms-dictionary.json
+/packages/website/src/text-quote-injection.js

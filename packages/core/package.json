@@ -10,6 +10,7 @@
     "@textlint-ja/textlint-rule-no-insert-re": "^1.0.0",
     "@textlint/kernel": "^3.2.1",
     "@textlint/textlint-plugin-text": "^4.1.13",
+    "textlint": "^15.2.0",
     "textlint-filter-rule-urls": "^1.0.1",
     "textlint-rule-general-novel-style-ja": "^1.3.0",
     "textlint-rule-ja-hiragana-daimeishi": "hata6502/textlint-rule-ja-hiragana-daimeishi",
@@ -37,5 +38,14 @@
     "textlint-rule-preset-japanese": "hata6502/textlint-rule-preset-japanese",
     "textlint-rule-preset-jtf-style": "hata6502/textlint-rule-preset-jtf-style",
     "textlint-rule-sentence-length": "^3.0.0"
+  },
+  "resolutions": {
+    "kuromoji": "hata6502/kuromoji.js",
+    "kuromojin": "hata6502/kuromojin",
+    "prh": "hata6502/prh",
+    "re2": "^1.22.1",
+    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
+    "textlint-rule-no-nfd": "hata6502/textlint-rule-no-nfd",
+    "textlint-rule-prefer-tari-tari": "hata6502/textlint-rule-prefer-tari-tari"
   }
 }

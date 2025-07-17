@@ -11,7 +11,6 @@ import Popover from '@material-ui/core/Popover';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
-import * as Sentry from '@sentry/browser';
 import type { TextlintMessage, TextlintRuleSeverityLevel } from '@textlint/kernel';
 import type { Memo, MemosAction } from '../../useMemo';
 import { PinIcon } from './PinIcon';
@@ -190,7 +189,6 @@ const TextContainer: React.FunctionComponent<{
 
         if (getPinsResult.reject) {
           console.error(getPinsResult.reject);
-          Sentry.captureException(getPinsResult.reject);
 
           return;
         } else {
@@ -279,9 +277,7 @@ const TextContainer: React.FunctionComponent<{
           m={isTextContainerFocused ? 0 : '1px'}
           position="relative"
         >
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {(props: any) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
             <div {...props} ref={textBoxRef}>
               <Typography component="div" variant="body1">
                 <Content

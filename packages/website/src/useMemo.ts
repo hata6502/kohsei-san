@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import * as Sentry from '@sentry/browser';
 import { TextlintResult } from '@textlint/kernel';
-import { v4 as uuidv4 } from 'uuid';
 import type { LintOption } from 'core';
 
 interface Setting {
@@ -76,7 +74,7 @@ const useMemo = (): {
       return [
         ...localStorageMemos.map(
           (localStorageMemo): Memo => ({
-            id: uuidv4(),
+            id: crypto.randomUUID(),
             setting: initialSetting,
             text: '',
             ...localStorageMemo,
@@ -85,7 +83,7 @@ const useMemo = (): {
         ...(isShared
           ? [
               {
-                id: uuidv4(),
+                id: crypto.randomUUID(),
                 setting: initialSetting,
                 text: [
                   ...(titleParam ? [titleParam] : []),
@@ -119,7 +117,6 @@ const useMemo = (): {
         exception.code !== DOMException.QUOTA_EXCEEDED_ERR
       ) {
         console.error(exception);
-        Sentry.captureException(exception);
       }
     }
   }, [memoId, memos]);

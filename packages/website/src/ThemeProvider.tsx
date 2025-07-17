@@ -11,7 +11,6 @@ import { jaJP } from '@material-ui/core/locale';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 declare module 'styled-components' {
-  // eslint-disable-next-line
   export interface DefaultTheme extends Theme { }
 }
 

@@ -1,5 +1,3 @@
-import 'core-js';
-import 'regenerator-runtime/runtime';
 
 import type { TextlintResult } from '@textlint/kernel';
 import { lint } from 'core';
@@ -13,9 +11,8 @@ declare global {
   }
 }
 
-// eslint-disable-next-line no-restricted-globals
 self.kuromojin = {
-  dicPath: 'https://kohsei-san.hata6502.com/dict/',
+  dicPath: String(new URL('/dict/', location.href)),
 };
 
 interface LintWorkerLintMessage {
@@ -28,11 +25,11 @@ interface LintWorkerResultMessage {
   text: string;
 }
 
-// eslint-disable-next-line no-restricted-globals
 addEventListener('message', async (event: MessageEvent<LintWorkerLintMessage>) => {
   const text = event.data.text;
 
   const message: LintWorkerResultMessage = {
+    // @ts-expect-error 型が定義されていない。
     result: await lint({ lintOption: event.data.lintOption, text }),
     text,
   };

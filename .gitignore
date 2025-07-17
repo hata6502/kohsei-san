@@ -1,6 +1,4 @@
 /node_modules
 /packages/core/node_modules
-/packages/scrapbox-lint/dist
-/packages/scrapbox-lint/node_modules
 /packages/website/docs
 /packages/website/node_modules

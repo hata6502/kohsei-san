@@ -12,7 +12,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import ShareIcon from '@material-ui/icons/Share';
-import { v4 as uuidv4 } from 'uuid';
 import type { LintWorkerLintMessage, LintWorkerResultMessage } from '../lintWorker';
 import { useDispatchSetting } from '../useMemo';
 import type { Memo, MemosAction } from '../useMemo';
@@ -171,7 +170,7 @@ const Edit: React.FunctionComponent<{
     const handleSettingDialogClose = useCallback(() => setIsSettingDialogOpen(false), []);
 
     const handleCopyButtonClick = useCallback(() => {
-      const id = uuidv4();
+      const id = crypto.randomUUID();
 
       dispatchMemos((prevMemos) => [
         ...prevMemos,

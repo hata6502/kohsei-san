@@ -1,10 +1,6 @@
-import 'core-js';
-import 'regenerator-runtime/runtime';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StylesProvider } from '@material-ui/core/styles';
-import * as Sentry from '@sentry/browser';
 import App from './App';
 import { ThemeProvider } from './ThemeProvider';
 
@@ -26,21 +22,8 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   );
 
 const main = () => {
-  if (process.env.NODE_ENV === 'production') {
-    Sentry.init({
-      beforeSend: (event) => {
-        if (event.exception) {
-          Sentry.showReportDialog({ eventId: event.event_id });
-        }
-
-        return event;
-      },
-      dsn: 'https://c98bf237258047cb89f0b618d16bbf53@sentry.io/3239618',
-    });
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
-    }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
   }
 
   if (!window.Worker) {

@@ -11,7 +11,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ForumIcon from '@material-ui/icons/Forum';
 import HelpIcon from '@material-ui/icons/Help';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import { v4 as uuidv4 } from 'uuid';
 import { initialSetting } from './useMemo';
 import type { Memo, MemosAction } from './useMemo';
 
@@ -36,7 +35,7 @@ export interface SidebarProps {
 const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
   ({ dispatchMemoId, dispatchMemos, memoId, memos, onClose }) => {
     const handleAddClick = useCallback(() => {
-      const id = uuidv4();
+      const id = crypto.randomUUID();
 
       dispatchMemoId(id);
 

@@ -36,6 +36,10 @@ const PinIcon: React.FunctionComponent<{
       return <ErrorIcon color="secondary" />;
     }
 
+    case 3: {
+      throw new Error('severity is 3');
+    }
+
     default: {
       const exhaustiveCheck: never = severity;
 

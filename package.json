@@ -18,27 +18,21 @@
   ],
   "scripts": {
     "_prettier": "prettier '**/*.{html,json,md,yml}'",
-    "_test-scrapbox-lint": "cd packages/scrapbox-lint && yarn test",
     "_test-website": "cd packages/website && yarn test",
     "fix": "yarn _prettier --write",
-    "test": "yarn _prettier --check && yarn _test-scrapbox-lint && yarn _test-website"
+    "test": "yarn _prettier --check && yarn _test-website"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
     "kuromojin": "hata6502/kuromojin",
-    "lodash": "^4.17.20",
-    "minimist": "^1.2.2",
-    "node-forge": "^0.10.0",
     "prh": "hata6502/prh",
+    "re2": "^1.22.1",
     "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
     "textlint-rule-no-nfd": "hata6502/textlint-rule-no-nfd",
     "textlint-rule-prefer-tari-tari": "hata6502/textlint-rule-prefer-tari-tari"
   },
   "devDependencies": {
-    "kuromoji": "hata6502/kuromoji.js",
-    "kuromojin": "hata6502/kuromojin",
-    "prettier": "^2.0.2",
-    "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
-    "typescript": "^4.1.3"
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
   }
 }
