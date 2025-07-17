@@ -7,6 +7,16 @@
       content="
         default-src 'self';
 
+        connect-src
+          'self'
+          https://*.clarity.ms
+        ;
+
+        script-src
+          'self'
+          https://www.clarity.ms
+        ;
+
         style-src
           'self'
           'unsafe-inline'

@@ -1,3 +1,4 @@
+import Clarity from "@microsoft/clarity";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StylesProvider } from '@material-ui/core/styles';
@@ -22,6 +23,8 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   );
 
 const main = () => {
+  Clarity.init("sgagyas3lh");
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
   }

@@ -1247,6 +1247,11 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
+"@microsoft/clarity@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/clarity/-/clarity-1.0.0.tgz#e5f6c87d4aac9bac0cedeaa94158a3fd32fbcd5e"
+  integrity sha512-2QY6SmXnqRj6dWhNY8NYCN3e53j4zCFebH4wGnNhdGV1mqAsQwql2fT0w8TISxCvwwfVp8idsWLIdrRHOms1PQ==
+
 "@modelcontextprotocol/sdk@^1.13.2":
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.15.1.tgz#30a235f91e144b62ef1810bc63679e423bac37ec"
