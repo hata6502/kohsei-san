@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.hata6502.kohsei_san.twa",
+        "sha256_cert_fingerprints": ["FE:DF:DC:64:80:31:6C:5C:93:62:D4:52:07:CA:BF:1A:BA:2B:28:D5:2E:9D:1A:78:DD:63:FB:78:B7:64:34:BE"]
+      }
+    }]
