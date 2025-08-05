@@ -1,8 +1,13 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.hata6502.kohsei_san.twa",
-        "sha256_cert_fingerprints": ["FE:DF:DC:64:80:31:6C:5C:93:62:D4:52:07:CA:BF:1A:BA:2B:28:D5:2E:9D:1A:78:DD:63:FB:78:B7:64:34:BE"]
-      }
-    }]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.hata6502.kohsei_san.twa",
+      "sha256_cert_fingerprints": [
+        "FE:DF:DC:64:80:31:6C:5C:93:62:D4:52:07:CA:BF:1A:BA:2B:28:D5:2E:9D:1A:78:DD:63:FB:78:B7:64:34:BE",
+        "EA:2B:0B:F0:26:BC:2F:FB:2D:0D:24:7F:55:81:D7:06:A4:46:A5:A9:B9:C4:17:49:79:C6:E6:E1:77:D0:8D:AA"
+      ]
+    }
+  }
+]
