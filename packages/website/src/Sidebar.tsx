@@ -1,18 +1,17 @@
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import Divider from '@material-ui/core/Divider';
-import Link from '@material-ui/core/Link';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ForumIcon from '@material-ui/icons/Forum';
-import HelpIcon from '@material-ui/icons/Help';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import { initialSetting } from './useMemo';
-import type { Memo, MemosAction } from './useMemo';
+import React, { useCallback } from "react";
+import styled from "styled-components";
+import Divider from "@material-ui/core/Divider";
+import Link from "@material-ui/core/Link";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import ForumIcon from "@material-ui/icons/Forum";
+import HelpIcon from "@material-ui/icons/Help";
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import { initialSetting } from "./useMemo";
+import type { Memo, MemosAction } from "./useMemo";
 
 const DrawerContainer = styled.div`
   width: 250px;
@@ -25,9 +24,9 @@ const MemoText = styled(ListItemText)`
 `;
 
 export interface SidebarProps {
-  dispatchMemoId: React.Dispatch<Memo['id']>;
+  dispatchMemoId: React.Dispatch<Memo["id"]>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  memoId: Memo['id'];
+  memoId: Memo["id"];
   memos: Memo[];
   onClose?: () => void;
 }
@@ -44,11 +43,11 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         {
           id,
           result: {
-            filePath: '<text>',
+            filePath: "<text>",
             messages: [],
           },
           setting: initialSetting,
-          text: '',
+          text: "",
         },
       ]);
 
@@ -56,7 +55,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
     }, [dispatchMemoId, dispatchMemos, onClose]);
 
     const handleMemoClick = useCallback(
-      (id: Memo['id']) => {
+      (id: Memo["id"]) => {
         dispatchMemoId(id);
 
         onClose?.();
@@ -68,10 +67,17 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       <DrawerContainer>
         <List>
           {memos.map(({ id, result, text }) => (
-            <ListItem button key={id} onClick={() => handleMemoClick(id)} selected={id === memoId}>
-              {result?.messages.length === 0 && <CheckCircleOutlineIcon color="primary" />}
+            <ListItem
+              button
+              key={id}
+              onClick={() => handleMemoClick(id)}
+              selected={id === memoId}
+            >
+              {result?.messages.length === 0 && (
+                <CheckCircleOutlineIcon color="primary" />
+              )}
 
-              <MemoText primary={text.trim() || '(空のメモ)'} />
+              <MemoText primary={text.trim() || "(空のメモ)"} />
             </ListItem>
           ))}
 
@@ -121,17 +127,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
           <Link
             color="inherit"
-            href="https://github.com/sponsors/hata6502"
+            href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
             rel="noreferrer"
             target="_blank"
             underline="none"
           >
             <ListItem button>
-              <ListItemIcon>
-                <FavoriteIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="投げ銭" />
+              <ListItemText primary="プライバシーポリシー" />
             </ListItem>
           </Link>
         </List>
