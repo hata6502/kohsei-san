@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import ForumIcon from "@material-ui/icons/Forum";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import HelpIcon from "@material-ui/icons/Help";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import { initialSetting } from "./useMemo";
@@ -33,6 +34,8 @@ export interface SidebarProps {
 
 const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
   ({ dispatchMemoId, dispatchMemos, memoId, memos, onClose }) => {
+    const appInstalled = !matchMedia("(display-mode: browser)").matches;
+
     const handleAddClick = useCallback(() => {
       const id = crypto.randomUUID();
 
@@ -93,6 +96,29 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         <Divider />
 
         <List>
+          {!appInstalled && (
+            <Link
+              color="inherit"
+              href={
+                navigator.platform.toLowerCase().includes("android") ||
+                navigator.platform.toLowerCase().includes("linux")
+                  ? "https://play.google.com/store/apps/details?id=com.hata6502.kohsei_san.twa"
+                  : "https://help.hata6502.com/--64f09e1918f421001cd41ed3"
+              }
+              rel="noreferrer"
+              target="_blank"
+              underline="none"
+            >
+              <ListItem button>
+                <ListItemIcon>
+                  <GetAppIcon />
+                </ListItemIcon>
+
+                <ListItemText primary="アプリ版" />
+              </ListItem>
+            </Link>
+          )}
+
           <Link
             color="inherit"
             href="https://scrapbox.io/kohsei-san/"
