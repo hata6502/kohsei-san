@@ -10,7 +10,9 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import ForumIcon from "@material-ui/icons/Forum";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import HelpIcon from "@material-ui/icons/Help";
+import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import PaletteIcon from "@material-ui/icons/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
@@ -121,22 +123,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
           <Link
             color="inherit"
-            href="https://scrapbox.io/kohsei-san/"
-            rel="noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
-              <ListItemIcon>
-                <ForumIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="コミュニティ" />
-            </ListItem>
-          </Link>
-
-          <Link
-            color="inherit"
             href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
             rel="noreferrer"
             target="_blank"
@@ -160,6 +146,42 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
           >
             <ListItem button>
               <ListItemText primary="プライバシーポリシー" />
+            </ListItem>
+          </Link>
+        </List>
+
+        <Divider />
+
+        <List>
+          <Link
+            color="inherit"
+            href="https://almap.hata6502.com/"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <LocalFloristIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="写真地図" />
+            </ListItem>
+          </Link>
+
+          <Link
+            color="inherit"
+            href="https://premy.hata6502.com/"
+            rel="noreferrer"
+            target="_blank"
+            underline="none"
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <PaletteIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="premyお絵かき" />
             </ListItem>
           </Link>
         </List>
