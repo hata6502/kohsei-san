@@ -7,7 +7,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import ForumIcon from "@material-ui/icons/Forum";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import HelpIcon from "@material-ui/icons/Help";
 import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
