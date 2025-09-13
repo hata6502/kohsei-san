@@ -1,21 +1,25 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Popover from '@material-ui/core/Popover';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import SpellcheckIcon from '@material-ui/icons/Spellcheck';
-import type { TextlintMessage, TextlintRuleSeverityLevel } from '@textlint/kernel';
-import type { Memo, MemosAction } from '../../useMemo';
-import { PinIcon } from './PinIcon';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Popover from "@material-ui/core/Popover";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import SpellcheckIcon from "@material-ui/icons/Spellcheck";
+import Alert from "@material-ui/lab/Alert";
+import type {
+  TextlintMessage,
+  TextlintRuleSeverityLevel,
+} from "@textlint/kernel";
+import type { Memo, MemosAction } from "../../useMemo";
+import { PinIcon } from "./PinIcon";
 
-const removeExtraNewLine = (text: string) => (text === '\n' ? '' : text);
+const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
 const MessagePopover = styled(Popover)`
   word-break: break-all;
@@ -41,14 +45,14 @@ const Content = styled.div`
 `;
 
 interface LintMessage {
-  index: TextlintMessage['index'];
+  index: TextlintMessage["index"];
   messages: TextlintMessage[];
 }
 
 interface Pin {
-  left: React.CSSProperties['left'];
+  left: React.CSSProperties["left"];
   message: LintMessage;
-  top: React.CSSProperties['top'];
+  top: React.CSSProperties["top"];
 }
 
 const getPins = ({
@@ -67,13 +71,18 @@ const getPins = ({
     let childNodesIndex = 0;
     let offset = lintMessage.index;
 
-    for (childNodesIndex = 0; childNodesIndex < text.childNodes.length; childNodesIndex += 1) {
+    for (
+      childNodesIndex = 0;
+      childNodesIndex < text.childNodes.length;
+      childNodesIndex += 1
+    ) {
       const child = text.childNodes[childNodesIndex];
       const length =
-        (child instanceof HTMLBRElement && 1) || (child instanceof Text && child.length);
+        (child instanceof HTMLBRElement && 1) ||
+        (child instanceof Text && child.length);
 
-      if (typeof length !== 'number') {
-        return { reject: new Error('child.length is not defined') };
+      if (typeof length !== "number") {
+        return { reject: new Error("child.length is not defined") };
       }
 
       if (offset < length) {
@@ -86,7 +95,7 @@ const getPins = ({
     }
 
     if (childNodesIndex >= text.childNodes.length) {
-      return { reject: new Error('childNodesIndex >= text.childNodes.length') };
+      return { reject: new Error("childNodesIndex >= text.childNodes.length") };
     }
 
     const rangeRect = range.getBoundingClientRect();
@@ -120,7 +129,9 @@ const TextContainer: React.FunctionComponent<{
     const [pins, setPins] = useState<Pin[]>([]);
 
     const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
-    const [popoverMessages, setPopoverMessages] = useState<LintMessage['messages']>([]);
+    const [popoverMessages, setPopoverMessages] = useState<
+      LintMessage["messages"]
+    >([]);
 
     const textRef = useRef<HTMLDivElement>(null);
     const textBoxRef = useRef<HTMLDivElement>(null);
@@ -130,7 +141,7 @@ const TextContainer: React.FunctionComponent<{
         dispatchMemos((prevMemos) =>
           prevMemos.map((prevMemo) => {
             if (!textRef.current) {
-              throw new Error('textRef.current is not defined');
+              throw new Error("textRef.current is not defined");
             }
 
             return {
@@ -142,9 +153,9 @@ const TextContainer: React.FunctionComponent<{
           })
         );
 
-      window.addEventListener('beforeunload', dispatchText);
+      window.addEventListener("beforeunload", dispatchText);
 
-      return () => window.removeEventListener('beforeunload', dispatchText);
+      return () => window.removeEventListener("beforeunload", dispatchText);
     }, [dispatchMemos, memo.id]);
 
     useEffect(() => {
@@ -163,13 +174,17 @@ const TextContainer: React.FunctionComponent<{
 
       try {
         if (!textRef.current || !textBoxRef.current) {
-          throw new Error('textRef.current or textBoxRef.current is not defined');
+          throw new Error(
+            "textRef.current or textBoxRef.current is not defined"
+          );
         }
 
         const mergedMessages: LintMessage[] = [];
 
         memo.result.messages.forEach((message) => {
-          const duplicatedMessage = mergedMessages.find(({ index }) => index === message.index);
+          const duplicatedMessage = mergedMessages.find(
+            ({ index }) => index === message.index
+          );
 
           if (duplicatedMessage) {
             duplicatedMessage.messages.push(message);
@@ -204,7 +219,7 @@ const TextContainer: React.FunctionComponent<{
     const handleFixClick = useCallback(
       ({ message }: { message: TextlintMessage }) => {
         if (!message.fix) {
-          throw new Error('message.fix is not defined');
+          throw new Error("message.fix is not defined");
         }
 
         const { range, text } = message.fix;
@@ -230,7 +245,7 @@ const TextContainer: React.FunctionComponent<{
         messages,
       }: {
         currentTarget: Element;
-        messages: LintMessage['messages'];
+        messages: LintMessage["messages"];
       }) => {
         setPopoverAnchorEl(currentTarget);
         setPopoverMessages(messages);
@@ -249,7 +264,7 @@ const TextContainer: React.FunctionComponent<{
       dispatchMemos((prevMemos) =>
         prevMemos.map((prevMemo) => {
           if (!textRef.current) {
-            throw new Error('textRef.current is not defined');
+            throw new Error("textRef.current is not defined");
           }
 
           return {
@@ -272,9 +287,9 @@ const TextContainer: React.FunctionComponent<{
       <Box pb={2} pt={1}>
         <Box
           border={isTextContainerFocused ? 2 : 1}
-          borderColor={isTextContainerFocused ? 'primary.main' : 'grey.500'}
+          borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
           borderRadius="borderRadius"
-          m={isTextContainerFocused ? 0 : '1px'}
+          m={isTextContainerFocused ? 0 : "1px"}
           position="relative"
         >
           {(props: any) => (
@@ -300,7 +315,10 @@ const TextContainer: React.FunctionComponent<{
                       key={message.index}
                       style={{ left, top }}
                       onClick={({ currentTarget }) => {
-                        handlePinClick({ currentTarget, messages: message.messages });
+                        handlePinClick({
+                          currentTarget,
+                          messages: message.messages,
+                        });
                       }}
                     >
                       <PinIcon severity={severity} />
@@ -311,14 +329,14 @@ const TextContainer: React.FunctionComponent<{
               <MessagePopover
                 anchorEl={popoverAnchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
+                  vertical: "top",
+                  horizontal: "left",
                 }}
                 onClose={handlePopoverClose}
                 open={isPopoverOpen}
                 transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
+                  vertical: "bottom",
+                  horizontal: "left",
                 }}
               >
                 <Container maxWidth="sm">
@@ -330,7 +348,10 @@ const TextContainer: React.FunctionComponent<{
                         <ListItemSecondaryAction>
                           {message.fix && (
                             <Tooltip title="自動修正">
-                              <IconButton edge="end" onClick={() => handleFixClick({ message })}>
+                              <IconButton
+                                edge="end"
+                                onClick={() => handleFixClick({ message })}
+                              >
                                 <SpellcheckIcon />
                               </IconButton>
                             </Tooltip>
@@ -344,6 +365,16 @@ const TextContainer: React.FunctionComponent<{
             </div>
           )}
         </Box>
+
+        {shouldDisplayResult &&
+          memo.text &&
+          memo.result?.messages.length === 0 && (
+            <Box mt={1}>
+              <Alert severity="success">
+                お疲れさまでした！エラーはありません
+              </Alert>
+            </Box>
+          )}
       </Box>
     );
   }
