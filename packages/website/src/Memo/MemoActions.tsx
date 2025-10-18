@@ -39,21 +39,6 @@ export const MemoActions: React.FunctionComponent<{
       memoId: memo.id,
     });
 
-    const handleShareClick = useCallback(async () => {
-      try {
-        await navigator.share?.({
-          text: memo.text,
-        });
-      } catch (exception) {
-        if (
-          !(exception instanceof DOMException) ||
-          exception.code !== DOMException.ABORT_ERR
-        ) {
-          throw exception;
-        }
-      }
-    }, [memo.text]);
-
     const handleSettingButtonClick = useCallback(
       () => setIsSettingDialogOpen(true),
       []
@@ -106,55 +91,25 @@ export const MemoActions: React.FunctionComponent<{
         <Paper>
           <Box pb={2} pt={2}>
             <Container>
-              <Grid container spacing={1} wrap="wrap">
+              <Grid container alignItems="center" spacing={1}>
                 <Grid item>
                   <Chip label={`${memo.text.length}文字`} size="small" />
                 </Grid>
-              </Grid>
 
-              <Box mt={2}>
-                <Grid container spacing={1}>
-                  {
-                    // @ts-expect-error navigator.share() が存在しない環境もある。
-                    navigator.share && (
-                      <Grid item>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={handleShareClick}
-                          startIcon={<ShareIcon />}
-                        >
-                          共有
-                        </Button>
-                      </Grid>
-                    )
-                  }
-
-                  <Grid item>
-                    <Button
-                      variant="outlined"
-                      onClick={handleSettingButtonClick}
-                    >
-                      校正設定
-                    </Button>
-                  </Grid>
-
-                  <Grid item>
-                    <Button variant="outlined" onClick={handleCopyButtonClick}>
-                      コピー
-                    </Button>
-                  </Grid>
-
-                  <Grid item>
-                    <Button
-                      variant="outlined"
-                      onClick={handleDeleteButtonClick}
-                    >
-                      削除
-                    </Button>
-                  </Grid>
+                <Grid item>
+                  <Button variant="outlined" onClick={handleSettingButtonClick}>
+                    校正設定
+                  </Button>
                 </Grid>
-              </Box>
+
+                <Grid item>
+                  <Button onClick={handleCopyButtonClick}>コピー</Button>
+                </Grid>
+
+                <Grid item>
+                  <Button onClick={handleDeleteButtonClick}>削除</Button>
+                </Grid>
+              </Grid>
             </Container>
           </Box>
         </Paper>

@@ -1,24 +1,30 @@
-import React, { memo, useMemo } from 'react';
-import type { PropsWithChildren } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { jaJP } from '@mui/material/locale';
+import React, { memo, useMemo } from "react";
+import type { PropsWithChildren } from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {
+  ThemeProvider as MuiThemeProvider,
+  createTheme,
+} from "@mui/material/styles";
+import { jaJP } from "@mui/material/locale";
 
 const ThemeProvider = memo(({ children }: PropsWithChildren) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const theme = useMemo(
     () =>
       createTheme(
         {
           palette: {
-            mode: prefersDarkMode ? 'dark' : 'light',
+            mode: prefersDarkMode ? "dark" : "light",
+            background: {
+              default: "#fafafa",
+            },
             primary: {
-              main: '#00a39b',
+              main: "#00a39b",
             },
             secondary: {
-              main: '#f15d69',
+              main: "#f15d69",
             },
           },
           typography: {
