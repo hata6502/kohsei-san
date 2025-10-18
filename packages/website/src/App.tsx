@@ -1,5 +1,4 @@
 import React, { useCallback, useReducer, useState } from "react";
-import { Helmet } from "react-helmet";
 import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
@@ -17,10 +16,6 @@ import Empty from "./Empty";
 import Sidebar from "./Sidebar";
 import { useMemo } from "./useMemo";
 
-type HelmetComponentProps = { children?: React.ReactNode };
-
-const HelmetComponent = Helmet as unknown as React.ComponentType<HelmetComponentProps>;
-
 const MemoContainer = styled(Container)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   marginTop: theme.spacing(2),
@@ -29,11 +24,6 @@ const MemoContainer = styled(Container)(({ theme }) => ({
 const Title = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(1),
 }));
-
-const TopBar = styled(AppBar)({
-  // Sentry のレポートダイアログを最前面に表示するため
-  zIndex: 998,
-});
 
 const ToolbarOffset = styled("div")(({ theme }) => ({
   minHeight: 64,
@@ -51,7 +41,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
       memoId,
       memos,
       setIsSaveErrorOpen,
-      titleParam,
     } = useMemo();
 
     const [isLinting, dispatchIsLinting] = useReducer(
@@ -87,18 +76,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
     );
 
     const memo = memos.find(({ id }) => id === memoId);
-    const title =
-      titleParam === null
-        ? "校正さん"
-        : `「${titleParam}」の校正結果 | 校正さん`;
 
     return (
       <div>
-        <HelmetComponent>
-          <title>{title}</title>
-        </HelmetComponent>
-
-        <TopBar color="inherit">
+        <AppBar color="inherit">
           <Toolbar>
             <IconButton onClick={handleMenuIconClick}>
               <MenuIcon />
@@ -118,7 +99,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
                 : "校正さん"}
             </Title>
           </Toolbar>
-        </TopBar>
+        </AppBar>
 
         <nav>
           <Drawer

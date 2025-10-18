@@ -54,7 +54,6 @@ const useMemo = (): {
   memoId: string;
   memos: Memo[];
   setIsSaveErrorOpen: Dispatch<SetStateAction<boolean>>;
-  titleParam: string | null;
 } => {
   const searchParams = new URLSearchParams(window.location.search);
 
@@ -128,7 +127,6 @@ const useMemo = (): {
     memoId,
     memos,
     setIsSaveErrorOpen,
-    titleParam,
   };
 };
 
