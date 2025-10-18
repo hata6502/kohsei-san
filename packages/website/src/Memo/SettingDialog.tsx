@@ -1,18 +1,19 @@
 import React, { useCallback } from 'react';
-import Box from '@material-ui/core/Box';
-import Checkbox from '@material-ui/core/Checkbox';
-import Dialog from '@material-ui/core/Dialog';
-import type { DialogProps } from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import type { FormControlLabelProps } from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Radio from '@material-ui/core/Radio';
-import Select, { SelectProps } from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
+import type { SyntheticEvent } from 'react';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import Dialog from '@mui/material/Dialog';
+import type { DialogProps } from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Radio from '@mui/material/Radio';
+import Select from '@mui/material/Select';
+import type { SelectChangeEvent } from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import type { DispatchSetting, Memo, Setting } from '../useMemo';
 
 const useLintOptionChange = ({
@@ -22,8 +23,8 @@ const useLintOptionChange = ({
   dispatchSetting: DispatchSetting;
   key: keyof Setting['lintOption'];
 }) =>
-  useCallback<NonNullable<FormControlLabelProps['onChange']>>(
-    (_event, checked) =>
+  useCallback(
+    (_event: SyntheticEvent, checked: boolean) =>
       dispatchSetting((prevSetting) => ({
         ...prevSetting,
         lintOption: {
@@ -108,9 +109,9 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
       key: 'presetJTFStyle',
     });
 
-    const handleUserDictionaryMemoIdChange = useCallback<NonNullable<SelectProps['onChange']>>(
-      (event) => {
-        const value = event.target.value as string;
+    const handleUserDictionaryMemoIdChange = useCallback(
+      (event: SelectChangeEvent<string>) => {
+        const value = event.target.value;
         const userDictionaryMemoId = value === 'none' ? undefined : value;
 
         dispatchSetting((prevSetting) => ({

@@ -1,33 +1,40 @@
 import React, { useCallback, useReducer, useState } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import Alert from "@material-ui/lab/Alert";
-import AppBar from "@material-ui/core/AppBar";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Container from "@material-ui/core/Container";
-import Drawer from "@material-ui/core/Drawer";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+import Alert from "@mui/material/Alert";
+import AppBar from "@mui/material/AppBar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Drawer from "@mui/material/Drawer";
+import Grid from "@mui/material/GridLegacy";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { Theme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
 import Empty from "./Empty";
-import Sidebar from "./Sidebar";
 import { useMemo } from "./useMemo";
+
+import Sidebar from "./Sidebar";
+
+type HelmetComponentProps = React.PropsWithChildren<Record<string, unknown>>;
+
+const HelmetComponent =
+  Helmet as unknown as React.ComponentType<HelmetComponentProps>;
 
 const MemoContainer = styled(Container)`
   ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(2)}px;
+    margin-bottom: ${theme.spacing(2)};
+    margin-top: ${theme.spacing(2)};
   `}
 `;
 
 const Title = styled(Typography)`
   ${({ theme }) => `
-    margin-left: ${theme.spacing(1)}px;
+    margin-left: ${theme.spacing(1)};
   `}
 `;
 
@@ -36,7 +43,7 @@ const TopBar = styled(AppBar)`
   z-index: 998;
 `;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
@@ -94,13 +101,12 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
 
     return (
       <div>
-        <Helmet>
+        <HelmetComponent>
           <title>{title}</title>
-        </Helmet>
-
+        </HelmetComponent>
         <TopBar color="inherit">
           <Toolbar>
-            <IconButton onClick={handleMenuIconClick}>
+            <IconButton onClick={handleMenuIconClick} size="large">
               <MenuIcon />
             </IconButton>
 
@@ -119,7 +125,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             </Title>
           </Toolbar>
         </TopBar>
-
         <nav>
           <Drawer
             open={isSidebarOpen}
@@ -135,7 +140,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             />
           </Drawer>
         </nav>
-
         <main>
           <div className={classes.toolbar} />
 
@@ -171,7 +175,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             <Empty />
           )}
         </main>
-
         <Snackbar
           autoHideDuration={6000}
           open={isCopiedSnackbarOpen}
@@ -179,7 +182,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         >
           <Alert severity="success">メモをコピーしました。</Alert>
         </Snackbar>
-
         <Snackbar open={isSaveErrorOpen}>
           <Alert onClose={handleSaveErrorClose} severity="error">
             メモを保存できませんでした。

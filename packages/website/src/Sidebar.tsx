@@ -1,17 +1,16 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import Divider from "@material-ui/core/Divider";
-import Link from "@material-ui/core/Link";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import HelpIcon from "@material-ui/icons/Help";
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import PaletteIcon from "@material-ui/icons/Palette";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import HelpIcon from "@mui/icons-material/Help";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PaletteIcon from "@mui/icons-material/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
@@ -71,8 +70,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       <DrawerContainer>
         <List>
           {memos.map(({ id, result, text }) => (
-            <ListItem
-              button
+            <ListItemButton
               key={id}
               onClick={() => handleMemoClick(id)}
               selected={id === memoId}
@@ -82,24 +80,24 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
               )}
 
               <MemoText primary={text.trim() || "(空のメモ)"} />
-            </ListItem>
+            </ListItemButton>
           ))}
 
-          <ListItem button onClick={handleAddClick}>
+          <ListItemButton onClick={handleAddClick}>
             <ListItemIcon data-testid="sidebar-component-add-memo">
               <NoteAddIcon />
             </ListItemIcon>
 
             <ListItemText primary="メモを追加" />
-          </ListItem>
+          </ListItemButton>
         </List>
 
         <Divider />
 
         <List>
           {!appInstalled && (
-            <Link
-              color="inherit"
+            <ListItemButton
+              component="a"
               href={
                 navigator.platform.toLowerCase().includes("android") ||
                 navigator.platform.toLowerCase().includes("linux")
@@ -108,81 +106,71 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
               }
               rel="noreferrer"
               target="_blank"
-              underline="none"
+              sx={{ color: "inherit", textDecoration: "none" }}
             >
-              <ListItem button>
-                <ListItemIcon>
-                  <GetAppIcon />
-                </ListItemIcon>
+              <ListItemIcon>
+                <GetAppIcon />
+              </ListItemIcon>
 
-                <ListItemText primary="アプリ版" />
-              </ListItem>
-            </Link>
+              <ListItemText primary="アプリ版" />
+            </ListItemButton>
           )}
 
-          <Link
-            color="inherit"
+          <ListItemButton
+            component="a"
             href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
             rel="noreferrer"
             target="_blank"
-            underline="none"
+            sx={{ color: "inherit", textDecoration: "none" }}
           >
-            <ListItem button>
-              <ListItemIcon>
-                <HelpIcon />
-              </ListItemIcon>
+            <ListItemIcon>
+              <HelpIcon />
+            </ListItemIcon>
 
-              <ListItemText primary="ヘルプ" />
-            </ListItem>
-          </Link>
+            <ListItemText primary="ヘルプ" />
+          </ListItemButton>
 
-          <Link
-            color="inherit"
+          <ListItemButton
+            component="a"
             href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
             rel="noreferrer"
             target="_blank"
-            underline="none"
+            sx={{ color: "inherit", textDecoration: "none" }}
           >
-            <ListItem button>
-              <ListItemText primary="プライバシーポリシー" />
-            </ListItem>
-          </Link>
+            <ListItemText primary="プライバシーポリシー" />
+          </ListItemButton>
         </List>
 
         <Divider />
 
         <List>
-          <Link
-            color="inherit"
+          <ListItemButton
+            component="a"
             href="https://almap.hata6502.com/"
             rel="noreferrer"
             target="_blank"
-            underline="none"
+            sx={{ color: "inherit", textDecoration: "none" }}
           >
-            <ListItem button>
-              <ListItemIcon>
-                <LocalFloristIcon />
-              </ListItemIcon>
+            <ListItemIcon>
+              <LocalFloristIcon />
+            </ListItemIcon>
 
-              <ListItemText primary="写真地図" />
-            </ListItem>
-          </Link>
+            <ListItemText primary="写真地図" />
+          </ListItemButton>
 
-          <Link
-            color="inherit"
+          <ListItemButton
+            component="a"
             href="https://premy.hata6502.com/"
             rel="noreferrer"
             target="_blank"
-            underline="none"
+            sx={{ color: "inherit", textDecoration: "none" }}
           >
-            <ListItem button>
-              <ListItemIcon>
-                <PaletteIcon />
-              </ListItemIcon>
+            <ListItemIcon>
+              <PaletteIcon />
+            </ListItemIcon>
 
-              <ListItemText primary="premyお絵かき" />
-            </ListItem>
-          </Link>
+            <ListItemText primary="premyお絵かき" />
+          </ListItemButton>
         </List>
       </DrawerContainer>
     );

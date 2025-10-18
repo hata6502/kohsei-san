@@ -1,17 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  type HTMLAttributes,
+  type RefAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Popover from "@material-ui/core/Popover";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import Alert from "@material-ui/lab/Alert";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemText from "@mui/material/ListItemText";
+import Popover from "@mui/material/Popover";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import SpellcheckIcon from "@mui/icons-material/Spellcheck";
+import Alert from "@mui/material/Alert";
 import type {
   TextlintMessage,
   TextlintRuleSeverityLevel,
@@ -25,16 +32,21 @@ const MessagePopover = styled(Popover)`
   word-break: break-all;
 `;
 
-const PinTarget = styled.div`
+type PinTargetProps = HTMLAttributes<HTMLDivElement>;
+
+const PinTarget = styled.div<PinTargetProps>`
   cursor: pointer;
   padding: 8px;
   position: absolute;
   transform: translateY(-100%);
 `;
 
-const Content = styled.div`
+type ContentProps = HTMLAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement>;
+
+const Content = styled.div<ContentProps>`
   ${({ theme }) => `
-    padding: ${theme.spacing(2)}px;
+    padding: ${theme.spacing(2)};
     &:empty::before {
       content: '校正する文章を入力';
       color: ${theme.palette.text.disabled};
@@ -168,17 +180,23 @@ const TextContainer: React.FunctionComponent<{
     }, [memo.text]);
 
     useEffect(() => {
+      if (!textRef.current) {
+        return;
+      }
+
+      textRef.current.setAttribute("contentEditable", "plaintext-only");
+    }, []);
+
+    useEffect(() => {
       if (!memo.result) {
         return;
       }
 
-      try {
-        if (!textRef.current || !textBoxRef.current) {
-          throw new Error(
-            "textRef.current or textBoxRef.current is not defined"
-          );
-        }
+      if (!textRef.current || !textBoxRef.current) {
+        return;
+      }
 
+      try {
         const mergedMessages: LintMessage[] = [];
 
         memo.result.messages.forEach((message) => {
@@ -206,9 +224,9 @@ const TextContainer: React.FunctionComponent<{
           console.error(getPinsResult.reject);
 
           return;
-        } else {
-          setPins(getPinsResult.resolve);
         }
+
+        setPins(getPinsResult.resolve);
       } finally {
         dispatchIsLinting(false);
       }
@@ -288,84 +306,79 @@ const TextContainer: React.FunctionComponent<{
         <Box
           border={isTextContainerFocused ? 2 : 1}
           borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
-          borderRadius="borderRadius"
+          borderRadius={1}
+          component="div"
           m={isTextContainerFocused ? 0 : "1px"}
           position="relative"
+          ref={textBoxRef}
         >
-          {(props: any) => (
-            <div {...props} ref={textBoxRef}>
-              <Typography component="div" variant="body1">
-                <Content
-                  // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
-                  contentEditable="plaintext-only"
-                  onBlur={handleTextContainerBlur}
-                  onFocus={handleTextContainerFocus}
-                  ref={textRef}
-                />
-              </Typography>
+          <Typography component="div" variant="body1">
+            <Content
+              contentEditable
+              onBlur={handleTextContainerBlur}
+              onFocus={handleTextContainerFocus}
+              ref={textRef}
+            />
+          </Typography>
 
-              {shouldDisplayResult &&
-                pins.map(({ left, message, top }) => {
-                  const severity = Math.max(
-                    ...message.messages.map((message) => message.severity)
-                  ) as TextlintRuleSeverityLevel;
+          {shouldDisplayResult &&
+            pins.map(({ left, message, top }) => {
+              const severity = Math.max(
+                ...message.messages.map((message) => message.severity)
+              ) as TextlintRuleSeverityLevel;
 
-                  return (
-                    <PinTarget
-                      key={message.index}
-                      style={{ left, top }}
-                      onClick={({ currentTarget }) => {
-                        handlePinClick({
-                          currentTarget,
-                          messages: message.messages,
-                        });
-                      }}
-                    >
-                      <PinIcon severity={severity} />
-                    </PinTarget>
-                  );
-                })}
+              return (
+                  <PinTarget
+                    key={message.index}
+                    style={{ left, top }}
+                    onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                      const { currentTarget } = event;
 
-              <MessagePopover
-                anchorEl={popoverAnchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                onClose={handlePopoverClose}
-                open={isPopoverOpen}
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Container maxWidth="sm">
-                  <List>
-                    {popoverMessages.map((message, index) => (
-                      <ListItem key={index}>
-                        <ListItemText primary={message.message} />
+                      handlePinClick({
+                        currentTarget,
+                        messages: message.messages,
+                      });
+                    }}
+                  >
+                    <PinIcon severity={severity} />
+                  </PinTarget>
+              );
+            })}
 
-                        <ListItemSecondaryAction>
-                          {message.fix && (
-                            <Tooltip title="自動修正">
-                              <IconButton
-                                edge="end"
-                                onClick={() => handleFixClick({ message })}
-                              >
-                                <SpellcheckIcon />
-                              </IconButton>
-                            </Tooltip>
-                          )}
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Container>
-              </MessagePopover>
-            </div>
-          )}
+          <MessagePopover
+            anchorEl={popoverAnchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            onClose={handlePopoverClose}
+            open={isPopoverOpen}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <Container maxWidth="sm">
+              <List>
+                {popoverMessages.map((message, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={message.message} />
+
+                    <ListItemSecondaryAction>
+                      {message.fix && (
+                        <Tooltip title="自動修正">
+                          <IconButton edge="end" onClick={() => handleFixClick({ message })} size="large">
+                            <SpellcheckIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+            </Container>
+          </MessagePopover>
         </Box>
-
         {shouldDisplayResult &&
           memo.text &&
           memo.result?.messages.length === 0 && (

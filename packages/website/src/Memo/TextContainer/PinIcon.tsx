@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import MuiInfoIcon from '@material-ui/icons/Info';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import MuiInfoIcon from '@mui/icons-material/Info';
 import type { TextlintRuleSeverityLevel } from '@textlint/kernel';
 
 const ErrorIcon = styled(FeedbackIcon)`

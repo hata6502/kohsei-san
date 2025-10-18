@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/GridLegacy';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 const EmptyContainer = styled(Container)`
   ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(2)}px;
+    margin-bottom: ${theme.spacing(2)};
+    margin-top: ${theme.spacing(2)};
   `}
 `;
 

@@ -1,12 +1,27 @@
 import Clarity from "@microsoft/clarity";
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { StylesProvider } from '@material-ui/core/styles';
+import { createRoot } from 'react-dom/client';
+import { StylesProvider } from '@mui/styles';
 import App from './App';
-import { ThemeProvider } from './ThemeProvider';
+import { ThemeProvider, Theme, StyledEngineProvider } from './ThemeProvider';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+const appElement = document.querySelector('.app');
+
+if (!appElement) {
+  throw new Error('App container ".app" not found');
+}
+
+const root = createRoot(appElement);
 
 const renderFatalError = ({ message }: { message: React.ReactNode }) =>
-  ReactDOM.render(
+  root.render(
     <>
       {message}
       <br />
@@ -18,8 +33,7 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
       >
         ヘルプ
       </a>
-    </>,
-    document.querySelector('.app')
+    </>
   );
 
 const main = () => {
@@ -59,13 +73,14 @@ const main = () => {
     }
   }
 
-  ReactDOM.render(
+  root.render(
     <StylesProvider injectFirst>
-      <ThemeProvider>
-        <App lintWorker={lintWorker} />
-      </ThemeProvider>
-    </StylesProvider>,
-    document.querySelector('.app')
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider>
+          <App lintWorker={lintWorker} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </StylesProvider>
   );
 };
 
