@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -70,107 +71,122 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       <DrawerContainer>
         <List>
           {memos.map(({ id, result, text }) => (
-            <ListItemButton
-              key={id}
-              onClick={() => handleMemoClick(id)}
-              selected={id === memoId}
-            >
-              {result?.messages.length === 0 && (
-                <CheckCircleOutlineIcon color="primary" />
-              )}
+            <ListItem disablePadding key={id}>
+              <ListItemButton
+                onClick={() => handleMemoClick(id)}
+                selected={id === memoId}
+              >
+                {result?.messages.length === 0 && (
+                  <ListItemIcon>
+                    <CheckCircleOutlineIcon color="primary" />
+                  </ListItemIcon>
+                )}
 
-              <MemoText primary={text.trim() || "(空のメモ)"} />
-            </ListItemButton>
+                <MemoText primary={text.trim() || "(空のメモ)"} />
+              </ListItemButton>
+            </ListItem>
           ))}
 
-          <ListItemButton onClick={handleAddClick}>
-            <ListItemIcon data-testid="sidebar-component-add-memo">
-              <NoteAddIcon />
-            </ListItemIcon>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleAddClick}>
+              <ListItemIcon data-testid="sidebar-component-add-memo">
+                <NoteAddIcon />
+              </ListItemIcon>
 
-            <ListItemText primary="メモを追加" />
-          </ListItemButton>
+              <ListItemText primary="メモを追加" />
+            </ListItemButton>
+          </ListItem>
         </List>
 
         <Divider />
 
         <List>
           {!appInstalled && (
-            <ListItemButton
-              component="a"
-              href={
-                navigator.platform.toLowerCase().includes("android") ||
-                navigator.platform.toLowerCase().includes("linux")
-                  ? "https://play.google.com/store/apps/details?id=com.hata6502.kohsei_san.twa"
-                  : "https://help.hata6502.com/--64f09e1918f421001cd41ed3"
-              }
-              rel="noreferrer"
-              target="_blank"
-              sx={{ color: "inherit", textDecoration: "none" }}
-            >
-              <ListItemIcon>
-                <GetAppIcon />
-              </ListItemIcon>
+            <ListItem disablePadding>
+              <ListItemButton
+                component="a"
+                href={
+                  navigator.platform.toLowerCase().includes("android") ||
+                  navigator.platform.toLowerCase().includes("linux")
+                    ? "https://play.google.com/store/apps/details?id=com.hata6502.kohsei_san.twa"
+                    : "https://help.hata6502.com/--64f09e1918f421001cd41ed3"
+                }
+                rel="noreferrer"
+                sx={{ color: "inherit" }}
+                target="_blank"
+              >
+                <ListItemIcon>
+                  <GetAppIcon />
+                </ListItemIcon>
 
-              <ListItemText primary="アプリ版" />
-            </ListItemButton>
+                <ListItemText primary="アプリ版" />
+              </ListItemButton>
+            </ListItem>
           )}
 
-          <ListItemButton
-            component="a"
-            href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
-            rel="noreferrer"
-            target="_blank"
-            sx={{ color: "inherit", textDecoration: "none" }}
-          >
-            <ListItemIcon>
-              <HelpIcon />
-            </ListItemIcon>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
+              <ListItemIcon>
+                <HelpIcon />
+              </ListItemIcon>
 
-            <ListItemText primary="ヘルプ" />
-          </ListItemButton>
+              <ListItemText primary="ヘルプ" />
+            </ListItemButton>
+          </ListItem>
 
-          <ListItemButton
-            component="a"
-            href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
-            rel="noreferrer"
-            target="_blank"
-            sx={{ color: "inherit", textDecoration: "none" }}
-          >
-            <ListItemText primary="プライバシーポリシー" />
-          </ListItemButton>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
+              <ListItemText primary="プライバシーポリシー" />
+            </ListItemButton>
+          </ListItem>
         </List>
 
         <Divider />
 
         <List>
-          <ListItemButton
-            component="a"
-            href="https://almap.hata6502.com/"
-            rel="noreferrer"
-            target="_blank"
-            sx={{ color: "inherit", textDecoration: "none" }}
-          >
-            <ListItemIcon>
-              <LocalFloristIcon />
-            </ListItemIcon>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://almap.hata6502.com/"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
+              <ListItemIcon>
+                <LocalFloristIcon />
+              </ListItemIcon>
 
-            <ListItemText primary="写真地図" />
-          </ListItemButton>
+              <ListItemText primary="写真地図" />
+            </ListItemButton>
+          </ListItem>
 
-          <ListItemButton
-            component="a"
-            href="https://premy.hata6502.com/"
-            rel="noreferrer"
-            target="_blank"
-            sx={{ color: "inherit", textDecoration: "none" }}
-          >
-            <ListItemIcon>
-              <PaletteIcon />
-            </ListItemIcon>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://premy.hata6502.com/"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
+              <ListItemIcon>
+                <PaletteIcon />
+              </ListItemIcon>
 
-            <ListItemText primary="premyお絵かき" />
-          </ListItemButton>
+              <ListItemText primary="premyお絵かき" />
+            </ListItemButton>
+          </ListItem>
         </List>
       </DrawerContainer>
     );

@@ -1,12 +1,11 @@
 import React, {
-  type HTMLAttributes,
-  type RefAttributes,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
 import styled from "styled-components";
+import { styled as muiStyled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -28,25 +27,9 @@ import { PinIcon } from "./PinIcon";
 
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
-const MessagePopover = styled(Popover)`
-  word-break: break-all;
-`;
-
-type PinTargetProps = HTMLAttributes<HTMLDivElement>;
-
-const PinTarget = styled.div<PinTargetProps>`
-  cursor: pointer;
-  padding: 8px;
-  position: absolute;
-  transform: translateY(-100%);
-`;
-
-type ContentProps = HTMLAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement>;
-
-const Content = styled.div<ContentProps>`
+const Content = styled.div`
   ${({ theme }) => `
-    padding: ${theme.spacing(2)};
+    padding: ${theme.spacing(2)}px;
     &:empty::before {
       content: '校正する文章を入力';
       color: ${theme.palette.text.disabled};
@@ -122,6 +105,30 @@ const getPins = ({
   return { resolve: pins };
 };
 
+const MessagePopover = styled(Popover)`
+  word-break: break-word;
+`;
+
+const TextBox = muiStyled("div", {
+  shouldForwardProp: (prop) => prop !== "$isFocused",
+})<{ $isFocused: boolean }>(({ theme, $isFocused }) => ({
+  borderColor: $isFocused
+    ? theme.palette.primary.main
+    : theme.palette.grey[500],
+  borderRadius: theme.shape.borderRadius,
+  borderStyle: "solid",
+  borderWidth: $isFocused ? 2 : 1,
+  margin: $isFocused ? 0 : 1,
+  position: "relative",
+}));
+
+const PinTarget = muiStyled("div")(({ theme }) => ({
+  cursor: "pointer",
+  padding: theme.spacing(1),
+  position: "absolute",
+  transform: "translateY(-100%)",
+}));
+
 const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsTextContainerFocused: React.Dispatch<React.SetStateAction<boolean>>;
@@ -140,13 +147,15 @@ const TextContainer: React.FunctionComponent<{
   }) => {
     const [pins, setPins] = useState<Pin[]>([]);
 
-    const [popoverAnchorEl, setPopoverAnchorEl] = useState<Element>();
+    const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
+      null
+    );
     const [popoverMessages, setPopoverMessages] = useState<
       LintMessage["messages"]
     >([]);
 
-    const textRef = useRef<HTMLDivElement>(null);
-    const textBoxRef = useRef<HTMLDivElement>(null);
+    const textRef = useRef<HTMLDivElement | null>(null);
+    const textBoxRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
       const dispatchText = () =>
@@ -180,23 +189,17 @@ const TextContainer: React.FunctionComponent<{
     }, [memo.text]);
 
     useEffect(() => {
-      if (!textRef.current) {
-        return;
-      }
-
-      textRef.current.setAttribute("contentEditable", "plaintext-only");
-    }, []);
-
-    useEffect(() => {
       if (!memo.result) {
         return;
       }
 
-      if (!textRef.current || !textBoxRef.current) {
-        return;
-      }
-
       try {
+        if (!textRef.current || !textBoxRef.current) {
+          throw new Error(
+            "textRef.current or textBoxRef.current is not defined"
+          );
+        }
+
         const mergedMessages: LintMessage[] = [];
 
         memo.result.messages.forEach((message) => {
@@ -224,9 +227,9 @@ const TextContainer: React.FunctionComponent<{
           console.error(getPinsResult.reject);
 
           return;
+        } else {
+          setPins(getPinsResult.resolve);
         }
-
-        setPins(getPinsResult.resolve);
       } finally {
         dispatchIsLinting(false);
       }
@@ -252,28 +255,25 @@ const TextContainer: React.FunctionComponent<{
           }))
         );
 
-        setPopoverAnchorEl(undefined);
+        setPopoverAnchorEl(null);
       },
       [dispatchMemos, memo.id, setPopoverAnchorEl]
     );
 
     const handlePinClick = useCallback(
-      ({
-        currentTarget,
-        messages,
-      }: {
-        currentTarget: Element;
-        messages: LintMessage["messages"];
-      }) => {
-        setPopoverAnchorEl(currentTarget);
+      (
+        event: React.MouseEvent<HTMLElement>,
+        messages: LintMessage["messages"]
+      ) => {
+        setPopoverAnchorEl(event.currentTarget);
         setPopoverMessages(messages);
       },
-      [setPopoverAnchorEl, setPopoverMessages]
+      []
     );
 
     const handlePopoverClose = useCallback(
-      () => setPopoverAnchorEl(undefined),
-      [setPopoverAnchorEl]
+      () => setPopoverAnchorEl(null),
+      []
     );
 
     const handleTextContainerBlur = useCallback(() => {
@@ -303,18 +303,11 @@ const TextContainer: React.FunctionComponent<{
 
     return (
       <Box pb={2} pt={1}>
-        <Box
-          border={isTextContainerFocused ? 2 : 1}
-          borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
-          borderRadius={1}
-          component="div"
-          m={isTextContainerFocused ? 0 : "1px"}
-          position="relative"
-          ref={textBoxRef}
-        >
+        <TextBox ref={textBoxRef} $isFocused={isTextContainerFocused}>
           <Typography component="div" variant="body1">
             <Content
-              contentEditable
+              // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
+              contentEditable="plaintext-only"
               onBlur={handleTextContainerBlur}
               onFocus={handleTextContainerFocus}
               ref={textRef}
@@ -328,20 +321,15 @@ const TextContainer: React.FunctionComponent<{
               ) as TextlintRuleSeverityLevel;
 
               return (
-                  <PinTarget
-                    key={message.index}
-                    style={{ left, top }}
-                    onClick={(event: React.MouseEvent<HTMLDivElement>) => {
-                      const { currentTarget } = event;
-
-                      handlePinClick({
-                        currentTarget,
-                        messages: message.messages,
-                      });
-                    }}
-                  >
-                    <PinIcon severity={severity} />
-                  </PinTarget>
+                <PinTarget
+                  key={message.index}
+                  style={{ left, top }}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                    handlePinClick(event, message.messages)
+                  }
+                >
+                  <PinIcon severity={severity} />
+                </PinTarget>
               );
             })}
 
@@ -367,7 +355,10 @@ const TextContainer: React.FunctionComponent<{
                     <ListItemSecondaryAction>
                       {message.fix && (
                         <Tooltip title="自動修正">
-                          <IconButton edge="end" onClick={() => handleFixClick({ message })} size="large">
+                          <IconButton
+                            edge="end"
+                            onClick={() => handleFixClick({ message })}
+                          >
                             <SpellcheckIcon />
                           </IconButton>
                         </Tooltip>
@@ -378,7 +369,8 @@ const TextContainer: React.FunctionComponent<{
               </List>
             </Container>
           </MessagePopover>
-        </Box>
+        </TextBox>
+
         {shouldDisplayResult &&
           memo.text &&
           memo.result?.messages.length === 0 && (

@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 
 const EmptyContainer = styled(Container)`
   ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)};
-    margin-top: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(2)}px;
+    margin-top: ${theme.spacing(2)}px;
   `}
 `;
 

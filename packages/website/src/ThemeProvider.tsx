@@ -1,68 +1,60 @@
 import React, { memo, useMemo } from 'react';
-import type { FunctionComponent, ReactNode } from 'react';
-import { CssBaseline, useMediaQuery } from '@mui/material';
+import type { PropsWithChildren } from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   ThemeProvider as MuiThemeProvider,
-  StyledEngineProvider,
   createTheme,
 } from '@mui/material/styles';
-import { ThemeProvider as StylesThemeProvider } from '@mui/styles';
 import type { Theme } from '@mui/material/styles';
 import { jaJP } from '@mui/material/locale';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
-import 'styled-components';
-
 declare module 'styled-components' {
+  // Share the MUI theme with styled-components consumers.
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface DefaultTheme extends Theme {}
 }
 
-const StyledComponentsThemeProvider =
-  StyledThemeProvider as unknown as React.ComponentType<{
-    children?: ReactNode;
-    theme: Theme;
-  }>;
+type StyledThemeProviderProps = PropsWithChildren<{ theme: Theme }>;
 
-const ThemeProvider: FunctionComponent<{ children?: ReactNode }> = memo(
-  ({ children }) => {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+const StyledThemeProviderComponent =
+  StyledThemeProvider as unknown as React.ComponentType<StyledThemeProviderProps>;
 
-    const theme = useMemo(
-      () =>
-        createTheme(
-          {
-            palette: {
-              mode: prefersDarkMode ? 'dark' : 'light',
-              primary: {
-                main: '#00a39b',
-              },
-              secondary: {
-                main: '#f15d69',
-              },
+const ThemeProvider = memo(({ children }: PropsWithChildren) => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const theme = useMemo(
+    () =>
+      createTheme(
+        {
+          palette: {
+            mode: prefersDarkMode ? 'dark' : 'light',
+            primary: {
+              main: '#00a39b',
             },
-            typography: {
-              fontFamily:
-                '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+            secondary: {
+              main: '#f15d69',
             },
           },
-          jaJP
-        ),
-      [prefersDarkMode]
-    );
+          typography: {
+            fontFamily:
+              '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+          },
+        },
+        jaJP
+      ),
+    [prefersDarkMode]
+  );
 
-    return (
-      <MuiThemeProvider theme={theme}>
-        <StylesThemeProvider theme={theme}>
-          <StyledComponentsThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </StyledComponentsThemeProvider>
-        </StylesThemeProvider>
-      </MuiThemeProvider>
-    );
-  }
-);
+  return (
+    <MuiThemeProvider theme={theme}>
+      <StyledThemeProviderComponent theme={theme}>
+        <CssBaseline />
+        {children}
+      </StyledThemeProviderComponent>
+    </MuiThemeProvider>
+  );
+});
 
 export { ThemeProvider };
-export type { Theme };
-export { StyledEngineProvider };

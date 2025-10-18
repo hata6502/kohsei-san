@@ -1,24 +1,17 @@
 import Clarity from "@microsoft/clarity";
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { StylesProvider } from '@mui/styles';
+import { StyledEngineProvider } from '@mui/material/styles';
 import App from './App';
-import { ThemeProvider, Theme, StyledEngineProvider } from './ThemeProvider';
+import { ThemeProvider } from './ThemeProvider';
 
+const rootElement = document.querySelector('.app');
 
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
+if (!rootElement) {
+  throw new Error('Failed to find application root element.');
 }
 
-
-const appElement = document.querySelector('.app');
-
-if (!appElement) {
-  throw new Error('App container ".app" not found');
-}
-
-const root = createRoot(appElement);
+const root = createRoot(rootElement as HTMLElement);
 
 const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   root.render(
@@ -74,13 +67,11 @@ const main = () => {
   }
 
   root.render(
-    <StylesProvider injectFirst>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider>
-          <App lintWorker={lintWorker} />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </StylesProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider>
+        <App lintWorker={lintWorker} />
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

@@ -11,30 +11,26 @@ import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Theme } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
 import Empty from "./Empty";
+import Sidebar from "./Sidebar";
 import { useMemo } from "./useMemo";
 
-import Sidebar from "./Sidebar";
+type HelmetComponentProps = { children?: React.ReactNode };
 
-type HelmetComponentProps = React.PropsWithChildren<Record<string, unknown>>;
-
-const HelmetComponent =
-  Helmet as unknown as React.ComponentType<HelmetComponentProps>;
+const HelmetComponent = Helmet as unknown as React.ComponentType<HelmetComponentProps>;
 
 const MemoContainer = styled(Container)`
   ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)};
-    margin-top: ${theme.spacing(2)};
+    margin-bottom: ${theme.spacing(2)}px;
+    margin-top: ${theme.spacing(2)}px;
   `}
 `;
 
 const Title = styled(Typography)`
   ${({ theme }) => `
-    margin-left: ${theme.spacing(1)};
+    margin-left: ${theme.spacing(1)}px;
   `}
 `;
 
@@ -43,9 +39,13 @@ const TopBar = styled(AppBar)`
   z-index: 998;
 `;
 
-const useStyles = makeStyles((theme: Theme) => ({
-  toolbar: theme.mixins.toolbar,
-}));
+const ToolbarOffset = styled.div`
+  min-height: 64px;
+
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    min-height: 56px;
+  }
+`;
 
 const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
   ({ lintWorker }) => {
@@ -72,8 +72,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
     const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
     const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] =
       useState(false);
-
-    const classes = useStyles();
 
     const handleMenuIconClick = useCallback(
       () => dispatchIsSidebarOpen(true),
@@ -104,9 +102,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         <HelmetComponent>
           <title>{title}</title>
         </HelmetComponent>
+
         <TopBar color="inherit">
           <Toolbar>
-            <IconButton onClick={handleMenuIconClick} size="large">
+            <IconButton onClick={handleMenuIconClick}>
               <MenuIcon />
             </IconButton>
 
@@ -125,6 +124,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             </Title>
           </Toolbar>
         </TopBar>
+
         <nav>
           <Drawer
             open={isSidebarOpen}
@@ -140,8 +140,9 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             />
           </Drawer>
         </nav>
+
         <main>
-          <div className={classes.toolbar} />
+          <ToolbarOffset />
 
           {memo ? (
             <MemoContainer>
@@ -175,6 +176,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
             <Empty />
           )}
         </main>
+
         <Snackbar
           autoHideDuration={6000}
           open={isCopiedSnackbarOpen}
@@ -182,6 +184,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         >
           <Alert severity="success">メモをコピーしました。</Alert>
         </Snackbar>
+
         <Snackbar open={isSaveErrorOpen}>
           <Alert onClose={handleSaveErrorClose} severity="error">
             メモを保存できませんでした。
