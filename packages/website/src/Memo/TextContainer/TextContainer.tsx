@@ -102,19 +102,6 @@ const MessagePopover = styled(Popover)({
   wordBreak: "break-word",
 });
 
-const TextBox = styled("div", {
-  shouldForwardProp: (prop) => prop !== "$isFocused",
-})<{ $isFocused: boolean }>(({ theme, $isFocused }) => ({
-  borderColor: $isFocused
-    ? theme.palette.primary.main
-    : theme.palette.grey[500],
-  borderRadius: theme.shape.borderRadius,
-  borderStyle: "solid",
-  borderWidth: $isFocused ? 2 : 1,
-  margin: $isFocused ? 0 : 1,
-  position: "relative",
-}));
-
 const PinTarget = styled("div")(({ theme }) => ({
   cursor: "pointer",
   padding: theme.spacing(1),
@@ -290,7 +277,14 @@ const TextContainer: React.FunctionComponent<{
 
     return (
       <Box pb={2} pt={1}>
-        <TextBox ref={textBoxRef} $isFocused={isTextContainerFocused}>
+        <Box
+          ref={textBoxRef}
+          border={isTextContainerFocused ? 2 : 1}
+          borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
+          borderRadius="4px"
+          m={isTextContainerFocused ? 0 : "1px"}
+          position="relative"
+        >
           <Typography component="div" variant="body1">
             <Content
               contentEditable="plaintext-only"
@@ -353,7 +347,7 @@ const TextContainer: React.FunctionComponent<{
               </List>
             </Container>
           </MessagePopover>
-        </TextBox>
+        </Box>
 
         {shouldDisplayResult &&
           memo.text &&
