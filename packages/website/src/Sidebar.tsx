@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
+import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -15,15 +15,15 @@ import PaletteIcon from "@mui/icons-material/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
-const DrawerContainer = styled.div`
-  width: 250px;
-`;
+const DrawerContainer = styled('div')({
+  width: 250,
+});
 
-const MemoText = styled(ListItemText)`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
+const MemoText = styled(ListItemText)({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
 
 export interface SidebarProps {
   dispatchMemoId: React.Dispatch<Memo["id"]>;

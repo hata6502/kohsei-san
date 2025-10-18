@@ -4,8 +4,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import styled from "styled-components";
-import { styled as muiStyled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -27,17 +26,15 @@ import { PinIcon } from "./PinIcon";
 
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
-const Content = styled.div`
-  ${({ theme }) => `
-    padding: ${theme.spacing(2)}px;
-    &:empty::before {
-      content: '校正する文章を入力';
-      color: ${theme.palette.text.disabled};
-    }
-  `}
-  outline: 0;
-  word-break: break-all;
-`;
+const Content = styled("div")(({ theme }) => ({
+  outline: 0,
+  padding: theme.spacing(2),
+  wordBreak: 'break-all',
+  '&:empty::before': {
+    color: theme.palette.text.disabled,
+    content: '"校正する文章を入力"',
+  },
+}));
 
 interface LintMessage {
   index: TextlintMessage["index"];
@@ -105,11 +102,11 @@ const getPins = ({
   return { resolve: pins };
 };
 
-const MessagePopover = styled(Popover)`
-  word-break: break-word;
-`;
+const MessagePopover = styled(Popover)({
+  wordBreak: 'break-word',
+});
 
-const TextBox = muiStyled("div", {
+const TextBox = styled("div", {
   shouldForwardProp: (prop) => prop !== "$isFocused",
 })<{ $isFocused: boolean }>(({ theme, $isFocused }) => ({
   borderColor: $isFocused
@@ -122,7 +119,7 @@ const TextBox = muiStyled("div", {
   position: "relative",
 }));
 
-const PinTarget = muiStyled("div")(({ theme }) => ({
+const PinTarget = styled("div")(({ theme }) => ({
   cursor: "pointer",
   padding: theme.spacing(1),
   position: "absolute",
@@ -306,7 +303,6 @@ const TextContainer: React.FunctionComponent<{
         <TextBox ref={textBoxRef} $isFocused={isTextContainerFocused}>
           <Typography component="div" variant="body1">
             <Content
-              // @ts-expect-error plaintext-only をサポートしたブラウザを利用している。
               contentEditable="plaintext-only"
               onBlur={handleTextContainerBlur}
               onFocus={handleTextContainerFocus}

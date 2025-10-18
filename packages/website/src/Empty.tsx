@@ -1,17 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/GridLegacy';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-const EmptyContainer = styled(Container)`
-  ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(2)}px;
-  `}
-`;
+const EmptyContainer = styled(Container)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(2),
+}));
 
 const Empty: React.FunctionComponent = React.memo(() => (
   <EmptyContainer>

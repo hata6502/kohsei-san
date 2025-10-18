@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer, useState } from "react";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
+import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -21,31 +21,26 @@ type HelmetComponentProps = { children?: React.ReactNode };
 
 const HelmetComponent = Helmet as unknown as React.ComponentType<HelmetComponentProps>;
 
-const MemoContainer = styled(Container)`
-  ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(2)}px;
-  `}
-`;
+const MemoContainer = styled(Container)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(2),
+}));
 
-const Title = styled(Typography)`
-  ${({ theme }) => `
-    margin-left: ${theme.spacing(1)}px;
-  `}
-`;
+const Title = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+}));
 
-const TopBar = styled(AppBar)`
-  /* Sentry のレポートダイアログを最前面に表示するため */
-  z-index: 998;
-`;
+const TopBar = styled(AppBar)({
+  // Sentry のレポートダイアログを最前面に表示するため
+  zIndex: 998,
+});
 
-const ToolbarOffset = styled.div`
-  min-height: 64px;
-
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    min-height: 56px;
-  }
-`;
+const ToolbarOffset = styled("div")(({ theme }) => ({
+  minHeight: 64,
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 56,
+  },
+}));
 
 const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
   ({ lintWorker }) => {
