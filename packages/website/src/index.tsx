@@ -1,17 +1,15 @@
 import Clarity from "@microsoft/clarity";
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { StyledEngineProvider } from '@mui/material/styles';
-import App from './App';
-import { ThemeProvider } from './ThemeProvider';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { StyledEngineProvider } from "@mui/material/styles";
+import App from "./App";
+import { ThemeProvider } from "./ThemeProvider";
 
-const rootElement = document.querySelector('.app');
-
+const rootElement = document.querySelector(".app");
 if (!rootElement) {
-  throw new Error('Failed to find application root element.');
+  throw new Error("Failed to find application root element.");
 }
-
-const root = createRoot(rootElement as HTMLElement);
+const root = createRoot(rootElement);
 
 const renderFatalError = ({ message }: { message: React.ReactNode }) =>
   root.render(
@@ -32,20 +30,24 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
 const main = () => {
   Clarity.init("sgagyas3lh");
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () =>
+      navigator.serviceWorker.register("service-worker.js")
+    );
   }
 
   if (!window.Worker) {
-    renderFatalError({ message: '校正さんを使用するには、Web Worker を有効にしてください。' });
+    renderFatalError({
+      message: "校正さんを使用するには、Web Worker を有効にしてください。",
+    });
 
     return;
   }
 
-  const lintWorker = new Worker('lintWorker.js');
+  const lintWorker = new Worker("lintWorker.js");
 
   try {
-    const localStorageTest = 'localStorageTest';
+    const localStorageTest = "localStorageTest";
 
     localStorage.setItem(localStorageTest, localStorageTest);
     localStorage.removeItem(localStorageTest);
@@ -54,13 +56,15 @@ const main = () => {
       !(exception instanceof DOMException) ||
       (exception.code !== 22 &&
         exception.code !== 1014 &&
-        exception.name !== 'QuotaExceededError' &&
-        exception.name !== 'NS_ERROR_DOM_QUOTA_REACHED') ||
+        exception.name !== "QuotaExceededError" &&
+        exception.name !== "NS_ERROR_DOM_QUOTA_REACHED") ||
       !localStorage ||
       localStorage.length === 0;
 
     if (unavailable) {
-      renderFatalError({ message: '校正さんを使用するには、localStorage を有効にしてください。' });
+      renderFatalError({
+        message: "校正さんを使用するには、localStorage を有効にしてください。",
+      });
 
       return;
     }
