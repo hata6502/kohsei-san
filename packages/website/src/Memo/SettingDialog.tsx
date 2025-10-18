@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import type { SyntheticEvent } from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
@@ -8,11 +7,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Radio from '@mui/material/Radio';
 import Select from '@mui/material/Select';
-import type { SelectChangeEvent } from '@mui/material/Select';
+import type { SelectProps } from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import type { DispatchSetting, Memo, Setting } from '../useMemo';
 
@@ -23,8 +23,8 @@ const useLintOptionChange = ({
   dispatchSetting: DispatchSetting;
   key: keyof Setting['lintOption'];
 }) =>
-  useCallback(
-    (_event: SyntheticEvent, checked: boolean) =>
+  useCallback<NonNullable<FormControlLabelProps['onChange']>>(
+    (_event, checked) =>
       dispatchSetting((prevSetting) => ({
         ...prevSetting,
         lintOption: {
@@ -109,8 +109,8 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
       key: 'presetJTFStyle',
     });
 
-    const handleUserDictionaryMemoIdChange = useCallback(
-      (event: SelectChangeEvent<string>) => {
+    const handleUserDictionaryMemoIdChange = useCallback<NonNullable<SelectProps<string>["onChange"]>>(
+      (event) => {
         const value = event.target.value;
         const userDictionaryMemoId = value === 'none' ? undefined : value;
 
