@@ -1,9 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -29,8 +25,8 @@ const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 const Content = styled("div")(({ theme }) => ({
   outline: 0,
   padding: theme.spacing(2),
-  wordBreak: 'break-all',
-  '&:empty::before': {
+  wordBreak: "break-all",
+  "&:empty::before": {
     color: theme.palette.text.disabled,
     content: '"校正する文章を入力"',
   },
@@ -103,7 +99,7 @@ const getPins = ({
 };
 
 const MessagePopover = styled(Popover)({
-  wordBreak: 'break-word',
+  wordBreak: "break-word",
 });
 
 const TextBox = styled("div", {
@@ -258,20 +254,14 @@ const TextContainer: React.FunctionComponent<{
     );
 
     const handlePinClick = useCallback(
-      (
-        event: React.MouseEvent<HTMLElement>,
-        messages: LintMessage["messages"]
-      ) => {
+      (event: MouseEvent<HTMLElement>, messages: LintMessage["messages"]) => {
         setPopoverAnchorEl(event.currentTarget);
         setPopoverMessages(messages);
       },
       []
     );
 
-    const handlePopoverClose = useCallback(
-      () => setPopoverAnchorEl(null),
-      []
-    );
+    const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
 
     const handleTextContainerBlur = useCallback(() => {
       dispatchIsTextContainerFocused(false);
@@ -320,9 +310,7 @@ const TextContainer: React.FunctionComponent<{
                 <PinTarget
                   key={message.index}
                   style={{ left, top }}
-                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-                    handlePinClick(event, message.messages)
-                  }
+                  onClick={(event) => handlePinClick(event, message.messages)}
                 >
                   <PinIcon severity={severity} />
                 </PinTarget>
