@@ -1,43 +1,35 @@
 import React, { useCallback, useReducer, useState } from "react";
-import { Helmet } from "react-helmet";
-import styled from "styled-components";
-import Alert from "@material-ui/lab/Alert";
-import AppBar from "@material-ui/core/AppBar";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Container from "@material-ui/core/Container";
-import Drawer from "@material-ui/core/Drawer";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import Snackbar from "@material-ui/core/Snackbar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+import { styled } from "@mui/material/styles";
+import Alert from "@mui/material/Alert";
+import AppBar from "@mui/material/AppBar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import Drawer from "@mui/material/Drawer";
+import Grid from "@mui/material/GridLegacy";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
 import Empty from "./Empty";
 import Sidebar from "./Sidebar";
 import { useMemo } from "./useMemo";
 
-const MemoContainer = styled(Container)`
-  ${({ theme }) => `
-    margin-bottom: ${theme.spacing(2)}px;
-    margin-top: ${theme.spacing(2)}px;
-  `}
-`;
+const MemoContainer = styled(Container)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(2),
+}));
 
-const Title = styled(Typography)`
-  ${({ theme }) => `
-    margin-left: ${theme.spacing(1)}px;
-  `}
-`;
+const Title = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+}));
 
-const TopBar = styled(AppBar)`
-  /* Sentry のレポートダイアログを最前面に表示するため */
-  z-index: 998;
-`;
-
-const useStyles = makeStyles((theme) => ({
-  toolbar: theme.mixins.toolbar,
+const ToolbarOffset = styled("div")(({ theme }) => ({
+  minHeight: 64,
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 56,
+  },
 }));
 
 const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
@@ -49,7 +41,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
       memoId,
       memos,
       setIsSaveErrorOpen,
-      titleParam,
     } = useMemo();
 
     const [isLinting, dispatchIsLinting] = useReducer(
@@ -65,8 +56,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
     const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
     const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] =
       useState(false);
-
-    const classes = useStyles();
 
     const handleMenuIconClick = useCallback(
       () => dispatchIsSidebarOpen(true),
@@ -87,18 +76,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
     );
 
     const memo = memos.find(({ id }) => id === memoId);
-    const title =
-      titleParam === null
-        ? "校正さん"
-        : `「${titleParam}」の校正結果 | 校正さん`;
 
     return (
       <div>
-        <Helmet>
-          <title>{title}</title>
-        </Helmet>
-
-        <TopBar color="inherit">
+        <AppBar color="inherit">
           <Toolbar>
             <IconButton onClick={handleMenuIconClick}>
               <MenuIcon />
@@ -118,7 +99,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
                 : "校正さん"}
             </Title>
           </Toolbar>
-        </TopBar>
+        </AppBar>
 
         <nav>
           <Drawer
@@ -137,7 +118,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         </nav>
 
         <main>
-          <div className={classes.toolbar} />
+          <ToolbarOffset />
 
           {memo ? (
             <MemoContainer>

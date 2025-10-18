@@ -1,24 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-import FeedbackIcon from '@material-ui/icons/Feedback';
-import MuiInfoIcon from '@material-ui/icons/Info';
+import { styled } from '@mui/material/styles';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import MuiInfoIcon from '@mui/icons-material/Info';
 import type { TextlintRuleSeverityLevel } from '@textlint/kernel';
 
-const ErrorIcon = styled(FeedbackIcon)`
-  ${({ theme }) => `
-    background-color: ${theme.palette.background.paper};
-  `}
-  opacity: 0.5;
-  vertical-align: middle;
-`;
+const ErrorIcon = styled(FeedbackIcon)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  opacity: 0.5,
+  verticalAlign: 'middle',
+}));
 
-const InfoIcon = styled(MuiInfoIcon)`
-  ${({ theme }) => `
-    background-color: ${theme.palette.background.paper};
-  `}
-  opacity: 0.5;
-  vertical-align: middle;
-`;
+const InfoIcon = styled(MuiInfoIcon)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  opacity: 0.5,
+  verticalAlign: 'middle',
+}));
 
 const PinIcon: React.FunctionComponent<{
   severity: TextlintRuleSeverityLevel;

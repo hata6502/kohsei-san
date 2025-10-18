@@ -1,29 +1,29 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
-import Divider from "@material-ui/core/Divider";
-import Link from "@material-ui/core/Link";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import HelpIcon from "@material-ui/icons/Help";
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import PaletteIcon from "@material-ui/icons/Palette";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import HelpIcon from "@mui/icons-material/Help";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PaletteIcon from "@mui/icons-material/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
-const DrawerContainer = styled.div`
-  width: 250px;
-`;
+const DrawerContainer = styled('div')({
+  width: 250,
+});
 
-const MemoText = styled(ListItemText)`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
+const MemoText = styled(ListItemText)({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
 
 export interface SidebarProps {
   dispatchMemoId: React.Dispatch<Memo["id"]>;
@@ -71,26 +71,30 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
       <DrawerContainer>
         <List>
           {memos.map(({ id, result, text }) => (
-            <ListItem
-              button
-              key={id}
-              onClick={() => handleMemoClick(id)}
-              selected={id === memoId}
-            >
-              {result?.messages.length === 0 && (
-                <CheckCircleOutlineIcon color="primary" />
-              )}
+            <ListItem disablePadding key={id}>
+              <ListItemButton
+                onClick={() => handleMemoClick(id)}
+                selected={id === memoId}
+              >
+                {result?.messages.length === 0 && (
+                  <ListItemIcon>
+                    <CheckCircleOutlineIcon color="primary" />
+                  </ListItemIcon>
+                )}
 
-              <MemoText primary={text.trim() || "(空のメモ)"} />
+                <MemoText primary={text.trim() || "(空のメモ)"} />
+              </ListItemButton>
             </ListItem>
           ))}
 
-          <ListItem button onClick={handleAddClick}>
-            <ListItemIcon data-testid="sidebar-component-add-memo">
-              <NoteAddIcon />
-            </ListItemIcon>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleAddClick}>
+              <ListItemIcon data-testid="sidebar-component-add-memo">
+                <NoteAddIcon />
+              </ListItemIcon>
 
-            <ListItemText primary="メモを追加" />
+              <ListItemText primary="メモを追加" />
+            </ListItemButton>
           </ListItem>
         </List>
 
@@ -98,91 +102,91 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
         <List>
           {!appInstalled && (
-            <Link
-              color="inherit"
-              href={
-                navigator.platform.toLowerCase().includes("android") ||
-                navigator.platform.toLowerCase().includes("linux")
-                  ? "https://play.google.com/store/apps/details?id=com.hata6502.kohsei_san.twa"
-                  : "https://help.hata6502.com/--64f09e1918f421001cd41ed3"
-              }
-              rel="noreferrer"
-              target="_blank"
-              underline="none"
-            >
-              <ListItem button>
+            <ListItem disablePadding>
+              <ListItemButton
+                component="a"
+                href={
+                  navigator.platform.toLowerCase().includes("android") ||
+                  navigator.platform.toLowerCase().includes("linux")
+                    ? "https://play.google.com/store/apps/details?id=com.hata6502.kohsei_san.twa"
+                    : "https://help.hata6502.com/--64f09e1918f421001cd41ed3"
+                }
+                rel="noreferrer"
+                sx={{ color: "inherit" }}
+                target="_blank"
+              >
                 <ListItemIcon>
                   <GetAppIcon />
                 </ListItemIcon>
 
                 <ListItemText primary="アプリ版" />
-              </ListItem>
-            </Link>
+              </ListItemButton>
+            </ListItem>
           )}
 
-          <Link
-            color="inherit"
-            href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
-            rel="noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
 
               <ListItemText primary="ヘルプ" />
-            </ListItem>
-          </Link>
+            </ListItemButton>
+          </ListItem>
 
-          <Link
-            color="inherit"
-            href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
-            rel="noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://kiyac.app/privacypolicy/1DNh5JzNlQJ0IzixVc2z"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
               <ListItemText primary="プライバシーポリシー" />
-            </ListItem>
-          </Link>
+            </ListItemButton>
+          </ListItem>
         </List>
 
         <Divider />
 
         <List>
-          <Link
-            color="inherit"
-            href="https://almap.hata6502.com/"
-            rel="noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://almap.hata6502.com/"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
               <ListItemIcon>
                 <LocalFloristIcon />
               </ListItemIcon>
 
               <ListItemText primary="写真地図" />
-            </ListItem>
-          </Link>
+            </ListItemButton>
+          </ListItem>
 
-          <Link
-            color="inherit"
-            href="https://premy.hata6502.com/"
-            rel="noreferrer"
-            target="_blank"
-            underline="none"
-          >
-            <ListItem button>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://premy.hata6502.com/"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
               <ListItemIcon>
                 <PaletteIcon />
               </ListItemIcon>
 
               <ListItemText primary="premyお絵かき" />
-            </ListItem>
-          </Link>
+            </ListItemButton>
+          </ListItem>
         </List>
       </DrawerContainer>
     );

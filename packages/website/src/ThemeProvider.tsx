@@ -1,20 +1,11 @@
 import React, { memo, useMemo } from 'react';
-import type { FunctionComponent } from 'react';
-import {
-  CssBaseline,
-  ThemeProvider as MuiThemeProvider,
-  createTheme,
-  useMediaQuery,
-} from '@material-ui/core';
-import type { Theme } from '@material-ui/core';
-import { jaJP } from '@material-ui/core/locale';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import type { PropsWithChildren } from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
+import { jaJP } from '@mui/material/locale';
 
-declare module 'styled-components' {
-  export interface DefaultTheme extends Theme { }
-}
-
-const ThemeProvider: FunctionComponent = memo(({ children }) => {
+const ThemeProvider = memo(({ children }: PropsWithChildren) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
@@ -22,7 +13,7 @@ const ThemeProvider: FunctionComponent = memo(({ children }) => {
       createTheme(
         {
           palette: {
-            type: prefersDarkMode ? 'dark' : 'light',
+            mode: prefersDarkMode ? 'dark' : 'light',
             primary: {
               main: '#00a39b',
             },
@@ -42,10 +33,8 @@ const ThemeProvider: FunctionComponent = memo(({ children }) => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <StyledThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </StyledThemeProvider>
+      <CssBaseline />
+      {children}
     </MuiThemeProvider>
   );
 });
