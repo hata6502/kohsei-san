@@ -27,7 +27,7 @@ const Title = styled(Typography)(({ theme }) => ({
 
 const ToolbarOffset = styled("div")(({ theme }) => ({
   minHeight: 64,
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     minHeight: 56,
   },
 }));
@@ -45,12 +45,12 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
 
     const [isLinting, dispatchIsLinting] = useReducer(
       (_: boolean, action: boolean) => action,
-      false
+      false,
     );
 
     const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
       (_: boolean, action: boolean) => action,
-      false
+      false,
     );
 
     const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
@@ -59,20 +59,20 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
 
     const handleMenuIconClick = useCallback(
       () => dispatchIsSidebarOpen(true),
-      [dispatchIsSidebarOpen]
+      [dispatchIsSidebarOpen],
     );
     const handleSaveErrorClose = useCallback(
       () => setIsSaveErrorOpen(false),
-      [setIsSaveErrorOpen]
+      [setIsSaveErrorOpen],
     );
     const handleSidebarClose = useCallback(
       () => dispatchIsSidebarOpen(false),
-      [dispatchIsSidebarOpen]
+      [dispatchIsSidebarOpen],
     );
 
     const handleCopiedSnackbarClose = useCallback(
       () => dispatchIsCopiedSnackbarOpen(false),
-      [dispatchIsCopiedSnackbarOpen]
+      [dispatchIsCopiedSnackbarOpen],
     );
 
     const memo = memos.find(({ id }) => id === memoId);
@@ -169,7 +169,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         </Snackbar>
       </div>
     );
-  }
+  },
 );
 
 export default App;

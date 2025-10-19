@@ -23,6 +23,8 @@ import { PinIcon } from "./PinIcon";
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
 const Content = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: 4,
   outline: 0,
   padding: theme.spacing(2),
   wordBreak: "break-all",
@@ -128,7 +130,7 @@ const TextContainer: React.FunctionComponent<{
     const [pins, setPins] = useState<Pin[]>([]);
 
     const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
-      null
+      null,
     );
     const [popoverMessages, setPopoverMessages] = useState<
       LintMessage["messages"]
@@ -151,7 +153,7 @@ const TextContainer: React.FunctionComponent<{
                 text: removeExtraNewLine(textRef.current.innerText),
               }),
             };
-          })
+          }),
         );
 
       window.addEventListener("beforeunload", dispatchText);
@@ -176,7 +178,7 @@ const TextContainer: React.FunctionComponent<{
       try {
         if (!textRef.current || !textBoxRef.current) {
           throw new Error(
-            "textRef.current or textBoxRef.current is not defined"
+            "textRef.current or textBoxRef.current is not defined",
           );
         }
 
@@ -184,7 +186,7 @@ const TextContainer: React.FunctionComponent<{
 
         memo.result.messages.forEach((message) => {
           const duplicatedMessage = mergedMessages.find(
-            ({ index }) => index === message.index
+            ({ index }) => index === message.index,
           );
 
           if (duplicatedMessage) {
@@ -232,12 +234,12 @@ const TextContainer: React.FunctionComponent<{
               result: undefined,
               text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
             }),
-          }))
+          })),
         );
 
         setPopoverAnchorEl(null);
       },
-      [dispatchMemos, memo.id, setPopoverAnchorEl]
+      [dispatchMemos, memo.id, setPopoverAnchorEl],
     );
 
     const handlePinClick = useCallback(
@@ -245,7 +247,7 @@ const TextContainer: React.FunctionComponent<{
         setPopoverAnchorEl(event.currentTarget);
         setPopoverMessages(messages);
       },
-      []
+      [],
     );
 
     const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
@@ -266,24 +268,24 @@ const TextContainer: React.FunctionComponent<{
               text: removeExtraNewLine(textRef.current.innerText),
             }),
           };
-        })
+        }),
       );
     }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
 
     const handleTextContainerFocus = useCallback(
       () => dispatchIsTextContainerFocused(true),
-      [dispatchIsTextContainerFocused]
+      [dispatchIsTextContainerFocused],
     );
 
     return (
-      <Box pb={2} pt={1}>
+      <>
         <Box
           ref={textBoxRef}
-          border={isTextContainerFocused ? 2 : 1}
-          borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
-          borderRadius="4px"
-          m={isTextContainerFocused ? 0 : "1px"}
           position="relative"
+          m={isTextContainerFocused ? 0 : "2px"}
+          border={isTextContainerFocused ? 2 : 0}
+          borderColor="primary.main"
+          borderRadius="4px"
         >
           <Typography component="div" variant="body1">
             <Content
@@ -297,7 +299,7 @@ const TextContainer: React.FunctionComponent<{
           {shouldDisplayResult &&
             pins.map(({ left, message, top }) => {
               const severity = Math.max(
-                ...message.messages.map((message) => message.severity)
+                ...message.messages.map((message) => message.severity),
               ) as TextlintRuleSeverityLevel;
 
               return (
@@ -358,9 +360,9 @@ const TextContainer: React.FunctionComponent<{
               </Alert>
             </Box>
           )}
-      </Box>
+      </>
     );
-  }
+  },
 );
 
 export { TextContainer };

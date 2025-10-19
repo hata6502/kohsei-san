@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from "react";
-import Box from "@mui/material/Box";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-import Container from "@mui/material/Container";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/GridLegacy";
-import Paper from "@mui/material/Paper";
-import ShareIcon from "@mui/icons-material/Share";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
+import { Chat } from "./Chat";
 import { SettingDialog } from "./SettingDialog";
 
 export const MemoActions: React.FunctionComponent<{
@@ -39,16 +40,14 @@ export const MemoActions: React.FunctionComponent<{
       memoId: memo.id,
     });
 
-    const handleSettingButtonClick = useCallback(
-      () => setIsSettingDialogOpen(true),
-      []
-    );
-    const handleSettingDialogClose = useCallback(
-      () => setIsSettingDialogOpen(false),
-      []
-    );
+    const handleSettingButtonClick = () => {
+      setIsSettingDialogOpen(true);
+    };
+    const handleSettingDialogClose = () => {
+      setIsSettingDialogOpen(false);
+    };
 
-    const handleCopyButtonClick = useCallback(() => {
+    const handleCopyButtonClick = () => {
       const id = crypto.randomUUID();
 
       dispatchMemos((prevMemos) => [
@@ -62,35 +61,34 @@ export const MemoActions: React.FunctionComponent<{
       dispatchIsCopiedSnackbarOpen(true);
       dispatchIsSidebarOpen(true);
       dispatchMemoId(id);
-    }, [
-      dispatchIsCopiedSnackbarOpen,
-      dispatchIsSidebarOpen,
-      dispatchMemoId,
-      dispatchMemos,
-      memo,
-    ]);
+    };
 
-    const handleDeleteButtonClick = useCallback(
-      () => setIsDeleteDialogOpen(true),
-      []
-    );
+    const handleDeleteButtonClick = () => {
+      setIsDeleteDialogOpen(true);
+    };
 
-    const handleDeleteDialogAgree = useCallback(() => {
+    const handleDeleteDialogAgree = () => {
       dispatchMemos((prevMemos) =>
-        prevMemos.filter(({ id }) => id !== memo.id)
+        prevMemos.filter(({ id }) => id !== memo.id),
       );
-    }, [dispatchMemos, memo.id]);
+    };
 
-    const handleDeleteDialogClose = useCallback(
-      () => setIsDeleteDialogOpen(false),
-      [setIsDeleteDialogOpen]
-    );
+    const handleDeleteDialogClose = () => {
+      setIsDeleteDialogOpen(false);
+    };
+
+    const handleUseChatButtonClick = () => {
+      dispatchSetting((prev) => ({
+        ...prev,
+        useChat: true,
+      }));
+    };
 
     return (
       <>
-        <Paper>
-          <Box pb={2} pt={2}>
-            <Container>
+        <Stack spacing={2}>
+          <Card>
+            <CardContent>
               <Grid container alignItems="center" spacing={1}>
                 <Grid item>
                   <Chip label={`${memo.text.length}文字`} size="small" />
@@ -98,7 +96,7 @@ export const MemoActions: React.FunctionComponent<{
 
                 <Grid item>
                   <Button variant="outlined" onClick={handleSettingButtonClick}>
-                    校正設定
+                    設定
                   </Button>
                 </Grid>
 
@@ -110,11 +108,37 @@ export const MemoActions: React.FunctionComponent<{
                   <Button onClick={handleDeleteButtonClick}>削除</Button>
                 </Grid>
               </Grid>
-            </Container>
-          </Box>
-        </Paper>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent>
+              {memo.setting.useChat ? (
+                <Chat />
+              ) : (
+                <>
+                  <Typography gutterBottom>
+                    <Button
+                      variant="outlined"
+                      onClick={handleUseChatButtonClick}
+                    >
+                      AIアシスタントに相談
+                    </Button>
+                  </Typography>
+
+                  <Typography variant="caption" gutterBottom>
+                    AIサーバーに情報を送信します
+                    <br />
+                    送信した情報は学習に利用されません
+                  </Typography>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </Stack>
 
         <SettingDialog
+          // ここでもAIチャットの設定をしないといけない
           dispatchSetting={dispatchSetting}
           open={isSettingDialogOpen}
           setting={memo.setting}
@@ -147,5 +171,5 @@ export const MemoActions: React.FunctionComponent<{
         </Dialog>
       </>
     );
-  }
+  },
 );

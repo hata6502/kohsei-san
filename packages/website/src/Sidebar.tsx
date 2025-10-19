@@ -15,14 +15,14 @@ import PaletteIcon from "@mui/icons-material/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
-const DrawerContainer = styled('div')({
+const DrawerContainer = styled("div")({
   width: 250,
 });
 
 const MemoText = styled(ListItemText)({
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
 });
 
 export interface SidebarProps {
@@ -64,7 +64,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
         onClose?.();
       },
-      [dispatchMemoId, onClose]
+      [dispatchMemoId, onClose],
     );
 
     return (
@@ -190,7 +190,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         </List>
       </DrawerContainer>
     );
-  }
+  },
 );
 
 export default Sidebar;

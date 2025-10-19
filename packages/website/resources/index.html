@@ -11,12 +11,19 @@
           'self'
           https://c.bing.com
           https://*.clarity.ms
+          https://cdn.platform.openai.com
+        ;
+
+        frame-src
+          'self'
+          https://cdn.platform.openai.com
         ;
 
         script-src
           'self'
           https://c.bing.com
           https://*.clarity.ms
+          https://cdn.platform.openai.com
         ;
 
         style-src
@@ -53,6 +60,11 @@
 
   <body>
     <div class="app"></div>
+
+    <script
+      src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
+      async
+    ></script>
     <script src="main.js"></script>
   </body>
 </html>

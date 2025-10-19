@@ -1339,6 +1339,18 @@
   dependencies:
     semver "^7.3.5"
 
+"@openai/chatkit-react@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@openai/chatkit-react/-/chatkit-react-1.1.1.tgz#7ed122b7ac83e37e8de007c57943aa5023b50542"
+  integrity sha512-sbYZBqLkx5nEIRmBFXJ8OCsRB+0II1eu/9QSVJP4T73PdAsggTMPfxw8FUGioFFJcYrNVoFvYaBFHZVUC71jtw==
+  dependencies:
+    "@openai/chatkit" "1.0.0"
+
+"@openai/chatkit@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@openai/chatkit/-/chatkit-1.0.0.tgz#3ecbca333c875148d69a1076b7df8c23f7b9e290"
+  integrity sha512-BlRu1UMz29z01bn0D2nA5lgSeo0Eu/5uNdGUMKchoFEDHWQ8ViCHDRFO45O6FT/cdqhXbYZOzIrjUryq6djk4w==
+
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"

@@ -36,7 +36,7 @@ export const Edit: React.FunctionComponent<{
       () => () => {
         dispatchIsLinting(false);
       },
-      [dispatchIsLinting]
+      [dispatchIsLinting],
     );
 
     useEffect(() => {
@@ -45,7 +45,7 @@ export const Edit: React.FunctionComponent<{
       }
 
       const userDictionaryMemo = memos.find(
-        ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId
+        ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId,
       );
       const professionalModeLintOption = {
         ...memo.setting.lintOption,
@@ -83,7 +83,7 @@ export const Edit: React.FunctionComponent<{
 
       const lintingTimeoutID = setTimeout(
         () => dispatchIsLintingHeavy(true),
-        lintingTimeoutLimitMS
+        lintingTimeoutLimitMS,
       );
 
       dispatchIsLinting(true);
@@ -110,7 +110,7 @@ export const Edit: React.FunctionComponent<{
       };
 
       const handleLintWorkerMessage = (
-        event: MessageEvent<LintWorkerResultMessage>
+        event: MessageEvent<LintWorkerResultMessage>,
       ) => {
         if (event.data.text !== memo.text) {
           return;
@@ -120,7 +120,7 @@ export const Edit: React.FunctionComponent<{
           prevMemos.map((prevMemo) => ({
             ...prevMemo,
             ...(prevMemo.id === memo.id && { result: event.data.result }),
-          }))
+          })),
         );
       };
 
@@ -136,20 +136,14 @@ export const Edit: React.FunctionComponent<{
     const shouldDisplayResult = !isTextContainerFocused && !isLinting;
 
     return (
-      <Paper>
-        <Box pb={2} pt={2}>
-          <Container>
-            <TextContainer
-              dispatchIsLinting={dispatchIsLinting}
-              dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
-              dispatchMemos={dispatchMemos}
-              isTextContainerFocused={isTextContainerFocused}
-              memo={memo}
-              shouldDisplayResult={shouldDisplayResult}
-            />
-          </Container>
-        </Box>
-      </Paper>
+      <TextContainer
+        dispatchIsLinting={dispatchIsLinting}
+        dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
+        dispatchMemos={dispatchMemos}
+        isTextContainerFocused={isTextContainerFocused}
+        memo={memo}
+        shouldDisplayResult={shouldDisplayResult}
+      />
     );
-  }
+  },
 );
