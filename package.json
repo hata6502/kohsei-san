@@ -17,10 +17,9 @@
     "packages/*"
   ],
   "scripts": {
-    "_prettier": "prettier '**/*.{html,json,md,yml}'",
     "_test-website": "cd packages/website && yarn test",
-    "fix": "yarn _prettier --write",
-    "test": "yarn _prettier --check && yarn _test-website"
+    "fix": "prettier . --write",
+    "test": "prettier . --check && yarn _test-website"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",

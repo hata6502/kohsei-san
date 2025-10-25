@@ -24,7 +24,7 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
       >
         ヘルプ
       </a>
-    </>
+    </>,
   );
 
 const main = () => {
@@ -32,7 +32,7 @@ const main = () => {
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () =>
-      navigator.serviceWorker.register("service-worker.js")
+      navigator.serviceWorker.register("service-worker.js"),
     );
   }
 
@@ -75,7 +75,7 @@ const main = () => {
       <ThemeProvider>
         <App lintWorker={lintWorker} />
       </ThemeProvider>
-    </StyledEngineProvider>
+    </StyledEngineProvider>,
   );
 };
 

@@ -1,29 +1,29 @@
-import React, { useCallback } from 'react';
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import Dialog from '@mui/material/Dialog';
-import type { DialogProps } from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Radio from '@mui/material/Radio';
-import Select from '@mui/material/Select';
-import type { SelectProps } from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
-import type { DispatchSetting, Memo, Setting } from '../useMemo';
+import React, { useCallback } from "react";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import Dialog from "@mui/material/Dialog";
+import type { DialogProps } from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import type { FormControlLabelProps } from "@mui/material/FormControlLabel";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import Select from "@mui/material/Select";
+import type { SelectProps } from "@mui/material/Select";
+import Typography from "@mui/material/Typography";
+import type { DispatchSetting, Memo, Setting } from "../useMemo";
 
 const useLintOptionChange = ({
   dispatchSetting,
   key,
 }: {
   dispatchSetting: DispatchSetting;
-  key: keyof Setting['lintOption'];
+  key: keyof Setting["lintOption"];
 }) =>
-  useCallback<NonNullable<FormControlLabelProps['onChange']>>(
+  useCallback<NonNullable<FormControlLabelProps["onChange"]>>(
     (_event, checked) =>
       dispatchSetting((prevSetting) => ({
         ...prevSetting,
@@ -32,7 +32,7 @@ const useLintOptionChange = ({
           [key]: checked,
         },
       })),
-    [dispatchSetting, key]
+    [dispatchSetting, key],
   );
 
 const useModeDispatch = ({
@@ -40,7 +40,7 @@ const useModeDispatch = ({
   mode,
 }: {
   dispatchSetting: DispatchSetting;
-  mode: Setting['mode'];
+  mode: Setting["mode"];
 }) =>
   useCallback(
     () =>
@@ -48,12 +48,12 @@ const useModeDispatch = ({
         ...prevSetting,
         mode,
       })),
-    [dispatchSetting, mode]
+    [dispatchSetting, mode],
   );
 
 interface SettingDialogProps {
   dispatchSetting: DispatchSetting;
-  open: DialogProps['open'];
+  open: DialogProps["open"];
   setting: Setting;
   memos: Memo[];
   onClose?: () => void;
@@ -61,58 +61,66 @@ interface SettingDialogProps {
 
 const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
   ({ dispatchSetting, open, setting, memos, onClose }) => {
-    const handleProfessionalModeChange = useModeDispatch({ dispatchSetting, mode: 'professional' });
-    const handleStandardModeChange = useModeDispatch({ dispatchSetting, mode: 'standard' });
+    const handleProfessionalModeChange = useModeDispatch({
+      dispatchSetting,
+      mode: "professional",
+    });
+    const handleStandardModeChange = useModeDispatch({
+      dispatchSetting,
+      mode: "standard",
+    });
 
     const handleGeneralNovelStyleJaChange = useLintOptionChange({
       dispatchSetting,
-      key: 'generalNovelStyleJa',
+      key: "generalNovelStyleJa",
     });
 
     const handleJaKyoikuKanjiChange = useLintOptionChange({
       dispatchSetting,
-      key: 'jaKyoikuKanji',
+      key: "jaKyoikuKanji",
     });
 
     const handleJaNoMixedPeriodChange = useLintOptionChange({
       dispatchSetting,
-      key: 'jaNoMixedPeriod',
+      key: "jaNoMixedPeriod",
     });
 
     const handleJaNoWeakPhraseChange = useLintOptionChange({
       dispatchSetting,
-      key: 'jaNoWeakPhrase',
+      key: "jaNoWeakPhrase",
     });
 
     const handleMaxAppearenceCountOfWordsChange = useLintOptionChange({
       dispatchSetting,
-      key: 'maxAppearenceCountOfWords',
+      key: "maxAppearenceCountOfWords",
     });
 
     const handleNoFillerChange = useLintOptionChange({
       dispatchSetting,
-      key: 'noFiller',
+      key: "noFiller",
     });
 
     const handlePresetJaSpacingChange = useLintOptionChange({
       dispatchSetting,
-      key: 'presetJaSpacing',
+      key: "presetJaSpacing",
     });
 
     const handlePresetJaTechnicalWritingChange = useLintOptionChange({
       dispatchSetting,
-      key: 'presetJaTechnicalWriting',
+      key: "presetJaTechnicalWriting",
     });
 
     const handlePresetJTFStyleChange = useLintOptionChange({
       dispatchSetting,
-      key: 'presetJTFStyle',
+      key: "presetJTFStyle",
     });
 
-    const handleUserDictionaryMemoIdChange = useCallback<NonNullable<SelectProps<string>["onChange"]>>(
+    const handleUserDictionaryMemoIdChange = useCallback<
+      NonNullable<SelectProps<string>["onChange"]>
+    >(
       (event) => {
         const value = event.target.value;
-        const userDictionaryMemoId = value === 'none' ? undefined : value;
+        const userDictionaryMemoId = value === "none" ? undefined : value;
 
         dispatchSetting((prevSetting) => ({
           ...prevSetting,
@@ -122,17 +130,17 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
           },
         }));
       },
-      [dispatchSetting]
+      [dispatchSetting],
     );
 
     return (
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>校正設定</DialogTitle>
+        <DialogTitle>設定</DialogTitle>
 
         <DialogContent>
           <Box mb={4}>
             <FormControlLabel
-              checked={setting.mode === 'standard'}
+              checked={setting.mode === "standard"}
               control={<Radio color="primary" />}
               label="スタンダードモード"
               onChange={handleStandardModeChange}
@@ -144,7 +152,7 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
           </Box>
 
           <FormControlLabel
-            checked={setting.mode === 'professional'}
+            checked={setting.mode === "professional"}
             control={<Radio color="primary" />}
             label="プロフェッショナルモード"
             onChange={handleProfessionalModeChange}
@@ -155,7 +163,7 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
           </Typography>
 
           <Box mb={2}>
-            <FormControl disabled={setting.mode !== 'professional'} fullWidth>
+            <FormControl disabled={setting.mode !== "professional"} fullWidth>
               <FormControlLabel
                 checked={Boolean(setting.lintOption.generalNovelStyleJa)}
                 control={<Checkbox />}
@@ -223,20 +231,20 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
 
           <FormControl
             variant="outlined"
-            disabled={setting.mode !== 'professional'}
+            disabled={setting.mode !== "professional"}
             fullWidth
             size="small"
           >
             <InputLabel>ユーザー辞書</InputLabel>
             <Select
               label="ユーザー辞書"
-              value={setting.lintOption.userDictionaryMemoId ?? 'none'}
+              value={setting.lintOption.userDictionaryMemoId ?? "none"}
               onChange={handleUserDictionaryMemoIdChange}
             >
               <MenuItem value="none">(無し)</MenuItem>
               {memos.map((memo) => (
                 <MenuItem key={memo.id} value={memo.id}>
-                  {memo.text.trim().split('\n')[0]}
+                  {memo.text.trim().split("\n")[0]}
                 </MenuItem>
               ))}
             </Select>
@@ -244,7 +252,7 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = React.memo(
         </DialogContent>
       </Dialog>
     );
-  }
+  },
 );
 
 export { SettingDialog };

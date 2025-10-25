@@ -1,1 +1,1 @@
-export * from './lint';
+export * from "./lint";

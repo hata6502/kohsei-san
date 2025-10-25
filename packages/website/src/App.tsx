@@ -27,7 +27,7 @@ const Title = styled(Typography)(({ theme }) => ({
 
 const ToolbarOffset = styled("div")(({ theme }) => ({
   minHeight: 64,
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     minHeight: 56,
   },
 }));
@@ -121,11 +121,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
           <ToolbarOffset />
 
           {memo ? (
-            <MemoContainer>
-              <Grid container spacing={2}>
+            <MemoContainer key={memo.id}>
+              <Grid container alignItems="start" spacing={2}>
                 <Grid item xs={12} sm={12} md={8}>
                   <Edit
-                    key={memoId}
                     dispatchIsLinting={dispatchIsLinting}
                     dispatchIsLintingHeavy={dispatchIsLintingHeavy}
                     dispatchMemos={dispatchMemos}
@@ -136,7 +135,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item position="sticky" top={64} xs={12} sm={12} md={4}>
                   <MemoActions
                     dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
                     dispatchIsSidebarOpen={dispatchIsSidebarOpen}
