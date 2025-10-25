@@ -8,9 +8,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Grid from "@mui/material/GridLegacy";
+import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
-import ShareIcon from "@mui/icons-material/Share";
+import Stack from "@mui/material/Stack";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 import { SettingDialog } from "./SettingDialog";
@@ -91,25 +94,42 @@ export const MemoActions: React.FunctionComponent<{
         <Paper>
           <Box pb={2} pt={2}>
             <Container>
-              <Grid container alignItems="center" spacing={1}>
-                <Grid item>
-                  <Chip label={`${memo.text.length}文字`} size="small" />
-                </Grid>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                <Chip label={`${memo.text.length}文字`} size="small" />
 
-                <Grid item>
-                  <Button variant="outlined" onClick={handleSettingButtonClick}>
-                    校正設定
-                  </Button>
-                </Grid>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  sx={{
+                    flexGrow: 1,
+                    justifyContent: "end",
+                  }}
+                >
+                  <IconButton
+                    onClick={handleSettingButtonClick}
+                    aria-label="設定"
+                  >
+                    <SettingsIcon />
+                  </IconButton>
 
-                <Grid item>
-                  <Button onClick={handleCopyButtonClick}>コピー</Button>
-                </Grid>
+                  <IconButton onClick={handleCopyButtonClick} aria-label="複製">
+                    <ContentCopyIcon />
+                  </IconButton>
 
-                <Grid item>
-                  <Button onClick={handleDeleteButtonClick}>削除</Button>
-                </Grid>
-              </Grid>
+                  <IconButton
+                    onClick={handleDeleteButtonClick}
+                    aria-label="削除"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Stack>
+              </Stack>
             </Container>
           </Box>
         </Paper>

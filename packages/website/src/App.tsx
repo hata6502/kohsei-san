@@ -27,7 +27,7 @@ const Title = styled(Typography)(({ theme }) => ({
 
 const ToolbarOffset = styled("div")(({ theme }) => ({
   minHeight: 64,
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     minHeight: 56,
   },
 }));
