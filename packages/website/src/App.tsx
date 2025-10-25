@@ -45,12 +45,12 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
 
     const [isLinting, dispatchIsLinting] = useReducer(
       (_: boolean, action: boolean) => action,
-      false,
+      false
     );
 
     const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
       (_: boolean, action: boolean) => action,
-      false,
+      false
     );
 
     const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
@@ -59,20 +59,20 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
 
     const handleMenuIconClick = useCallback(
       () => dispatchIsSidebarOpen(true),
-      [dispatchIsSidebarOpen],
+      [dispatchIsSidebarOpen]
     );
     const handleSaveErrorClose = useCallback(
       () => setIsSaveErrorOpen(false),
-      [setIsSaveErrorOpen],
+      [setIsSaveErrorOpen]
     );
     const handleSidebarClose = useCallback(
       () => dispatchIsSidebarOpen(false),
-      [dispatchIsSidebarOpen],
+      [dispatchIsSidebarOpen]
     );
 
     const handleCopiedSnackbarClose = useCallback(
       () => dispatchIsCopiedSnackbarOpen(false),
-      [dispatchIsCopiedSnackbarOpen],
+      [dispatchIsCopiedSnackbarOpen]
     );
 
     const memo = memos.find(({ id }) => id === memoId);
@@ -121,11 +121,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
           <ToolbarOffset />
 
           {memo ? (
-            <MemoContainer>
-              <Grid container spacing={2}>
+            <MemoContainer key={memo.id}>
+              <Grid container alignItems="start" spacing={2}>
                 <Grid item xs={12} sm={12} md={8}>
                   <Edit
-                    key={memoId}
                     dispatchIsLinting={dispatchIsLinting}
                     dispatchIsLintingHeavy={dispatchIsLintingHeavy}
                     dispatchMemos={dispatchMemos}
@@ -136,7 +135,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={4}>
+                <Grid item position="sticky" top={64} xs={12} sm={12} md={4}>
                   <MemoActions
                     dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
                     dispatchIsSidebarOpen={dispatchIsSidebarOpen}
@@ -169,7 +168,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
         </Snackbar>
       </div>
     );
-  },
+  }
 );
 
 export default App;

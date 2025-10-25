@@ -69,7 +69,7 @@ export const MemoActions: React.FunctionComponent<{
 
     const handleDeleteDialogAgree = () => {
       dispatchMemos((prevMemos) =>
-        prevMemos.filter(({ id }) => id !== memo.id),
+        prevMemos.filter(({ id }) => id !== memo.id)
       );
     };
 
@@ -111,30 +111,32 @@ export const MemoActions: React.FunctionComponent<{
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent>
-              {memo.setting.useChat ? (
-                <Chat />
-              ) : (
-                <>
-                  <Typography gutterBottom>
-                    <Button
-                      variant="outlined"
-                      onClick={handleUseChatButtonClick}
-                    >
-                      AIアシスタントに相談
-                    </Button>
-                  </Typography>
+          {navigator.onLine && (
+            <Card>
+              <CardContent>
+                {memo.setting.useChat ? (
+                  <Chat memo={memo} />
+                ) : (
+                  <>
+                    <Typography gutterBottom>
+                      <Button
+                        variant="outlined"
+                        onClick={handleUseChatButtonClick}
+                      >
+                        AIアシスタントに相談
+                      </Button>
+                    </Typography>
 
-                  <Typography variant="caption" gutterBottom>
-                    AIサーバーに情報を送信します
-                    <br />
-                    送信した情報は学習に利用されません
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
+                    <Typography variant="caption" gutterBottom>
+                      AIサーバーに情報を送信・保持します
+                      <br />
+                      送信した情報は学習に利用されません
+                    </Typography>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </Stack>
 
         <SettingDialog
@@ -171,5 +173,5 @@ export const MemoActions: React.FunctionComponent<{
         </Dialog>
       </>
     );
-  },
+  }
 );
