@@ -141,7 +141,7 @@ export const MemoActions: React.FunctionComponent<{
                       fullWidth
                       onClick={handleUseChatButtonClick}
                     >
-                      AIアシスタントに相談（ベータ版）
+                      AIチャットに相談（ベータ版）
                     </Button>
                   </Typography>
 
