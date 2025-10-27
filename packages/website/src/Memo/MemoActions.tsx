@@ -125,14 +125,12 @@ export const MemoActions: React.FunctionComponent<{
                         fullWidth
                         onClick={handleUseChatButtonClick}
                       >
-                        AIアシスタントに相談
+                        AIアシスタントに相談（ベータ版）
                       </Button>
                     </Typography>
 
                     <Typography variant="body2" gutterBottom>
-                      AIサーバーに情報を送信・保持します
-                      <br />
-                      送信した情報は学習に利用されません
+                      ベータ版は評価目的で提供され、性能や品質について保証はなく、当社は一切の責任を負いません
                     </Typography>
 
                     <Typography variant="caption" gutterBottom>
