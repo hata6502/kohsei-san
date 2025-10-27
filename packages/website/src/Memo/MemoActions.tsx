@@ -146,7 +146,7 @@ export const MemoActions: React.FunctionComponent<{
                   </Typography>
 
                   <Typography variant="body2" gutterBottom>
-                    ベータ版は評価目的で提供され、性能や品質について保証はなく、当社は一切の責任を負いません
+                    ベータ版は評価目的で提供され、性能や品質について保証はなく、一切の責任を負いません
                   </Typography>
 
                   <Typography variant="caption" gutterBottom>
