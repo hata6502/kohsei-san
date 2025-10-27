@@ -173,7 +173,6 @@ export const MemoActions: React.FunctionComponent<{
         )}
 
         <SettingDialog
-          // ここでもAIチャットの設定をしないといけない
           dispatchSetting={dispatchSetting}
           open={isSettingDialogOpen}
           setting={memo.setting}
