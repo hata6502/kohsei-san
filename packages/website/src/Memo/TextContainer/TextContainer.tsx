@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -28,10 +29,6 @@ const Content = styled("div")(({ theme }) => ({
   outline: 0,
   padding: theme.spacing(2),
   wordBreak: "break-all",
-  "&:empty::before": {
-    color: theme.palette.text.disabled,
-    content: '"校正する文章を入力"',
-  },
 }));
 
 interface LintMessage {
@@ -104,11 +101,13 @@ const MessagePopover = styled(Popover)({
   wordBreak: "break-word",
 });
 
-const PinTarget = styled("div")(({ theme }) => ({
-  cursor: "pointer",
+const PinTarget = styled("button")(({ theme }) => ({
   padding: theme.spacing(1),
   position: "absolute",
   transform: "translateY(-100%)",
+  background: "none",
+  border: "none",
+  cursor: "pointer",
 }));
 
 const TextContainer: React.FunctionComponent<{
@@ -130,7 +129,7 @@ const TextContainer: React.FunctionComponent<{
     const [pins, setPins] = useState<Pin[]>([]);
 
     const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
-      null,
+      null
     );
     const [popoverMessages, setPopoverMessages] = useState<
       LintMessage["messages"]
@@ -153,7 +152,7 @@ const TextContainer: React.FunctionComponent<{
                 text: removeExtraNewLine(textRef.current.innerText),
               }),
             };
-          }),
+          })
         );
 
       window.addEventListener("beforeunload", dispatchText);
@@ -178,7 +177,7 @@ const TextContainer: React.FunctionComponent<{
       try {
         if (!textRef.current || !textBoxRef.current) {
           throw new Error(
-            "textRef.current or textBoxRef.current is not defined",
+            "textRef.current or textBoxRef.current is not defined"
           );
         }
 
@@ -186,7 +185,7 @@ const TextContainer: React.FunctionComponent<{
 
         memo.result.messages.forEach((message) => {
           const duplicatedMessage = mergedMessages.find(
-            ({ index }) => index === message.index,
+            ({ index }) => index === message.index
           );
 
           if (duplicatedMessage) {
@@ -234,12 +233,12 @@ const TextContainer: React.FunctionComponent<{
               result: undefined,
               text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
             }),
-          })),
+          }))
         );
 
         setPopoverAnchorEl(null);
       },
-      [dispatchMemos, memo.id, setPopoverAnchorEl],
+      [dispatchMemos, memo.id, setPopoverAnchorEl]
     );
 
     const handlePinClick = useCallback(
@@ -247,7 +246,7 @@ const TextContainer: React.FunctionComponent<{
         setPopoverAnchorEl(event.currentTarget);
         setPopoverMessages(messages);
       },
-      [],
+      []
     );
 
     const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
@@ -268,101 +267,110 @@ const TextContainer: React.FunctionComponent<{
               text: removeExtraNewLine(textRef.current.innerText),
             }),
           };
-        }),
+        })
       );
     }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
 
     const handleTextContainerFocus = useCallback(
       () => dispatchIsTextContainerFocused(true),
-      [dispatchIsTextContainerFocused],
+      [dispatchIsTextContainerFocused]
     );
 
     return (
       <>
-        <Box
-          ref={textBoxRef}
-          position="relative"
-          m={isTextContainerFocused ? 0 : "2px"}
-          border={isTextContainerFocused ? 2 : 0}
-          borderColor="primary.main"
-          borderRadius="4px"
-        >
-          <Typography component="div" variant="body1">
-            <Content
-              contentEditable="plaintext-only"
-              onBlur={handleTextContainerBlur}
-              onFocus={handleTextContainerFocus}
-              ref={textRef}
-            />
-          </Typography>
+        {!shouldDisplayResult || !memo.result || !memo.text ? (
+          <Alert key="waiting" severity="info">
+            校正する文章を入力してください
+          </Alert>
+        ) : memo.result.messages.length ? (
+          <Alert key="message" severity="info">
+            {memo.result.messages.length}件の見直し箇所があります
+          </Alert>
+        ) : (
+          <Alert key="success" severity="success">
+            お疲れさまでした！見直し箇所はありません
+          </Alert>
+        )}
 
-          {shouldDisplayResult &&
-            pins.map(({ left, message, top }) => {
-              const severity = Math.max(
-                ...message.messages.map((message) => message.severity),
-              ) as TextlintRuleSeverityLevel;
-
-              return (
-                <PinTarget
-                  key={message.index}
-                  style={{ left, top }}
-                  onClick={(event) => handlePinClick(event, message.messages)}
-                >
-                  <PinIcon severity={severity} />
-                </PinTarget>
-              );
-            })}
-
-          <MessagePopover
-            anchorEl={popoverAnchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            onClose={handlePopoverClose}
-            open={isPopoverOpen}
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
+        <Box mt={1}>
+          <Box
+            ref={textBoxRef}
+            border={isTextContainerFocused ? 2 : 1}
+            borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
+            borderRadius="4px"
+            m={isTextContainerFocused ? 0 : "1px"}
+            position="relative"
           >
-            <Container maxWidth="sm">
-              <List>
-                {popoverMessages.map((message, index) => (
-                  <ListItem key={index}>
-                    <ListItemText primary={message.message} />
+            <Typography component="div" variant="body1">
+              <Content
+                contentEditable="plaintext-only"
+                onBlur={handleTextContainerBlur}
+                onFocus={handleTextContainerFocus}
+                ref={textRef}
+              />
+            </Typography>
 
-                    <ListItemSecondaryAction>
-                      {message.fix && (
-                        <Tooltip title="自動修正">
-                          <IconButton
-                            edge="end"
-                            onClick={() => handleFixClick({ message })}
-                          >
-                            <SpellcheckIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))}
-              </List>
-            </Container>
-          </MessagePopover>
+            {shouldDisplayResult &&
+              pins.map(({ left, message, top }) => {
+                const severity = Math.max(
+                  ...message.messages.map((message) => message.severity)
+                ) as TextlintRuleSeverityLevel;
+
+                return (
+                  <PinTarget
+                    key={message.index}
+                    type="button"
+                    onClick={(event) => handlePinClick(event, message.messages)}
+                    aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
+                    role="alert"
+                    style={{ left, top }}
+                  >
+                    <PinIcon severity={severity} />
+                  </PinTarget>
+                );
+              })}
+          </Box>
         </Box>
 
-        {shouldDisplayResult &&
-          memo.text &&
-          memo.result?.messages.length === 0 && (
-            <Box mt={1}>
-              <Alert severity="success">
-                お疲れさまでした！エラーはありません
-              </Alert>
-            </Box>
-          )}
+        <MessagePopover
+          anchorEl={popoverAnchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          onClose={handlePopoverClose}
+          open={isPopoverOpen}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <Container maxWidth="sm">
+            <List>
+              {popoverMessages.map((message, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={message.message} />
+
+                  <ListItemSecondaryAction>
+                    {message.fix && (
+                      <Tooltip title="自動修正">
+                        <IconButton
+                          edge="end"
+                          onClick={() => handleFixClick({ message })}
+                        >
+                          <SpellcheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          </Container>
+        </MessagePopover>
       </>
     );
-  },
+  }
 );
 
 export { TextContainer };

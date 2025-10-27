@@ -18,7 +18,7 @@ const ThemeProvider = memo(({ children }: PropsWithChildren) => {
           palette: {
             mode: prefersDarkMode ? "dark" : "light",
             background: {
-              default: "#fafafa",
+              default: prefersDarkMode ? "#303030" : "#fafafa",
             },
             primary: {
               main: "#00857E",

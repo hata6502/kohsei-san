@@ -8,10 +8,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Grid from "@mui/material/GridLegacy";
+import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 import { Chat } from "./Chat";
@@ -86,76 +89,88 @@ export const MemoActions: React.FunctionComponent<{
     };
 
     return (
-      <>
-        <Stack spacing={2}>
+      <Stack spacing={2}>
+        <Card>
+          <CardContent>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <Chip label={`${memo.text.length}文字`} size="small" />
+
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  flexGrow: 1,
+                  justifyContent: "end",
+                }}
+              >
+                <IconButton
+                  onClick={handleSettingButtonClick}
+                  aria-label="設定"
+                >
+                  <SettingsIcon />
+                </IconButton>
+
+                <IconButton onClick={handleCopyButtonClick} aria-label="複製">
+                  <ContentCopyIcon />
+                </IconButton>
+
+                <IconButton onClick={handleDeleteButtonClick} aria-label="削除">
+                  <DeleteIcon />
+                </IconButton>
+              </Stack>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        {navigator.onLine && (
           <Card>
             <CardContent>
-              <Grid container alignItems="center" spacing={1}>
-                <Grid item>
-                  <Chip label={`${memo.text.length}文字`} size="small" />
-                </Grid>
+              {memo.setting.useChat ? (
+                <Chat memo={memo} />
+              ) : (
+                <>
+                  <Typography gutterBottom>
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      onClick={handleUseChatButtonClick}
+                    >
+                      AIアシスタントに相談（ベータ版）
+                    </Button>
+                  </Typography>
 
-                <Grid item>
-                  <Button variant="outlined" onClick={handleSettingButtonClick}>
-                    設定
-                  </Button>
-                </Grid>
+                  <Typography variant="body2" gutterBottom>
+                    ベータ版は評価目的で提供され、性能や品質について保証はなく、当社は一切の責任を負いません
+                  </Typography>
 
-                <Grid item>
-                  <Button onClick={handleCopyButtonClick}>コピー</Button>
-                </Grid>
-
-                <Grid item>
-                  <Button onClick={handleDeleteButtonClick}>削除</Button>
-                </Grid>
-              </Grid>
+                  <Typography variant="caption" gutterBottom>
+                    This site is protected by reCAPTCHA and the Google{" "}
+                    <Link
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="https://policies.google.com/terms"
+                      target="_blank"
+                    >
+                      Terms of Service
+                    </Link>{" "}
+                    apply.
+                  </Typography>
+                </>
+              )}
             </CardContent>
           </Card>
-
-          {navigator.onLine && (
-            <Card>
-              <CardContent>
-                {memo.setting.useChat ? (
-                  <Chat memo={memo} />
-                ) : (
-                  <>
-                    <Typography gutterBottom>
-                      <Button
-                        variant="outlined"
-                        fullWidth
-                        onClick={handleUseChatButtonClick}
-                      >
-                        AIアシスタントに相談（ベータ版）
-                      </Button>
-                    </Typography>
-
-                    <Typography variant="body2" gutterBottom>
-                      ベータ版は評価目的で提供され、性能や品質について保証はなく、当社は一切の責任を負いません
-                    </Typography>
-
-                    <Typography variant="caption" gutterBottom>
-                      This site is protected by reCAPTCHA and the Google{" "}
-                      <Link
-                        href="https://policies.google.com/privacy"
-                        target="_blank"
-                      >
-                        Privacy Policy
-                      </Link>{" "}
-                      and{" "}
-                      <Link
-                        href="https://policies.google.com/terms"
-                        target="_blank"
-                      >
-                        Terms of Service
-                      </Link>{" "}
-                      apply.
-                    </Typography>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          )}
-        </Stack>
+        )}
 
         <SettingDialog
           // ここでもAIチャットの設定をしないといけない
@@ -189,7 +204,7 @@ export const MemoActions: React.FunctionComponent<{
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </Stack>
     );
   }
 );
