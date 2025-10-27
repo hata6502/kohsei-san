@@ -21,10 +21,10 @@ const ThemeProvider = memo(({ children }: PropsWithChildren) => {
               default: "#fafafa",
             },
             primary: {
-              main: "#00a39b",
+              main: "#00857E",
             },
             secondary: {
-              main: "#f15d69",
+              main: "#E71324",
             },
           },
           typography: {
@@ -32,9 +32,9 @@ const ThemeProvider = memo(({ children }: PropsWithChildren) => {
               '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
           },
         },
-        jaJP,
+        jaJP
       ),
-    [prefersDarkMode],
+    [prefersDarkMode]
   );
 
   return (

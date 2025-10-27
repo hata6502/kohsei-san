@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/GridLegacy";
+import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useDispatchSetting } from "../useMemo";
@@ -121,16 +122,35 @@ export const MemoActions: React.FunctionComponent<{
                     <Typography gutterBottom>
                       <Button
                         variant="outlined"
+                        fullWidth
                         onClick={handleUseChatButtonClick}
                       >
                         AIアシスタントに相談
                       </Button>
                     </Typography>
 
-                    <Typography variant="caption" gutterBottom>
+                    <Typography variant="body2" gutterBottom>
                       AIサーバーに情報を送信・保持します
                       <br />
                       送信した情報は学習に利用されません
+                    </Typography>
+
+                    <Typography variant="caption" gutterBottom>
+                      This site is protected by reCAPTCHA and the Google{" "}
+                      <Link
+                        href="https://policies.google.com/privacy"
+                        target="_blank"
+                      >
+                        Privacy Policy
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        href="https://policies.google.com/terms"
+                        target="_blank"
+                      >
+                        Terms of Service
+                      </Link>{" "}
+                      apply.
                     </Typography>
                   </>
                 )}
