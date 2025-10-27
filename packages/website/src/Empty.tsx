@@ -1,10 +1,10 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/GridLegacy';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/GridLegacy";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
 
 const EmptyContainer = styled(Container)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -33,7 +33,7 @@ const Empty: React.FunctionComponent = React.memo(() => (
       <Grid item>
         <Link
           href={`?${new URLSearchParams({
-            text: '',
+            text: "",
           }).toString()}`}
           underline="none"
         >

@@ -1,21 +1,23 @@
-import React, { useCallback, useState } from "react";
-import Box from "@mui/material/Box";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
-import Container from "@mui/material/Container";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import Paper from "@mui/material/Paper";
+import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
+import { Chat } from "./Chat";
 import { SettingDialog } from "./SettingDialog";
 
 export const MemoActions: React.FunctionComponent<{
@@ -42,16 +44,14 @@ export const MemoActions: React.FunctionComponent<{
       memoId: memo.id,
     });
 
-    const handleSettingButtonClick = useCallback(
-      () => setIsSettingDialogOpen(true),
-      []
-    );
-    const handleSettingDialogClose = useCallback(
-      () => setIsSettingDialogOpen(false),
-      []
-    );
+    const handleSettingButtonClick = () => {
+      setIsSettingDialogOpen(true);
+    };
+    const handleSettingDialogClose = () => {
+      setIsSettingDialogOpen(false);
+    };
 
-    const handleCopyButtonClick = useCallback(() => {
+    const handleCopyButtonClick = () => {
       const id = crypto.randomUUID();
 
       dispatchMemos((prevMemos) => [
@@ -65,74 +65,112 @@ export const MemoActions: React.FunctionComponent<{
       dispatchIsCopiedSnackbarOpen(true);
       dispatchIsSidebarOpen(true);
       dispatchMemoId(id);
-    }, [
-      dispatchIsCopiedSnackbarOpen,
-      dispatchIsSidebarOpen,
-      dispatchMemoId,
-      dispatchMemos,
-      memo,
-    ]);
+    };
 
-    const handleDeleteButtonClick = useCallback(
-      () => setIsDeleteDialogOpen(true),
-      []
-    );
+    const handleDeleteButtonClick = () => {
+      setIsDeleteDialogOpen(true);
+    };
 
-    const handleDeleteDialogAgree = useCallback(() => {
+    const handleDeleteDialogAgree = () => {
       dispatchMemos((prevMemos) =>
-        prevMemos.filter(({ id }) => id !== memo.id)
+        prevMemos.filter(({ id }) => id !== memo.id),
       );
-    }, [dispatchMemos, memo.id]);
+    };
 
-    const handleDeleteDialogClose = useCallback(
-      () => setIsDeleteDialogOpen(false),
-      [setIsDeleteDialogOpen]
-    );
+    const handleDeleteDialogClose = () => {
+      setIsDeleteDialogOpen(false);
+    };
+
+    const handleUseChatButtonClick = () => {
+      dispatchSetting((prev) => ({
+        ...prev,
+        useChat: true,
+      }));
+    };
 
     return (
-      <>
-        <Paper>
-          <Box pb={2} pt={2}>
-            <Container>
+      <Stack spacing={2}>
+        <Card>
+          <CardContent>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <Chip label={`${memo.text.length}文字`} size="small" />
+
               <Stack
                 direction="row"
                 spacing={1}
                 sx={{
-                  alignItems: "center",
+                  flexGrow: 1,
+                  justifyContent: "end",
                 }}
               >
-                <Chip label={`${memo.text.length}文字`} size="small" />
-
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  sx={{
-                    flexGrow: 1,
-                    justifyContent: "end",
-                  }}
+                <IconButton
+                  onClick={handleSettingButtonClick}
+                  aria-label="設定"
                 >
-                  <IconButton
-                    onClick={handleSettingButtonClick}
-                    aria-label="設定"
-                  >
-                    <SettingsIcon />
-                  </IconButton>
+                  <SettingsIcon />
+                </IconButton>
 
-                  <IconButton onClick={handleCopyButtonClick} aria-label="複製">
-                    <ContentCopyIcon />
-                  </IconButton>
+                <IconButton onClick={handleCopyButtonClick} aria-label="複製">
+                  <ContentCopyIcon />
+                </IconButton>
 
-                  <IconButton
-                    onClick={handleDeleteButtonClick}
-                    aria-label="削除"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Stack>
+                <IconButton onClick={handleDeleteButtonClick} aria-label="削除">
+                  <DeleteIcon />
+                </IconButton>
               </Stack>
-            </Container>
-          </Box>
-        </Paper>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        {navigator.onLine && (
+          <Card>
+            <CardContent>
+              {memo.setting.useChat ? (
+                <Chat memo={memo} />
+              ) : (
+                <>
+                  <Typography gutterBottom>
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      onClick={handleUseChatButtonClick}
+                    >
+                      AIアシスタントに相談（ベータ版）
+                    </Button>
+                  </Typography>
+
+                  <Typography variant="body2" gutterBottom>
+                    ベータ版は評価目的で提供され、性能や品質について保証はなく、当社は一切の責任を負いません
+                  </Typography>
+
+                  <Typography variant="caption" gutterBottom>
+                    This site is protected by reCAPTCHA and the Google{" "}
+                    <Link
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="https://policies.google.com/terms"
+                      target="_blank"
+                    >
+                      Terms of Service
+                    </Link>{" "}
+                    apply.
+                  </Typography>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         <SettingDialog
           dispatchSetting={dispatchSetting}
@@ -165,7 +203,7 @@ export const MemoActions: React.FunctionComponent<{
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </Stack>
     );
-  }
+  },
 );

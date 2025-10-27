@@ -1,6 +1,7 @@
 import Clarity from "@microsoft/clarity";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import GlobalStyles from "@mui/material/GlobalStyles";
 import { StyledEngineProvider } from "@mui/material/styles";
 import App from "./App";
 import { ThemeProvider } from "./ThemeProvider";
@@ -24,7 +25,7 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
       >
         ヘルプ
       </a>
-    </>
+    </>,
   );
 
 const main = () => {
@@ -32,7 +33,7 @@ const main = () => {
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () =>
-      navigator.serviceWorker.register("service-worker.js")
+      navigator.serviceWorker.register("service-worker.js"),
     );
   }
 
@@ -73,9 +74,17 @@ const main = () => {
   root.render(
     <StyledEngineProvider injectFirst>
       <ThemeProvider>
+        <GlobalStyles
+          styles={{
+            ".grecaptcha-badge": {
+              visibility: "hidden",
+            },
+          }}
+        />
+
         <App lintWorker={lintWorker} />
       </ThemeProvider>
-    </StyledEngineProvider>
+    </StyledEngineProvider>,
   );
 };
 

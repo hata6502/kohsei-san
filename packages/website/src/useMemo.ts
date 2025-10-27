@@ -1,17 +1,18 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
-import type { Dispatch, SetStateAction } from 'react';
-import { TextlintResult } from '@textlint/kernel';
-import type { LintOption } from 'core';
+import { useCallback, useEffect, useReducer, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { TextlintResult } from "@textlint/kernel";
+import type { LintOption } from "core";
 
 interface Setting {
-  mode: 'standard' | 'professional';
+  useChat?: boolean;
+  mode: "standard" | "professional";
   lintOption: LintOption & {
-    userDictionaryMemoId?: string
+    userDictionaryMemoId?: string;
   };
 }
 
 const initialSetting: Setting = {
-  mode: 'standard',
+  mode: "standard",
   lintOption: {},
 };
 
@@ -31,7 +32,7 @@ const useDispatchSetting = ({
   memoId,
 }: {
   dispatchMemos: React.Dispatch<MemosAction>;
-  memoId: Memo['id'];
+  memoId: Memo["id"];
 }): DispatchSetting =>
   useCallback<DispatchSetting>(
     (action) =>
@@ -42,9 +43,9 @@ const useDispatchSetting = ({
             result: undefined,
             setting: action(prevMemo.setting),
           }),
-        }))
+        })),
       ),
-    [dispatchMemos, memoId]
+    [dispatchMemos, memoId],
   );
 
 const useMemo = (): {
@@ -57,27 +58,30 @@ const useMemo = (): {
 } => {
   const searchParams = new URLSearchParams(window.location.search);
 
-  const textParam = searchParams.get('text');
-  const titleParam = searchParams.get('title');
-  const urlParam = searchParams.get('url');
+  const textParam = searchParams.get("text");
+  const titleParam = searchParams.get("title");
+  const urlParam = searchParams.get("url");
 
-  const isShared = textParam !== null || titleParam !== null || urlParam !== null;
+  const isShared =
+    textParam !== null || titleParam !== null || urlParam !== null;
 
   const [memos, dispatchMemos] = useReducer(
     (state: Memo[], action: MemosAction) => action(state),
     undefined,
     (): Memo[] => {
-      const memosItem = localStorage.getItem('memos');
-      const localStorageMemos: Partial<Memo>[] = memosItem ? JSON.parse(memosItem) : [];
+      const memosItem = localStorage.getItem("memos");
+      const localStorageMemos: Partial<Memo>[] = memosItem
+        ? JSON.parse(memosItem)
+        : [];
 
       return [
         ...localStorageMemos.map(
           (localStorageMemo): Memo => ({
             id: crypto.randomUUID(),
             setting: initialSetting,
-            text: '',
+            text: "",
             ...localStorageMemo,
-          })
+          }),
         ),
         ...(isShared
           ? [
@@ -88,26 +92,29 @@ const useMemo = (): {
                   ...(titleParam ? [titleParam] : []),
                   ...(textParam ? [textParam] : []),
                   ...(urlParam ? [urlParam] : []),
-                ].join('\n\n'),
+                ].join("\n\n"),
               },
             ]
           : []),
       ];
-    }
+    },
   );
 
   const [memoId, dispatchMemoId] = useReducer(
-    (_: Memo['id'], action: Memo['id']) => action,
+    (_: Memo["id"], action: Memo["id"]) => action,
     undefined,
-    () => (isShared ? memos[memos.length - 1].id : localStorage.getItem('memoId') ?? '')
+    () =>
+      isShared
+        ? memos[memos.length - 1].id
+        : (localStorage.getItem("memoId") ?? ""),
   );
 
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
 
   useEffect(() => {
     try {
-      localStorage.setItem('memoId', memoId);
-      localStorage.setItem('memos', JSON.stringify(memos));
+      localStorage.setItem("memoId", memoId);
+      localStorage.setItem("memos", JSON.stringify(memos));
     } catch (exception) {
       setIsSaveErrorOpen(true);
 

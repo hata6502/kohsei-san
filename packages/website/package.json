@@ -18,6 +18,8 @@
     "@mui/lab": "^7.0.1-beta.18",
     "@mui/material": "^7.3.4",
     "@mui/styles": "^6.4.8",
+    "@openai/chatkit-react": "^1.1.1",
+    "@types/grecaptcha": "^3.0.9",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "assert": "^2.1.0",

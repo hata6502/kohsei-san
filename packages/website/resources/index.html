@@ -11,12 +11,25 @@
           'self'
           https://c.bing.com
           https://*.clarity.ms
+          https://www.google.com/recaptcha/
+          https://cdn.platform.openai.com
+          https://chatkit-session-788918986145.us-central1.run.app
+        ;
+
+        frame-src
+          'self'
+          https://recaptcha.google.com/recaptcha/
+          https://www.google.com/recaptcha/
+          https://cdn.platform.openai.com
         ;
 
         script-src
           'self'
           https://c.bing.com
           https://*.clarity.ms
+          https://www.google.com/recaptcha/
+          https://www.gstatic.com/recaptcha/
+          https://cdn.platform.openai.com
         ;
 
         style-src
@@ -53,6 +66,12 @@
 
   <body>
     <div class="app"></div>
+
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF"></script>
+    <script
+      src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
+      async
+    ></script>
     <script src="main.js"></script>
   </body>
 </html>
