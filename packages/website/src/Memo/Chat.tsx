@@ -40,5 +40,5 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
     },
   });
 
-  return <ChatKit control={control} style={{ height: 520 }} />;
+  return <ChatKit control={control} style={{ height: 500 }} />;
 };
