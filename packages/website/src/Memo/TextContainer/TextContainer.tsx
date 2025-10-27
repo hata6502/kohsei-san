@@ -24,8 +24,6 @@ import { PinIcon } from "./PinIcon";
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
 const Content = styled("div")(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: 4,
   outline: 0,
   padding: theme.spacing(2),
   wordBreak: "break-all",
