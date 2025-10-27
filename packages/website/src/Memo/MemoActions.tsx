@@ -73,7 +73,7 @@ export const MemoActions: React.FunctionComponent<{
 
     const handleDeleteDialogAgree = () => {
       dispatchMemos((prevMemos) =>
-        prevMemos.filter(({ id }) => id !== memo.id)
+        prevMemos.filter(({ id }) => id !== memo.id),
       );
     };
 
@@ -205,5 +205,5 @@ export const MemoActions: React.FunctionComponent<{
         </Dialog>
       </Stack>
     );
-  }
+  },
 );

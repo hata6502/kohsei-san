@@ -8,11 +8,11 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
     api: {
       getClientSecret: async () => {
         await new Promise<void>((resolve) =>
-          grecaptcha.enterprise.ready(resolve)
+          grecaptcha.enterprise.ready(resolve),
         );
         const recaptchaToken = await grecaptcha.enterprise.execute(
           "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
-          { action: "GET_CLIENT_SECRET" }
+          { action: "GET_CLIENT_SECRET" },
         );
 
         const response = await fetch(
@@ -26,11 +26,11 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
               recaptchaToken,
               userID: memo.id,
             }),
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(
-            `Failed to create session: ${response.status} ${response.statusText}`
+            `Failed to create session: ${response.status} ${response.statusText}`,
           );
         }
         const { clientSecret } = await response.json();

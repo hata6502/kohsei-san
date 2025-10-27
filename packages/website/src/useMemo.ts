@@ -43,9 +43,9 @@ const useDispatchSetting = ({
             result: undefined,
             setting: action(prevMemo.setting),
           }),
-        }))
+        })),
       ),
-    [dispatchMemos, memoId]
+    [dispatchMemos, memoId],
   );
 
 const useMemo = (): {
@@ -81,7 +81,7 @@ const useMemo = (): {
             setting: initialSetting,
             text: "",
             ...localStorageMemo,
-          })
+          }),
         ),
         ...(isShared
           ? [
@@ -97,7 +97,7 @@ const useMemo = (): {
             ]
           : []),
       ];
-    }
+    },
   );
 
   const [memoId, dispatchMemoId] = useReducer(
@@ -106,7 +106,7 @@ const useMemo = (): {
     () =>
       isShared
         ? memos[memos.length - 1].id
-        : (localStorage.getItem("memoId") ?? "")
+        : (localStorage.getItem("memoId") ?? ""),
   );
 
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
