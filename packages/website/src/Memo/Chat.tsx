@@ -1,6 +1,8 @@
 import React from "react";
 import type { FunctionComponent } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
+import { z } from "zod";
+
 import type { Memo } from "../useMemo";
 
 export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
@@ -37,6 +39,26 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
 
         return clientSecret;
       },
+    },
+    onClientTool: (toolCall) => {
+      const { name } = z
+        .union([
+          z.object({
+            name: z.literal("get_memo"),
+            params: z.object({}),
+          }),
+        ])
+        .parse(toolCall);
+
+      switch (name) {
+        case "get_memo": {
+          return { result: memo.result, text: memo.text };
+        }
+
+        default: {
+          throw new Error(`Unknown tool: ${name satisfies never}`);
+        }
+      }
     },
   });
 
