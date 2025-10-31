@@ -40,6 +40,18 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
         return clientSecret;
       },
     },
+    startScreen: {
+      prompts: [
+        {
+          label: "どんな見直し箇所がある?",
+          prompt: "どんな見直し箇所がある?",
+        },
+        {
+          label: "文章から読み取れる感情を教えて",
+          prompt: "文章から読み取れる感情を教えて",
+        },
+      ],
+    },
     onClientTool: (toolCall) => {
       const { name } = z
         .union([
