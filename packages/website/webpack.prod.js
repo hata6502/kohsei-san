@@ -1,7 +1,6 @@
 const staticFs = require("babel-plugin-static-fs");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
-const { GenerateSW } = require("workbox-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = {
@@ -9,6 +8,7 @@ module.exports = {
   entry: {
     main: "./src/index.tsx",
     lintWorker: "./src/lintWorker.ts",
+    serviceWorker: "./src/serviceWorker.ts",
   },
   module: {
     rules: [
@@ -37,8 +37,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: "resources" }],
     }),
-    new GenerateSW({
-      maximumFileSizeToCacheInBytes: 64 * 1024 * 1024,
+    new webpack.DefinePlugin({
+      "process.env.TIMESTAMP": JSON.stringify(String(Date.now())),
     }),
     new webpack.ProvidePlugin({
       process: "process/browser",
