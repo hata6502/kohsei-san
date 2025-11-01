@@ -146,6 +146,8 @@ export const MemoActions: React.FunctionComponent<{
                   </Typography>
 
                   <Typography variant="body2" gutterBottom>
+                    AIサーバーに情報を送信・保持します
+                    <br />
                     ベータ版は評価目的で提供され、性能や品質について保証はなく、一切の責任を負いません
                   </Typography>
 
