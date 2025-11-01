@@ -40,10 +40,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
     const handleAddClick = useCallback(() => {
       const id = crypto.randomUUID();
 
-      dispatchMemoId(id);
-
       dispatchMemos((prevMemos) => [
-        ...prevMemos,
         {
           id,
           result: {
@@ -53,7 +50,10 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
           setting: initialSetting,
           text: "",
         },
+        ...prevMemos,
       ]);
+
+      dispatchMemoId(id);
 
       onClose?.();
     }, [dispatchMemoId, dispatchMemos, onClose]);
@@ -64,12 +64,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
         onClose?.();
       },
-      [dispatchMemoId, onClose],
+      [dispatchMemoId, onClose]
     );
 
     return (
       <DrawerContainer>
         <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleAddClick}>
+              <ListItemIcon data-testid="sidebar-component-add-memo">
+                <NoteAddIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="メモを追加" />
+            </ListItemButton>
+          </ListItem>
+
           {memos.map(({ id, result, text }) => (
             <ListItem disablePadding key={id}>
               <ListItemButton
@@ -86,16 +96,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
               </ListItemButton>
             </ListItem>
           ))}
-
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleAddClick}>
-              <ListItemIcon data-testid="sidebar-component-add-memo">
-                <NoteAddIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="メモを追加" />
-            </ListItemButton>
-          </ListItem>
         </List>
 
         <Divider />
@@ -190,7 +190,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         </List>
       </DrawerContainer>
     );
-  },
+  }
 );
 
 export default Sidebar;
