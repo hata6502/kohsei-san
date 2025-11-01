@@ -51,7 +51,7 @@ const main = async () => {
     console.error(exception);
   }
 
-  Clarity.init("sgagyas3lh");
+  Clarity.init("tzb0jilbb4");
 
   if (!window.Worker) {
     renderFatalError({
