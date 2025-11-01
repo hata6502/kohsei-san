@@ -293,11 +293,15 @@ const TextContainer: React.FunctionComponent<{
         <Box mt={1}>
           <Box
             ref={textBoxRef}
-            border={isTextContainerFocused ? 2 : 1}
-            borderColor={isTextContainerFocused ? "primary.main" : "grey.500"}
-            borderRadius="4px"
-            m={isTextContainerFocused ? 0 : "1px"}
-            position="relative"
+            sx={{
+              position: "relative",
+              borderRadius: 1,
+              outlineColor: isTextContainerFocused
+                ? "primary.main"
+                : "grey.500",
+              outlineStyle: "solid",
+              outlineWidth: isTextContainerFocused ? 2 : 1,
+            }}
           >
             <Typography component="div" variant="body1">
               <Content
