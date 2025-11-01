@@ -28,14 +28,30 @@ const renderFatalError = ({ message }: { message: React.ReactNode }) =>
     </>,
   );
 
-const main = () => {
-  Clarity.init("sgagyas3lh");
+const main = async () => {
+  try {
+    const registration =
+      await navigator.serviceWorker.register("service-worker.js");
 
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () =>
-      navigator.serviceWorker.register("service-worker.js"),
-    );
+    registration.onupdatefound = () => {
+      const installing = registration.installing;
+      if (installing) {
+        installing.onstatechange = () => {
+          if (
+            installing.state === "activated" &&
+            // 古いService Workerが存在する場合
+            navigator.serviceWorker.controller
+          ) {
+            location.reload();
+          }
+        };
+      }
+    };
+  } catch (exception) {
+    console.error(exception);
   }
+
+  Clarity.init("sgagyas3lh");
 
   if (!window.Worker) {
     renderFatalError({
@@ -88,4 +104,4 @@ const main = () => {
   );
 };
 
-main();
+await main();
