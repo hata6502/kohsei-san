@@ -64,7 +64,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
 
         onClose?.();
       },
-      [dispatchMemoId, onClose]
+      [dispatchMemoId, onClose],
     );
 
     return (
@@ -190,7 +190,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         </List>
       </DrawerContainer>
     );
-  }
+  },
 );
 
 export default Sidebar;
