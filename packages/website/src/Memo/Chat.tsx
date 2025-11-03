@@ -1,11 +1,93 @@
-import React from "react";
-import type { FunctionComponent } from "react";
+import React, { useCallback } from "react";
+import type { Dispatch, FunctionComponent } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
+import type { ChatKitOptions } from "@openai/chatkit-react";
+import type { TextlintMessage } from "@textlint/kernel";
 import { z } from "zod";
 
-import type { Memo } from "../useMemo";
+import type { Memo, MemosAction } from "../useMemo";
 
-export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
+const toolCallSchema = z.union([
+  z.object({
+    name: z.literal("get_memo"),
+    params: z.object({}),
+  }),
+  z.object({
+    name: z.literal("set_ai_lint_messages"),
+    params: z.object({
+      messages: z.array(
+        z.object({
+          type: z.literal("lint"),
+          ruleId: z.literal("ai"),
+          message: z.string(),
+          index: z.number(),
+          severity: z.literal(0),
+        }),
+      ),
+    }),
+  }),
+]);
+//console.log(z.toJSONSchema(toolCallSchema));
+
+export const Chat: FunctionComponent<{
+  memo: Memo;
+  dispatchMemos: Dispatch<MemosAction>;
+}> = ({ memo, dispatchMemos }) => {
+  const handleClientTool: NonNullable<ChatKitOptions["onClientTool"]> =
+    useCallback(
+      (toolCall) => {
+        try {
+          const { name, params } = toolCallSchema.parse(toolCall);
+          switch (name) {
+            case "get_memo": {
+              return { result: memo.result, text: memo.text };
+            }
+
+            case "set_ai_lint_messages": {
+              throw new Error("Not implemented yet");
+
+              dispatchMemos((prev) =>
+                prev.map((prevMemo) => {
+                  if (prevMemo.id !== memo.id) {
+                    return prevMemo;
+                  }
+
+                  if (!prevMemo.result) {
+                    throw new Error("Memo result is undefined");
+                  }
+                  // @ts-expect-error
+                  const aiMessages: TextlintMessage[] = params.messages;
+
+                  return {
+                    ...prevMemo,
+                    result: {
+                      ...prevMemo.result,
+                      messages: [
+                        ...prevMemo.result.messages.filter(
+                          (message) => message.ruleId !== "ai",
+                        ),
+                        ...aiMessages,
+                      ],
+                    },
+                  };
+                }),
+              );
+
+              return {};
+            }
+
+            default: {
+              throw new Error(`Unknown tool: ${name satisfies never}`);
+            }
+          }
+        } catch (exception) {
+          console.error(exception);
+          return { exception: String(exception) };
+        }
+      },
+      [memo],
+    );
+
   const { control } = useChatKit({
     api: {
       getClientSecret: async () => {
@@ -43,8 +125,8 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
     startScreen: {
       prompts: [
         {
-          label: "どんな見直し箇所がある?",
-          prompt: "どんな見直し箇所がある?",
+          label: "文章にはどんな見直し箇所がある?",
+          prompt: "文章にはどんな見直し箇所がある?",
         },
         {
           label: "文章から読み取れる感情を教えて",
@@ -52,26 +134,7 @@ export const Chat: FunctionComponent<{ memo: Memo }> = ({ memo }) => {
         },
       ],
     },
-    onClientTool: (toolCall) => {
-      const { name } = z
-        .union([
-          z.object({
-            name: z.literal("get_memo"),
-            params: z.object({}),
-          }),
-        ])
-        .parse(toolCall);
-
-      switch (name) {
-        case "get_memo": {
-          return { result: memo.result, text: memo.text };
-        }
-
-        default: {
-          throw new Error(`Unknown tool: ${name satisfies never}`);
-        }
-      }
-    },
+    onClientTool: handleClientTool,
   });
 
   return <ChatKit control={control} style={{ height: 500 }} />;

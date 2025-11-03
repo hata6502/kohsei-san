@@ -132,7 +132,7 @@ export const MemoActions: React.FunctionComponent<{
           <Card>
             <CardContent>
               {memo.setting.useChat ? (
-                <Chat memo={memo} />
+                <Chat memo={memo} dispatchMemos={dispatchMemos} />
               ) : (
                 <>
                   <Typography gutterBottom>
