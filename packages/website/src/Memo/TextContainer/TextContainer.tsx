@@ -135,6 +135,7 @@ const TextContainer: React.FunctionComponent<{
     const textRef = useRef<HTMLDivElement | null>(null);
     const textBoxRef = useRef<HTMLDivElement | null>(null);
 
+    const memoID = memo.id;
     const dispatchText = useCallback(() => {
       dispatchMemos((prevMemos) => {
         if (!textRef.current) {
@@ -142,7 +143,7 @@ const TextContainer: React.FunctionComponent<{
         }
 
         const memoIndex = prevMemos.findIndex(
-          (prevMemo) => prevMemo.id === memo.id,
+          (prevMemo) => prevMemo.id === memoID,
         );
         const memo = {
           ...prevMemos[memoIndex],
@@ -155,7 +156,7 @@ const TextContainer: React.FunctionComponent<{
 
         return memos;
       });
-    }, [memo.id]);
+    }, [memoID]);
 
     useEffect(() => {
       window.addEventListener("beforeunload", dispatchText);
@@ -231,7 +232,7 @@ const TextContainer: React.FunctionComponent<{
         dispatchMemos((prevMemos) =>
           prevMemos.map((prevMemo) => ({
             ...prevMemo,
-            ...(prevMemo.id === memo.id && {
+            ...(prevMemo.id === memoID && {
               result: undefined,
               text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
             }),
@@ -240,7 +241,7 @@ const TextContainer: React.FunctionComponent<{
 
         setPopoverAnchorEl(null);
       },
-      [dispatchMemos, memo.id, setPopoverAnchorEl],
+      [dispatchMemos, memoID, setPopoverAnchorEl],
     );
 
     const handlePinClick = useCallback(
