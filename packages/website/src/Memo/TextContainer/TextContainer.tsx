@@ -135,27 +135,32 @@ const TextContainer: React.FunctionComponent<{
     const textRef = useRef<HTMLDivElement | null>(null);
     const textBoxRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-      const dispatchText = () =>
-        dispatchMemos((prevMemos) =>
-          prevMemos.map((prevMemo) => {
-            if (!textRef.current) {
-              throw new Error("textRef.current is not defined");
-            }
+    const dispatchText = useCallback(() => {
+      dispatchMemos((prevMemos) => {
+        if (!textRef.current) {
+          throw new Error("textRef.current is not defined");
+        }
 
-            return {
-              ...prevMemo,
-              ...(prevMemo.id === memo.id && {
-                text: removeExtraNewLine(textRef.current.innerText),
-              }),
-            };
-          }),
+        const memoIndex = prevMemos.findIndex(
+          (prevMemo) => prevMemo.id === memo.id,
         );
+        const memo = {
+          ...prevMemos[memoIndex],
+          text: removeExtraNewLine(textRef.current.innerText),
+        };
 
+        const memos = [...prevMemos];
+        memos.splice(memoIndex, 1);
+        memos.unshift(memo);
+
+        return memos;
+      });
+    }, [memo.id]);
+
+    useEffect(() => {
       window.addEventListener("beforeunload", dispatchText);
-
       return () => window.removeEventListener("beforeunload", dispatchText);
-    }, [dispatchMemos, memo.id]);
+    }, [dispatchText]);
 
     useEffect(() => {
       // Undo できるようにする。
@@ -250,23 +255,8 @@ const TextContainer: React.FunctionComponent<{
 
     const handleTextContainerBlur = useCallback(() => {
       dispatchIsTextContainerFocused(false);
-
-      dispatchMemos((prevMemos) =>
-        prevMemos.map((prevMemo) => {
-          if (!textRef.current) {
-            throw new Error("textRef.current is not defined");
-          }
-
-          return {
-            ...prevMemo,
-            ...(prevMemo.id === memo.id && {
-              result: undefined,
-              text: removeExtraNewLine(textRef.current.innerText),
-            }),
-          };
-        }),
-      );
-    }, [dispatchIsTextContainerFocused, dispatchMemos, memo.id]);
+      dispatchText();
+    }, [dispatchIsTextContainerFocused, dispatchText]);
 
     const handleTextContainerFocus = useCallback(
       () => dispatchIsTextContainerFocused(true),

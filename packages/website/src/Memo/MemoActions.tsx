@@ -55,11 +55,11 @@ export const MemoActions: React.FunctionComponent<{
       const id = crypto.randomUUID();
 
       dispatchMemos((prevMemos) => [
-        ...prevMemos,
         {
           ...memo,
           id,
         },
+        ...prevMemos,
       ]);
 
       dispatchIsCopiedSnackbarOpen(true);
