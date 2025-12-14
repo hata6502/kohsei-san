@@ -159,7 +159,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
           <ListItem disablePadding>
             <ListItemButton
               component="a"
-              href="https://almap.hata6502.com/"
+              href="https://almap.hata6502.com/lp/"
               rel="noreferrer"
               sx={{ color: "inherit" }}
               target="_blank"
