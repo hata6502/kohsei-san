@@ -147,6 +147,7 @@ const TextContainer: React.FunctionComponent<{
         );
         const memo = {
           ...prevMemos[memoIndex],
+          result: undefined,
           text: removeExtraNewLine(textRef.current.innerText),
         };
 
