@@ -127,6 +127,10 @@ export const Chat: FunctionComponent<{
           prompt: "文章にはどんな見直し箇所がある?",
         },
         {
+          label: "他にも見直し箇所があれば表示して",
+          prompt: "他にも見直し箇所があれば表示して",
+        },
+        {
           label: "文章から読み取れる感情を教えて",
           prompt: "文章から読み取れる感情を教えて",
         },
