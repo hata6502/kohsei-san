@@ -44,10 +44,8 @@ export const Chat: FunctionComponent<{
             }
 
             case "set_ai_lint_messages": {
-              throw new Error("Not implemented yet");
-
-              dispatchMemos((prev) =>
-                prev.map((prevMemo) => {
+              dispatchMemos((prevMemos) =>
+                prevMemos.map((prevMemo) => {
                   if (prevMemo.id !== memo.id) {
                     return prevMemo;
                   }

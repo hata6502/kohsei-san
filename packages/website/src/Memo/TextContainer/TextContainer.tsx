@@ -15,18 +15,12 @@ import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import Alert from "@mui/material/Alert";
 import type {
   TextlintMessage,
+  TextlintResult,
   TextlintRuleSeverityLevel,
 } from "@textlint/kernel";
+import { diffChars } from "diff";
 import type { Memo, MemosAction } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
-
-const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
-
-const Content = styled("div")(({ theme }) => ({
-  outline: 0,
-  padding: theme.spacing(2),
-  wordBreak: "break-all",
-}));
 
 interface LintMessage {
   index: TextlintMessage["index"];
@@ -39,60 +33,11 @@ interface Pin {
   top: React.CSSProperties["top"];
 }
 
-const getPins = ({
-  lintMessages,
-  text,
-  textBoxRect,
-}: {
-  lintMessages: LintMessage[];
-  text: HTMLDivElement;
-  textBoxRect: DOMRect;
-}) => {
-  const pins: Pin[] = [];
-  const range = document.createRange();
-
-  for (const lintMessage of lintMessages) {
-    let childNodesIndex = 0;
-    let offset = lintMessage.index;
-
-    for (
-      childNodesIndex = 0;
-      childNodesIndex < text.childNodes.length;
-      childNodesIndex += 1
-    ) {
-      const child = text.childNodes[childNodesIndex];
-      const length =
-        (child instanceof HTMLBRElement && 1) ||
-        (child instanceof Text && child.length);
-
-      if (typeof length !== "number") {
-        return { reject: new Error("child.length is not defined") };
-      }
-
-      if (offset < length) {
-        range.setStart(child, offset);
-
-        break;
-      }
-
-      offset -= length;
-    }
-
-    if (childNodesIndex >= text.childNodes.length) {
-      return { reject: new Error("childNodesIndex >= text.childNodes.length") };
-    }
-
-    const rangeRect = range.getBoundingClientRect();
-
-    pins.push({
-      left: rangeRect.left - textBoxRect.left - 8,
-      message: lintMessage,
-      top: rangeRect.top - textBoxRect.top + 8,
-    });
-  }
-
-  return { resolve: pins };
-};
+const Content = styled("div")(({ theme }) => ({
+  outline: 0,
+  padding: theme.spacing(2),
+  wordBreak: "break-all",
+}));
 
 const MessagePopover = styled(Popover)({
   wordBreak: "break-word",
@@ -107,7 +52,7 @@ const PinTarget = styled("button")(({ theme }) => ({
   cursor: "pointer",
 }));
 
-const TextContainer: React.FunctionComponent<{
+export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsTextContainerFocused: React.Dispatch<React.SetStateAction<boolean>>;
   dispatchMemos: React.Dispatch<MemosAction>;
@@ -136,32 +81,49 @@ const TextContainer: React.FunctionComponent<{
     const textBoxRef = useRef<HTMLDivElement | null>(null);
 
     const memoID = memo.id;
-    const dispatchText = useCallback(() => {
-      dispatchMemos((prevMemos) => {
-        if (!textRef.current) {
-          throw new Error("textRef.current is not defined");
-        }
+    const dispatchText = useCallback(
+      (action?: (prevText: string) => string) => {
+        dispatchMemos((prevMemos) => {
+          if (!textRef.current) {
+            throw new Error("textRef.current is not defined");
+          }
 
-        const memoIndex = prevMemos.findIndex(
-          (prevMemo) => prevMemo.id === memoID,
-        );
-        const memo = {
-          ...prevMemos[memoIndex],
-          result: undefined,
-          text: removeExtraNewLine(textRef.current.innerText),
-        };
+          const memoIndex = prevMemos.findIndex(
+            (prevMemo) => prevMemo.id === memoID,
+          );
+          const prevMemo = prevMemos[memoIndex];
 
-        const memos = [...prevMemos];
-        memos.splice(memoIndex, 1);
-        memos.unshift(memo);
+          const text = action
+            ? action(prevMemo.text)
+            : removeExtraNewLine(textRef.current.innerText);
+          const memo = {
+            ...prevMemo,
+            result: diffResult({
+              result: prevMemo.result,
+              prevText: prevMemo.text,
+              text,
+            }),
+            text,
+          };
 
-        return memos;
-      });
-    }, [memoID]);
+          const memos = [...prevMemos];
+          memos.splice(memoIndex, 1);
+          memos.unshift(memo);
+
+          return memos;
+        });
+      },
+      [memoID],
+    );
 
     useEffect(() => {
-      window.addEventListener("beforeunload", dispatchText);
-      return () => window.removeEventListener("beforeunload", dispatchText);
+      const handleBeforeUnload = () => {
+        dispatchText();
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
     }, [dispatchText]);
 
     useEffect(() => {
@@ -224,25 +186,17 @@ const TextContainer: React.FunctionComponent<{
 
     const handleFixClick = useCallback(
       ({ message }: { message: TextlintMessage }) => {
-        if (!message.fix) {
-          throw new Error("message.fix is not defined");
-        }
+        dispatchText((prevText) => {
+          if (!message.fix) {
+            throw new Error("message.fix is not defined");
+          }
 
-        const { range, text } = message.fix;
-
-        dispatchMemos((prevMemos) =>
-          prevMemos.map((prevMemo) => ({
-            ...prevMemo,
-            ...(prevMemo.id === memoID && {
-              result: undefined,
-              text: `${prevMemo.text.slice(0, range[0])}${text}${prevMemo.text.slice(range[1])}`,
-            }),
-          })),
-        );
+          return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
+        });
 
         setPopoverAnchorEl(null);
       },
-      [dispatchMemos, memoID, setPopoverAnchorEl],
+      [dispatchText, memoID, setPopoverAnchorEl],
     );
 
     const handlePinClick = useCallback(
@@ -366,4 +320,103 @@ const TextContainer: React.FunctionComponent<{
   },
 );
 
-export { TextContainer };
+const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
+
+const diffResult = ({
+  result,
+  prevText,
+  text,
+}: {
+  result?: TextlintResult;
+  prevText: string;
+  text: string;
+}) => {
+  if (!result) {
+    return;
+  }
+
+  const diff = diffChars(prevText, text);
+
+  return {
+    ...result,
+    messages: result.messages.flatMap((message) => {
+      let index = message.index;
+      let textIndex = 0;
+      for (const part of diff) {
+        if (part.added) {
+          index += part.value.length;
+          textIndex += part.value.length;
+        } else if (part.removed) {
+          if (index >= textIndex && index < textIndex + part.value.length) {
+            return [];
+          }
+
+          index -= part.value.length;
+        } else {
+          if (index >= textIndex && index < textIndex + part.value.length) {
+            break;
+          }
+
+          textIndex += part.value.length;
+        }
+      }
+
+      return [{ ...message, index }];
+    }),
+  };
+};
+
+const getPins = ({
+  lintMessages,
+  text,
+  textBoxRect,
+}: {
+  lintMessages: LintMessage[];
+  text: HTMLDivElement;
+  textBoxRect: DOMRect;
+}) => {
+  const pins: Pin[] = [];
+  const range = document.createRange();
+
+  for (const lintMessage of lintMessages) {
+    let childNodesIndex = 0;
+    let offset = lintMessage.index;
+
+    for (
+      childNodesIndex = 0;
+      childNodesIndex < text.childNodes.length;
+      childNodesIndex += 1
+    ) {
+      const child = text.childNodes[childNodesIndex];
+      const length =
+        (child instanceof HTMLBRElement && 1) ||
+        (child instanceof Text && child.length);
+
+      if (typeof length !== "number") {
+        return { reject: new Error("child.length is not defined") };
+      }
+
+      if (offset < length) {
+        range.setStart(child, offset);
+
+        break;
+      }
+
+      offset -= length;
+    }
+
+    if (childNodesIndex >= text.childNodes.length) {
+      return { reject: new Error("childNodesIndex >= text.childNodes.length") };
+    }
+
+    const rangeRect = range.getBoundingClientRect();
+
+    pins.push({
+      left: rangeRect.left - textBoxRect.left - 8,
+      message: lintMessage,
+      top: rangeRect.top - textBoxRect.top + 8,
+    });
+  }
+
+  return { resolve: pins };
+};

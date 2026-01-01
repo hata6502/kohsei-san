@@ -40,10 +40,6 @@ export const Edit: React.FunctionComponent<{
     );
 
     useEffect(() => {
-      if (!lintWorker || memo.result) {
-        return;
-      }
-
       const userDictionaryMemo = memos.find(
         ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId,
       );
@@ -96,7 +92,6 @@ export const Edit: React.FunctionComponent<{
       dispatchMemos,
       lintWorker,
       memo.id,
-      memo.result,
       memo.setting.lintOption,
       memo.setting.mode,
       memo.text,
@@ -117,10 +112,22 @@ export const Edit: React.FunctionComponent<{
         }
 
         dispatchMemos((prevMemos) =>
-          prevMemos.map((prevMemo) => ({
-            ...prevMemo,
-            ...(prevMemo.id === memo.id && { result: event.data.result }),
-          })),
+          prevMemos.map((prevMemo) =>
+            prevMemo.id === memo.id
+              ? {
+                  ...prevMemo,
+                  result: {
+                    ...event.data.result,
+                    messages: [
+                      ...event.data.result.messages,
+                      ...(prevMemo.result?.messages.filter(
+                        (message) => message.ruleId === "ai",
+                      ) ?? []),
+                    ],
+                  },
+                }
+              : prevMemo,
+          ),
         );
       };
 
