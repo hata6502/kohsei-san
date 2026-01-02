@@ -128,12 +128,12 @@ export const Chat: FunctionComponent<{
     startScreen: {
       prompts: [
         {
-          label: "文章の見直し箇所を解説して",
-          prompt: "文章の見直し箇所を解説して",
+          label: "文章にはどんな見直し箇所がある?",
+          prompt: "文章にはどんな見直し箇所がある?",
         },
         {
-          label: "他にも見直し箇所があれば表示して",
-          prompt: "他にも見直し箇所があれば表示して",
+          label: "文章全体を査読してください",
+          prompt: "文章全体を査読してください",
         },
         {
           label: "文章から読み取れる感情を教えて",
