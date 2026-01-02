@@ -17,11 +17,8 @@ const toolCallSchema = z.union([
     params: z.object({
       messages: z.array(
         z.object({
-          type: z.literal("lint"),
-          ruleId: z.literal("ai"),
+          lineIndex: z.number().describe("0-based"),
           message: z.string(),
-          index: z.number(),
-          severity: z.literal(0),
         }),
       ),
     }),
@@ -46,15 +43,23 @@ export const Chat: FunctionComponent<{
             case "set_ai_lint_messages": {
               dispatchMemos((prevMemos) =>
                 prevMemos.map((prevMemo) => {
-                  if (prevMemo.id !== memo.id) {
+                  if (prevMemo.id !== memo.id || !prevMemo.result) {
                     return prevMemo;
                   }
 
-                  if (!prevMemo.result) {
-                    throw new Error("Memo result is undefined");
-                  }
                   // @ts-expect-error
-                  const aiMessages: TextlintMessage[] = params.messages;
+                  const aiMessages: TextlintMessage[] = params.messages.map(
+                    (message) => ({
+                      type: "lint",
+                      ruleId: "ai",
+                      message: message.message,
+                      index: prevMemo.text
+                        .split("\n")
+                        .slice(0, message.lineIndex)
+                        .join("\n").length,
+                      severity: 0,
+                    }),
+                  );
 
                   return {
                     ...prevMemo,
