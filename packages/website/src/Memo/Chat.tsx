@@ -128,8 +128,8 @@ export const Chat: FunctionComponent<{
     startScreen: {
       prompts: [
         {
-          label: "文章にはどんな見直し箇所がある?",
-          prompt: "文章にはどんな見直し箇所がある?",
+          label: "文章の見直し箇所を解説して",
+          prompt: "文章の見直し箇所を解説して",
         },
         {
           label: "他にも見直し箇所があれば表示して",
