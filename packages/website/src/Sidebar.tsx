@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import PaletteIcon from "@mui/icons-material/Palette";
@@ -156,6 +157,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
         <Divider />
 
         <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              component="a"
+              href="https://mojimage.hata6502.com/"
+              rel="noreferrer"
+              sx={{ color: "inherit" }}
+              target="_blank"
+            >
+              <ListItemIcon>
+                <ImageSearchIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="Mojimageアクセシブル画像埋め込みツール" />
+            </ListItemButton>
+          </ListItem>
+
           <ListItem disablePadding>
             <ListItemButton
               component="a"
