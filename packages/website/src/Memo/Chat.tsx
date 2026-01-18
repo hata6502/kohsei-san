@@ -125,6 +125,7 @@ export const Chat: FunctionComponent<{
         return clientSecret;
       },
     },
+    composer: { attachments: { enabled: true } },
     startScreen: {
       prompts: [
         {
