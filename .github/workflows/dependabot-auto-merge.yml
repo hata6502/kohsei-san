@@ -1,0 +1,15 @@
+# https://github.com/dependabot/fetch-metadata?tab=readme-ov-file#enabling-auto-merge
+name: Dependabot auto-merge
+on: pull_request
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - run: gh pr merge --auto --merge "${{ github.event.pull_request.html_url }}"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
