@@ -2140,10 +2140,10 @@ diff@^5.2.0:
   resolved "https://registry.yarnpkg.com/diff/-/diff-5.2.0.tgz#26ded047cd1179b78b9537d5ef725503ce1ae531"
   integrity sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==
 
-diff@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-8.0.2.tgz#712156a6dd288e66ebb986864e190c2fc9eddfae"
-  integrity sha512-sSuxWU5j5SR9QQji/o2qMvqRNYRDOcBTgsJ/DeCf4iSN4gW+gNMXM7wFIP+fdXZxoNiAnHUTGjCr+TSWXdRDKg==
+diff@^8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-8.0.3.tgz#c7da3d9e0e8c283bb548681f8d7174653720c2d5"
+  integrity sha512-qejHi7bcSD4hQAZE0tNAawRK1ZtafHDmMTMkrrIGgSLl7hTnQHmKCeB45xAcbfTqK2zowkM3j3bHt/4b/ARbYQ==
 
 dir-glob@^3.0.1:
   version "3.0.1"
@@ -3482,6 +3482,7 @@ kind-of@^6.0.0, kind-of@^6.0.2:
 
 kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
   version "0.1.8"
+  uid f923005d219a5529fbd92ea8c225700fb40e9366
   resolved "https://codeload.github.com/hata6502/kuromoji.js/tar.gz/f923005d219a5529fbd92ea8c225700fb40e9366"
   dependencies:
     async "^2.0.1"
@@ -3489,6 +3490,7 @@ kuromoji@0.1.2, kuromoji@hata6502/kuromoji.js:
 
 kuromojin@^1.0.2, kuromojin@^1.2.1, kuromojin@^1.4.0, kuromojin@^2.0.0, kuromojin@^2.1.1, kuromojin@^3.0.0, kuromojin@hata6502/kuromojin:
   version "3.0.1"
+  uid d36dc9c33550a326f5574188328c3c233849c982
   resolved "https://codeload.github.com/hata6502/kuromojin/tar.gz/d36dc9c33550a326f5574188328c3c233849c982"
   dependencies:
     kuromoji "0.1.2"
@@ -3933,6 +3935,13 @@ minizlib@^3.0.1:
   dependencies:
     minipass "^7.1.2"
 
+minizlib@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-3.1.0.tgz#6ad76c3a8f10227c9b51d1c9ac8e30b27f5a251c"
+  integrity sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==
+  dependencies:
+    minipass "^7.1.2"
+
 mkdirp@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
@@ -3951,11 +3960,6 @@ mkdirp@^0.5.6:
   integrity sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==
   dependencies:
     minimist "^1.2.6"
-
-mkdirp@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
-  integrity sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==
 
 moji@^0.5.1:
   version "0.5.1"
@@ -4405,6 +4409,7 @@ prettier@^3.6.2:
 
 prh@^5.4.4, prh@hata6502/prh:
   version "5.4.6"
+  uid "88b497e336bac5cc53393b370a41909e90f8b496"
   resolved "https://codeload.github.com/hata6502/prh/tar.gz/88b497e336bac5cc53393b370a41909e90f8b496"
   dependencies:
     commandpost "^1.2.1"
@@ -5214,6 +5219,7 @@ stylis@4.2.0:
 
 sudachi-synonyms-dictionary@hata6502/sudachi-synonyms-dictionary:
   version "6.0.1"
+  uid e6aa3ea4c0581e2c1f6f06361ed72cd260f69851
   resolved "https://codeload.github.com/hata6502/sudachi-synonyms-dictionary/tar.gz/e6aa3ea4c0581e2c1f6f06361ed72cd260f69851"
 
 supports-color@^2.0.0:
@@ -5273,15 +5279,14 @@ tapable@^2.1.1, tapable@^2.2.0:
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
 tar@^7.4.3:
-  version "7.4.3"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-7.4.3.tgz#88bbe9286a3fcd900e94592cda7a22b192e80571"
-  integrity sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-7.5.3.tgz#e1a41236e32446f75e63b720222112c4ffe5b3a1"
+  integrity sha512-ENg5JUHUm2rDD7IvKNFGzyElLXNjachNLp6RaGf4+JOgxXHkqA+gq81ZAMCUmtMtqBsoU62lcp6S27g1LCYGGQ==
   dependencies:
     "@isaacs/fs-minipass" "^4.0.0"
     chownr "^3.0.0"
     minipass "^7.1.2"
-    minizlib "^3.0.1"
-    mkdirp "^3.0.1"
+    minizlib "^3.1.0"
     yallist "^5.0.0"
 
 terser-webpack-plugin@^5.3.11:
@@ -5660,6 +5665,7 @@ textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet@^1.0.1:
 
 textlint-rule-no-nfd@^1.0.1, textlint-rule-no-nfd@^1.0.2, textlint-rule-no-nfd@hata6502/textlint-rule-no-nfd:
   version "1.0.3"
+  uid "400d1a254ca856ed945d0f3f244458fc4d28048d"
   resolved "https://codeload.github.com/hata6502/textlint-rule-no-nfd/tar.gz/400d1a254ca856ed945d0f3f244458fc4d28048d"
   dependencies:
     match-index "^1.0.3"
@@ -5672,6 +5678,7 @@ textlint-rule-no-zero-width-spaces@^1.0.0, textlint-rule-no-zero-width-spaces@^1
 
 textlint-rule-prefer-tari-tari@^1.0.3, textlint-rule-prefer-tari-tari@hata6502/textlint-rule-prefer-tari-tari:
   version "1.0.4"
+  uid "91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   resolved "https://codeload.github.com/hata6502/textlint-rule-prefer-tari-tari/tar.gz/91dc2af97d68dbfc9e17e3d84555708d8f9e2a38"
   dependencies:
     nlcst-parse-japanese "^1.1.2"
