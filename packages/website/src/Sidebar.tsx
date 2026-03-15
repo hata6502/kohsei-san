@@ -7,12 +7,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DifferenceIcon from '@mui/icons-material/Difference';
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import PaletteIcon from "@mui/icons-material/Palette";
 import { initialSetting } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
@@ -176,32 +175,16 @@ const Sidebar: React.FunctionComponent<SidebarProps> = React.memo(
           <ListItem disablePadding>
             <ListItemButton
               component="a"
-              href="https://almap.hata6502.com/lp/"
+              href="https://diff.hata6502.com/?display=pdf"
               rel="noreferrer"
               sx={{ color: "inherit" }}
               target="_blank"
             >
               <ListItemIcon>
-                <LocalFloristIcon />
+                <DifferenceIcon />
               </ListItemIcon>
 
-              <ListItemText primary="写真地図" />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton
-              component="a"
-              href="https://premy.hata6502.com/"
-              rel="noreferrer"
-              sx={{ color: "inherit" }}
-              target="_blank"
-            >
-              <ListItemIcon>
-                <PaletteIcon />
-              </ListItemIcon>
-
-              <ListItemText primary="premyお絵かき" />
+              <ListItemText primary="オフラインPDF差分比較ツール" />
             </ListItemButton>
           </ListItem>
         </List>
