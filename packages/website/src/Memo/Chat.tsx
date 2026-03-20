@@ -17,14 +17,15 @@ const toolCallSchema = z.union([
     params: z.object({
       messages: z.array(
         z.object({
-          index: z.number().describe("0-based character index"),
-          indexText: z
+          line: z.number().min(1).describe("1-based line number"),
+          column: z.number().min(1).describe("1-based column number"),
+          text: z
             .string()
-            .describe("Text at the index position, for validation"),
+            .describe("Text at the line/column position, for validation"),
           message: z.string(),
           fix: z
             .object({
-              text: z.string().describe("Replacement text for indexText"),
+              text: z.string().describe("Replacement text for text"),
             })
             .nullable(),
         }),
@@ -59,14 +60,39 @@ export const Chat: FunctionComponent<{
               // @ts-expect-error
               const aiMessages: TextlintMessage[] = params.messages.flatMap(
                 (message) => {
+                  const lines = memo.text.split("\n");
+                  const lineText = lines.at(message.line - 1);
+                  if (lineText === undefined) {
+                    errors.push(
+                      `line ${message.line}: line out of range (1-${lines.length})`,
+                    );
+                    return [];
+                  }
+
+                  const graphemes = [
+                    ...new Intl.Segmenter().segment(lineText),
+                  ].map(({ segment }) => segment);
+                  if (message.column > graphemes.length + 1) {
+                    errors.push(
+                      `line ${message.line}, column ${message.column}: column out of range (1-${graphemes.length + 1})`,
+                    );
+                    return [];
+                  }
+
+                  const index =
+                    lines
+                      .slice(0, message.line - 1)
+                      .reduce((sum, line) => sum + line.length + 1, 0) +
+                    graphemes.slice(0, message.column - 1).join("").length;
+
                   const actual = memo.text.slice(
-                    message.index,
-                    message.index + message.indexText.length,
+                    index,
+                    index + message.text.length,
                   );
 
-                  if (actual !== message.indexText) {
+                  if (actual !== message.text) {
                     errors.push(
-                      `index ${message.index}: expected "${message.indexText}" but found "${actual}"`,
+                      `line ${message.line}, column ${message.column}: expected "${message.text}" but found "${actual}"`,
                     );
                     return [];
                   }
@@ -76,14 +102,11 @@ export const Chat: FunctionComponent<{
                       type: "lint",
                       ruleId: "ai",
                       message: message.message,
-                      index: message.index,
+                      index,
                       severity: 0,
                       ...(message.fix && {
                         fix: {
-                          range: [
-                            message.index,
-                            message.index + message.indexText.length,
-                          ],
+                          range: [index, index + message.text.length],
                           text: message.fix.text,
                         },
                       }),
@@ -94,7 +117,15 @@ export const Chat: FunctionComponent<{
 
               if (errors.length > 0) {
                 throw new Error(
-                  `Validation failed. Please retry set_ai_lint_messages with correct indices.\n\n${errors.join("\n")}\n\nFull text for reference:\n${memo.text}`,
+                  `
+                    Validation failed.
+                    Please retry set_ai_lint_messages with correct 1-based line and column values.
+
+                    ${errors.join("\n")}
+
+                    Full text for reference:
+${memo.text}
+                  `,
                 );
               }
 
