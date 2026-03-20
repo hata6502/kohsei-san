@@ -26,7 +26,7 @@ const toolCallSchema = z.union([
             .object({
               text: z.string().describe("Replacement text for indexText"),
             })
-            .nullable(),
+            .optional(),
         }),
       ),
     }),
@@ -34,7 +34,8 @@ const toolCallSchema = z.union([
 ]);
 if (typeof window !== "undefined") {
   // ブラウザの console から printToolSchema() で JSON Schema を出力できる
-  (window as unknown as Record<string, unknown>).printToolSchema = () =>
+  // @ts-expect-error
+  window.printToolSchema = () =>
     console.log(JSON.stringify(z.toJSONSchema(toolCallSchema), null, 2));
 }
 
