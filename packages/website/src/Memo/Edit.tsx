@@ -140,8 +140,6 @@ export const Edit: React.FunctionComponent<{
       };
     }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
 
-    const shouldDisplayResult = !isTextContainerFocused && !isLinting;
-
     return (
       <Paper>
         <Box pb={2} pt={2}>
@@ -152,7 +150,6 @@ export const Edit: React.FunctionComponent<{
               dispatchMemos={dispatchMemos}
               isTextContainerFocused={isTextContainerFocused}
               memo={memo}
-              shouldDisplayResult={shouldDisplayResult}
             />
           </Container>
         </Box>

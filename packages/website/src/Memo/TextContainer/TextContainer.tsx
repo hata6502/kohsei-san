@@ -58,7 +58,6 @@ export const TextContainer: React.FunctionComponent<{
   dispatchMemos: React.Dispatch<MemosAction>;
   isTextContainerFocused: boolean;
   memo: Memo;
-  shouldDisplayResult: boolean;
 }> = React.memo(
   ({
     dispatchIsLinting,
@@ -66,7 +65,6 @@ export const TextContainer: React.FunctionComponent<{
     dispatchMemos,
     isTextContainerFocused,
     memo,
-    shouldDisplayResult,
   }) => {
     const [pins, setPins] = useState<Pin[]>([]);
 
@@ -221,11 +219,11 @@ export const TextContainer: React.FunctionComponent<{
 
     return (
       <>
-        {!shouldDisplayResult || !memo.result || !memo.text ? (
+        {!memo.text ? (
           <Alert key="waiting" severity="info">
             校正する文章を入力してください
           </Alert>
-        ) : memo.result.messages.length ? (
+        ) : !memo.result ? undefined : memo.result.messages.length ? (
           <Alert key="message" severity="info">
             {memo.result.messages.length}件の見直し箇所があります
           </Alert>
@@ -257,25 +255,24 @@ export const TextContainer: React.FunctionComponent<{
               />
             </Typography>
 
-            {shouldDisplayResult &&
-              pins.map(({ left, message, top }) => {
-                const severity = Math.max(
-                  ...message.messages.map((message) => message.severity),
-                ) as TextlintRuleSeverityLevel;
+            {pins.map(({ left, message, top }) => {
+              const severity = Math.max(
+                ...message.messages.map((message) => message.severity),
+              ) as TextlintRuleSeverityLevel;
 
-                return (
-                  <PinTarget
-                    key={message.index}
-                    type="button"
-                    onClick={(event) => handlePinClick(event, message.messages)}
-                    aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
-                    role="alert"
-                    style={{ left, top }}
-                  >
-                    <PinIcon severity={severity} />
-                  </PinTarget>
-                );
-              })}
+              return (
+                <PinTarget
+                  key={message.index}
+                  type="button"
+                  onClick={(event) => handlePinClick(event, message.messages)}
+                  aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
+                  role="alert"
+                  style={{ left, top }}
+                >
+                  <PinIcon severity={severity} />
+                </PinTarget>
+              );
+            })}
           </Box>
         </Box>
 
