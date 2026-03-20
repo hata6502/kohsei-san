@@ -200,7 +200,10 @@ ${memo.text}
         return clientSecret;
       },
     },
-    composer: { attachments: { enabled: true } },
+    composer: {
+      attachments: { enabled: true },
+      placeholder: "校正さんに相談する",
+    },
     startScreen: {
       prompts: [
         {
@@ -216,6 +219,10 @@ ${memo.text}
           prompt: "文章から読み取れる感情を教えて",
         },
       ],
+    },
+    threadItemActions: {
+      feedback: true,
+      retry: true,
     },
     onClientTool: handleClientTool,
   });
