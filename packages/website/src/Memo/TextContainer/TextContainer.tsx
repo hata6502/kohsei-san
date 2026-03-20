@@ -294,24 +294,56 @@ export const TextContainer: React.FunctionComponent<{
         >
           <Container maxWidth="sm">
             <List>
-              {popoverMessages.map((message, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={message.message} />
+              {popoverMessages.map((message, index) => {
+                const fixPreview = message.fix
+                  ? getFixPreview({ fix: message.fix, text: memo.text })
+                  : undefined;
 
-                  <ListItemSecondaryAction>
-                    {message.fix && (
-                      <Tooltip title="自動修正">
-                        <IconButton
-                          edge="end"
-                          onClick={() => handleFixClick({ message })}
-                        >
-                          <SpellcheckIcon />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
+                return (
+                  <ListItem key={index}>
+                    <ListItemText
+                      primary={message.message}
+                      secondary={
+                        fixPreview && (
+                          <Box
+                            component="span"
+                            sx={{ display: "block", mt: 0.5 }}
+                          >
+                            <Typography
+                              color="text.secondary"
+                              component="div"
+                              variant="caption"
+                            >
+                              修正前: {fixPreview.beforeText}
+                            </Typography>
+                            <Typography
+                              color="text.secondary"
+                              component="div"
+                              variant="caption"
+                            >
+                              修正後: {fixPreview.afterText}
+                            </Typography>
+                          </Box>
+                        )
+                      }
+                      secondaryTypographyProps={{ component: "div" }}
+                    />
+
+                    <ListItemSecondaryAction>
+                      {message.fix && (
+                        <Tooltip title="自動修正">
+                          <IconButton
+                            edge="end"
+                            onClick={() => handleFixClick({ message })}
+                          >
+                            <SpellcheckIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
             </List>
           </Container>
         </MessagePopover>
@@ -321,6 +353,17 @@ export const TextContainer: React.FunctionComponent<{
 );
 
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
+
+const getFixPreview = ({
+  fix,
+  text,
+}: {
+  fix: NonNullable<TextlintMessage["fix"]>;
+  text: string;
+}) => ({
+  afterText: fix.text || "（なし）",
+  beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
+});
 
 const diffResult = ({
   result,
