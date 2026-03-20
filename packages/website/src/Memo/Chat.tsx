@@ -17,14 +17,26 @@ const toolCallSchema = z.union([
     params: z.object({
       messages: z.array(
         z.object({
-          lineIndex: z.number().describe("0-based"),
+          index: z.number().describe("0-based character index"),
+          indexText: z
+            .string()
+            .describe("Text at the index position, for validation"),
           message: z.string(),
+          fix: z
+            .object({
+              text: z.string().describe("Replacement text for indexText"),
+            })
+            .nullable(),
         }),
       ),
     }),
   }),
 ]);
-//console.log(z.toJSONSchema(toolCallSchema));
+if (typeof window !== "undefined") {
+  // ブラウザの console から printToolSchema() で JSON Schema を出力できる
+  (window as unknown as Record<string, unknown>).printToolSchema = () =>
+    console.log(JSON.stringify(z.toJSONSchema(toolCallSchema), null, 2));
+}
 
 export const Chat: FunctionComponent<{
   memo: Memo;
@@ -41,25 +53,55 @@ export const Chat: FunctionComponent<{
             }
 
             case "set_ai_lint_messages": {
+              const errors: string[] = [];
+
+              // @ts-expect-error
+              const aiMessages: TextlintMessage[] = params.messages.flatMap(
+                (message) => {
+                  const actual = memo.text.slice(
+                    message.index,
+                    message.index + message.indexText.length,
+                  );
+
+                  if (actual !== message.indexText) {
+                    errors.push(
+                      `index ${message.index}: expected "${message.indexText}" but found "${actual}"`,
+                    );
+                    return [];
+                  }
+
+                  return [
+                    {
+                      type: "lint",
+                      ruleId: "ai",
+                      message: message.message,
+                      index: message.index,
+                      severity: 0,
+                      ...(message.fix && {
+                        fix: {
+                          range: [
+                            message.index,
+                            message.index + message.indexText.length,
+                          ],
+                          text: message.fix.text,
+                        },
+                      }),
+                    },
+                  ];
+                },
+              );
+
+              if (errors.length > 0) {
+                throw new Error(
+                  `Validation failed. Please retry set_ai_lint_messages with correct indices.\n\n${errors.join("\n")}\n\nFull text for reference:\n${memo.text}`,
+                );
+              }
+
               dispatchMemos((prevMemos) =>
                 prevMemos.map((prevMemo) => {
                   if (prevMemo.id !== memo.id || !prevMemo.result) {
                     return prevMemo;
                   }
-
-                  // @ts-expect-error
-                  const aiMessages: TextlintMessage[] = params.messages.map(
-                    (message) => ({
-                      type: "lint",
-                      ruleId: "ai",
-                      message: message.message,
-                      index: prevMemo.text
-                        .split("\n")
-                        .slice(0, message.lineIndex)
-                        .join("\n").length,
-                      severity: 0,
-                    }),
-                  );
 
                   return {
                     ...prevMemo,
