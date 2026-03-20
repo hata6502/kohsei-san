@@ -45,6 +45,8 @@ export const Chat: FunctionComponent<{
     useCallback(
       (toolCall) => {
         try {
+          console.log("onClientTool", toolCall)
+
           const { name, params } = toolCallSchema.parse(toolCall);
           switch (name) {
             case "get_memo": {
