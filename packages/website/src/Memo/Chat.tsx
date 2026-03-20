@@ -32,12 +32,10 @@ const toolCallSchema = z.union([
     }),
   }),
 ]);
-if (typeof window !== "undefined") {
-  // ブラウザの console から printToolSchema() で JSON Schema を出力できる
-  // @ts-expect-error
-  window.printToolSchema = () =>
-    console.log(JSON.stringify(z.toJSONSchema(toolCallSchema), null, 2));
-}
+// ブラウザの console から printToolSchema() で JSON Schema を出力できる
+// @ts-expect-error
+window.printToolSchema = () =>
+  console.log(JSON.stringify(z.toJSONSchema(toolCallSchema), null, 2));
 
 export const Chat: FunctionComponent<{
   memo: Memo;
@@ -93,8 +91,9 @@ export const Chat: FunctionComponent<{
               );
 
               if (errors.length > 0) {
-                throw new Error(
-                  `Validation failed. Please retry set_ai_lint_messages with correct indices.\n\n${errors.join("\n")}\n\nFull text for reference:\n${memo.text}`,
+                throw new AggregateError(
+                  errors.map((e) => new Error(e)),
+                  `Validation failed. Please retry set_ai_lint_messages with correct indices.\n\nFull text for reference:\n${memo.text}`,
                 );
               }
 
