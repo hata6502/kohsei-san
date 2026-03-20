@@ -382,7 +382,7 @@ const diffResult = ({
 
   return {
     ...result,
-    messages: result.messages.flatMap((message) => {
+    messages: result.messages.flatMap((message): TextlintMessage[] => {
       let index = message.index;
       let textIndex = 0;
       for (const part of diff) {
@@ -404,7 +404,22 @@ const diffResult = ({
         }
       }
 
-      return [{ ...message, index }];
+      const offset = index - message.index;
+      return [
+        {
+          ...message,
+          index,
+          ...(message.fix && {
+            fix: {
+              ...message.fix,
+              range: [
+                message.fix.range[0] + offset,
+                message.fix.range[1] + offset,
+              ],
+            },
+          }),
+        },
+      ];
     }),
   };
 };

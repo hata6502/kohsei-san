@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rm -rf docs && webpack --config webpack.prod.js",
-    "start": "http-server docs",
+    "start": "serve -l 8080 docs",
     "test": "tsc --noEmit"
   },
   "devDependencies": {
@@ -29,13 +29,13 @@
     "copy-webpack-plugin": "^11.0.0",
     "core": "0.0.0",
     "diff": "^8.0.3",
-    "http-server": "^0.12.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-is": "^19.2.0",
+    "serve": "^14.2.6",
     "webpack": "^5.104.1",
     "webpack-cli": "^5.1.4",
     "zod": "^4.1.12"

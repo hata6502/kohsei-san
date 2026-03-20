@@ -45,7 +45,7 @@ export const Chat: FunctionComponent<{
     useCallback(
       (toolCall) => {
         try {
-          console.log("onClientTool", toolCall)
+          console.log("onClientTool", toolCall);
 
           const { name, params } = toolCallSchema.parse(toolCall);
           switch (name) {
@@ -173,8 +173,8 @@ export const Chat: FunctionComponent<{
     startScreen: {
       prompts: [
         {
-          label: "文章にはどんな見直し箇所がある?",
-          prompt: "文章にはどんな見直し箇所がある?",
+          label: "見直し箇所を解説して",
+          prompt: "見直し箇所を解説して",
         },
         {
           label: "文章全体を査読してください",
