@@ -186,17 +186,50 @@ export const TextContainer: React.FunctionComponent<{
 
     const handleFixClick = useCallback(
       ({ message }: { message: TextlintMessage }) => {
-        dispatchText((prevText) => {
+        dispatchMemos((prevMemos) => {
           if (!message.fix) {
             throw new Error("message.fix is not defined");
           }
 
-          return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
+          const memoIndex = prevMemos.findIndex(
+            (prevMemo) => prevMemo.id === memoID,
+          );
+          const prevMemo = prevMemos[memoIndex];
+
+          const text = `${prevMemo.text.slice(0, message.fix.range[0])}${message.fix.text}${prevMemo.text.slice(message.fix.range[1])}`;
+
+          // 修正済みメッセージを diffResult の前に除去する
+          const filteredResult = prevMemo.result && {
+            ...prevMemo.result,
+            messages: prevMemo.result.messages.filter(
+              (m) =>
+                !(
+                  m.ruleId === message.ruleId &&
+                  m.message === message.message
+                ),
+            ),
+          };
+
+          const memo = {
+            ...prevMemo,
+            result: diffResult({
+              result: filteredResult,
+              prevText: prevMemo.text,
+              text,
+            }),
+            text,
+          };
+
+          const memos = [...prevMemos];
+          memos.splice(memoIndex, 1);
+          memos.unshift(memo);
+
+          return memos;
         });
 
         setPopoverAnchorEl(null);
       },
-      [dispatchText, memoID, setPopoverAnchorEl],
+      [dispatchMemos, memoID, setPopoverAnchorEl],
     );
 
     const handlePinClick = useCallback(

@@ -26,7 +26,7 @@ const toolCallSchema = z.union([
             .object({
               text: z.string().describe("Replacement text for indexText"),
             })
-            .optional(),
+            .nullable(),
         }),
       ),
     }),
