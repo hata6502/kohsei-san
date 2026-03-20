@@ -52,7 +52,7 @@ export const Chat: FunctionComponent<{
             }
 
             case "set_ai_lint_messages": {
-              const errors: string[] = [];
+              const errors: Error[] = [];
 
               // @ts-expect-error
               const aiMessages: TextlintMessage[] = params.messages.flatMap(
@@ -64,7 +64,7 @@ export const Chat: FunctionComponent<{
 
                   if (actual !== message.indexText) {
                     errors.push(
-                      `index ${message.index}: expected "${message.indexText}" but found "${actual}"`,
+                      new Error(`index ${message.index}: expected "${message.indexText}" but found "${actual}"`),
                     );
                     return [];
                   }
@@ -92,7 +92,7 @@ export const Chat: FunctionComponent<{
 
               if (errors.length > 0) {
                 throw new AggregateError(
-                  errors.map((e) => new Error(e)),
+                  errors,
                   `Validation failed. Please retry set_ai_lint_messages with correct indices.\n\nFull text for reference:\n${memo.text}`,
                 );
               }
