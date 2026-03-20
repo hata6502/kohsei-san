@@ -64,7 +64,9 @@ export const Chat: FunctionComponent<{
 
                   if (actual !== message.indexText) {
                     errors.push(
-                      new Error(`index ${message.index}: expected "${message.indexText}" but found "${actual}"`),
+                      new Error(
+                        `index ${message.index}: expected "${message.indexText}" but found "${actual}"`,
+                      ),
                     );
                     return [];
                   }
