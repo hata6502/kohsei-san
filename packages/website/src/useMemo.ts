@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { TextlintResult } from "@textlint/kernel";
 import type { LintOption } from "core";
@@ -27,26 +27,24 @@ type MemosAction = (prevMemo: Memo[]) => Memo[];
 
 type DispatchSetting = (action: (prevSetting: Setting) => Setting) => void;
 
-const useDispatchSetting = ({
-  dispatchMemos,
-  memoId,
-}: {
-  dispatchMemos: React.Dispatch<MemosAction>;
-  memoId: Memo["id"];
-}): DispatchSetting =>
-  useCallback<DispatchSetting>(
-    (action) =>
-      dispatchMemos((prevMemos) =>
-        prevMemos.map((prevMemo) => ({
-          ...prevMemo,
-          ...(prevMemo.id === memoId && {
-            result: undefined,
-            setting: action(prevMemo.setting),
-          }),
-        })),
-      ),
-    [dispatchMemos, memoId],
-  );
+const useDispatchSetting =
+  ({
+    dispatchMemos,
+    memoId,
+  }: {
+    dispatchMemos: React.Dispatch<MemosAction>;
+    memoId: Memo["id"];
+  }): DispatchSetting =>
+  (action) =>
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) => ({
+        ...prevMemo,
+        ...(prevMemo.id === memoId && {
+          result: undefined,
+          setting: action(prevMemo.setting),
+        }),
+      })),
+    );
 
 const useMemo = (): {
   dispatchMemoId: Dispatch<string>;

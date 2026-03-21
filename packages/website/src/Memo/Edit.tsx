@@ -19,136 +19,134 @@ export const Edit: React.FunctionComponent<{
   lintWorker: Worker;
   memo: Memo;
   memos: Memo[];
-}> = React.memo(
-  ({
+}> = ({
+  dispatchIsLinting,
+  dispatchIsLintingHeavy,
+  dispatchMemos,
+  isLinting,
+  lintWorker,
+  memo,
+  memos,
+}) => {
+  useEffect(
+    () => () => {
+      dispatchIsLinting(false);
+    },
+    [dispatchIsLinting],
+  );
+
+  useEffect(() => {
+    const userDictionaryMemo = memos.find(
+      ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId,
+    );
+    const professionalModeLintOption = {
+      ...memo.setting.lintOption,
+      jaSimpleUserDictionary: {
+        dictionary:
+          userDictionaryMemo?.text
+            .trim()
+            .split("\n")
+            .slice(1)
+            .join("\n")
+            .split("\n\n")
+            .flatMap((section) => {
+              const lines = section.trim().split("\n");
+              return lines[0]
+                ? [
+                    {
+                      pattern: lines[0],
+                      message: lines.slice(1).join("\n").trim() || undefined,
+                    },
+                  ]
+                : [];
+            }) ?? [],
+      },
+    };
+
+    const message: LintWorkerLintMessage = {
+      lintOption: {
+        professional: professionalModeLintOption,
+        standard: {},
+      }[memo.setting.mode],
+      text: memo.text,
+    };
+
+    lintWorker.postMessage(message);
+
+    const lintingTimeoutID = setTimeout(
+      () => dispatchIsLintingHeavy(true),
+      lintingTimeoutLimitMS,
+    );
+
+    dispatchIsLinting(true);
+    dispatchIsLintingHeavy(false);
+
+    return () => clearTimeout(lintingTimeoutID);
+  }, [
     dispatchIsLinting,
     dispatchIsLintingHeavy,
     dispatchMemos,
-    isLinting,
     lintWorker,
-    memo,
-    memos,
-  }) => {
-    useEffect(
-      () => () => {
-        dispatchIsLinting(false);
-      },
-      [dispatchIsLinting],
-    );
+    memo.id,
+    memo.setting.lintOption,
+    memo.setting.mode,
+    memo.text,
+  ]);
 
-    useEffect(() => {
-      const userDictionaryMemo = memos.find(
-        ({ id }) => id === memo.setting.lintOption.userDictionaryMemoId,
+  useEffect(() => {
+    const handleLintWorkerError = () => {
+      dispatchIsLinting(false);
+
+      throw new Error();
+    };
+
+    const handleLintWorkerMessage = (
+      event: MessageEvent<LintWorkerResultMessage>,
+    ) => {
+      if (event.data.text !== memo.text) {
+        return;
+      }
+
+      dispatchMemos((prevMemos) =>
+        prevMemos.map((prevMemo) =>
+          prevMemo.id === memo.id
+            ? {
+                ...prevMemo,
+                result: {
+                  ...event.data.result,
+                  messages: [
+                    ...event.data.result.messages,
+                    ...(prevMemo.result?.messages.filter(
+                      (message) => message.ruleId === "ai",
+                    ) ?? []),
+                  ],
+                },
+              }
+            : prevMemo,
+        ),
       );
-      const professionalModeLintOption = {
-        ...memo.setting.lintOption,
-        jaSimpleUserDictionary: {
-          dictionary:
-            userDictionaryMemo?.text
-              .trim()
-              .split("\n")
-              .slice(1)
-              .join("\n")
-              .split("\n\n")
-              .flatMap((section) => {
-                const lines = section.trim().split("\n");
-                return lines[0]
-                  ? [
-                      {
-                        pattern: lines[0],
-                        message: lines.slice(1).join("\n").trim() || undefined,
-                      },
-                    ]
-                  : [];
-              }) ?? [],
-        },
-      };
+    };
 
-      const message: LintWorkerLintMessage = {
-        lintOption: {
-          professional: professionalModeLintOption,
-          standard: {},
-        }[memo.setting.mode],
-        text: memo.text,
-      };
+    lintWorker.addEventListener("error", handleLintWorkerError);
+    lintWorker.addEventListener("message", handleLintWorkerMessage);
 
-      lintWorker.postMessage(message);
+    return () => {
+      lintWorker.removeEventListener("error", handleLintWorkerError);
+      lintWorker.removeEventListener("message", handleLintWorkerMessage);
+    };
+  }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
 
-      const lintingTimeoutID = setTimeout(
-        () => dispatchIsLintingHeavy(true),
-        lintingTimeoutLimitMS,
-      );
-
-      dispatchIsLinting(true);
-      dispatchIsLintingHeavy(false);
-
-      return () => clearTimeout(lintingTimeoutID);
-    }, [
-      dispatchIsLinting,
-      dispatchIsLintingHeavy,
-      dispatchMemos,
-      lintWorker,
-      memo.id,
-      memo.setting.lintOption,
-      memo.setting.mode,
-      memo.text,
-    ]);
-
-    useEffect(() => {
-      const handleLintWorkerError = () => {
-        dispatchIsLinting(false);
-
-        throw new Error();
-      };
-
-      const handleLintWorkerMessage = (
-        event: MessageEvent<LintWorkerResultMessage>,
-      ) => {
-        if (event.data.text !== memo.text) {
-          return;
-        }
-
-        dispatchMemos((prevMemos) =>
-          prevMemos.map((prevMemo) =>
-            prevMemo.id === memo.id
-              ? {
-                  ...prevMemo,
-                  result: {
-                    ...event.data.result,
-                    messages: [
-                      ...event.data.result.messages,
-                      ...(prevMemo.result?.messages.filter(
-                        (message) => message.ruleId === "ai",
-                      ) ?? []),
-                    ],
-                  },
-                }
-              : prevMemo,
-          ),
-        );
-      };
-
-      lintWorker.addEventListener("error", handleLintWorkerError);
-      lintWorker.addEventListener("message", handleLintWorkerMessage);
-
-      return () => {
-        lintWorker.removeEventListener("error", handleLintWorkerError);
-        lintWorker.removeEventListener("message", handleLintWorkerMessage);
-      };
-    }, [dispatchIsLinting, dispatchMemos, lintWorker, memo.id, memo.text]);
-
-    return (
-      <Paper>
-        <Box pb={2} pt={2}>
-          <Container>
-            <TextContainer
-              dispatchIsLinting={dispatchIsLinting}
-              dispatchMemos={dispatchMemos}
-              memo={memo}
-            />
-          </Container>
-        </Box>
-      </Paper>
-    );
-  },
-);
+  return (
+    <Paper>
+      <Box pb={2} pt={2}>
+        <Container>
+          <TextContainer
+            dispatchIsLinting={dispatchIsLinting}
+            dispatchMemos={dispatchMemos}
+            memo={memo}
+          />
+        </Container>
+      </Box>
+    </Paper>
+  );
+};

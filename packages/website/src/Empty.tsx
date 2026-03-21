@@ -11,7 +11,7 @@ const EmptyContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 
-const Empty: React.FunctionComponent = React.memo(() => (
+const Empty: React.FunctionComponent = () => (
   <EmptyContainer>
     <Grid container alignItems="center" direction="column" spacing={2}>
       <Grid item>
@@ -44,6 +44,6 @@ const Empty: React.FunctionComponent = React.memo(() => (
       </Grid>
     </Grid>
   </EmptyContainer>
-));
+);
 
 export default Empty;

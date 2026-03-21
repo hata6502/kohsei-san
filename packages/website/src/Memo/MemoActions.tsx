@@ -27,185 +27,174 @@ export const MemoActions: React.FunctionComponent<{
   dispatchMemos: React.Dispatch<MemosAction>;
   memo: Memo;
   memos: Memo[];
-}> = React.memo(
-  ({
-    dispatchIsCopiedSnackbarOpen,
-    dispatchIsSidebarOpen,
-    dispatchMemoId,
+}> = ({
+  dispatchIsCopiedSnackbarOpen,
+  dispatchIsSidebarOpen,
+  dispatchMemoId,
+  dispatchMemos,
+  memo,
+  memos,
+}) => {
+  const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const dispatchSetting = useDispatchSetting({
     dispatchMemos,
-    memo,
-    memos,
-  }) => {
-    const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    memoId: memo.id,
+  });
 
-    const dispatchSetting = useDispatchSetting({
-      dispatchMemos,
-      memoId: memo.id,
-    });
+  const handleSettingButtonClick = () => {
+    setIsSettingDialogOpen(true);
+  };
+  const handleSettingDialogClose = () => {
+    setIsSettingDialogOpen(false);
+  };
 
-    const handleSettingButtonClick = () => {
-      setIsSettingDialogOpen(true);
-    };
-    const handleSettingDialogClose = () => {
-      setIsSettingDialogOpen(false);
-    };
+  const handleCopyButtonClick = () => {
+    const id = crypto.randomUUID();
 
-    const handleCopyButtonClick = () => {
-      const id = crypto.randomUUID();
+    dispatchMemos((prevMemos) => [
+      {
+        ...memo,
+        id,
+      },
+      ...prevMemos,
+    ]);
 
-      dispatchMemos((prevMemos) => [
-        {
-          ...memo,
-          id,
-        },
-        ...prevMemos,
-      ]);
+    dispatchIsCopiedSnackbarOpen(true);
+    dispatchIsSidebarOpen(true);
+    dispatchMemoId(id);
+  };
 
-      dispatchIsCopiedSnackbarOpen(true);
-      dispatchIsSidebarOpen(true);
-      dispatchMemoId(id);
-    };
+  const handleDeleteButtonClick = () => {
+    setIsDeleteDialogOpen(true);
+  };
 
-    const handleDeleteButtonClick = () => {
-      setIsDeleteDialogOpen(true);
-    };
+  const handleDeleteDialogAgree = () => {
+    dispatchMemos((prevMemos) => prevMemos.filter(({ id }) => id !== memo.id));
+  };
 
-    const handleDeleteDialogAgree = () => {
-      dispatchMemos((prevMemos) =>
-        prevMemos.filter(({ id }) => id !== memo.id),
-      );
-    };
+  const handleDeleteDialogClose = () => {
+    setIsDeleteDialogOpen(false);
+  };
 
-    const handleDeleteDialogClose = () => {
-      setIsDeleteDialogOpen(false);
-    };
+  const handleUseChatButtonClick = () => {
+    dispatchSetting((prev) => ({
+      ...prev,
+      useChat: true,
+    }));
+  };
 
-    const handleUseChatButtonClick = () => {
-      dispatchSetting((prev) => ({
-        ...prev,
-        useChat: true,
-      }));
-    };
+  return (
+    <Stack spacing={2}>
+      <Card>
+        <CardContent>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: "center",
+            }}
+          >
+            <Chip label={`${memo.text.length}文字`} size="small" />
 
-    return (
-      <Stack spacing={2}>
-        <Card>
-          <CardContent>
             <Stack
               direction="row"
               spacing={1}
               sx={{
-                alignItems: "center",
+                flexGrow: 1,
+                justifyContent: "end",
               }}
             >
-              <Chip label={`${memo.text.length}文字`} size="small" />
+              <IconButton onClick={handleSettingButtonClick} aria-label="設定">
+                <SettingsIcon />
+              </IconButton>
 
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{
-                  flexGrow: 1,
-                  justifyContent: "end",
-                }}
-              >
-                <IconButton
-                  onClick={handleSettingButtonClick}
-                  aria-label="設定"
-                >
-                  <SettingsIcon />
-                </IconButton>
+              <IconButton onClick={handleCopyButtonClick} aria-label="複製">
+                <ContentCopyIcon />
+              </IconButton>
 
-                <IconButton onClick={handleCopyButtonClick} aria-label="複製">
-                  <ContentCopyIcon />
-                </IconButton>
-
-                <IconButton onClick={handleDeleteButtonClick} aria-label="削除">
-                  <DeleteIcon />
-                </IconButton>
-              </Stack>
+              <IconButton onClick={handleDeleteButtonClick} aria-label="削除">
+                <DeleteIcon />
+              </IconButton>
             </Stack>
+          </Stack>
+        </CardContent>
+      </Card>
+
+      {navigator.onLine && (
+        <Card>
+          <CardContent>
+            {memo.setting.useChat ? (
+              <Chat memo={memo} dispatchMemos={dispatchMemos} />
+            ) : (
+              <>
+                <Typography gutterBottom>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={handleUseChatButtonClick}
+                  >
+                    校正さんに相談（ベータ版）
+                  </Button>
+                </Typography>
+
+                <Typography variant="body2" gutterBottom>
+                  AIサーバーに情報を送信・保持します
+                  <br />
+                  ベータ版は評価目的で提供され、性能や品質について保証はなく、一切の責任を負いません
+                </Typography>
+
+                <Typography variant="caption" gutterBottom>
+                  This site is protected by reCAPTCHA and the Google{" "}
+                  <Link
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="https://policies.google.com/terms"
+                    target="_blank"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  apply.
+                </Typography>
+              </>
+            )}
           </CardContent>
         </Card>
+      )}
 
-        {navigator.onLine && (
-          <Card>
-            <CardContent>
-              {memo.setting.useChat ? (
-                <Chat memo={memo} dispatchMemos={dispatchMemos} />
-              ) : (
-                <>
-                  <Typography gutterBottom>
-                    <Button
-                      variant="outlined"
-                      fullWidth
-                      onClick={handleUseChatButtonClick}
-                    >
-                      校正さんに相談（ベータ版）
-                    </Button>
-                  </Typography>
+      <SettingDialog
+        dispatchSetting={dispatchSetting}
+        open={isSettingDialogOpen}
+        setting={memo.setting}
+        memos={memos}
+        onClose={handleSettingDialogClose}
+      />
 
-                  <Typography variant="body2" gutterBottom>
-                    AIサーバーに情報を送信・保持します
-                    <br />
-                    ベータ版は評価目的で提供され、性能や品質について保証はなく、一切の責任を負いません
-                  </Typography>
+      <Dialog open={isDeleteDialogOpen} onClose={handleDeleteDialogClose}>
+        <DialogTitle>メモを削除しますか？</DialogTitle>
 
-                  <Typography variant="caption" gutterBottom>
-                    This site is protected by reCAPTCHA and the Google{" "}
-                    <Link
-                      href="https://policies.google.com/privacy"
-                      target="_blank"
-                    >
-                      Privacy Policy
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      href="https://policies.google.com/terms"
-                      target="_blank"
-                    >
-                      Terms of Service
-                    </Link>{" "}
-                    apply.
-                  </Typography>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        )}
+        <DialogContent>
+          <DialogContentText>
+            削除を元に戻すことはできません。
+          </DialogContentText>
+        </DialogContent>
 
-        <SettingDialog
-          dispatchSetting={dispatchSetting}
-          open={isSettingDialogOpen}
-          setting={memo.setting}
-          memos={memos}
-          onClose={handleSettingDialogClose}
-        />
+        <DialogActions>
+          <Button onClick={handleDeleteDialogClose} color="secondary" autoFocus>
+            削除しない
+          </Button>
 
-        <Dialog open={isDeleteDialogOpen} onClose={handleDeleteDialogClose}>
-          <DialogTitle>メモを削除しますか？</DialogTitle>
-
-          <DialogContent>
-            <DialogContentText>
-              削除を元に戻すことはできません。
-            </DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button
-              onClick={handleDeleteDialogClose}
-              color="secondary"
-              autoFocus
-            >
-              削除しない
-            </Button>
-
-            <Button onClick={handleDeleteDialogAgree} color="secondary">
-              削除する
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Stack>
-    );
-  },
-);
+          <Button onClick={handleDeleteDialogAgree} color="secondary">
+            削除する
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Stack>
+  );
+};

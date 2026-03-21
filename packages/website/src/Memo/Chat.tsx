@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import type { Dispatch, FunctionComponent } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import type { ChatKitOptions } from "@openai/chatkit-react";
@@ -42,82 +42,82 @@ export const Chat: FunctionComponent<{
   memo: Memo;
   dispatchMemos: Dispatch<MemosAction>;
 }> = ({ memo, dispatchMemos }) => {
-  const handleClientTool: NonNullable<ChatKitOptions["onClientTool"]> =
-    useCallback(
-      (toolCall) => {
-        try {
-          console.log("onClientTool", toolCall);
+  const handleClientTool: NonNullable<ChatKitOptions["onClientTool"]> = (
+    toolCall,
+  ) => {
+    try {
+      console.log("onClientTool", toolCall);
 
-          const { name, params } = toolCallSchema.parse(toolCall);
-          switch (name) {
-            case "get_memo": {
-              return { result: memo.result, text: memo.text };
-            }
+      const { name, params } = toolCallSchema.parse(toolCall);
+      switch (name) {
+        case "get_memo": {
+          return { result: memo.result, text: memo.text };
+        }
 
-            case "set_ai_lint_messages": {
-              const errors: string[] = [];
+        case "set_ai_lint_messages": {
+          const errors: string[] = [];
 
-              // @ts-expect-error
-              const aiMessages: TextlintMessage[] = params.messages.flatMap(
-                (message) => {
-                  const lines = memo.text.split("\n");
-                  const lineText = lines.at(message.line - 1);
-                  if (lineText === undefined) {
-                    errors.push(
-                      `line ${message.line}: line out of range (1-${lines.length})`,
-                    );
-                    return [];
-                  }
+          // @ts-expect-error
+          const aiMessages: TextlintMessage[] = params.messages.flatMap(
+            (message) => {
+              const lines = memo.text.split("\n");
+              const lineText = lines.at(message.line - 1);
+              if (lineText === undefined) {
+                errors.push(
+                  `line ${message.line}: line out of range (1-${lines.length})`,
+                );
+                return [];
+              }
 
-                  const graphemes = [
-                    ...new Intl.Segmenter().segment(lineText),
-                  ].map(({ segment }) => segment);
-                  if (message.column > graphemes.length + 1) {
-                    errors.push(
-                      `line ${message.line}, column ${message.column}: column out of range (1-${graphemes.length + 1})`,
-                    );
-                    return [];
-                  }
+              const graphemes = [...new Intl.Segmenter().segment(lineText)].map(
+                ({ segment }) => segment,
+              );
+              if (message.column > graphemes.length + 1) {
+                errors.push(
+                  `line ${message.line}, column ${message.column}: column out of range (1-${graphemes.length + 1})`,
+                );
+                return [];
+              }
 
-                  const index =
-                    lines
-                      .slice(0, message.line - 1)
-                      .reduce((sum, line) => sum + line.length + 1, 0) +
-                    graphemes.slice(0, message.column - 1).join("").length;
+              const index =
+                lines
+                  .slice(0, message.line - 1)
+                  .reduce((sum, line) => sum + line.length + 1, 0) +
+                graphemes.slice(0, message.column - 1).join("").length;
 
-                  const actual = memo.text.slice(
-                    index,
-                    index + message.text.length,
-                  );
-
-                  if (actual !== message.text) {
-                    errors.push(
-                      `line ${message.line}, column ${message.column}: expected "${message.text}" but found "${actual}"`,
-                    );
-                    return [];
-                  }
-
-                  return [
-                    {
-                      type: "lint",
-                      ruleId: "ai",
-                      message: message.message,
-                      index,
-                      severity: 0,
-                      ...(message.fix && {
-                        fix: {
-                          range: [index, index + message.text.length],
-                          text: message.fix.text,
-                        },
-                      }),
-                    },
-                  ];
-                },
+              const actual = memo.text.slice(
+                index,
+                index + message.text.length,
               );
 
-              if (errors.length > 0) {
-                throw new Error(
-                  `
+              if (actual !== message.text) {
+                errors.push(
+                  `line ${message.line}, column ${message.column}: expected "${message.text}" but found "${actual}"`,
+                );
+                return [];
+              }
+
+              return [
+                {
+                  type: "lint",
+                  ruleId: "ai",
+                  message: message.message,
+                  index,
+                  severity: 0,
+                  ...(message.fix && {
+                    fix: {
+                      range: [index, index + message.text.length],
+                      text: message.fix.text,
+                    },
+                  }),
+                },
+              ];
+            },
+          );
+
+          if (errors.length > 0) {
+            throw new Error(
+              `
                     Validation failed.
                     Please retry set_ai_lint_messages with correct 1-based line and column values.
 
@@ -126,45 +126,43 @@ export const Chat: FunctionComponent<{
                     Full text for reference:
 ${memo.text}
                   `,
-                );
+            );
+          }
+
+          dispatchMemos((prevMemos) =>
+            prevMemos.map((prevMemo) => {
+              if (prevMemo.id !== memo.id || !prevMemo.result) {
+                return prevMemo;
               }
 
-              dispatchMemos((prevMemos) =>
-                prevMemos.map((prevMemo) => {
-                  if (prevMemo.id !== memo.id || !prevMemo.result) {
-                    return prevMemo;
-                  }
+              return {
+                ...prevMemo,
+                result: {
+                  ...prevMemo.result,
+                  messages: [
+                    ...prevMemo.result.messages.filter(
+                      (message) => message.ruleId !== "ai",
+                    ),
+                    ...aiMessages,
+                  ],
+                },
+              };
+            }),
+          );
 
-                  return {
-                    ...prevMemo,
-                    result: {
-                      ...prevMemo.result,
-                      messages: [
-                        ...prevMemo.result.messages.filter(
-                          (message) => message.ruleId !== "ai",
-                        ),
-                        ...aiMessages,
-                      ],
-                    },
-                  };
-                }),
-              );
-
-              return {};
-            }
-
-            default: {
-              throw new Error(`Unknown tool: ${name satisfies never}`);
-            }
-          }
-        } catch (exception) {
-          console.error(exception);
-
-          return { exception: String(exception) };
+          return {};
         }
-      },
-      [memo],
-    );
+
+        default: {
+          throw new Error(`Unknown tool: ${name satisfies never}`);
+        }
+      }
+    } catch (exception) {
+      console.error(exception);
+
+      return { exception: String(exception) };
+    }
+  };
 
   const { control } = useChatKit({
     api: {

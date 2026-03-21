@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
@@ -32,143 +32,138 @@ const ToolbarOffset = styled("div")(({ theme }) => ({
   },
 }));
 
-const App: React.FunctionComponent<{ lintWorker: Worker }> = React.memo(
-  ({ lintWorker }) => {
-    const {
-      dispatchMemoId,
-      dispatchMemos,
-      isSaveErrorOpen,
-      memoId,
-      memos,
-      setIsSaveErrorOpen,
-    } = useMemo();
+const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
+  lintWorker,
+}) => {
+  const {
+    dispatchMemoId,
+    dispatchMemos,
+    isSaveErrorOpen,
+    memoId,
+    memos,
+    setIsSaveErrorOpen,
+  } = useMemo();
 
-    const [isLinting, dispatchIsLinting] = useReducer(
-      (_: boolean, action: boolean) => action,
-      false,
-    );
+  const [isLinting, dispatchIsLinting] = useReducer(
+    (_: boolean, action: boolean) => action,
+    false,
+  );
 
-    const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
-      (_: boolean, action: boolean) => action,
-      false,
-    );
+  const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
+    (_: boolean, action: boolean) => action,
+    false,
+  );
 
-    const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
-    const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] =
-      useState(false);
+  const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
+  const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
 
-    const handleMenuIconClick = useCallback(
-      () => dispatchIsSidebarOpen(true),
-      [dispatchIsSidebarOpen],
-    );
-    const handleSaveErrorClose = useCallback(
-      () => setIsSaveErrorOpen(false),
-      [setIsSaveErrorOpen],
-    );
-    const handleSidebarClose = useCallback(
-      () => dispatchIsSidebarOpen(false),
-      [dispatchIsSidebarOpen],
-    );
+  const handleMenuIconClick = () => {
+    dispatchIsSidebarOpen(true);
+  };
+  const handleSaveErrorClose = () => {
+    setIsSaveErrorOpen(false);
+  };
+  const handleSidebarClose = () => {
+    dispatchIsSidebarOpen(false);
+  };
 
-    const handleCopiedSnackbarClose = useCallback(
-      () => dispatchIsCopiedSnackbarOpen(false),
-      [dispatchIsCopiedSnackbarOpen],
-    );
+  const handleCopiedSnackbarClose = () => {
+    dispatchIsCopiedSnackbarOpen(false);
+  };
 
-    const memo = memos.find(({ id }) => id === memoId);
+  const memo = memos.find(({ id }) => id === memoId);
 
-    return (
-      <div>
-        <AppBar color="inherit">
-          <Toolbar>
-            <IconButton onClick={handleMenuIconClick}>
-              <MenuIcon />
-            </IconButton>
+  return (
+    <div>
+      <AppBar color="inherit">
+        <Toolbar>
+          <IconButton onClick={handleMenuIconClick}>
+            <MenuIcon />
+          </IconButton>
 
-            {isLinting ? (
-              <CircularProgress color="secondary" />
-            ) : (
-              <img alt="" src="favicon.png" style={{ width: 48 }} />
-            )}
-
-            <Title variant="h6">
-              {isLinting
-                ? isLintingHeavy
-                  ? "お待ちください…"
-                  : "校正中…"
-                : "校正さん"}
-            </Title>
-          </Toolbar>
-        </AppBar>
-
-        <nav>
-          <Drawer
-            open={isSidebarOpen}
-            variant="temporary"
-            onClose={handleSidebarClose}
-          >
-            <Sidebar
-              dispatchMemoId={dispatchMemoId}
-              dispatchMemos={dispatchMemos}
-              memoId={memoId}
-              memos={memos}
-              onClose={handleSidebarClose}
-            />
-          </Drawer>
-        </nav>
-
-        <main>
-          <ToolbarOffset />
-
-          {memo ? (
-            <MemoContainer key={memo.id}>
-              <Grid container alignItems="start" spacing={2}>
-                <Grid item xs={12} sm={12} md={8}>
-                  <Edit
-                    dispatchIsLinting={dispatchIsLinting}
-                    dispatchIsLintingHeavy={dispatchIsLintingHeavy}
-                    dispatchMemos={dispatchMemos}
-                    isLinting={isLinting}
-                    lintWorker={lintWorker}
-                    memo={memo}
-                    memos={memos}
-                  />
-                </Grid>
-
-                <Grid item position="sticky" top={64} xs={12} sm={12} md={4}>
-                  <MemoActions
-                    dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
-                    dispatchIsSidebarOpen={dispatchIsSidebarOpen}
-                    dispatchMemoId={dispatchMemoId}
-                    dispatchMemos={dispatchMemos}
-                    memo={memo}
-                    memos={memos}
-                  />
-                </Grid>
-              </Grid>
-            </MemoContainer>
+          {isLinting ? (
+            <CircularProgress color="secondary" />
           ) : (
-            <Empty />
+            <img alt="" src="favicon.png" style={{ width: 48 }} />
           )}
-        </main>
 
-        <Snackbar
-          autoHideDuration={6000}
-          open={isCopiedSnackbarOpen}
-          onClose={handleCopiedSnackbarClose}
+          <Title variant="h6">
+            {isLinting
+              ? isLintingHeavy
+                ? "お待ちください…"
+                : "校正中…"
+              : "校正さん"}
+          </Title>
+        </Toolbar>
+      </AppBar>
+
+      <nav>
+        <Drawer
+          open={isSidebarOpen}
+          variant="temporary"
+          onClose={handleSidebarClose}
         >
-          <Alert severity="success">メモをコピーしました。</Alert>
-        </Snackbar>
+          <Sidebar
+            dispatchMemoId={dispatchMemoId}
+            dispatchMemos={dispatchMemos}
+            memoId={memoId}
+            memos={memos}
+            onClose={handleSidebarClose}
+          />
+        </Drawer>
+      </nav>
 
-        <Snackbar open={isSaveErrorOpen}>
-          <Alert onClose={handleSaveErrorClose} severity="error">
-            メモを保存できませんでした。
-            メモを他の場所に保存してから、アプリをインストールしてみてください。
-          </Alert>
-        </Snackbar>
-      </div>
-    );
-  },
-);
+      <main>
+        <ToolbarOffset />
+
+        {memo ? (
+          <MemoContainer key={memo.id}>
+            <Grid container alignItems="start" spacing={2}>
+              <Grid item xs={12} sm={12} md={8}>
+                <Edit
+                  dispatchIsLinting={dispatchIsLinting}
+                  dispatchIsLintingHeavy={dispatchIsLintingHeavy}
+                  dispatchMemos={dispatchMemos}
+                  isLinting={isLinting}
+                  lintWorker={lintWorker}
+                  memo={memo}
+                  memos={memos}
+                />
+              </Grid>
+
+              <Grid item position="sticky" top={64} xs={12} sm={12} md={4}>
+                <MemoActions
+                  dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
+                  dispatchIsSidebarOpen={dispatchIsSidebarOpen}
+                  dispatchMemoId={dispatchMemoId}
+                  dispatchMemos={dispatchMemos}
+                  memo={memo}
+                  memos={memos}
+                />
+              </Grid>
+            </Grid>
+          </MemoContainer>
+        ) : (
+          <Empty />
+        )}
+      </main>
+
+      <Snackbar
+        autoHideDuration={6000}
+        open={isCopiedSnackbarOpen}
+        onClose={handleCopiedSnackbarClose}
+      >
+        <Alert severity="success">メモをコピーしました。</Alert>
+      </Snackbar>
+
+      <Snackbar open={isSaveErrorOpen}>
+        <Alert onClose={handleSaveErrorClose} severity="error">
+          メモを保存できませんでした。
+          メモを他の場所に保存してから、アプリをインストールしてみてください。
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+};
 
 export default App;

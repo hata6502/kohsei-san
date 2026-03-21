@@ -18,7 +18,7 @@ const InfoIcon = styled(MuiInfoIcon)(({ theme }) => ({
 
 const PinIcon: React.FunctionComponent<{
   severity: TextlintRuleSeverityLevel;
-}> = React.memo(({ severity }) => {
+}> = ({ severity }) => {
   switch (severity) {
     case 0: {
       return <InfoIcon color="primary" />;
@@ -42,6 +42,6 @@ const PinIcon: React.FunctionComponent<{
       throw new Error(`Unknown severity: ${exhaustiveCheck}`);
     }
   }
-});
+};
 
 export { PinIcon };

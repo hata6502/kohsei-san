@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -56,7 +56,7 @@ export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
   memo: Memo;
-}> = React.memo(({ dispatchIsLinting, dispatchMemos, memo }) => {
+}> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
   const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
   const [pins, setPins] = useState<Pin[]>([]);
 
@@ -71,40 +71,37 @@ export const TextContainer: React.FunctionComponent<{
   const textBoxRef = useRef<HTMLDivElement | null>(null);
 
   const memoID = memo.id;
-  const dispatchText = useCallback(
-    (action?: (prevText: string) => string) => {
-      dispatchMemos((prevMemos) => {
-        if (!textRef.current) {
-          throw new Error("textRef.current is not defined");
-        }
+  const dispatchText = (action?: (prevText: string) => string) => {
+    dispatchMemos((prevMemos) => {
+      if (!textRef.current) {
+        throw new Error("textRef.current is not defined");
+      }
 
-        const memoIndex = prevMemos.findIndex(
-          (prevMemo) => prevMemo.id === memoID,
-        );
-        const prevMemo = prevMemos[memoIndex];
+      const memoIndex = prevMemos.findIndex(
+        (prevMemo) => prevMemo.id === memoID,
+      );
+      const prevMemo = prevMemos[memoIndex];
 
-        const text = action
-          ? action(prevMemo.text)
-          : removeExtraNewLine(textRef.current.innerText);
-        const memo = {
-          ...prevMemo,
-          result: diffResult({
-            result: prevMemo.result,
-            prevText: prevMemo.text,
-            text,
-          }),
+      const text = action
+        ? action(prevMemo.text)
+        : removeExtraNewLine(textRef.current.innerText);
+      const memo = {
+        ...prevMemo,
+        result: diffResult({
+          result: prevMemo.result,
+          prevText: prevMemo.text,
           text,
-        };
+        }),
+        text,
+      };
 
-        const memos = [...prevMemos];
-        memos.splice(memoIndex, 1);
-        memos.unshift(memo);
+      const memos = [...prevMemos];
+      memos.splice(memoIndex, 1);
+      memos.unshift(memo);
 
-        return memos;
-      });
-    },
-    [memoID],
-  );
+      return memos;
+    });
+  };
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -172,40 +169,38 @@ export const TextContainer: React.FunctionComponent<{
 
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
-  const handleFixClick = useCallback(
-    ({ message }: { message: TextlintMessage }) => {
-      dispatchText((prevText) => {
-        if (!message.fix) {
-          throw new Error("message.fix is not defined");
-        }
+  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
+    dispatchText((prevText) => {
+      if (!message.fix) {
+        throw new Error("message.fix is not defined");
+      }
 
-        return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
-      });
+      return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
+    });
 
-      setPopoverAnchorEl(null);
-    },
-    [dispatchText, memoID, setPopoverAnchorEl],
-  );
+    setPopoverAnchorEl(null);
+  };
 
-  const handlePinClick = useCallback(
-    (event: MouseEvent<HTMLElement>, messages: LintMessage["messages"]) => {
-      setPopoverAnchorEl(event.currentTarget);
-      setPopoverMessages(messages);
-    },
-    [],
-  );
+  const handlePinClick = (
+    event: MouseEvent<HTMLElement>,
+    messages: LintMessage["messages"],
+  ) => {
+    setPopoverAnchorEl(event.currentTarget);
+    setPopoverMessages(messages);
+  };
 
-  const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
+  const handlePopoverClose = () => {
+    setPopoverAnchorEl(null);
+  };
 
-  const handleTextContainerBlur = useCallback(() => {
+  const handleTextContainerBlur = () => {
     setIsTextContainerFocused(false);
     dispatchText();
-  }, [dispatchText]);
+  };
 
-  const handleTextContainerFocus = useCallback(
-    () => setIsTextContainerFocused(true),
-    [],
-  );
+  const handleTextContainerFocus = () => {
+    setIsTextContainerFocused(true);
+  };
 
   return (
     <>
@@ -335,7 +330,7 @@ export const TextContainer: React.FunctionComponent<{
       </MessagePopover>
     </>
   );
-});
+};
 
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import type { PropsWithChildren } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
@@ -7,7 +7,7 @@ import {
 } from "@mui/material/styles";
 import { jaJP } from "@mui/material/locale";
 
-const ThemeProvider = memo(({ children }: PropsWithChildren) => {
+const ThemeProvider = ({ children }: PropsWithChildren) => {
   return (
     <MuiThemeProvider
       theme={createTheme(
@@ -35,6 +35,6 @@ const ThemeProvider = memo(({ children }: PropsWithChildren) => {
       {children}
     </MuiThemeProvider>
   );
-});
+};
 
 export { ThemeProvider };
