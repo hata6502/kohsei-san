@@ -2,8 +2,10 @@ import type { TextlintMessage } from "@textlint/kernel";
 import { lint } from "core";
 import type { LintOption } from "core";
 
-export interface ProofreadingMessageFix
-  extends Pick<NonNullable<TextlintMessage["fix"]>, "range" | "text"> {}
+export type ProofreadingMessageFix = Pick<
+  NonNullable<TextlintMessage["fix"]>,
+  "range" | "text"
+>;
 
 export interface ProofreadingMessage
   extends Pick<TextlintMessage, "index" | "message" | "ruleId"> {
