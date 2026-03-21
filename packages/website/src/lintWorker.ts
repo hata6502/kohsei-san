@@ -1,6 +1,6 @@
-import type { TextlintResult } from "@textlint/kernel";
 import { lint } from "core";
 import type { LintOption } from "core";
+import type { ProofreadingResult } from "./useMemo";
 
 declare global {
   interface Window {
@@ -20,7 +20,7 @@ interface LintWorkerLintMessage {
 }
 
 interface LintWorkerResultMessage {
-  result: TextlintResult;
+  result: ProofreadingResult;
   text: string;
 }
 
@@ -28,10 +28,10 @@ addEventListener(
   "message",
   async (event: MessageEvent<LintWorkerLintMessage>) => {
     const text = event.data.text;
+    const result = await lint({ lintOption: event.data.lintOption, text });
 
     const message: LintWorkerResultMessage = {
-      // @ts-expect-error 型が定義されていない。
-      result: await lint({ lintOption: event.data.lintOption, text }),
+      result,
       text,
     };
 

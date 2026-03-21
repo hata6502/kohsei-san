@@ -13,18 +13,20 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import Alert from "@mui/material/Alert";
-import type {
-  TextlintMessage,
-  TextlintResult,
-  TextlintRuleSeverityLevel,
-} from "@textlint/kernel";
+import type { TextlintRuleSeverityLevel } from "@textlint/kernel";
 import { diffChars } from "diff";
-import type { Memo, MemosAction } from "../../useMemo";
+import type {
+  Memo,
+  MemosAction,
+  ProofreadingMessage,
+  ProofreadingMessageFix,
+  ProofreadingResult,
+} from "../../useMemo";
 import { PinIcon } from "./PinIcon";
 
 interface LintMessage {
-  index: TextlintMessage["index"];
-  messages: TextlintMessage[];
+  index: ProofreadingMessage["index"];
+  messages: ProofreadingMessage[];
 }
 
 interface Pin {
@@ -143,7 +145,7 @@ export const TextContainer: React.FunctionComponent<{
           duplicatedMessage.messages.push(message);
         } else {
           mergedMessages.push({
-            ...message,
+            index: message.index,
             messages: [message],
           });
         }
@@ -169,7 +171,7 @@ export const TextContainer: React.FunctionComponent<{
 
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
-  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
+  const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
     dispatchText((prevText) => {
       if (!message.fix) {
         throw new Error("message.fix is not defined");
@@ -338,7 +340,7 @@ const getFixPreview = ({
   fix,
   text,
 }: {
-  fix: NonNullable<TextlintMessage["fix"]>;
+  fix: ProofreadingMessageFix;
   text: string;
 }) => ({
   afterText: fix.text || "（なし）",
@@ -350,7 +352,7 @@ const diffResult = ({
   prevText,
   text,
 }: {
-  result?: TextlintResult;
+  result?: ProofreadingResult;
   prevText: string;
   text: string;
 }) => {
@@ -361,8 +363,7 @@ const diffResult = ({
   const diff = diffChars(prevText, text);
 
   return {
-    ...result,
-    messages: result.messages.flatMap((message): TextlintMessage[] => {
+    messages: result.messages.flatMap((message): ProofreadingMessage[] => {
       let offset = 0;
       let textIndex = 0;
       for (const part of diff) {
@@ -388,20 +389,24 @@ const diffResult = ({
         }
       }
 
+      const shiftedMessage: ProofreadingMessage = {
+        index: message.index + offset,
+        message: message.message,
+        ruleId: message.ruleId,
+        severity: message.severity,
+        ...(message.fix && {
+          fix: {
+            range: [
+              message.fix.range[0] + offset,
+              message.fix.range[1] + offset,
+            ] as ProofreadingMessageFix["range"],
+            text: message.fix.text,
+          },
+        }),
+      };
+
       return [
-        {
-          ...message,
-          index: message.index + offset,
-          ...(message.fix && {
-            fix: {
-              ...message.fix,
-              range: [
-                message.fix.range[0] + offset,
-                message.fix.range[1] + offset,
-              ],
-            },
-          }),
-        },
+        shiftedMessage,
       ];
     }),
   };
