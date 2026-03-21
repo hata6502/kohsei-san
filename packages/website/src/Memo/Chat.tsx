@@ -4,7 +4,8 @@ import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import type { ChatKitOptions } from "@openai/chatkit-react";
 import { z } from "zod";
 
-import type { Memo, MemosAction, ProofreadingMessage } from "../useMemo";
+import type { ProofreadingMessage } from "../lintWorker";
+import type { Memo, MemosAction } from "../useMemo";
 
 const toolCallSchema = z.union([
   z.object({

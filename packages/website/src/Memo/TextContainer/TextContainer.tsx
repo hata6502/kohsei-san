@@ -16,11 +16,13 @@ import Alert from "@mui/material/Alert";
 import type { TextlintRuleSeverityLevel } from "@textlint/kernel";
 import { diffChars } from "diff";
 import type {
-  Memo,
-  MemosAction,
   ProofreadingMessage,
   ProofreadingMessageFix,
   ProofreadingResult,
+} from "../../lintWorker";
+import type {
+  Memo,
+  MemosAction,
 } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
 

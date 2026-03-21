@@ -142,8 +142,3 @@ export type {
   MemosAction,
   Setting,
 };
-export type {
-  ProofreadingMessage,
-  ProofreadingMessageFix,
-  ProofreadingResult,
-} from "./lintWorker";
