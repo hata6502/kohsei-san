@@ -1,24 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { TextlintMessage } from "@textlint/kernel";
 import type { LintOption } from "core";
-
-type ProofreadingMessageFix = Pick<
-  NonNullable<TextlintMessage["fix"]>,
-  "range" | "text"
->;
-
-type ProofreadingMessage = Pick<
-  TextlintMessage,
-  "index" | "message" | "ruleId"
-> & {
-  fix?: ProofreadingMessageFix;
-  severity: number;
-};
-
-interface ProofreadingResult {
-  messages: ProofreadingMessage[];
-}
+import type { ProofreadingResult } from "./lintWorker";
 
 interface Setting {
   useChat?: boolean;
@@ -157,8 +140,10 @@ export type {
   DispatchSetting,
   Memo,
   MemosAction,
+  Setting,
+};
+export type {
   ProofreadingMessage,
   ProofreadingMessageFix,
   ProofreadingResult,
-  Setting,
-};
+} from "./lintWorker";
