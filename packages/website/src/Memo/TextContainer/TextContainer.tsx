@@ -20,10 +20,7 @@ import type {
   ProofreadingMessageFix,
   ProofreadingResult,
 } from "../../lintWorker";
-import type {
-  Memo,
-  MemosAction,
-} from "../../useMemo";
+import type { Memo, MemosAction } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
 
 interface LintMessage {
@@ -436,9 +433,7 @@ const diffResult = ({
         }),
       };
 
-      return [
-        shiftedMessage,
-      ];
+      return [shiftedMessage];
     }),
   };
 };

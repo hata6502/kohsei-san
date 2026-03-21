@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type { LintOption } from "core";
 import type { ProofreadingResult } from "./lintWorker";
 
-interface Setting {
+export interface Setting {
   useChat?: boolean;
   mode: "standard" | "professional";
   lintOption: LintOption & {
@@ -11,23 +11,25 @@ interface Setting {
   };
 }
 
-const initialSetting: Setting = {
+export const initialSetting: Setting = {
   mode: "standard",
   lintOption: {},
 };
 
-interface Memo {
+export interface Memo {
   id: string;
   result?: ProofreadingResult;
   setting: Setting;
   text: string;
 }
 
-type MemosAction = (prevMemo: Memo[]) => Memo[];
+export type MemosAction = (prevMemo: Memo[]) => Memo[];
 
-type DispatchSetting = (action: (prevSetting: Setting) => Setting) => void;
+export type DispatchSetting = (
+  action: (prevSetting: Setting) => Setting,
+) => void;
 
-const useDispatchSetting =
+export const useDispatchSetting =
   ({
     dispatchMemos,
     memoId,
@@ -46,7 +48,7 @@ const useDispatchSetting =
       })),
     );
 
-const useMemo = (): {
+export const useMemo = (): {
   dispatchMemoId: Dispatch<string>;
   dispatchMemos: Dispatch<MemosAction>;
   isSaveErrorOpen: boolean;
@@ -133,12 +135,4 @@ const useMemo = (): {
     memos,
     setIsSaveErrorOpen,
   };
-};
-
-export { initialSetting, useDispatchSetting, useMemo };
-export type {
-  DispatchSetting,
-  Memo,
-  MemosAction,
-  Setting,
 };

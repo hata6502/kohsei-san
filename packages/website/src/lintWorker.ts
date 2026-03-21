@@ -2,20 +2,16 @@ import type { TextlintMessage } from "@textlint/kernel";
 import { lint } from "core";
 import type { LintOption } from "core";
 
-type ProofreadingMessageFix = Pick<
-  NonNullable<TextlintMessage["fix"]>,
-  "range" | "text"
->;
+export interface ProofreadingMessageFix
+  extends Pick<NonNullable<TextlintMessage["fix"]>, "range" | "text"> {}
 
-type ProofreadingMessage = Pick<
-  TextlintMessage,
-  "index" | "message" | "ruleId"
-> & {
+export interface ProofreadingMessage
+  extends Pick<TextlintMessage, "index" | "message" | "ruleId"> {
   fix?: ProofreadingMessageFix;
   severity: number;
-};
+}
 
-interface ProofreadingResult {
+export interface ProofreadingResult {
   messages: ProofreadingMessage[];
 }
 
@@ -31,12 +27,12 @@ self.kuromojin = {
   dicPath: String(new URL("/dict/", location.href)),
 };
 
-interface LintWorkerLintMessage {
+export interface LintWorkerLintMessage {
   lintOption: LintOption;
   text: string;
 }
 
-interface LintWorkerResultMessage {
+export interface LintWorkerResultMessage {
   result: ProofreadingResult;
   text: string;
 }
@@ -57,11 +53,3 @@ addEventListener(
 );
 
 lint({ lintOption: {}, text: "初回校正時でもキャッシュにヒットさせるため。" });
-
-export type {
-  LintWorkerLintMessage,
-  LintWorkerResultMessage,
-  ProofreadingMessage,
-  ProofreadingMessageFix,
-  ProofreadingResult,
-};
