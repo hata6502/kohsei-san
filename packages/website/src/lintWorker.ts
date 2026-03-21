@@ -1,15 +1,19 @@
-import type { TextlintMessage, TextlintRuleSeverityLevel } from "@textlint/kernel";
+import type {
+  TextlintMessage,
+  TextlintMessageFixCommand,
+} from "@textlint/kernel";
 import { lint } from "core";
 import type { LintOption } from "core";
 
 export type ProofreadingMessageFix = Pick<
-  NonNullable<TextlintMessage["fix"]>,
+  TextlintMessageFixCommand,
   "range" | "text"
 >;
 
 export interface ProofreadingMessage
-  extends Pick<TextlintMessage, "index" | "message" | "ruleId" | "severity"> {
+  extends Pick<TextlintMessage, "index" | "message" | "ruleId"> {
   fix?: ProofreadingMessageFix;
+  severity: number
 }
 
 export interface ProofreadingResult {
@@ -38,57 +42,16 @@ export interface LintWorkerResultMessage {
   text: string;
 }
 
-const getTextlintRuleSeverityLevel = ({
-  severity,
-}: {
-  severity: number;
-}): TextlintRuleSeverityLevel => {
-  switch (severity) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return severity;
-
-    default:
-      throw new Error(`Unknown severity: ${severity}`);
-  }
-};
-
-const toProofreadingMessage = ({
-  message,
-}: {
-  message: Awaited<ReturnType<typeof lint>>["messages"][number];
-}): ProofreadingMessage => ({
-  index: message.index,
-  message: message.message,
-  ruleId: message.ruleId,
-  ...(message.fix && { fix: message.fix }),
-  severity: getTextlintRuleSeverityLevel({ severity: message.severity }),
-});
-
-const toProofreadingResult = ({
-  result,
-}: {
-  result: Awaited<ReturnType<typeof lint>>;
-}): ProofreadingResult => ({
-  messages: result.messages.map((message) =>
-    toProofreadingMessage({ message }),
-  ),
-});
-
 addEventListener(
   "message",
   async (event: MessageEvent<LintWorkerLintMessage>) => {
-    const text = event.data.text;
-    const result = await lint({ lintOption: event.data.lintOption, text });
-
-    const message: LintWorkerResultMessage = {
-      result: toProofreadingResult({ result }),
-      text,
-    };
-
-    postMessage(message);
+    postMessage({
+      result: await lint({
+        lintOption: event.data.lintOption,
+        text: event.data.text,
+      }),
+      text: event.data.text,
+    } satisfies LintWorkerResultMessage);
   },
 );
 
