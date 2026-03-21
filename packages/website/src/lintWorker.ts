@@ -13,7 +13,7 @@ export type ProofreadingMessageFix = Pick<
 export interface ProofreadingMessage
   extends Pick<TextlintMessage, "index" | "message" | "ruleId"> {
   fix?: ProofreadingMessageFix;
-  severity: number
+  severity: number;
 }
 
 export interface ProofreadingResult {

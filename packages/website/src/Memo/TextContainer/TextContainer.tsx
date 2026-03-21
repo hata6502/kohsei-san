@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import Alert from "@mui/material/Alert";
-import type { TextlintRuleSeverityLevel } from "@textlint/kernel";
 import { diffChars } from "diff";
 import type {
   ProofreadingMessage,
@@ -144,7 +143,7 @@ export const TextContainer: React.FunctionComponent<{
           duplicatedMessage.messages.push(message);
         } else {
           mergedMessages.push({
-            index: message.index,
+            ...message,
             messages: [message],
           });
         }
@@ -241,7 +240,9 @@ export const TextContainer: React.FunctionComponent<{
 
           {!isTextContainerFocused &&
             pins.map(({ left, message, top }) => {
-              const severity = getMaxSeverity({ messages: message.messages });
+              const severity = Math.max(
+                ...message.messages.map((message) => message.severity),
+              );
 
               return (
                 <PinTarget
@@ -344,29 +345,6 @@ const getFixPreview = ({
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
 
-const getMaxSeverity = ({
-  messages,
-}: {
-  messages: ProofreadingMessage[];
-}): TextlintRuleSeverityLevel => {
-  let severity = 0;
-
-  for (const message of messages) {
-    severity = Math.max(severity, message.severity);
-  }
-
-  switch (severity) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return severity;
-
-    default:
-      throw new Error(`Unknown severity: ${severity}`);
-  }
-};
-
 const getShiftedFixRange = ({
   fix,
   offset,
@@ -394,6 +372,7 @@ const diffResult = ({
   const diff = diffChars(prevText, text);
 
   return {
+    ...result,
     messages: result.messages.flatMap((message): ProofreadingMessage[] => {
       let offset = 0;
       let textIndex = 0;
@@ -420,20 +399,18 @@ const diffResult = ({
         }
       }
 
-      const shiftedMessage: ProofreadingMessage = {
-        index: message.index + offset,
-        message: message.message,
-        ruleId: message.ruleId,
-        severity: message.severity,
-        ...(message.fix && {
-          fix: {
-            range: getShiftedFixRange({ fix: message.fix, offset }),
-            text: message.fix.text,
-          },
-        }),
-      };
-
-      return [shiftedMessage];
+      return [
+        {
+          ...message,
+          index: message.index + offset,
+          ...(message.fix && {
+            fix: {
+              ...message.fix,
+              range: getShiftedFixRange({ fix: message.fix, offset }),
+            },
+          }),
+        },
+      ];
     }),
   };
 };
