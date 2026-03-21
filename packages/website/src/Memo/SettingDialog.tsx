@@ -55,7 +55,7 @@ interface SettingDialogProps {
   onClose?: () => void;
 }
 
-const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
+export const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
   dispatchSetting,
   open,
   setting,
@@ -251,5 +251,3 @@ const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
     </Dialog>
   );
 };
-
-export { SettingDialog };

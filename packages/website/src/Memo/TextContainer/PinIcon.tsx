@@ -15,7 +15,7 @@ const InfoIcon = styled(MuiInfoIcon)(({ theme }) => ({
   verticalAlign: "middle",
 }));
 
-const PinIcon: React.FunctionComponent<{
+export const PinIcon: React.FunctionComponent<{
   severity: number;
 }> = ({ severity }) => {
   switch (severity) {
@@ -40,5 +40,3 @@ const PinIcon: React.FunctionComponent<{
     }
   }
 };
-
-export { PinIcon };

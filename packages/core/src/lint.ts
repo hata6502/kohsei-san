@@ -61,7 +61,7 @@ import textlintRulePresetJTFStyle from "textlint-rule-preset-jtf-style";
 import textlintRuleSentenceLength from "textlint-rule-sentence-length";
 
 // https://scrapbox.io/hata6502/lintOptions
-interface LintOption {
+export interface LintOption {
   presetJaSpacing?: boolean | Record<string, unknown>;
   presetJaTechnicalWriting?: boolean | Record<string, unknown>;
   presetJTFStyle?: boolean | Record<string, unknown>;
@@ -76,7 +76,7 @@ interface LintOption {
 
 const kernel = new TextlintKernel();
 
-const lint = ({
+export const lint = ({
   lintOption,
   text,
 }: {
@@ -306,6 +306,3 @@ const lint = ({
       },
     ],
   });
-
-export { lint };
-export type { LintOption };

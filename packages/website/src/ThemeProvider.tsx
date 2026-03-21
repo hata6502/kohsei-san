@@ -7,7 +7,7 @@ import {
 } from "@mui/material/styles";
 import { jaJP } from "@mui/material/locale";
 
-const ThemeProvider = ({ children }: PropsWithChildren) => {
+export const ThemeProvider = ({ children }: PropsWithChildren) => {
   return (
     <MuiThemeProvider
       theme={createTheme(
@@ -36,5 +36,3 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
     </MuiThemeProvider>
   );
 };
-
-export { ThemeProvider };
