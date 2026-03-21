@@ -345,17 +345,6 @@ const getFixPreview = ({
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
 
-const getShiftedFixRange = ({
-  fix,
-  offset,
-}: {
-  fix: ProofreadingMessageFix;
-  offset: number;
-}): ProofreadingMessageFix["range"] => [
-  fix.range[0] + offset,
-  fix.range[1] + offset,
-];
-
 const diffResult = ({
   result,
   prevText,
@@ -399,15 +388,25 @@ const diffResult = ({
         }
       }
 
+      let shiftedFix: ProofreadingMessage["fix"];
+      if (message.fix) {
+        const range: ProofreadingMessageFix["range"] = [
+          message.fix.range[0] + offset,
+          message.fix.range[1] + offset,
+        ];
+
+        shiftedFix = {
+          ...message.fix,
+          range,
+        };
+      }
+
       return [
         {
           ...message,
           index: message.index + offset,
-          ...(message.fix && {
-            fix: {
-              ...message.fix,
-              range: getShiftedFixRange({ fix: message.fix, offset }),
-            },
+          ...(shiftedFix && {
+            fix: shiftedFix,
           }),
         },
       ];
