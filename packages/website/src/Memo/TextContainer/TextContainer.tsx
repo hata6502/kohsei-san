@@ -359,31 +359,34 @@ const diffResult = ({
   }
 
   const diff = diffChars(prevText, text);
-
   return {
     ...result,
     messages: result.messages.flatMap((message): ProofreadingMessage[] => {
       let offset = 0;
       let textIndex = 0;
       for (const part of diff) {
-        const intersected =
-          message.index + offset >= textIndex &&
-          message.index + offset < textIndex + part.value.length;
+        const [start, end] = message.fix?.range ?? [
+          message.index,
+          message.index,
+        ];
+
+        if (textIndex >= end + offset) {
+          break;
+        }
 
         if (part.added) {
           offset += part.value.length;
           textIndex += part.value.length;
         } else if (part.removed) {
-          if (intersected) {
+          if (
+            textIndex < end + offset &&
+            start + offset < textIndex + part.value.length
+          ) {
             return [];
           }
 
           offset -= part.value.length;
         } else {
-          if (intersected) {
-            break;
-          }
-
           textIndex += part.value.length;
         }
       }
