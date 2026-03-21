@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -29,9 +29,6 @@ export const Edit: React.FunctionComponent<{
     memo,
     memos,
   }) => {
-    const [isTextContainerFocused, dispatchIsTextContainerFocused] =
-      useState(false);
-
     useEffect(
       () => () => {
         dispatchIsLinting(false);
@@ -146,9 +143,7 @@ export const Edit: React.FunctionComponent<{
           <Container>
             <TextContainer
               dispatchIsLinting={dispatchIsLinting}
-              dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
               dispatchMemos={dispatchMemos}
-              isTextContainerFocused={isTextContainerFocused}
               memo={memo}
             />
           </Container>

@@ -54,208 +54,197 @@ const PinTarget = styled("button")(({ theme }) => ({
 
 export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
-  dispatchIsTextContainerFocused: React.Dispatch<React.SetStateAction<boolean>>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  isTextContainerFocused: boolean;
   memo: Memo;
-}> = React.memo(
-  ({
-    dispatchIsLinting,
-    dispatchIsTextContainerFocused,
-    dispatchMemos,
-    isTextContainerFocused,
-    memo,
-  }) => {
-    const [pins, setPins] = useState<Pin[]>([]);
+}> = React.memo(({ dispatchIsLinting, dispatchMemos, memo }) => {
+  const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
+  const [pins, setPins] = useState<Pin[]>([]);
 
-    const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
-      null,
-    );
-    const [popoverMessages, setPopoverMessages] = useState<
-      LintMessage["messages"]
-    >([]);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
+    null,
+  );
+  const [popoverMessages, setPopoverMessages] = useState<
+    LintMessage["messages"]
+  >([]);
 
-    const textRef = useRef<HTMLDivElement | null>(null);
-    const textBoxRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
+  const textBoxRef = useRef<HTMLDivElement | null>(null);
 
-    const memoID = memo.id;
-    const dispatchText = useCallback(
-      (action?: (prevText: string) => string) => {
-        dispatchMemos((prevMemos) => {
-          if (!textRef.current) {
-            throw new Error("textRef.current is not defined");
-          }
+  const memoID = memo.id;
+  const dispatchText = useCallback(
+    (action?: (prevText: string) => string) => {
+      dispatchMemos((prevMemos) => {
+        if (!textRef.current) {
+          throw new Error("textRef.current is not defined");
+        }
 
-          const memoIndex = prevMemos.findIndex(
-            (prevMemo) => prevMemo.id === memoID,
-          );
-          const prevMemo = prevMemos[memoIndex];
+        const memoIndex = prevMemos.findIndex(
+          (prevMemo) => prevMemo.id === memoID,
+        );
+        const prevMemo = prevMemos[memoIndex];
 
-          const text = action
-            ? action(prevMemo.text)
-            : removeExtraNewLine(textRef.current.innerText);
-          const memo = {
-            ...prevMemo,
-            result: diffResult({
-              result: prevMemo.result,
-              prevText: prevMemo.text,
-              text,
-            }),
+        const text = action
+          ? action(prevMemo.text)
+          : removeExtraNewLine(textRef.current.innerText);
+        const memo = {
+          ...prevMemo,
+          result: diffResult({
+            result: prevMemo.result,
+            prevText: prevMemo.text,
             text,
-          };
+          }),
+          text,
+        };
 
-          const memos = [...prevMemos];
-          memos.splice(memoIndex, 1);
-          memos.unshift(memo);
+        const memos = [...prevMemos];
+        memos.splice(memoIndex, 1);
+        memos.unshift(memo);
 
-          return memos;
-        });
-      },
-      [memoID],
-    );
+        return memos;
+      });
+    },
+    [memoID],
+  );
 
-    useEffect(() => {
-      const handleBeforeUnload = () => {
-        dispatchText();
-      };
-      window.addEventListener("beforeunload", handleBeforeUnload);
-      return () => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-      };
-    }, [dispatchText]);
-
-    useEffect(() => {
-      // Undo できるようにする。
-      if (!textRef.current || textRef.current.innerText === memo.text) {
-        return;
-      }
-
-      textRef.current.innerText = memo.text;
-    }, [memo.text]);
-
-    useEffect(() => {
-      if (!memo.result) {
-        return;
-      }
-
-      try {
-        if (!textRef.current || !textBoxRef.current) {
-          throw new Error(
-            "textRef.current or textBoxRef.current is not defined",
-          );
-        }
-
-        const mergedMessages: LintMessage[] = [];
-
-        memo.result.messages.forEach((message) => {
-          const duplicatedMessage = mergedMessages.find(
-            ({ index }) => index === message.index,
-          );
-
-          if (duplicatedMessage) {
-            duplicatedMessage.messages.push(message);
-          } else {
-            mergedMessages.push({
-              ...message,
-              messages: [message],
-            });
-          }
-        });
-
-        const getPinsResult = getPins({
-          lintMessages: mergedMessages,
-          text: textRef.current,
-          textBoxRect: textBoxRef.current.getBoundingClientRect(),
-        });
-
-        if (getPinsResult.reject) {
-          console.error(getPinsResult.reject);
-
-          return;
-        } else {
-          setPins(getPinsResult.resolve);
-        }
-      } finally {
-        dispatchIsLinting(false);
-      }
-    }, [dispatchIsLinting, memo.result, memo.text]);
-
-    const isPopoverOpen = Boolean(popoverAnchorEl);
-
-    const handleFixClick = useCallback(
-      ({ message }: { message: TextlintMessage }) => {
-        dispatchText((prevText) => {
-          if (!message.fix) {
-            throw new Error("message.fix is not defined");
-          }
-
-          return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
-        });
-
-        setPopoverAnchorEl(null);
-      },
-      [dispatchText, memoID, setPopoverAnchorEl],
-    );
-
-    const handlePinClick = useCallback(
-      (event: MouseEvent<HTMLElement>, messages: LintMessage["messages"]) => {
-        setPopoverAnchorEl(event.currentTarget);
-        setPopoverMessages(messages);
-      },
-      [],
-    );
-
-    const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
-
-    const handleTextContainerBlur = useCallback(() => {
-      dispatchIsTextContainerFocused(false);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
       dispatchText();
-    }, [dispatchIsTextContainerFocused, dispatchText]);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [dispatchText]);
 
-    const handleTextContainerFocus = useCallback(
-      () => dispatchIsTextContainerFocused(true),
-      [dispatchIsTextContainerFocused],
-    );
+  useEffect(() => {
+    // Undo できるようにする。
+    if (!textRef.current || textRef.current.innerText === memo.text) {
+      return;
+    }
 
-    return (
-      <>
-        {!memo.text ? (
-          <Alert key="waiting" severity="info">
-            校正する文章を入力してください
-          </Alert>
-        ) : !memo.result ? undefined : memo.result.messages.length ? (
-          <Alert key="message" severity="info">
-            {memo.result.messages.length}件の見直し箇所があります
-          </Alert>
-        ) : (
-          <Alert key="success" severity="success">
-            お疲れさまでした！見直し箇所はありません
-          </Alert>
-        )}
+    textRef.current.innerText = memo.text;
+  }, [memo.text]);
 
-        <Box mt={1}>
-          <Box
-            ref={textBoxRef}
-            sx={{
-              position: "relative",
-              borderRadius: 1,
-              outlineColor: isTextContainerFocused
-                ? "primary.main"
-                : "grey.500",
-              outlineStyle: "solid",
-              outlineWidth: isTextContainerFocused ? 2 : 1,
-            }}
-          >
-            <Typography component="div" variant="body1">
-              <Content
-                contentEditable="plaintext-only"
-                onBlur={handleTextContainerBlur}
-                onFocus={handleTextContainerFocus}
-                ref={textRef}
-              />
-            </Typography>
+  useEffect(() => {
+    if (!memo.result) {
+      return;
+    }
 
-            {pins.map(({ left, message, top }) => {
+    try {
+      if (!textRef.current || !textBoxRef.current) {
+        throw new Error("textRef.current or textBoxRef.current is not defined");
+      }
+
+      const mergedMessages: LintMessage[] = [];
+
+      memo.result.messages.forEach((message) => {
+        const duplicatedMessage = mergedMessages.find(
+          ({ index }) => index === message.index,
+        );
+
+        if (duplicatedMessage) {
+          duplicatedMessage.messages.push(message);
+        } else {
+          mergedMessages.push({
+            ...message,
+            messages: [message],
+          });
+        }
+      });
+
+      const getPinsResult = getPins({
+        lintMessages: mergedMessages,
+        text: textRef.current,
+        textBoxRect: textBoxRef.current.getBoundingClientRect(),
+      });
+
+      if (getPinsResult.reject) {
+        console.error(getPinsResult.reject);
+
+        return;
+      } else {
+        setPins(getPinsResult.resolve);
+      }
+    } finally {
+      dispatchIsLinting(false);
+    }
+  }, [dispatchIsLinting, memo.result, memo.text]);
+
+  const isPopoverOpen = Boolean(popoverAnchorEl);
+
+  const handleFixClick = useCallback(
+    ({ message }: { message: TextlintMessage }) => {
+      dispatchText((prevText) => {
+        if (!message.fix) {
+          throw new Error("message.fix is not defined");
+        }
+
+        return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
+      });
+
+      setPopoverAnchorEl(null);
+    },
+    [dispatchText, memoID, setPopoverAnchorEl],
+  );
+
+  const handlePinClick = useCallback(
+    (event: MouseEvent<HTMLElement>, messages: LintMessage["messages"]) => {
+      setPopoverAnchorEl(event.currentTarget);
+      setPopoverMessages(messages);
+    },
+    [],
+  );
+
+  const handlePopoverClose = useCallback(() => setPopoverAnchorEl(null), []);
+
+  const handleTextContainerBlur = useCallback(() => {
+    setIsTextContainerFocused(false);
+    dispatchText();
+  }, [dispatchText]);
+
+  const handleTextContainerFocus = useCallback(
+    () => setIsTextContainerFocused(true),
+    [],
+  );
+
+  return (
+    <>
+      {!memo.text ? (
+        <Alert key="waiting" severity="info">
+          校正する文章を入力してください
+        </Alert>
+      ) : !memo.result ? undefined : memo.result.messages.length ? (
+        <Alert key="message" severity="info">
+          {memo.result.messages.length}件の見直し箇所があります
+        </Alert>
+      ) : (
+        <Alert key="success" severity="success">
+          お疲れさまでした！見直し箇所はありません
+        </Alert>
+      )}
+
+      <Box mt={1}>
+        <Box
+          ref={textBoxRef}
+          sx={{
+            position: "relative",
+            borderRadius: 1,
+            outlineColor: isTextContainerFocused ? "primary.main" : "grey.500",
+            outlineStyle: "solid",
+            outlineWidth: isTextContainerFocused ? 2 : 1,
+          }}
+        >
+          <Typography component="div" variant="body1">
+            <Content
+              contentEditable="plaintext-only"
+              onBlur={handleTextContainerBlur}
+              onFocus={handleTextContainerFocus}
+              ref={textRef}
+            />
+          </Typography>
+
+          {!isTextContainerFocused &&
+            pins.map(({ left, message, top }) => {
               const severity = Math.max(
                 ...message.messages.map((message) => message.severity),
               ) as TextlintRuleSeverityLevel;
@@ -273,81 +262,80 @@ export const TextContainer: React.FunctionComponent<{
                 </PinTarget>
               );
             })}
-          </Box>
         </Box>
+      </Box>
 
-        <MessagePopover
-          anchorEl={popoverAnchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          onClose={handlePopoverClose}
-          open={isPopoverOpen}
-          transformOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-        >
-          <Container maxWidth="sm">
-            <List>
-              {popoverMessages.map((message, index) => {
-                const fixPreview = message.fix
-                  ? getFixPreview({ fix: message.fix, text: memo.text })
-                  : undefined;
+      <MessagePopover
+        anchorEl={popoverAnchorEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        onClose={handlePopoverClose}
+        open={isPopoverOpen}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Container maxWidth="sm">
+          <List>
+            {popoverMessages.map((message, index) => {
+              const fixPreview = message.fix
+                ? getFixPreview({ fix: message.fix, text: memo.text })
+                : undefined;
 
-                return (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={message.message}
-                      secondary={
-                        fixPreview && (
-                          <Box
-                            component="span"
-                            sx={{ display: "block", mt: 0.5 }}
+              return (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={message.message}
+                    secondary={
+                      fixPreview && (
+                        <Box
+                          component="span"
+                          sx={{ display: "block", mt: 0.5 }}
+                        >
+                          <Typography
+                            color="text.secondary"
+                            component="div"
+                            variant="caption"
                           >
-                            <Typography
-                              color="text.secondary"
-                              component="div"
-                              variant="caption"
-                            >
-                              修正前: {fixPreview.beforeText}
-                            </Typography>
-                            <Typography
-                              color="text.secondary"
-                              component="div"
-                              variant="caption"
-                            >
-                              修正後: {fixPreview.afterText}
-                            </Typography>
-                          </Box>
-                        )
-                      }
-                      secondaryTypographyProps={{ component: "div" }}
-                    />
-
-                    <ListItemSecondaryAction>
-                      {message.fix && (
-                        <Tooltip title="自動修正">
-                          <IconButton
-                            edge="end"
-                            onClick={() => handleFixClick({ message })}
+                            修正前: {fixPreview.beforeText}
+                          </Typography>
+                          <Typography
+                            color="text.secondary"
+                            component="div"
+                            variant="caption"
                           >
-                            <SpellcheckIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Container>
-        </MessagePopover>
-      </>
-    );
-  },
-);
+                            修正後: {fixPreview.afterText}
+                          </Typography>
+                        </Box>
+                      )
+                    }
+                    secondaryTypographyProps={{ component: "div" }}
+                  />
+
+                  <ListItemSecondaryAction>
+                    {message.fix && (
+                      <Tooltip title="自動修正">
+                        <IconButton
+                          edge="end"
+                          onClick={() => handleFixClick({ message })}
+                        >
+                          <SpellcheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Container>
+      </MessagePopover>
+    </>
+  );
+});
 
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
@@ -380,20 +368,24 @@ const diffResult = ({
   return {
     ...result,
     messages: result.messages.flatMap((message): TextlintMessage[] => {
-      let index = message.index;
+      let offset = 0;
       let textIndex = 0;
       for (const part of diff) {
+        const intersected =
+          message.index + offset >= textIndex &&
+          message.index + offset < textIndex + part.value.length;
+
         if (part.added) {
-          index += part.value.length;
+          offset += part.value.length;
           textIndex += part.value.length;
         } else if (part.removed) {
-          if (index >= textIndex && index < textIndex + part.value.length) {
+          if (intersected) {
             return [];
           }
 
-          index -= part.value.length;
+          offset -= part.value.length;
         } else {
-          if (index >= textIndex && index < textIndex + part.value.length) {
+          if (intersected) {
             break;
           }
 
@@ -401,11 +393,10 @@ const diffResult = ({
         }
       }
 
-      const offset = index - message.index;
       return [
         {
           ...message,
-          index,
+          index: message.index + offset,
           ...(message.fix && {
             fix: {
               ...message.fix,
