@@ -2,7 +2,6 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import MuiInfoIcon from "@mui/icons-material/Info";
-import type { TextlintRuleSeverityLevel } from "@textlint/kernel";
 
 const ErrorIcon = styled(FeedbackIcon)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -17,7 +16,7 @@ const InfoIcon = styled(MuiInfoIcon)(({ theme }) => ({
 }));
 
 const PinIcon: React.FunctionComponent<{
-  severity: TextlintRuleSeverityLevel;
+  severity: number;
 }> = ({ severity }) => {
   switch (severity) {
     case 0: {
@@ -37,9 +36,7 @@ const PinIcon: React.FunctionComponent<{
     }
 
     default: {
-      const exhaustiveCheck: never = severity;
-
-      throw new Error(`Unknown severity: ${exhaustiveCheck}`);
+      throw new Error(`Unknown severity: ${severity}`);
     }
   }
 };

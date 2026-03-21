@@ -13,18 +13,18 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import Alert from "@mui/material/Alert";
-import type {
-  TextlintMessage,
-  TextlintResult,
-  TextlintRuleSeverityLevel,
-} from "@textlint/kernel";
 import { diffChars } from "diff";
+import type {
+  ProofreadingMessage,
+  ProofreadingMessageFix,
+  ProofreadingResult,
+} from "../../lintWorker";
 import type { Memo, MemosAction } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
 
 interface LintMessage {
-  index: TextlintMessage["index"];
-  messages: TextlintMessage[];
+  index: ProofreadingMessage["index"];
+  messages: ProofreadingMessage[];
 }
 
 interface Pin {
@@ -169,7 +169,7 @@ export const TextContainer: React.FunctionComponent<{
 
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
-  const handleFixClick = ({ message }: { message: TextlintMessage }) => {
+  const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
     dispatchText((prevText) => {
       if (!message.fix) {
         throw new Error("message.fix is not defined");
@@ -242,7 +242,7 @@ export const TextContainer: React.FunctionComponent<{
             pins.map(({ left, message, top }) => {
               const severity = Math.max(
                 ...message.messages.map((message) => message.severity),
-              ) as TextlintRuleSeverityLevel;
+              );
 
               return (
                 <PinTarget
@@ -338,7 +338,7 @@ const getFixPreview = ({
   fix,
   text,
 }: {
-  fix: NonNullable<TextlintMessage["fix"]>;
+  fix: ProofreadingMessageFix;
   text: string;
 }) => ({
   afterText: fix.text || "（なし）",
@@ -350,7 +350,7 @@ const diffResult = ({
   prevText,
   text,
 }: {
-  result?: TextlintResult;
+  result?: ProofreadingResult;
   prevText: string;
   text: string;
 }) => {
@@ -362,7 +362,7 @@ const diffResult = ({
 
   return {
     ...result,
-    messages: result.messages.flatMap((message): TextlintMessage[] => {
+    messages: result.messages.flatMap((message): ProofreadingMessage[] => {
       let offset = 0;
       let textIndex = 0;
       for (const part of diff) {

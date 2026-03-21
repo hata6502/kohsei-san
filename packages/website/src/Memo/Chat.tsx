@@ -2,9 +2,9 @@ import React from "react";
 import type { Dispatch, FunctionComponent } from "react";
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import type { ChatKitOptions } from "@openai/chatkit-react";
-import type { TextlintMessage } from "@textlint/kernel";
 import { z } from "zod";
 
+import type { ProofreadingMessage } from "../lintWorker";
 import type { Memo, MemosAction } from "../useMemo";
 
 const toolCallSchema = z.union([
@@ -57,8 +57,7 @@ export const Chat: FunctionComponent<{
         case "set_ai_lint_messages": {
           const errors: string[] = [];
 
-          // @ts-expect-error
-          const aiMessages: TextlintMessage[] = params.messages.flatMap(
+          const aiMessages: ProofreadingMessage[] = params.messages.flatMap(
             (message) => {
               const lines = memo.text.split("\n");
               const lineText = lines.at(message.line - 1);
@@ -99,7 +98,6 @@ export const Chat: FunctionComponent<{
 
               return [
                 {
-                  type: "lint",
                   ruleId: "ai",
                   message: message.message,
                   index,
