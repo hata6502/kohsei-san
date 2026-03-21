@@ -244,9 +244,7 @@ export const TextContainer: React.FunctionComponent<{
 
           {!isTextContainerFocused &&
             pins.map(({ left, message, top }) => {
-              const severity = Math.max(
-                ...message.messages.map((message) => message.severity),
-              ) as TextlintRuleSeverityLevel;
+              const severity = getMaxSeverity({ messages: message.messages });
 
               return (
                 <PinTarget
@@ -349,6 +347,40 @@ const getFixPreview = ({
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
 
+const getMaxSeverity = ({
+  messages,
+}: {
+  messages: ProofreadingMessage[];
+}): TextlintRuleSeverityLevel => {
+  let severity = 0;
+
+  for (const message of messages) {
+    severity = Math.max(severity, message.severity);
+  }
+
+  switch (severity) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return severity;
+
+    default:
+      throw new Error(`Unknown severity: ${severity}`);
+  }
+};
+
+const getShiftedFixRange = ({
+  fix,
+  offset,
+}: {
+  fix: ProofreadingMessageFix;
+  offset: number;
+}): ProofreadingMessageFix["range"] => [
+  fix.range[0] + offset,
+  fix.range[1] + offset,
+];
+
 const diffResult = ({
   result,
   prevText,
@@ -398,10 +430,7 @@ const diffResult = ({
         severity: message.severity,
         ...(message.fix && {
           fix: {
-            range: [
-              message.fix.range[0] + offset,
-              message.fix.range[1] + offset,
-            ] as ProofreadingMessageFix["range"],
+            range: getShiftedFixRange({ fix: message.fix, offset }),
             text: message.fix.text,
           },
         }),
