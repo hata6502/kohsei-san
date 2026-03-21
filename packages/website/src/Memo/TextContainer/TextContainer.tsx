@@ -388,25 +388,18 @@ const diffResult = ({
         }
       }
 
-      let shiftedFix: ProofreadingMessage["fix"];
-      if (message.fix) {
-        const range: ProofreadingMessageFix["range"] = [
-          message.fix.range[0] + offset,
-          message.fix.range[1] + offset,
-        ];
-
-        shiftedFix = {
-          ...message.fix,
-          range,
-        };
-      }
-
       return [
         {
           ...message,
           index: message.index + offset,
-          ...(shiftedFix && {
-            fix: shiftedFix,
+          ...(message.fix && {
+            fix: {
+              ...message.fix,
+              range: [
+                message.fix.range[0] + offset,
+                message.fix.range[1] + offset,
+              ],
+            },
           }),
         },
       ];
