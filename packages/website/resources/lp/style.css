@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap");
-
 :root {
   --bg: #ffffff;
   --surface: #ffffff;
@@ -13,6 +11,9 @@
   --line: rgba(23, 33, 29, 0.1);
   --shadow: 0 18px 40px rgba(0, 133, 126, 0.08);
   --container: 1120px;
+  --font-sans:
+    "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Meiryo", system-ui,
+    sans-serif;
 }
 
 *,
@@ -27,7 +28,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.75;
   color: var(--text);
@@ -86,7 +87,7 @@ a {
 
 .brand-name {
   font-size: 19px;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: 0.04em;
   color: var(--ink);
@@ -145,7 +146,7 @@ a {
   padding: 12px 16px;
   border-radius: 999px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
   color: var(--ink);
   transition:
@@ -168,7 +169,7 @@ a {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   color: #ffffff;
   background: var(--accent);
@@ -200,6 +201,7 @@ a {
 .button-small {
   min-height: 46px;
   padding-block: 12px;
+  font-weight: 500;
 }
 
 .button-light {
@@ -227,7 +229,7 @@ a {
 .text-link {
   display: inline-flex;
   align-items: center;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent-dark);
   transition: color 0.2s ease;
 }
@@ -277,8 +279,8 @@ a {
 .article-content h2,
 .article-content h3 {
   margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 800;
+  font-family: var(--font-sans);
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -318,7 +320,7 @@ a {
   position: relative;
   padding: 0 18px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .hero-meta li + li::before {
@@ -432,8 +434,8 @@ a {
 }
 
 .use-index {
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 800;
+  font-family: var(--font-sans);
+  font-weight: 700;
   font-size: 36px;
   line-height: 1;
   color: rgba(0, 133, 126, 0.45);
@@ -483,7 +485,7 @@ a {
   border: 1px solid rgba(0, 133, 126, 0.14);
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent-dark);
   background: rgba(255, 255, 255, 0.62);
 }
@@ -500,7 +502,7 @@ a {
   height: 40px;
   border-radius: 50%;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--accent-dark);
   background: rgba(0, 133, 126, 0.12);
 }
@@ -511,7 +513,8 @@ a {
 }
 
 .consult-copy h2 {
-  color: #ffffff;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .consult-copy p {
@@ -576,6 +579,11 @@ a {
   margin-left: auto;
   margin-right: auto;
   color: #ffffff;
+}
+
+.final-shell h2 {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .final-shell p {
@@ -645,7 +653,7 @@ a {
 }
 
 .article-content strong {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent-dark);
 }
 
@@ -666,28 +674,48 @@ a {
 }
 
 .footer-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto auto;
-  gap: 32px;
-  align-items: start;
-}
-
-.footer-spacer {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 18px 28px;
 }
 
 .footer-links,
-.footer-brand {
-  margin-bottom: 36px;
+.footer-brand,
+.footer-meta {
+  margin: 0;
 }
 
-.footer-links li + li {
-  margin-top: 14px;
+.footer-links ul,
+.footer-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.footer-links {
+  margin-left: 36px;
 }
 
 .footer-links a,
 .footer-meta a {
   transition: color 0.2s ease;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .footer-links a:hover,
@@ -697,60 +725,54 @@ a {
   color: var(--accent);
 }
 
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  background: rgba(0, 133, 126, 0.08);
+}
+
 .footer-brand-link {
-  margin-bottom: 12px;
+  margin: 0;
 }
 
 .footer-brand p {
-  max-width: 18rem;
-  margin: 0 0 18px;
+  max-width: none;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--muted);
-}
-
-.social-links {
-  display: flex;
-  gap: 12px;
-}
-
-.social-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  color: var(--accent);
-  border: 1px solid rgba(0, 133, 126, 0.18);
-  border-radius: 50%;
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.social-links a:hover,
-.social-links a:focus-visible {
-  transform: translateY(-1px);
-  color: var(--accent-dark);
-  border-color: rgba(0, 133, 126, 0.34);
-}
-
-.social-links svg {
-  width: 15px;
-  height: 15px;
+  white-space: nowrap;
 }
 
 .footer-meta {
-  grid-column: 1 / -1;
-  margin-top: 4px;
-  text-align: center;
+  margin-left: auto;
+  text-align: left;
 }
 
 .footer-meta small {
-  font-size: 80%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
 .footer-meta a {
   color: var(--accent-dark);
+}
+
+.footer-meta-avatar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-meta-avatar {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 @media (max-width: 1080px) {
@@ -760,11 +782,12 @@ a {
   }
 
   .footer-main {
-    grid-template-columns: 1fr auto;
+    justify-content: center;
   }
 
-  .footer-spacer {
-    display: none;
+  .footer-links,
+  .footer-meta {
+    margin-left: 0;
   }
 }
 
@@ -940,22 +963,14 @@ a {
   }
 
   .footer-main {
-    grid-template-columns: 1fr;
     text-align: center;
+    justify-content: center;
   }
 
   .footer-links,
-  .footer-brand {
-    margin-bottom: 28px;
-  }
-
-  .footer-links ul {
-    display: grid;
-    gap: 10px;
-  }
-
-  .footer-links li + li {
-    margin-top: 0;
+  .footer-brand,
+  .footer-meta {
+    justify-content: center;
   }
 
   .footer-brand-link {
@@ -963,10 +978,14 @@ a {
   }
 
   .footer-brand p {
-    max-width: none;
+    white-space: normal;
   }
 
-  .social-links {
+  .footer-meta {
+    text-align: center;
+  }
+
+  .footer-meta small {
     justify-content: center;
   }
 
