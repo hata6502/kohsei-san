@@ -129,7 +129,7 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
         <ListItem disablePadding>
           <ListItemButton
             component="a"
-            href="https://helpfeel.com/hata6502/?q=%E6%96%87%E7%AB%A0%E6%A0%A1%E6%AD%A3"
+            href="https://help.hata6502.com/?q=%E6%A0%A1%E6%AD%A3%E3%81%95%E3%82%93"
             rel="noreferrer"
             sx={{ color: "inherit" }}
             target="_blank"
