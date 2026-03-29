@@ -297,7 +297,6 @@ a {
   color: var(--muted);
 }
 
-.hero-meta,
 .proof-tags,
 .consult-points,
 .social-links,
@@ -305,33 +304,6 @@ a {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 0;
-  margin-top: 24px;
-  color: var(--accent-dark);
-}
-
-.hero-meta li {
-  position: relative;
-  padding: 0 18px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.hero-meta li + li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.8em;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(0, 133, 126, 0.3);
 }
 
 .hero-actions,
@@ -899,21 +871,6 @@ a {
   .consult-copy p,
   .final-shell p {
     font-size: 15px;
-  }
-
-  .hero-meta {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    gap: 10px 22px;
-    justify-content: center;
-  }
-
-  .hero-meta li {
-    padding: 0;
-  }
-
-  .hero-meta li + li::before {
-    display: none;
   }
 
   .hero-actions,
