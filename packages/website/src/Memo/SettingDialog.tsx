@@ -81,6 +81,11 @@ export const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
     key: "jaKyoikuKanji",
   });
 
+  const handleJaJoyoOrJinmeiyoKanjiChange = useLintOptionChange({
+    dispatchSetting,
+    key: "jaJoyoOrJinmeiyoKanji",
+  });
+
   const handleJaNoMixedPeriodChange = useLintOptionChange({
     dispatchSetting,
     key: "jaNoMixedPeriod",
@@ -99,6 +104,11 @@ export const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
   const handleNoFillerChange = useLintOptionChange({
     dispatchSetting,
     key: "noFiller",
+  });
+
+  const handleNoDoubledJoshiChange = useLintOptionChange({
+    dispatchSetting,
+    key: "noDoubledJoshi",
   });
 
   const handlePresetJaSpacingChange = useLintOptionChange({
@@ -191,6 +201,13 @@ export const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
             />
 
             <FormControlLabel
+              checked={Boolean(setting.lintOption.noDoubledJoshi)}
+              control={<Checkbox />}
+              label="助詞の重なり"
+              onChange={handleNoDoubledJoshiChange}
+            />
+
+            <FormControlLabel
               checked={Boolean(setting.lintOption.maxAppearenceCountOfWords)}
               control={<Checkbox />}
               label="単語の出現回数の上限"
@@ -223,6 +240,13 @@ export const SettingDialog: React.FunctionComponent<SettingDialogProps> = ({
               control={<Checkbox />}
               label="教育漢字のみ許可"
               onChange={handleJaKyoikuKanjiChange}
+            />
+
+            <FormControlLabel
+              checked={Boolean(setting.lintOption.jaJoyoOrJinmeiyoKanji)}
+              control={<Checkbox />}
+              label="常用漢字・人名用漢字以外の漢字"
+              onChange={handleJaJoyoOrJinmeiyoKanjiChange}
             />
           </FormControl>
         </Box>

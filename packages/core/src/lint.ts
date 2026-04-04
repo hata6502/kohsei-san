@@ -66,11 +66,13 @@ export interface LintOption {
   presetJaTechnicalWriting?: boolean | Record<string, unknown>;
   presetJTFStyle?: boolean | Record<string, unknown>;
   generalNovelStyleJa?: boolean | Record<string, unknown>;
+  jaJoyoOrJinmeiyoKanji?: boolean | Record<string, unknown>;
   jaKyoikuKanji?: boolean | Record<string, unknown>;
   jaNoMixedPeriod?: boolean | Record<string, unknown>;
   jaNoWeakPhrase?: boolean | Record<string, unknown>;
   jaSimpleUserDictionary?: Record<string, unknown>;
   maxAppearenceCountOfWords?: boolean | Record<string, unknown>;
+  noDoubledJoshi?: boolean | Record<string, unknown>;
   noFiller?: boolean | Record<string, unknown>;
 }
 
@@ -110,7 +112,7 @@ export const lint = ({
           }))
         : []),
       ...Object.keys(textlintRulePresetJapanese.rules)
-        .filter((key) => !["sentence-length"].includes(key))
+        .filter((key) => !["no-doubled-joshi", "sentence-length"].includes(key))
         .map((key) => ({
           ruleId: key,
           rule: textlintRulePresetJapanese.rules[key],
@@ -118,7 +120,9 @@ export const lint = ({
         })),
       ...(lintOption.presetJaTechnicalWriting
         ? Object.keys(textlintRulePresetJaTechnicalWriting.rules)
-            .filter((key) => !["sentence-length"].includes(key))
+            .filter(
+              (key) => !["no-doubled-joshi", "sentence-length"].includes(key),
+            )
             .map((key) => ({
               ruleId: key,
               rule: textlintRulePresetJaTechnicalWriting.rules[key],
@@ -167,10 +171,19 @@ export const lint = ({
         ruleId: "ja-hiragana-keishikimeishi",
         rule: textlintRuleJaHiraganaKeishikimeishi,
       },
-      {
-        ruleId: "ja-joyo-or-jinmeiyo-kanji",
-        rule: textlintRuleJaJoyoOrJinmeiyoKanji,
-      },
+      ...(lintOption.jaJoyoOrJinmeiyoKanji
+        ? [
+            {
+              ruleId: "ja-joyo-or-jinmeiyo-kanji",
+              rule: textlintRuleJaJoyoOrJinmeiyoKanji,
+              options:
+                typeof lintOption.jaJoyoOrJinmeiyoKanji === "object" &&
+                lintOption.jaJoyoOrJinmeiyoKanji !== null
+                  ? lintOption.jaJoyoOrJinmeiyoKanji
+                  : undefined,
+            },
+          ]
+        : []),
       ...(lintOption.jaKyoikuKanji
         ? [
             {
@@ -251,6 +264,19 @@ export const lint = ({
         ruleId: "no-difficult-words",
         rule: textlintRuleNoDifficultWords,
       },
+      ...(lintOption.noDoubledJoshi
+        ? [
+            {
+              ruleId: "no-doubled-joshi",
+              rule: textlintRulePresetJapanese.rules["no-doubled-joshi"],
+              options:
+                typeof lintOption.noDoubledJoshi === "object" &&
+                lintOption.noDoubledJoshi !== null
+                  ? lintOption.noDoubledJoshi
+                  : textlintRulePresetJapanese.rulesConfig["no-doubled-joshi"],
+            },
+          ]
+        : []),
       {
         ruleId: "no-doubled-conjunctive-particle-ga",
         rule: textlintRuleNoDoubledConjunctiveParticleGa,
