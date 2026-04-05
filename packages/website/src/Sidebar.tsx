@@ -6,7 +6,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DifferenceIcon from "@mui/icons-material/Difference";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
@@ -88,12 +87,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
               onClick={() => handleMemoClick(id)}
               selected={id === memoId}
             >
-              {result?.messages.length === 0 && (
-                <ListItemIcon>
-                  <CheckCircleOutlineIcon color="primary" />
-                </ListItemIcon>
-              )}
-
               <MemoText primary={text.trim() || "(空のメモ)"} />
             </ListItemButton>
           </ListItem>
