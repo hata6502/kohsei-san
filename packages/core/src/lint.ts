@@ -58,7 +58,6 @@ import textlintRulePresetJaTechnicalWriting from "textlint-rule-preset-ja-techni
 import textlintRulePresetJapanese from "textlint-rule-preset-japanese";
 // @ts-expect-error 型が定義されていない。
 import textlintRulePresetJTFStyle from "textlint-rule-preset-jtf-style";
-import textlintRuleSentenceLength from "textlint-rule-sentence-length";
 
 // https://scrapbox.io/hata6502/lintOptions
 export interface LintOption {
@@ -325,10 +324,6 @@ export const lint = ({
       {
         ruleId: "prefer-tari-tari",
         rule: textlintRulePreferTariTari,
-      },
-      {
-        ruleId: "sentence-length",
-        rule: textlintRuleSentenceLength,
       },
     ],
   });

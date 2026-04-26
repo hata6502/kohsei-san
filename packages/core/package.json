@@ -36,8 +36,7 @@
     "textlint-rule-preset-ja-spacing": "^2.0.2",
     "textlint-rule-preset-ja-technical-writing": "hata6502/textlint-rule-preset-ja-technical-writing",
     "textlint-rule-preset-japanese": "hata6502/textlint-rule-preset-japanese",
-    "textlint-rule-preset-jtf-style": "hata6502/textlint-rule-preset-jtf-style",
-    "textlint-rule-sentence-length": "^3.0.0"
+    "textlint-rule-preset-jtf-style": "hata6502/textlint-rule-preset-jtf-style"
   },
   "resolutions": {
     "kuromoji": "hata6502/kuromoji.js",
