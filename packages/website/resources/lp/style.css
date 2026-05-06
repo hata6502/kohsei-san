@@ -437,6 +437,20 @@ a {
   max-width: 34rem;
 }
 
+.section-illustration {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin: 12px 0 0;
+}
+
+.section-illustration-send-before {
+  width: min(100%, 460px);
+}
+
+.section-illustration-offline {
+  width: min(100%, 320px);
+}
+
 .proof-section {
   background: transparent;
 }
