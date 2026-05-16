@@ -9,9 +9,10 @@ import ListItemText from "@mui/material/ListItemText";
 import DifferenceIcon from "@mui/icons-material/Difference";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
+import HomeIcon from "@mui/icons-material/Home";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import { initialSetting } from "./useMemo";
+import { createMemo } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
 const DrawerContainer = styled("div")({
@@ -41,23 +42,16 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
 }) => {
   const appInstalled = !matchMedia("(display-mode: browser)").matches;
 
+  const handleHomeClick = () => {
+    dispatchMemoId("");
+
+    onClose?.();
+  };
+
   const handleAddClick = () => {
-    const id = crypto.randomUUID();
-
-    dispatchMemos((prevMemos) => [
-      {
-        id,
-        result: {
-          filePath: "<text>",
-          messages: [],
-        },
-        setting: initialSetting,
-        text: "",
-      },
-      ...prevMemos,
-    ]);
-
-    dispatchMemoId(id);
+    const memo = createMemo();
+    dispatchMemos((prevMemos) => [memo, ...prevMemos]);
+    dispatchMemoId(memo.id);
 
     onClose?.();
   };
@@ -71,6 +65,19 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
   return (
     <DrawerContainer>
       <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={handleHomeClick}
+            selected={memos.every(({ id }) => id !== memoId)}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="ホーム" />
+          </ListItemButton>
+        </ListItem>
+
         <ListItem disablePadding>
           <ListItemButton onClick={handleAddClick}>
             <ListItemIcon data-testid="sidebar-component-add-memo">

@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
-import Empty from "./Empty";
+import Home from "./Home";
 import Sidebar from "./Sidebar";
 import { useMemo } from "./useMemo";
 
@@ -36,11 +36,13 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
   lintWorker,
 }) => {
   const {
+    chatEnabled,
     dispatchMemoId,
     dispatchMemos,
     isSaveErrorOpen,
     memoId,
     memos,
+    setChatEnabled,
     setIsSaveErrorOpen,
   } = useMemo();
 
@@ -137,6 +139,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                   dispatchIsSidebarOpen={dispatchIsSidebarOpen}
                   dispatchMemoId={dispatchMemoId}
                   dispatchMemos={dispatchMemos}
+                  chatEnabled={chatEnabled}
                   memo={memo}
                   memos={memos}
                 />
@@ -144,7 +147,12 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
             </Grid>
           </MemoContainer>
         ) : (
-          <Empty />
+          <Home
+            chatEnabled={chatEnabled}
+            dispatchMemoId={dispatchMemoId}
+            setChatEnabled={setChatEnabled}
+            setMemos={dispatchMemos}
+          />
         )}
       </main>
 

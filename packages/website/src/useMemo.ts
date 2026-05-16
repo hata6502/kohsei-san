@@ -4,7 +4,6 @@ import type { LintOption } from "core";
 import type { ProofreadingResult } from "./lintWorker";
 
 export interface Setting {
-  useChat?: boolean;
   mode: "standard" | "professional";
   lintOption: LintOption & {
     userDictionaryMemoId?: string;
@@ -22,6 +21,12 @@ export interface Memo {
   setting: Setting;
   text: string;
 }
+
+export const createMemo = (): Memo => ({
+  id: crypto.randomUUID(),
+  setting: initialSetting,
+  text: "",
+});
 
 export type MemosAction = (prevMemo: Memo[]) => Memo[];
 
@@ -49,11 +54,13 @@ export const useDispatchSetting =
     );
 
 export const useMemo = (): {
+  chatEnabled: boolean;
   dispatchMemoId: Dispatch<string>;
   dispatchMemos: Dispatch<MemosAction>;
   isSaveErrorOpen: boolean;
   memoId: string;
   memos: Memo[];
+  setChatEnabled: Dispatch<SetStateAction<boolean>>;
   setIsSaveErrorOpen: Dispatch<SetStateAction<boolean>>;
 } => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -70,19 +77,12 @@ export const useMemo = (): {
     undefined,
     (): Memo[] => {
       const memosItem = localStorage.getItem("memos");
-      const localStorageMemos: Partial<Memo>[] = memosItem
+      const localStorageMemos: Memo[] = memosItem
         ? JSON.parse(memosItem)
         : [];
 
       return [
-        ...localStorageMemos.map(
-          (localStorageMemo): Memo => ({
-            id: crypto.randomUUID(),
-            setting: initialSetting,
-            text: "",
-            ...localStorageMemo,
-          }),
-        ),
+        ...localStorageMemos,
         ...(isShared
           ? [
               {
@@ -110,9 +110,13 @@ export const useMemo = (): {
   );
 
   const [isSaveErrorOpen, setIsSaveErrorOpen] = useState(false);
+  const [chatEnabled, setChatEnabled] = useState(
+    () => localStorage.getItem("chatEnabled") === "true",
+  );
 
   useEffect(() => {
     try {
+      localStorage.setItem("chatEnabled", JSON.stringify(chatEnabled));
       localStorage.setItem("memoId", memoId);
       localStorage.setItem("memos", JSON.stringify(memos));
     } catch (exception) {
@@ -125,14 +129,16 @@ export const useMemo = (): {
         console.error(exception);
       }
     }
-  }, [memoId, memos]);
+  }, [chatEnabled, memoId, memos]);
 
   return {
+    chatEnabled,
     dispatchMemoId,
     dispatchMemos,
     isSaveErrorOpen,
     memoId,
     memos,
+    setChatEnabled,
     setIsSaveErrorOpen,
   };
 };

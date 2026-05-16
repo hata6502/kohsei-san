@@ -9,9 +9,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import ChatIcon from "@mui/icons-material/Chat";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -21,6 +21,7 @@ import { Chat } from "./Chat";
 import { SettingDialog } from "./SettingDialog";
 
 export const MemoActions: React.FunctionComponent<{
+  chatEnabled: boolean;
   dispatchIsCopiedSnackbarOpen: React.Dispatch<boolean>;
   dispatchIsSidebarOpen: React.Dispatch<boolean>;
   dispatchMemoId: React.Dispatch<Memo["id"]>;
@@ -28,6 +29,7 @@ export const MemoActions: React.FunctionComponent<{
   memo: Memo;
   memos: Memo[];
 }> = ({
+  chatEnabled,
   dispatchIsCopiedSnackbarOpen,
   dispatchIsSidebarOpen,
   dispatchMemoId,
@@ -53,13 +55,7 @@ export const MemoActions: React.FunctionComponent<{
   const handleCopyButtonClick = () => {
     const id = crypto.randomUUID();
 
-    dispatchMemos((prevMemos) => [
-      {
-        ...memo,
-        id,
-      },
-      ...prevMemos,
-    ]);
+    dispatchMemos((prevMemos) => [{ ...memo, id }, ...prevMemos]);
 
     dispatchIsCopiedSnackbarOpen(true);
     dispatchIsSidebarOpen(true);
@@ -79,10 +75,7 @@ export const MemoActions: React.FunctionComponent<{
   };
 
   const handleUseChatButtonClick = () => {
-    dispatchSetting((prev) => ({
-      ...prev,
-      useChat: true,
-    }));
+    dispatchMemoId("");
   };
 
   return (
@@ -125,44 +118,31 @@ export const MemoActions: React.FunctionComponent<{
       {navigator.onLine && (
         <Card>
           <CardContent>
-            {memo.setting.useChat ? (
+            {chatEnabled ? (
               <Chat memo={memo} dispatchMemos={dispatchMemos} />
             ) : (
-              <>
-                <Typography gutterBottom>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    onClick={handleUseChatButtonClick}
-                  >
-                    校正さんに相談（ベータ版）
-                  </Button>
+              <Stack alignItems="center" spacing={2}>
+                <img
+                  alt=""
+                  src="j260_12_0.svg"
+                  style={{ opacity: 0.45, width: 120 }}
+                />
+
+                <Typography variant="h6">校正さんに相談</Typography>
+
+                <Typography align="center" variant="body2">
+                  文章全体の意味を読み取ったうえで見直しをしたいとき、AIに相談してみてください。
                 </Typography>
 
-                <Typography variant="body2" gutterBottom>
-                  AIサーバーに情報を送信・保持します
-                  <br />
-                  ベータ版は評価目的で提供され、性能や品質について保証はなく、一切の責任を負いません
-                </Typography>
-
-                <Typography variant="caption" gutterBottom>
-                  This site is protected by reCAPTCHA and the Google{" "}
-                  <Link
-                    href="https://policies.google.com/privacy"
-                    target="_blank"
-                  >
-                    Privacy Policy
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    href="https://policies.google.com/terms"
-                    target="_blank"
-                  >
-                    Terms of Service
-                  </Link>{" "}
-                  apply.
-                </Typography>
-              </>
+                <Button
+                  fullWidth
+                  startIcon={<ChatIcon />}
+                  variant="outlined"
+                  onClick={handleUseChatButtonClick}
+                >
+                  相談する
+                </Button>
+              </Stack>
             )}
           </CardContent>
         </Card>
