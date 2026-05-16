@@ -77,9 +77,7 @@ export const useMemo = (): {
     undefined,
     (): Memo[] => {
       const memosItem = localStorage.getItem("memos");
-      const localStorageMemos: Memo[] = memosItem
-        ? JSON.parse(memosItem)
-        : [];
+      const localStorageMemos: Memo[] = memosItem ? JSON.parse(memosItem) : [];
 
       return [
         ...localStorageMemos,
