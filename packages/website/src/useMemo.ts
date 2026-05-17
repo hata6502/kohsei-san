@@ -25,6 +25,9 @@ export const createMemo = (): Memo => ({
   updatedAt: new Date().toISOString(),
 });
 
+export const getMemoTitle = (memo: Memo) =>
+  memo.text.trim().split("\n")[0] || "(空のメモ)";
+
 export type MemosAction = (prevMemo: Memo[]) => Memo[];
 
 export type DispatchSetting = (

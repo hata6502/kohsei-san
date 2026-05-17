@@ -12,7 +12,7 @@ import HelpIcon from "@mui/icons-material/Help";
 import HomeIcon from "@mui/icons-material/Home";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import { createMemo } from "./useMemo";
+import { createMemo, getMemoTitle } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
 const DrawerContainer = styled("div")({
@@ -88,13 +88,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
           </ListItemButton>
         </ListItem>
 
-        {memos.map(({ id, result, text }) => (
-          <ListItem disablePadding key={id}>
+        {memos.map((memo) => (
+          <ListItem disablePadding key={memo.id}>
             <ListItemButton
-              onClick={() => handleMemoClick(id)}
-              selected={id === memoId}
+              onClick={() => handleMemoClick(memo.id)}
+              selected={memo.id === memoId}
             >
-              <MemoText primary={text.trim() || "(空のメモ)"} />
+              <MemoText primary={getMemoTitle(memo)} />
             </ListItemButton>
           </ListItem>
         ))}

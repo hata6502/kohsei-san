@@ -119,7 +119,7 @@ export const MemoActions: React.FunctionComponent<{
         <Card>
           <CardContent>
             {chatEnabled ? (
-              <Chat memo={memo} dispatchMemos={dispatchMemos} />
+              <Chat dispatchMemos={dispatchMemos} memo={memo} memos={memos} />
             ) : (
               <Stack alignItems="center" spacing={2}>
                 <img

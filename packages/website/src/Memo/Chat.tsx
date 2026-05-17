@@ -5,12 +5,23 @@ import type { ChatKitOptions } from "@openai/chatkit-react";
 import { z } from "zod";
 
 import type { ProofreadingMessage } from "../lintWorker";
+import { getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 
 const toolCallSchema = z.union([
   z.object({
     name: z.literal("get_memo"),
     params: z.object({}),
+  }),
+  z.object({
+    name: z.literal("list_other_memos"),
+    params: z.object({}),
+  }),
+  z.object({
+    name: z.literal("get_other_memos"),
+    params: z.object({
+      ids: z.array(z.string()),
+    }),
   }),
   z.object({
     name: z.literal("set_ai_lint_messages"),
@@ -40,8 +51,9 @@ window.printToolSchema = () =>
 
 export const Chat: FunctionComponent<{
   memo: Memo;
+  memos: Memo[];
   dispatchMemos: Dispatch<MemosAction>;
-}> = ({ memo, dispatchMemos }) => {
+}> = ({ memo, memos, dispatchMemos }) => {
   const handleClientTool: NonNullable<ChatKitOptions["onClientTool"]> = (
     toolCall,
   ) => {
@@ -52,6 +64,36 @@ export const Chat: FunctionComponent<{
       switch (name) {
         case "get_memo": {
           return { result: memo.result, text: memo.text };
+        }
+
+        case "list_other_memos": {
+          return {
+            memos: memos
+              .filter(({ id }) => id !== memo.id)
+              .map((memo) => ({
+                id: memo.id,
+                title: getMemoTitle(memo),
+                updatedAt: memo.updatedAt,
+              })),
+          };
+        }
+
+        case "get_other_memos": {
+          return {
+            memos: params.ids.map((id) => {
+              const otherMemo = memos.find(
+                (otherMemo) => otherMemo.id === id && otherMemo.id !== memo.id,
+              );
+              if (!otherMemo) {
+                throw new Error(`Unknown other memo id: ${id}`);
+              }
+
+              return {
+                id: otherMemo.id,
+                text: otherMemo.text,
+              };
+            }),
+          };
         }
 
         case "set_ai_lint_messages": {
@@ -207,8 +249,12 @@ ${memo.text}
           prompt: "文章全体を校閲して",
         },
         {
-          label: "AIやコピーライティングのような飾りっぽい表現を見直して",
-          prompt: "AIやコピーライティングのような飾りっぽい表現を見直して",
+          label: "他のメモとのズレを探して",
+          prompt: "他のメモとのズレを探して",
+        },
+        {
+          label: "飾りっぽい表現を見直して",
+          prompt: "飾りっぽい表現を見直して",
         },
         {
           label: "機密情報を伏せ字に置換して",
