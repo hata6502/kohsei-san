@@ -93,6 +93,7 @@ export const TextContainer: React.FunctionComponent<{
           text,
         }),
         text,
+        updatedAt: new Date().toISOString(),
       };
 
       const memos = [...prevMemos];

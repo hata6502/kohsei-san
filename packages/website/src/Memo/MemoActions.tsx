@@ -15,7 +15,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useDispatchSetting } from "../useMemo";
+import { createMemo, useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 import { Chat } from "./Chat";
 import { SettingDialog } from "./SettingDialog";
@@ -53,13 +53,13 @@ export const MemoActions: React.FunctionComponent<{
   };
 
   const handleCopyButtonClick = () => {
-    const id = crypto.randomUUID();
+    const { result, setting, text } = memo;
+    const copiedMemo = { ...createMemo(), result, setting, text };
 
-    dispatchMemos((prevMemos) => [{ ...memo, id }, ...prevMemos]);
-
+    dispatchMemos((prevMemos) => [copiedMemo, ...prevMemos]);
     dispatchIsCopiedSnackbarOpen(true);
     dispatchIsSidebarOpen(true);
-    dispatchMemoId(id);
+    dispatchMemoId(copiedMemo.id);
   };
 
   const handleDeleteButtonClick = () => {

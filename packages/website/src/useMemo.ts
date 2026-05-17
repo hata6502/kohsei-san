@@ -10,22 +10,19 @@ export interface Setting {
   };
 }
 
-export const initialSetting: Setting = {
-  mode: "standard",
-  lintOption: {},
-};
-
 export interface Memo {
   id: string;
   result?: ProofreadingResult;
   setting: Setting;
   text: string;
+  updatedAt?: string;
 }
 
 export const createMemo = (): Memo => ({
   id: crypto.randomUUID(),
-  setting: initialSetting,
+  setting: { mode: "standard", lintOption: {} },
   text: "",
+  updatedAt: new Date().toISOString(),
 });
 
 export type MemosAction = (prevMemo: Memo[]) => Memo[];
@@ -84,8 +81,7 @@ export const useMemo = (): {
         ...(isShared
           ? [
               {
-                id: crypto.randomUUID(),
-                setting: initialSetting,
+                ...createMemo(),
                 text: [
                   ...(titleParam ? [titleParam] : []),
                   ...(textParam ? [textParam] : []),
