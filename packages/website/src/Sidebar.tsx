@@ -10,7 +10,6 @@ import DifferenceIcon from "@mui/icons-material/Difference";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
 import HomeIcon from "@mui/icons-material/Home";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import { createMemo, getMemoTitle } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
@@ -158,22 +157,6 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
       <Divider />
 
       <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            component="a"
-            href="https://mojimage.hata6502.com/"
-            rel="noreferrer"
-            sx={{ color: "inherit" }}
-            target="_blank"
-          >
-            <ListItemIcon>
-              <ImageSearchIcon />
-            </ListItemIcon>
-
-            <ListItemText primary="Mojimageアクセシブル画像埋め込みツール" />
-          </ListItemButton>
-        </ListItem>
-
         <ListItem disablePadding>
           <ListItemButton
             component="a"
