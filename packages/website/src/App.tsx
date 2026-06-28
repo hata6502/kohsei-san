@@ -25,6 +25,11 @@ const Title = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(1),
 }));
 
+const KohseiSanAlert = styled(Alert)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  padding: theme.spacing(0, 1),
+}));
+
 const ToolbarOffset = styled("div")(({ theme }) => ({
   minHeight: 64,
   [theme.breakpoints.down("sm")]: {
@@ -51,7 +56,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     false,
   );
 
-  const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
+  const [, dispatchIsLintingHeavy] = useReducer(
     (_: boolean, action: boolean) => action,
     false,
   );
@@ -89,13 +94,18 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
             <img alt="" src="favicon.png" style={{ width: 48 }} />
           )}
 
-          <Title variant="h6">
-            {isLinting
-              ? isLintingHeavy
-                ? "お待ちください…"
-                : "校正中…"
-              : "校正さん"}
-          </Title>
+          <Title variant="h6">校正さん</Title>
+
+          {memo?.result &&
+            (memo.result.messages.length ? (
+              <KohseiSanAlert key="message" severity="info">
+                見直し箇所{memo.result.messages.length}件
+              </KohseiSanAlert>
+            ) : (
+              <KohseiSanAlert key="success" severity="success">
+                見直し箇所なし
+              </KohseiSanAlert>
+            ))}
         </Toolbar>
       </AppBar>
 

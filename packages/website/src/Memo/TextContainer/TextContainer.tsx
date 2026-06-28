@@ -12,7 +12,6 @@ import Popover from "@mui/material/Popover";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
-import Alert from "@mui/material/Alert";
 import { diffChars } from "diff";
 import type {
   ProofreadingMessage,
@@ -206,20 +205,6 @@ export const TextContainer: React.FunctionComponent<{
 
   return (
     <>
-      {!memo.text ? (
-        <Alert key="waiting" severity="info">
-          校正する文章を入力してください
-        </Alert>
-      ) : !memo.result ? undefined : memo.result.messages.length ? (
-        <Alert key="message" severity="info">
-          {memo.result.messages.length}件の見直し箇所があります
-        </Alert>
-      ) : (
-        <Alert key="success" severity="success">
-          お疲れさまでした！見直し箇所はありません
-        </Alert>
-      )}
-
       <Box mt={1}>
         <Box
           ref={textBoxRef}
