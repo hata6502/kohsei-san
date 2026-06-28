@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import type {
   LintWorkerLintMessage,
   LintWorkerResultMessage,
+  ProofreadingMessage,
 } from "../lintWorker";
 import type { Memo, MemosAction } from "../useMemo";
 import { TextContainer } from "./TextContainer";
@@ -19,6 +20,8 @@ export const Edit: React.FunctionComponent<{
   lintWorker: Worker;
   memo: Memo;
   memos: Memo[];
+  proofreadingPopoverIndex: ProofreadingMessage["index"] | null;
+  onProofreadingPopoverOpen: () => void;
 }> = ({
   dispatchIsLinting,
   dispatchIsLintingHeavy,
@@ -27,6 +30,8 @@ export const Edit: React.FunctionComponent<{
   lintWorker,
   memo,
   memos,
+  proofreadingPopoverIndex,
+  onProofreadingPopoverOpen,
 }) => {
   useEffect(
     () => () => {
@@ -144,6 +149,8 @@ export const Edit: React.FunctionComponent<{
             dispatchIsLinting={dispatchIsLinting}
             dispatchMemos={dispatchMemos}
             memo={memo}
+            proofreadingPopoverIndex={proofreadingPopoverIndex}
+            onProofreadingPopoverOpen={onProofreadingPopoverOpen}
           />
         </Container>
       </Box>

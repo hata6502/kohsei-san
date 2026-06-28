@@ -9,15 +9,21 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import ChatIcon from "@mui/icons-material/Chat";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
+import type { ProofreadingMessage } from "../lintWorker";
 import { createMemo, useDispatchSetting } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 import { Chat } from "./Chat";
+import { getLintMessages, getMessageSnippet } from "./proofreadingMessages";
+import type { LintMessage } from "./proofreadingMessages";
 import { SettingDialog } from "./SettingDialog";
 
 export const MemoActions: React.FunctionComponent<{
@@ -28,6 +34,11 @@ export const MemoActions: React.FunctionComponent<{
   dispatchMemos: React.Dispatch<MemosAction>;
   memo: Memo;
   memos: Memo[];
+  onProofreadingDetailOpen: ({
+    index,
+  }: {
+    index: ProofreadingMessage["index"];
+  }) => void;
 }> = ({
   chatEnabled,
   dispatchIsCopiedSnackbarOpen,
@@ -36,6 +47,7 @@ export const MemoActions: React.FunctionComponent<{
   dispatchMemos,
   memo,
   memos,
+  onProofreadingDetailOpen,
 }) => {
   const [isSettingDialogOpen, setIsSettingDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -115,6 +127,11 @@ export const MemoActions: React.FunctionComponent<{
         </CardContent>
       </Card>
 
+      <ProofreadingMessagesCard
+        memo={memo}
+        onProofreadingDetailOpen={onProofreadingDetailOpen}
+      />
+
       {navigator.onLine && (
         <Card>
           <CardContent>
@@ -176,5 +193,89 @@ export const MemoActions: React.FunctionComponent<{
         </DialogActions>
       </Dialog>
     </Stack>
+  );
+};
+
+const ProofreadingMessagesCard: React.FunctionComponent<{
+  memo: Memo;
+  onProofreadingDetailOpen: ({
+    index,
+  }: {
+    index: ProofreadingMessage["index"];
+  }) => void;
+}> = ({ memo, onProofreadingDetailOpen }) => {
+  const lintMessages = getLintMessages(memo.result?.messages ?? []);
+  if (!lintMessages.length) {
+    return;
+  }
+
+  return (
+    <Card>
+      <CardContent>
+        <Stack spacing={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: "center",
+            }}
+          >
+            <Typography component="h2" variant="h6">
+              見直し箇所
+            </Typography>
+          </Stack>
+
+          <List disablePadding>
+            {lintMessages.map((lintMessage) => (
+              <ProofreadingMessagesCardItem
+                key={lintMessage.index}
+                lintMessage={lintMessage}
+                onProofreadingDetailOpen={onProofreadingDetailOpen}
+                text={memo.text}
+              />
+            ))}
+          </List>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
+
+const ProofreadingMessagesCardItem: React.FunctionComponent<{
+  lintMessage: LintMessage;
+  onProofreadingDetailOpen: ({
+    index,
+  }: {
+    index: ProofreadingMessage["index"];
+  }) => void;
+  text: string;
+}> = ({ lintMessage, onProofreadingDetailOpen, text }) => {
+  const { afterText, beforeText, targetText } = getMessageSnippet({
+    lintMessage,
+    text,
+  });
+
+  const handleDetailButtonClick = () => {
+    onProofreadingDetailOpen({ index: lintMessage.index });
+  };
+
+  return (
+    <ListItem
+      disableGutters
+      divider
+      secondaryAction={
+        <Button size="small" onClick={handleDetailButtonClick}>
+          詳しく表示する
+        </Button>
+      }
+    >
+      <ListItemText
+        primary={
+          <Typography component="span" variant="body2">
+            {beforeText}「{targetText}」{afterText}
+          </Typography>
+        }
+      />
+    </ListItem>
   );
 };

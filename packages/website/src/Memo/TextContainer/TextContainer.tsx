@@ -1,31 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
+import type { Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
 import Popover from "@mui/material/Popover";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
-import Alert from "@mui/material/Alert";
 import { diffChars } from "diff";
-import type {
-  ProofreadingMessage,
-  ProofreadingMessageFix,
-  ProofreadingResult,
-} from "../../lintWorker";
+import type { ProofreadingMessage, ProofreadingResult } from "../../lintWorker";
 import type { Memo, MemosAction } from "../../useMemo";
+import { getLintMessages } from "../proofreadingMessages";
+import type { LintMessage } from "../proofreadingMessages";
 import { PinIcon } from "./PinIcon";
-
-interface LintMessage {
-  index: ProofreadingMessage["index"];
-  messages: ProofreadingMessage[];
-}
 
 interface Pin {
   left: React.CSSProperties["left"];
@@ -33,11 +26,42 @@ interface Pin {
   top: React.CSSProperties["top"];
 }
 
-const Content = styled("div")(({ theme }) => ({
-  outline: 0,
+const textContentStyle = ({ theme }: { theme: Theme }) => ({
+  boxSizing: "border-box" as const,
+  font: "inherit",
+  fontWeight: 400,
+  lineHeight: "inherit",
   padding: theme.spacing(2),
-  wordBreak: "break-all",
+  whiteSpace: "pre-wrap" as const,
+  width: "100%",
+  wordBreak: "break-all" as const,
+});
+
+const Content = styled(TextareaAutosize)(({ theme }) => ({
+  ...textContentStyle({ theme }),
+  background: "transparent",
+  border: 0,
+  color: "inherit",
+  display: "block",
+  outline: 0,
+  overflow: "hidden",
+  resize: "none",
 }));
+
+const Mirror = styled("div")(({ theme }) => ({
+  ...textContentStyle({ theme }),
+  inset: 0,
+  pointerEvents: "none",
+  position: "absolute",
+  visibility: "hidden",
+}));
+
+const MirrorMarker = styled("span")({
+  display: "inline-block",
+  height: "1em",
+  verticalAlign: "top",
+  width: 0,
+});
 
 const MessagePopover = styled(Popover)({
   wordBreak: "break-word",
@@ -56,8 +80,17 @@ export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
   memo: Memo;
-}> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
+  proofreadingPopoverIndex: ProofreadingMessage["index"] | null;
+  onProofreadingPopoverOpen: () => void;
+}> = ({
+  dispatchIsLinting,
+  dispatchMemos,
+  memo,
+  proofreadingPopoverIndex,
+  onProofreadingPopoverOpen,
+}) => {
   const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
+  const [draftText, setDraftText] = useState(memo.text);
   const [pins, setPins] = useState<Pin[]>([]);
 
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
@@ -67,24 +100,33 @@ export const TextContainer: React.FunctionComponent<{
     LintMessage["messages"]
   >([]);
 
-  const textRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
   const textBoxRef = useRef<HTMLDivElement | null>(null);
+  const mirrorRef = useRef<HTMLDivElement | null>(null);
+  const pinTargetsRef = useRef(
+    new Map<ProofreadingMessage["index"], HTMLButtonElement>(),
+  );
+
+  const lintMessages = useMemo(
+    () => getLintMessages(memo.result?.messages ?? []),
+    [memo.result?.messages],
+  );
 
   const memoID = memo.id;
   const dispatchText = (action?: (prevText: string) => string) => {
     dispatchMemos((prevMemos) => {
-      if (!textRef.current) {
-        throw new Error("textRef.current is not defined");
-      }
-
       const memoIndex = prevMemos.findIndex(
         (prevMemo) => prevMemo.id === memoID,
       );
+      if (memoIndex < 0) {
+        return prevMemos;
+      }
+
       const prevMemo = prevMemos[memoIndex];
 
       const text = action
         ? action(prevMemo.text)
-        : removeExtraNewLine(textRef.current.innerText);
+        : removeExtraNewLine(textRef.current?.value ?? draftText);
       const memo = {
         ...prevMemo,
         result: diffResult({
@@ -115,44 +157,25 @@ export const TextContainer: React.FunctionComponent<{
   }, [dispatchText]);
 
   useEffect(() => {
-    // Undo できるようにする。
-    if (!textRef.current || textRef.current.innerText === memo.text) {
-      return;
-    }
-
-    textRef.current.innerText = memo.text;
+    setDraftText(memo.text);
   }, [memo.text]);
 
   useEffect(() => {
     if (!memo.result) {
+      setPins([]);
       return;
     }
 
     try {
-      if (!textRef.current || !textBoxRef.current) {
-        throw new Error("textRef.current or textBoxRef.current is not defined");
+      if (!mirrorRef.current || !textBoxRef.current) {
+        throw new Error(
+          "mirrorRef.current or textBoxRef.current is not defined",
+        );
       }
 
-      const mergedMessages: LintMessage[] = [];
-
-      memo.result.messages.forEach((message) => {
-        const duplicatedMessage = mergedMessages.find(
-          ({ index }) => index === message.index,
-        );
-
-        if (duplicatedMessage) {
-          duplicatedMessage.messages.push(message);
-        } else {
-          mergedMessages.push({
-            ...message,
-            messages: [message],
-          });
-        }
-      });
-
       const getPinsResult = getPins({
-        lintMessages: mergedMessages,
-        text: textRef.current,
+        lintMessages,
+        mirror: mirrorRef.current,
         textBoxRect: textBoxRef.current.getBoundingClientRect(),
       });
 
@@ -166,9 +189,39 @@ export const TextContainer: React.FunctionComponent<{
     } finally {
       dispatchIsLinting(false);
     }
-  }, [dispatchIsLinting, memo.result, memo.text]);
+  }, [dispatchIsLinting, lintMessages, memo.result, memo.text]);
 
   const isPopoverOpen = Boolean(popoverAnchorEl);
+
+  useEffect(() => {
+    if (proofreadingPopoverIndex === null || isTextContainerFocused) {
+      return;
+    }
+
+    const pin = pins.find(
+      ({ message }) => message.index === proofreadingPopoverIndex,
+    );
+    const anchorEl = pinTargetsRef.current.get(proofreadingPopoverIndex);
+    if (!pin || !anchorEl) {
+      return;
+    }
+
+    anchorEl.scrollIntoView({
+      block: "center",
+      inline: "nearest",
+    });
+
+    requestAnimationFrame(() => {
+      setPopoverAnchorEl(anchorEl);
+      setPopoverMessages(pin.message.messages);
+      onProofreadingPopoverOpen();
+    });
+  }, [
+    isTextContainerFocused,
+    onProofreadingPopoverOpen,
+    pins,
+    proofreadingPopoverIndex,
+  ]);
 
   const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
     dispatchText((prevText) => {
@@ -194,6 +247,12 @@ export const TextContainer: React.FunctionComponent<{
     setPopoverAnchorEl(null);
   };
 
+  const handleTextContainerChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setDraftText(event.target.value);
+  };
+
   const handleTextContainerBlur = () => {
     setIsTextContainerFocused(false);
     dispatchText();
@@ -205,20 +264,6 @@ export const TextContainer: React.FunctionComponent<{
 
   return (
     <>
-      {!memo.text ? (
-        <Alert key="waiting" severity="info">
-          校正する文章を入力してください
-        </Alert>
-      ) : !memo.result ? undefined : memo.result.messages.length ? (
-        <Alert key="message" severity="info">
-          {memo.result.messages.length}件の見直し箇所があります
-        </Alert>
-      ) : (
-        <Alert key="success" severity="success">
-          お疲れさまでした！見直し箇所はありません
-        </Alert>
-      )}
-
       <Box mt={1}>
         <Box
           ref={textBoxRef}
@@ -232,11 +277,21 @@ export const TextContainer: React.FunctionComponent<{
         >
           <Typography component="div" variant="body1">
             <Content
-              contentEditable="plaintext-only"
+              aria-label="校正する文章"
+              minRows={1}
               onBlur={handleTextContainerBlur}
+              onChange={handleTextContainerChange}
               onFocus={handleTextContainerFocus}
-              ref={textRef}
+              ref={(element: Element | null) => {
+                textRef.current =
+                  element instanceof HTMLTextAreaElement ? element : null;
+              }}
+              value={draftText}
             />
+
+            <Mirror ref={mirrorRef} aria-hidden>
+              {getMirrorContent({ lintMessages, text: memo.text })}
+            </Mirror>
           </Typography>
 
           {!isTextContainerFocused &&
@@ -249,6 +304,13 @@ export const TextContainer: React.FunctionComponent<{
                 <PinTarget
                   key={message.index}
                   type="button"
+                  ref={(element) => {
+                    if (element) {
+                      pinTargetsRef.current.set(message.index, element);
+                    } else {
+                      pinTargetsRef.current.delete(message.index);
+                    }
+                  }}
                   onClick={(event) => handlePinClick(event, message.messages)}
                   aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
                   role="alert"
@@ -277,52 +339,12 @@ export const TextContainer: React.FunctionComponent<{
         <Container maxWidth="sm">
           <List>
             {popoverMessages.map((message, index) => {
-              const fixPreview = message.fix
-                ? getFixPreview({ fix: message.fix, text: memo.text })
-                : undefined;
-
               return (
                 <ListItem key={index}>
-                  <ListItemText
-                    primary={message.message}
-                    secondary={
-                      fixPreview && (
-                        <Box
-                          component="span"
-                          sx={{ display: "block", mt: 0.5 }}
-                        >
-                          <Typography
-                            color="text.secondary"
-                            component="div"
-                            variant="caption"
-                          >
-                            修正前: {fixPreview.beforeText}
-                          </Typography>
-                          <Typography
-                            color="text.secondary"
-                            component="div"
-                            variant="caption"
-                          >
-                            修正後: {fixPreview.afterText}
-                          </Typography>
-                        </Box>
-                      )
-                    }
-                    secondaryTypographyProps={{ component: "div" }}
+                  <ProofreadingMessageDetail
+                    message={message}
+                    onFix={handleFixClick}
                   />
-
-                  <ListItemSecondaryAction>
-                    {message.fix && (
-                      <Tooltip title="自動修正">
-                        <IconButton
-                          edge="end"
-                          onClick={() => handleFixClick({ message })}
-                        >
-                          <SpellcheckIcon />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                  </ListItemSecondaryAction>
                 </ListItem>
               );
             })}
@@ -333,18 +355,68 @@ export const TextContainer: React.FunctionComponent<{
   );
 };
 
+const ProofreadingMessageDetail: React.FunctionComponent<{
+  message: ProofreadingMessage;
+  onFix: ({ message }: { message: ProofreadingMessage }) => void;
+}> = ({ message, onFix }) => {
+  const handleFixButtonClick = () => {
+    onFix({ message });
+  };
+
+  return (
+    <Box
+      sx={{
+        alignItems: "start",
+        display: "grid",
+        gap: 1,
+        gridTemplateColumns: "1fr auto",
+        width: "100%",
+      }}
+    >
+      <ListItemText
+        primary={message.message}
+        secondaryTypographyProps={{ component: "div" }}
+      />
+
+      {message.fix && (
+        <Tooltip title="自動修正">
+          <IconButton edge="end" onClick={handleFixButtonClick}>
+            <SpellcheckIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Box>
+  );
+};
+
 const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
-const getFixPreview = ({
-  fix,
+const getMirrorContent = ({
+  lintMessages,
   text,
 }: {
-  fix: ProofreadingMessageFix;
+  lintMessages: LintMessage[];
   text: string;
-}) => ({
-  afterText: fix.text || "（なし）",
-  beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
-});
+}) => {
+  const children: React.ReactNode[] = [];
+  let offset = 0;
+
+  lintMessages.forEach((lintMessage) => {
+    const index = Math.min(Math.max(lintMessage.index, 0), text.length);
+    children.push(text.slice(offset, index));
+    children.push(
+      <MirrorMarker
+        data-lint-message-index={lintMessage.index}
+        key={lintMessage.index}
+      />,
+    );
+    offset = index;
+  });
+
+  children.push(text.slice(offset), " ");
+
+  return children;
+};
 
 const diffResult = ({
   result,
@@ -413,53 +485,31 @@ const diffResult = ({
 
 const getPins = ({
   lintMessages,
-  text,
+  mirror,
   textBoxRect,
 }: {
   lintMessages: LintMessage[];
-  text: HTMLDivElement;
+  mirror: HTMLDivElement;
   textBoxRect: DOMRect;
 }) => {
   const pins: Pin[] = [];
-  const range = document.createRange();
 
   for (const lintMessage of lintMessages) {
-    let childNodesIndex = 0;
-    let offset = lintMessage.index;
-
-    for (
-      childNodesIndex = 0;
-      childNodesIndex < text.childNodes.length;
-      childNodesIndex += 1
-    ) {
-      const child = text.childNodes[childNodesIndex];
-      const length =
-        (child instanceof HTMLBRElement && 1) ||
-        (child instanceof Text && child.length);
-
-      if (typeof length !== "number") {
-        return { reject: new Error("child.length is not defined") };
-      }
-
-      if (offset < length) {
-        range.setStart(child, offset);
-
-        break;
-      }
-
-      offset -= length;
+    const marker = mirror.querySelector(
+      `[data-lint-message-index="${lintMessage.index}"]`,
+    );
+    if (!marker) {
+      return {
+        reject: new Error(`marker not found: ${lintMessage.index}`),
+      };
     }
 
-    if (childNodesIndex >= text.childNodes.length) {
-      return { reject: new Error("childNodesIndex >= text.childNodes.length") };
-    }
-
-    const rangeRect = range.getBoundingClientRect();
+    const markerRect = marker.getBoundingClientRect();
 
     pins.push({
-      left: rangeRect.left - textBoxRect.left - 8,
+      left: markerRect.left - textBoxRect.left - 8,
       message: lintMessage,
-      top: rangeRect.top - textBoxRect.top + 8,
+      top: markerRect.top - textBoxRect.top + 8,
     });
   }
 

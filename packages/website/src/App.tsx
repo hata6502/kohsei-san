@@ -11,6 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
+import type { ProofreadingMessage } from "./lintWorker";
 import { Edit, MemoActions } from "./Memo";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
@@ -23,6 +24,26 @@ const MemoContainer = styled(Container)(({ theme }) => ({
 
 const Title = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(1),
+}));
+
+const ProofreadingAlert = styled(Alert)(({ theme }) => ({
+  alignItems: "center",
+  marginLeft: theme.spacing(1),
+  maxWidth: "min(34vw, 160px)",
+  whiteSpace: "nowrap",
+  "&&": {
+    padding: theme.spacing(0.5, 1),
+  },
+  "& .MuiAlert-icon": {
+    fontSize: 18,
+    marginRight: theme.spacing(0.5),
+    padding: 0,
+  },
+  "& .MuiAlert-message": {
+    overflow: "hidden",
+    padding: 0,
+    textOverflow: "ellipsis",
+  },
 }));
 
 const ToolbarOffset = styled("div")(({ theme }) => ({
@@ -51,11 +72,14 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     false,
   );
 
-  const [isLintingHeavy, dispatchIsLintingHeavy] = useReducer(
+  const [, dispatchIsLintingHeavy] = useReducer(
     (_: boolean, action: boolean) => action,
     false,
   );
 
+  const [proofreadingPopoverIndex, setProofreadingPopoverIndex] = useState<
+    ProofreadingMessage["index"] | null
+  >(null);
   const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
   const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
 
@@ -73,7 +97,30 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     dispatchIsCopiedSnackbarOpen(false);
   };
 
+  const handleProofreadingDetailOpen = ({
+    index,
+  }: {
+    index: ProofreadingMessage["index"];
+  }) => {
+    setProofreadingPopoverIndex(index);
+  };
+
+  const handleProofreadingPopoverOpen = () => {
+    setProofreadingPopoverIndex(null);
+  };
+
   const memo = memos.find(({ id }) => id === memoId);
+  const proofreadingAlert =
+    memo?.result &&
+    (memo.result.messages.length ? (
+      <ProofreadingAlert key="message" role="alert" severity="info">
+        見直し{memo.result.messages.length}件
+      </ProofreadingAlert>
+    ) : (
+      <ProofreadingAlert key="success" role="alert" severity="success">
+        見直しなし
+      </ProofreadingAlert>
+    ));
 
   return (
     <div>
@@ -89,13 +136,9 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
             <img alt="" src="favicon.png" style={{ width: 48 }} />
           )}
 
-          <Title variant="h6">
-            {isLinting
-              ? isLintingHeavy
-                ? "お待ちください…"
-                : "校正中…"
-              : "校正さん"}
-          </Title>
+          <Title variant="h6">校正さん</Title>
+
+          {proofreadingAlert}
         </Toolbar>
       </AppBar>
 
@@ -130,10 +173,25 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                   lintWorker={lintWorker}
                   memo={memo}
                   memos={memos}
+                  proofreadingPopoverIndex={proofreadingPopoverIndex}
+                  onProofreadingPopoverOpen={handleProofreadingPopoverOpen}
                 />
               </Grid>
 
-              <Grid item position="sticky" top={64} xs={12} sm={12} md={4}>
+              <Grid
+                item
+                position="sticky"
+                top={64}
+                xs={12}
+                sm={12}
+                md={4}
+                sx={{
+                  maxHeight: { md: "calc(100dvh - 80px)" },
+                  overflowY: { md: "auto" },
+                  overscrollBehavior: { md: "contain" },
+                  scrollbarGutter: { md: "stable" },
+                }}
+              >
                 <MemoActions
                   dispatchIsCopiedSnackbarOpen={dispatchIsCopiedSnackbarOpen}
                   dispatchIsSidebarOpen={dispatchIsSidebarOpen}
@@ -142,6 +200,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                   chatEnabled={chatEnabled}
                   memo={memo}
                   memos={memos}
+                  onProofreadingDetailOpen={handleProofreadingDetailOpen}
                 />
               </Grid>
             </Grid>
