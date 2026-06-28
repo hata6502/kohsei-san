@@ -158,20 +158,20 @@ export const Chat: FunctionComponent<{
           if (errors.length > 0) {
             throw new Error(
               `
-                    Validation failed.
-                    Please retry set_ai_lint_messages with correct 1-based line and column values.
+                Validation failed.
+                Please retry set_ai_lint_messages with correct 1-based line and column values.
 
-                    ${errors.join("\n")}
+                ${errors.join("\n")}
 
-                    Full text for reference:
-${memo.text}
-                  `,
+                Full text for reference:
+                ${memo.text}
+              `,
             );
           }
 
           dispatchMemos((prevMemos) =>
             prevMemos.map((prevMemo) => {
-              if (prevMemo.id !== memo.id || !prevMemo.result) {
+              if (prevMemo.id !== memo.id) {
                 return prevMemo;
               }
 
@@ -180,9 +180,9 @@ ${memo.text}
                 result: {
                   ...prevMemo.result,
                   messages: [
-                    ...prevMemo.result.messages.filter(
+                    ...(prevMemo.result?.messages.filter(
                       (message) => message.ruleId !== "ai",
-                    ),
+                    ) ?? []),
                     ...aiMessages,
                   ],
                 },
