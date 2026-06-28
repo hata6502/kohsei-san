@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import type { ChangeEventHandler, MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
+import type { Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -9,6 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
 import Popover from "@mui/material/Popover";
+import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
@@ -27,17 +29,23 @@ interface LintMessage {
 }
 
 interface Pin {
+  top: React.CSSProperties["top"];
   left: React.CSSProperties["left"];
   message: LintMessage;
-  top: React.CSSProperties["top"];
 }
 
-const Content = styled("div")(({ theme }) => ({
-  fontWeight: 400,
-  outline: 0,
-  padding: theme.spacing(2),
+const MirrorTextarea = styled("div")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  visibility: "hidden",
+  boxSizing: "border-box",
+  padding: "16px 14px",
+  width: "100%",
+  lineHeight: "23px",
+  whiteSpace: "pre-wrap",
   wordBreak: "break-all",
-}));
+});
 
 const MessagePopover = styled(Popover)({
   wordBreak: "break-word",
@@ -58,6 +66,7 @@ export const TextContainer: React.FunctionComponent<{
   memo: Memo;
 }> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
   const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
+  const [draftText, setDraftText] = useState(memo.text);
   const [pins, setPins] = useState<Pin[]>([]);
 
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
@@ -67,14 +76,15 @@ export const TextContainer: React.FunctionComponent<{
     LintMessage["messages"]
   >([]);
 
-  const textRef = useRef<HTMLDivElement | null>(null);
-  const textBoxRef = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const mirrorTextareaRef = useRef<HTMLDivElement | null>(null);
+  const textFieldRef = useRef<HTMLTextAreaElement | null>(null);
 
   const memoID = memo.id;
   const dispatchText = (action?: (prevText: string) => string) => {
     dispatchMemos((prevMemos) => {
-      if (!textRef.current) {
-        throw new Error("textRef.current is not defined");
+      if (!textFieldRef.current) {
+        throw new Error("textFieldRef.current is not defined");
       }
 
       const memoIndex = prevMemos.findIndex(
@@ -82,9 +92,7 @@ export const TextContainer: React.FunctionComponent<{
       );
       const prevMemo = prevMemos[memoIndex];
 
-      const text = action
-        ? action(prevMemo.text)
-        : removeExtraNewLine(textRef.current.innerText);
+      const text = action ? action(prevMemo.text) : textFieldRef.current.value;
       const memo = {
         ...prevMemo,
         result: diffResult({
@@ -116,11 +124,7 @@ export const TextContainer: React.FunctionComponent<{
 
   useEffect(() => {
     // Undo できるようにする。
-    if (!textRef.current || textRef.current.innerText === memo.text) {
-      return;
-    }
-
-    textRef.current.innerText = memo.text;
+    setDraftText(memo.text);
   }, [memo.text]);
 
   useEffect(() => {
@@ -129,9 +133,11 @@ export const TextContainer: React.FunctionComponent<{
     }
 
     try {
-      if (!textRef.current || !textBoxRef.current) {
-        throw new Error("textRef.current or textBoxRef.current is not defined");
+      if (!boxRef.current || !mirrorTextareaRef.current) {
+        throw new Error();
       }
+      const box = boxRef.current;
+      const mirrorTextarea = mirrorTextareaRef.current;
 
       const mergedMessages: LintMessage[] = [];
 
@@ -152,8 +158,8 @@ export const TextContainer: React.FunctionComponent<{
 
       const getPinsResult = getPins({
         lintMessages: mergedMessages,
-        text: textRef.current,
-        textBoxRect: textBoxRef.current.getBoundingClientRect(),
+        box,
+        mirrorTextarea,
       });
 
       if (getPinsResult.reject) {
@@ -194,57 +200,58 @@ export const TextContainer: React.FunctionComponent<{
     setPopoverAnchorEl(null);
   };
 
-  const handleTextContainerBlur = () => {
+  const handleTextFieldBlur = () => {
     setIsTextContainerFocused(false);
     dispatchText();
   };
 
-  const handleTextContainerFocus = () => {
+  const handleTextFieldChange: ChangeEventHandler<HTMLTextAreaElement> = (
+    event,
+  ) => {
+    setDraftText(event.target.value);
+  };
+
+  const handleTextFieldFocus = () => {
     setIsTextContainerFocused(true);
   };
 
   return (
     <>
-      <Box mt={1}>
-        <Box
-          ref={textBoxRef}
-          sx={{
-            position: "relative",
-            borderRadius: 1,
-            outlineColor: isTextContainerFocused ? "primary.main" : "grey.500",
-            outlineStyle: "solid",
-            outlineWidth: isTextContainerFocused ? 2 : 1,
-          }}
-        >
-          <Typography component="div" variant="body1">
-            <Content
-              contentEditable="plaintext-only"
-              onBlur={handleTextContainerBlur}
-              onFocus={handleTextContainerFocus}
-              ref={textRef}
-            />
-          </Typography>
+      <Box ref={boxRef} position="relative" mt={1}>
+        <TextField
+          inputRef={textFieldRef}
+          fullWidth
+          multiline
+          value={draftText}
+          onBlur={handleTextFieldBlur}
+          onChange={handleTextFieldChange}
+          onFocus={handleTextFieldFocus}
+          aria-label="校正する文章"
+        />
 
-          {!isTextContainerFocused &&
-            pins.map(({ left, message, top }) => {
-              const severity = Math.max(
-                ...message.messages.map((message) => message.severity),
-              );
+        <MirrorTextarea ref={mirrorTextareaRef} aria-hidden>
+          {draftText}
+        </MirrorTextarea>
 
-              return (
-                <PinTarget
-                  key={message.index}
-                  type="button"
-                  onClick={(event) => handlePinClick(event, message.messages)}
-                  aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
-                  role="alert"
-                  style={{ left, top }}
-                >
-                  <PinIcon severity={severity} />
-                </PinTarget>
-              );
-            })}
-        </Box>
+        {!isTextContainerFocused &&
+          pins.map(({ top, left, message }) => {
+            const severity = Math.max(
+              ...message.messages.map((message) => message.severity),
+            );
+
+            return (
+              <PinTarget
+                key={message.index}
+                type="button"
+                onClick={(event) => handlePinClick(event, message.messages)}
+                aria-label={`「${memo.text.slice(message.index, message.index + 10)}……」に対する見直しの詳細を開く`}
+                role="alert"
+                style={{ top, left }}
+              >
+                <PinIcon severity={severity} />
+              </PinTarget>
+            );
+          })}
       </Box>
 
       <MessagePopover
@@ -318,8 +325,6 @@ export const TextContainer: React.FunctionComponent<{
     </>
   );
 };
-
-const removeExtraNewLine = (text: string) => (text === "\n" ? "" : text);
 
 const getFixPreview = ({
   fix,
@@ -399,53 +404,34 @@ const diffResult = ({
 
 const getPins = ({
   lintMessages,
-  text,
-  textBoxRect,
+  box,
+  mirrorTextarea,
 }: {
   lintMessages: LintMessage[];
-  text: HTMLDivElement;
-  textBoxRect: DOMRect;
+  box: HTMLDivElement;
+  mirrorTextarea: HTMLDivElement;
 }) => {
-  const pins: Pin[] = [];
   const range = document.createRange();
+  const boxRect = box.getBoundingClientRect();
 
+  const textNode = mirrorTextarea.firstChild;
+  if (!(textNode instanceof Text)) {
+    return { reject: new Error("text.firstChild is not Text") };
+  }
+
+  const pins: Pin[] = [];
   for (const lintMessage of lintMessages) {
-    let childNodesIndex = 0;
-    let offset = lintMessage.index;
-
-    for (
-      childNodesIndex = 0;
-      childNodesIndex < text.childNodes.length;
-      childNodesIndex += 1
-    ) {
-      const child = text.childNodes[childNodesIndex];
-      const length =
-        (child instanceof HTMLBRElement && 1) ||
-        (child instanceof Text && child.length);
-
-      if (typeof length !== "number") {
-        return { reject: new Error("child.length is not defined") };
-      }
-
-      if (offset < length) {
-        range.setStart(child, offset);
-
-        break;
-      }
-
-      offset -= length;
+    if (lintMessage.index > textNode.length) {
+      return { reject: new Error("lintMessage.index > textNode.length") };
     }
 
-    if (childNodesIndex >= text.childNodes.length) {
-      return { reject: new Error("childNodesIndex >= text.childNodes.length") };
-    }
-
+    range.setStart(textNode, lintMessage.index);
     const rangeRect = range.getBoundingClientRect();
 
     pins.push({
-      left: rangeRect.left - textBoxRect.left - 8,
+      top: rangeRect.top - boxRect.top,
+      left: rangeRect.left - boxRect.left,
       message: lintMessage,
-      top: rangeRect.top - textBoxRect.top + 8,
     });
   }
 
