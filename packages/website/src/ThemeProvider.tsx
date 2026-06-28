@@ -26,6 +26,9 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
           typography: {
             fontFamily:
               '"Noto Sans CJK JP", "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "游ゴシック Medium", "Yu Gothic Medium", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontWeightRegular: 500,
+            fontWeightMedium: 600,
+            fontWeightBold: 700,
           },
         },
         jaJP,
