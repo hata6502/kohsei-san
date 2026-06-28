@@ -34,6 +34,7 @@ interface Pin {
 }
 
 const Content = styled("div")(({ theme }) => ({
+  fontWeight: 400,
   outline: 0,
   padding: theme.spacing(2),
   wordBreak: "break-all",
