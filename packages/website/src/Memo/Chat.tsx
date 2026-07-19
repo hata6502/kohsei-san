@@ -20,6 +20,42 @@ import type { ProofreadingMessage } from "../lintWorker";
 import { getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 
+const getMemoParameters = z.object({});
+type GetMemoParameters = z.infer<typeof getMemoParameters>;
+type GetMemoResult = Pick<Memo, "result" | "text">;
+
+const listOtherMemosParameters = z.object({});
+type ListOtherMemosParameters = z.infer<typeof listOtherMemosParameters>;
+interface ListOtherMemosResult {
+  memos: (Pick<Memo, "id" | "updatedAt"> & { title: string })[];
+}
+
+const getOtherMemosParameters = z.object({ ids: z.array(z.string()) });
+type GetOtherMemosParameters = z.infer<typeof getOtherMemosParameters>;
+interface GetOtherMemosResult {
+  memos: Pick<Memo, "id" | "text">[];
+}
+
+const setAILintMessagesParameters = z.object({
+  messages: z.array(
+    z.object({
+      line: z.number().min(1).describe("1-based line number"),
+      column: z.number().min(1).describe("1-based column number"),
+      text: z
+        .string()
+        .describe("Text at the line/column position, for validation"),
+      message: z.string(),
+      fix: z
+        .object({
+          text: z.string().describe("Replacement text for text"),
+        })
+        .nullable(),
+    }),
+  ),
+});
+type SetAILintMessagesParameters = z.infer<typeof setAILintMessagesParameters>;
+interface SetAILintMessagesResult {}
+
 export const Chat: FunctionComponent<{
   memo: Memo;
   memos: Memo[];
@@ -33,12 +69,154 @@ export const Chat: FunctionComponent<{
         get_memo: {
           type: "frontend",
           description: "文章を取得する",
-          parameters: z.object({}),
-          execute: () => ({ result: memo.result, text: memo.text }),
-          renderText: { complete: "文章を読みました" },
+          parameters: getMemoParameters,
+          execute: ({}: GetMemoParameters): GetMemoResult => ({
+            result: memo.result,
+            text: memo.text,
+          }),
+          renderText: { complete: "文章を読みました。" },
+        },
+        list_other_memos: {
+          type: "frontend",
+          description: "他のメモの一覧を取得する",
+          parameters: listOtherMemosParameters,
+          execute: ({}: ListOtherMemosParameters): ListOtherMemosResult => ({
+            memos: memos
+              .filter(({ id }) => id !== memo.id)
+              .map((memo) => ({
+                id: memo.id,
+                title: getMemoTitle(memo),
+                updatedAt: memo.updatedAt,
+              })),
+          }),
+          renderText: { complete: "メモの一覧を取得しました。" },
+        },
+        get_other_memos: {
+          type: "frontend",
+          description: "指定した他のメモの本文を取得する",
+          parameters: getOtherMemosParameters,
+          execute: ({ ids }: GetOtherMemosParameters): GetOtherMemosResult => ({
+            memos: ids.map((id) => {
+              const otherMemo = memos.find(
+                (otherMemo) => otherMemo.id === id && otherMemo.id !== memo.id,
+              );
+              if (!otherMemo) {
+                throw new Error(`Unknown other memo id: ${id}`);
+              }
+              return { id: otherMemo.id, text: otherMemo.text };
+            }),
+          }),
+          renderText: {
+            complete: ({ result }: { result: GetOtherMemosResult }) =>
+              `メモ${result.memos.map((memo) => `「${getMemoTitle(memo)}」`).join("")}を読みました。`,
+          },
+        },
+        set_ai_lint_messages: {
+          type: "frontend",
+          description: "AIによる見直し箇所をセットする",
+          parameters: setAILintMessagesParameters,
+          execute: ({
+            messages,
+          }: SetAILintMessagesParameters): SetAILintMessagesResult => {
+            const errors: string[] = [];
+
+            const aiMessages: ProofreadingMessage[] = messages.flatMap(
+              (message) => {
+                const lines = memo.text.split("\n");
+                const lineText = lines.at(message.line - 1);
+                if (lineText === undefined) {
+                  errors.push(
+                    `line ${message.line}: line out of range (1-${lines.length})`,
+                  );
+                  return [];
+                }
+
+                const graphemes = [
+                  ...new Intl.Segmenter().segment(lineText),
+                ].map(({ segment }) => segment);
+                if (message.column > graphemes.length + 1) {
+                  errors.push(
+                    `line ${message.line}, column ${message.column}: column out of range (1-${graphemes.length + 1})`,
+                  );
+                  return [];
+                }
+
+                const index =
+                  lines
+                    .slice(0, message.line - 1)
+                    .reduce((sum, line) => sum + line.length + 1, 0) +
+                  graphemes.slice(0, message.column - 1).join("").length;
+
+                const actual = memo.text.slice(
+                  index,
+                  index + message.text.length,
+                );
+
+                if (actual !== message.text) {
+                  errors.push(
+                    `line ${message.line}, column ${message.column}: expected "${message.text}" but found "${actual}"`,
+                  );
+                  return [];
+                }
+
+                return [
+                  {
+                    ruleId: "ai",
+                    message: message.message,
+                    index,
+                    severity: 0,
+                    ...(message.fix && {
+                      fix: {
+                        range: [index, index + message.text.length],
+                        text: message.fix.text,
+                      },
+                    }),
+                  },
+                ];
+              },
+            );
+
+            if (errors.length > 0) {
+              throw new Error(
+                `
+                  Validation failed.
+                  Please retry set_ai_lint_messages with correct 1-based line and column values.
+
+                  ${errors.join("\n")}
+
+                  Full text for reference:
+                  ${memo.text}
+                `,
+              );
+            }
+
+            dispatchMemos((prevMemos) =>
+              prevMemos.map((prevMemo) => {
+                if (prevMemo.id !== memo.id) {
+                  return prevMemo;
+                }
+
+                return {
+                  ...prevMemo,
+                  result: {
+                    ...prevMemo.result,
+                    messages: [
+                      ...(prevMemo.result?.messages.filter(
+                        (message) => message.ruleId !== "ai",
+                      ) ?? []),
+                      ...aiMessages,
+                    ],
+                  },
+                };
+              }),
+            );
+
+            return {};
+          },
+          renderText: { complete: "見直し箇所を表示しました。" },
         },
       }),
-    [memo.result, memo.text],
+    [memo.result, memo.text, memos],
   );
   const aui = useAui({ tools: Tools({ toolkit }) });
 
@@ -88,217 +266,8 @@ export const Chat: FunctionComponent<{
   );
 };
 
-/*const toolCallSchema = z.union([
-  z.object({
-  }),
-  z.object({
-    name: z.literal("list_other_memos"),
-    params: z.object({}),
-  }),
-  z.object({
-    name: z.literal("get_other_memos"),
-    params: z.object({
-      ids: z.array(z.string()),
-    }),
-  }),
-  z.object({
-    name: z.literal("set_ai_lint_messages"),
-    params: z.object({
-      messages: z.array(
-        z.object({
-          line: z.number().min(1).describe("1-based line number"),
-          column: z.number().min(1).describe("1-based column number"),
-          text: z
-            .string()
-            .describe("Text at the line/column position, for validation"),
-          message: z.string(),
-          fix: z
-            .object({
-              text: z.string().describe("Replacement text for text"),
-            })
-            .nullable(),
-        }),
-      ),
-    }),
-  }),
-]);
-
-export const Chat: FunctionComponent<{
-  memo: Memo;
-  memos: Memo[];
-  dispatchMemos: Dispatch<MemosAction>;
-}> = ({ memo, memos, dispatchMemos }) => {
-  const handleClientTool: NonNullable<ChatKitOptions["onClientTool"]> = (
-    toolCall,
-  ) => {
-    try {
-      console.log("onClientTool", toolCall);
-
-      const { name, params } = toolCallSchema.parse(toolCall);
-      switch (name) {
-        case "list_other_memos": {
-          return {
-            memos: memos
-              .filter(({ id }) => id !== memo.id)
-              .map((memo) => ({
-                id: memo.id,
-                title: getMemoTitle(memo),
-                updatedAt: memo.updatedAt,
-              })),
-          };
-        }
-
-        case "get_other_memos": {
-          return {
-            memos: params.ids.map((id) => {
-              const otherMemo = memos.find(
-                (otherMemo) => otherMemo.id === id && otherMemo.id !== memo.id,
-              );
-              if (!otherMemo) {
-                throw new Error(`Unknown other memo id: ${id}`);
-              }
-
-              return {
-                id: otherMemo.id,
-                text: otherMemo.text,
-              };
-            }),
-          };
-        }
-
-        case "set_ai_lint_messages": {
-          const errors: string[] = [];
-
-          const aiMessages: ProofreadingMessage[] = params.messages.flatMap(
-            (message) => {
-              const lines = memo.text.split("\n");
-              const lineText = lines.at(message.line - 1);
-              if (lineText === undefined) {
-                errors.push(
-                  `line ${message.line}: line out of range (1-${lines.length})`,
-                );
-                return [];
-              }
-
-              const graphemes = [...new Intl.Segmenter().segment(lineText)].map(
-                ({ segment }) => segment,
-              );
-              if (message.column > graphemes.length + 1) {
-                errors.push(
-                  `line ${message.line}, column ${message.column}: column out of range (1-${graphemes.length + 1})`,
-                );
-                return [];
-              }
-
-              const index =
-                lines
-                  .slice(0, message.line - 1)
-                  .reduce((sum, line) => sum + line.length + 1, 0) +
-                graphemes.slice(0, message.column - 1).join("").length;
-
-              const actual = memo.text.slice(
-                index,
-                index + message.text.length,
-              );
-
-              if (actual !== message.text) {
-                errors.push(
-                  `line ${message.line}, column ${message.column}: expected "${message.text}" but found "${actual}"`,
-                );
-                return [];
-              }
-
-              return [
-                {
-                  ruleId: "ai",
-                  message: message.message,
-                  index,
-                  severity: 0,
-                  ...(message.fix && {
-                    fix: {
-                      range: [index, index + message.text.length],
-                      text: message.fix.text,
-                    },
-                  }),
-                },
-              ];
-            },
-          );
-
-          if (errors.length > 0) {
-            throw new Error(
-              `
-                Validation failed.
-                Please retry set_ai_lint_messages with correct 1-based line and column values.
-
-                ${errors.join("\n")}
-
-                Full text for reference:
-                ${memo.text}
-              `,
-            );
-          }
-
-          dispatchMemos((prevMemos) =>
-            prevMemos.map((prevMemo) => {
-              if (prevMemo.id !== memo.id) {
-                return prevMemo;
-              }
-
-              return {
-                ...prevMemo,
-                result: {
-                  ...prevMemo.result,
-                  messages: [
-                    ...(prevMemo.result?.messages.filter(
-                      (message) => message.ruleId !== "ai",
-                    ) ?? []),
-                    ...aiMessages,
-                  ],
-                },
-              };
-            }),
-          );
-
-          return {};
-        }
-
-        default: {
-          throw new Error(`Unknown tool: ${name satisfies never}`);
-        }
-      }
-    } catch (exception) {
-      console.error(exception);
-
-      return { exception: String(exception) };
-    }
-  };
-
+/*
   const { control } = useChatKit({
-    api: {
-      getClientSecret: async () => {
-        const response = await fetch(
-          "https://chatkit-session-788918986145.us-central1.run.app/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userID: memo.id,
-            }),
-          },
-        );
-        if (!response.ok) {
-          throw new Error(
-            `Failed to create session: ${response.status} ${response.statusText}`,
-          );
-        }
-        const { clientSecret } = await response.json();
-
-        return clientSecret;
-      },
-    },
     composer: {
       attachments: { enabled: true },
       placeholder: "校正さんに相談する",
