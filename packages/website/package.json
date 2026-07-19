@@ -23,6 +23,7 @@
     "@types/grecaptcha": "^3.0.9",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "ai": "^7.0.31",
     "assert": "^2.1.0",
     "babel-loader": "^10.0.0",
     "babel-plugin-static-fs": "^3.0.0",
@@ -39,7 +40,7 @@
     "serve": "^14.2.6",
     "webpack": "^5.104.1",
     "webpack-cli": "^5.1.4",
-    "zod": "^4.1.12"
+    "zod": "^4.4.3"
   },
   "resolutions": {
     "re2": "^1.22.1"

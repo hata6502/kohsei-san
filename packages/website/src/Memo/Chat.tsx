@@ -3,12 +3,16 @@ import {
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
+  Tools,
+  defineToolkit,
+  useAui,
 } from "@assistant-ui/react";
 import {
   AssistantChatTransport,
   useChatRuntime,
 } from "@assistant-ui/react-ai-sdk";
-import React from "react";
+import { lastAssistantMessageIsCompleteWithToolCalls } from "ai";
+import React, { useMemo } from "react";
 import type { Dispatch, FunctionComponent } from "react";
 import { z } from "zod";
 
@@ -21,6 +25,23 @@ export const Chat: FunctionComponent<{
   memos: Memo[];
   dispatchMemos: Dispatch<MemosAction>;
 }> = ({ memo, memos, dispatchMemos }) => {
+  // useMemoを入れて安定化する
+  // https://www.assistant-ui.com/docs/api-reference/tools
+  const toolkit = useMemo(
+    () =>
+      defineToolkit({
+        get_memo: {
+          type: "frontend",
+          description: "文章を取得する",
+          parameters: z.object({}),
+          execute: () => ({ result: memo.result, text: memo.text }),
+          renderText: { complete: "文章を読みました" },
+        },
+      }),
+    [memo.result, memo.text],
+  );
+  const aui = useAui({ tools: Tools({ toolkit }) });
+
   const runtime = useChatRuntime({
     transport: new AssistantChatTransport({
       api: "https://ai-chat-788918986145.asia-northeast1.run.app/",
@@ -37,10 +58,14 @@ export const Chat: FunctionComponent<{
         return { recaptchaToken };
       },
     }),
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+    onError: (exception) => {
+      console.error("Chat request failed", exception);
+    },
   });
 
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
+    <AssistantRuntimeProvider aui={aui} runtime={runtime}>
       <ThreadPrimitive.Root>
         <ThreadPrimitive.Viewport>
           <ThreadPrimitive.Messages>
@@ -65,8 +90,6 @@ export const Chat: FunctionComponent<{
 
 /*const toolCallSchema = z.union([
   z.object({
-    name: z.literal("get_memo"),
-    params: z.object({}),
   }),
   z.object({
     name: z.literal("list_other_memos"),
@@ -99,10 +122,6 @@ export const Chat: FunctionComponent<{
     }),
   }),
 ]);
-// ブラウザの console から printToolSchema() で JSON Schema を出力できる
-// @ts-expect-error
-window.printToolSchema = () =>
-  console.log(JSON.stringify(z.toJSONSchema(toolCallSchema), null, 2));
 
 export const Chat: FunctionComponent<{
   memo: Memo;
@@ -117,10 +136,6 @@ export const Chat: FunctionComponent<{
 
       const { name, params } = toolCallSchema.parse(toolCall);
       switch (name) {
-        case "get_memo": {
-          return { result: memo.result, text: memo.text };
-        }
-
         case "list_other_memos": {
           return {
             memos: memos
