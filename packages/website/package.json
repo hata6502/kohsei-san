@@ -8,7 +8,8 @@
     "test": "tsc --noEmit"
   },
   "devDependencies": {
-    "@assistant-ui/react": "^0.14.26",
+    "@assistant-ui/react": "^0.14.27",
+    "@assistant-ui/react-ai-sdk": "^1.3.41",
     "@babel/core": "^7.29.6",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",

@@ -1,12 +1,13 @@
 import {
   AssistantRuntimeProvider,
-  AuiIf,
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
-  useLocalRuntime,
 } from "@assistant-ui/react";
-import type { ChatModelAdapter } from "@assistant-ui/react";
+import {
+  AssistantChatTransport,
+  useChatRuntime,
+} from "@assistant-ui/react-ai-sdk";
 import React from "react";
 import type { Dispatch, FunctionComponent } from "react";
 import { z } from "zod";
@@ -15,40 +16,28 @@ import type { ProofreadingMessage } from "../lintWorker";
 import { getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 
-const adapter: ChatModelAdapter = {
-  async run({ messages, abortSignal }) {
-    await new Promise<void>((resolve) => grecaptcha.enterprise.ready(resolve));
-    const recaptchaToken = await grecaptcha.enterprise.execute(
-      "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
-      { action: "GET_CLIENT_SECRET" },
-    );
-
-    const response = await fetch(
-      "https://ai-chat-788918986145.asia-northeast1.run.app/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recaptchaToken, messages }),
-        signal: abortSignal,
-      },
-    );
-    if (!response.ok) {
-      throw new Error(); // TODO: error message
-    }
-    const data = z.object({ text: z.string() }).parse(await response.json());
-
-    return {
-      content: [{ type: "text", text: data.text }],
-    };
-  },
-};
-
 export const Chat: FunctionComponent<{
   memo: Memo;
   memos: Memo[];
   dispatchMemos: Dispatch<MemosAction>;
 }> = ({ memo, memos, dispatchMemos }) => {
-  const runtime = useLocalRuntime(adapter);
+  const runtime = useChatRuntime({
+    transport: new AssistantChatTransport({
+      api: "https://ai-chat-788918986145.asia-northeast1.run.app/",
+      body: async () => {
+        // HTTPリクエストのたびに新しいreCAPTCHA tokenを取得する必要あり
+        await new Promise<void>((resolve) =>
+          grecaptcha.enterprise.ready(resolve),
+        );
+        const recaptchaToken = await grecaptcha.enterprise.execute(
+          "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
+          { action: "GET_CLIENT_SECRET" },
+        );
+
+        return { recaptchaToken };
+      },
+    }),
+  });
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
