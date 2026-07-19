@@ -59,8 +59,8 @@ export const Chat: FunctionComponent<{
       },
     }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
-    onError: (exception) => {
-      console.error("Chat request failed", exception);
+    onError: (error) => {
+      console.error("Chat request failed", error);
     },
   });
 
