@@ -41,7 +41,7 @@ module.exports = {
       "process.env.TIMESTAMP": JSON.stringify(String(Date.now())),
     }),
     new webpack.ProvidePlugin({
-      process: "process/browser",
+      process: "process/browser.js",
     }),
   ],
   resolve: {

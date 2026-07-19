@@ -1,14 +1,80 @@
+import {
+  AssistantRuntimeProvider,
+  AuiIf,
+  ComposerPrimitive,
+  MessagePrimitive,
+  ThreadPrimitive,
+  useLocalRuntime,
+} from "@assistant-ui/react";
+import type { ChatModelAdapter } from "@assistant-ui/react";
 import React from "react";
 import type { Dispatch, FunctionComponent } from "react";
-import { ChatKit, useChatKit } from "@openai/chatkit-react";
-import type { ChatKitOptions } from "@openai/chatkit-react";
 import { z } from "zod";
 
 import type { ProofreadingMessage } from "../lintWorker";
 import { getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 
-const toolCallSchema = z.union([
+const adapter: ChatModelAdapter = {
+  async run({ messages, abortSignal }) {
+    await new Promise<void>((resolve) => grecaptcha.enterprise.ready(resolve));
+    const recaptchaToken = await grecaptcha.enterprise.execute(
+      "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
+      { action: "GET_CLIENT_SECRET" },
+    );
+
+    const response = await fetch(
+      "https://ai-chat-788918986145.asia-northeast1.run.app/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recaptchaToken, messages }),
+        signal: abortSignal,
+      },
+    );
+    if (!response.ok) {
+      throw new Error(); // TODO: error message
+    }
+    const data = z.object({ text: z.string() }).parse(await response.json());
+
+    return {
+      content: [{ type: "text", text: data.text }],
+    };
+  },
+};
+
+export const Chat: FunctionComponent<{
+  memo: Memo;
+  memos: Memo[];
+  dispatchMemos: Dispatch<MemosAction>;
+}> = ({ memo, memos, dispatchMemos }) => {
+  const runtime = useLocalRuntime(adapter);
+
+  return (
+    <AssistantRuntimeProvider runtime={runtime}>
+      <ThreadPrimitive.Root>
+        <ThreadPrimitive.Viewport>
+          <ThreadPrimitive.Messages>
+            {() => (
+              <MessagePrimitive.Root>
+                <MessagePrimitive.Parts />
+              </MessagePrimitive.Root>
+            )}
+          </ThreadPrimitive.Messages>
+
+          <ThreadPrimitive.ViewportFooter className="sticky bottom-0 pt-2">
+            <ComposerPrimitive.Root>
+              <ComposerPrimitive.Input placeholder="Ask anything..." />
+              <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+            </ComposerPrimitive.Root>
+          </ThreadPrimitive.ViewportFooter>
+        </ThreadPrimitive.Viewport>
+      </ThreadPrimitive.Root>
+    </AssistantRuntimeProvider>
+  );
+};
+
+/*const toolCallSchema = z.union([
   z.object({
     name: z.literal("get_memo"),
     params: z.object({}),
@@ -207,14 +273,6 @@ export const Chat: FunctionComponent<{
   const { control } = useChatKit({
     api: {
       getClientSecret: async () => {
-        await new Promise<void>((resolve) =>
-          grecaptcha.enterprise.ready(resolve),
-        );
-        const recaptchaToken = await grecaptcha.enterprise.execute(
-          "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
-          { action: "GET_CLIENT_SECRET" },
-        );
-
         const response = await fetch(
           "https://chatkit-session-788918986145.us-central1.run.app/",
           {
@@ -223,7 +281,6 @@ export const Chat: FunctionComponent<{
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              recaptchaToken,
               userID: memo.id,
             }),
           },
@@ -274,4 +331,4 @@ export const Chat: FunctionComponent<{
   });
 
   return <ChatKit control={control} style={{ height: 500 }} />;
-};
+};*/
