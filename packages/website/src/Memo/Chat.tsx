@@ -1,4 +1,5 @@
 import {
+  ActionBarPrimitive,
   AssistantRuntimeProvider,
   AuiIf,
   ComposerPrimitive,
@@ -269,16 +270,37 @@ export const Chat: FunctionComponent<{
           </AuiIf>
 
           <ThreadPrimitive.Messages>
-            {() => (
+            {({ message }) => (
               <MessagePrimitive.Root>
-                <MessagePrimitive.Parts />
+                {message.composer.isEditing ? (
+                  <ComposerPrimitive.Root>
+                    <ComposerPrimitive.Input autoFocus />
+
+                    <ComposerPrimitive.Cancel>Cancel</ComposerPrimitive.Cancel>
+                    <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+                  </ComposerPrimitive.Root>
+                ) : (
+                  <>
+                    <MessagePrimitive.Parts />
+
+                    <ActionBarPrimitive.Root>
+                      {{
+                        system: false,
+                        user: true,
+                        assistant: false,
+                      }[message.role] && (
+                        <ActionBarPrimitive.Edit>Edit</ActionBarPrimitive.Edit>
+                      )}
+                    </ActionBarPrimitive.Root>
+                  </>
+                )}
               </MessagePrimitive.Root>
             )}
           </ThreadPrimitive.Messages>
 
-          <ThreadPrimitive.ViewportFooter className="sticky bottom-0 pt-2">
+          <ThreadPrimitive.ViewportFooter>
             <ComposerPrimitive.Root>
-              <ComposerPrimitive.Input placeholder="Ask anything..." />
+              <ComposerPrimitive.Input placeholder="校正さんに相談する" />
               <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
             </ComposerPrimitive.Root>
           </ThreadPrimitive.ViewportFooter>
@@ -289,17 +311,5 @@ export const Chat: FunctionComponent<{
 };
 
 /*
-  const { control } = useChatKit({
-    composer: {
-      attachments: { enabled: true },
-      placeholder: "校正さんに相談する",
-    },
-    threadItemActions: {
-      feedback: true,
-      retry: true,
-    },
-    onClientTool: handleClientTool,
-  });
-
   return <ChatKit control={control} style={{ height: 500 }} />;
 };*/
