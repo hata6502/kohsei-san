@@ -1,7 +1,10 @@
 import {
   AssistantRuntimeProvider,
+  AuiIf,
   ComposerPrimitive,
   MessagePrimitive,
+  Suggestions,
+  SuggestionPrimitive,
   ThreadPrimitive,
   Tools,
   defineToolkit,
@@ -218,7 +221,16 @@ export const Chat: FunctionComponent<{
       }),
     [memo.result, memo.text, memos],
   );
-  const aui = useAui({ tools: Tools({ toolkit }) });
+  const aui = useAui({
+    tools: Tools({ toolkit }),
+    suggestions: Suggestions([
+      "文章全体を校閲して",
+      "他のメモとのズレを探して",
+      "飾りっぽい表現や造語を見直して",
+      "機密情報を伏せ字に置換して",
+      "文章から読み取れる感情を教えて",
+    ]),
+  });
 
   const runtime = useChatRuntime({
     transport: new AssistantChatTransport({
@@ -246,6 +258,16 @@ export const Chat: FunctionComponent<{
     <AssistantRuntimeProvider aui={aui} runtime={runtime}>
       <ThreadPrimitive.Root>
         <ThreadPrimitive.Viewport>
+          <AuiIf condition={(state) => state.thread.isEmpty}>
+            <ThreadPrimitive.Suggestions>
+              {() => (
+                <SuggestionPrimitive.Trigger send>
+                  <SuggestionPrimitive.Title />
+                </SuggestionPrimitive.Trigger>
+              )}
+            </ThreadPrimitive.Suggestions>
+          </AuiIf>
+
           <ThreadPrimitive.Messages>
             {() => (
               <MessagePrimitive.Root>
@@ -271,30 +293,6 @@ export const Chat: FunctionComponent<{
     composer: {
       attachments: { enabled: true },
       placeholder: "校正さんに相談する",
-    },
-    startScreen: {
-      prompts: [
-        {
-          label: "文章全体を校閲して",
-          prompt: "文章全体を校閲して",
-        },
-        {
-          label: "他のメモとのズレを探して",
-          prompt: "他のメモとのズレを探して",
-        },
-        {
-          label: "飾りっぽい表現や造語を見直して",
-          prompt: "飾りっぽい表現や造語を見直して",
-        },
-        {
-          label: "機密情報を伏せ字に置換して",
-          prompt: "機密情報を伏せ字に置換して",
-        },
-        {
-          label: "文章から読み取れる感情を教えて",
-          prompt: "文章から読み取れる感情を教えて",
-        },
-      ],
     },
     threadItemActions: {
       feedback: true,
