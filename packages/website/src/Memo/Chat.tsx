@@ -20,11 +20,13 @@ import {
   AssistantChatTransport,
   useChatRuntime,
 } from "@assistant-ui/react-ai-sdk";
+import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { lastAssistantMessageIsCompleteWithToolCalls } from "ai";
 import React, { useMemo } from "react";
 import type { Dispatch, FunctionComponent } from "react";
+import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
 import type { ProofreadingMessage } from "../lintWorker";
@@ -362,7 +364,7 @@ export const Chat: FunctionComponent<{
           <ThreadPrimitive.Viewport
             autoScroll
             // tailwindcss化
-            style={{ height: 500, overflowY: "auto" }}
+            style={{ height: 560, overflowY: "auto" }}
           >
             <CardContent>
               <ThreadPrimitive.Suggestions>
@@ -387,7 +389,27 @@ export const Chat: FunctionComponent<{
                       </ComposerPrimitive.Root>
                     ) : (
                       <>
-                        <MessagePrimitive.Parts />
+                        <MessagePrimitive.Parts>
+                          {({ part }) =>
+                            ({
+                              text: (
+                                // prose入れる
+                                <MarkdownTextPrimitive
+                                  remarkPlugins={[remarkGfm]}
+                                  defer
+                                />
+                              ),
+                              audio: null,
+                              data: null,
+                              file: null,
+                              "generative-ui": null,
+                              image: null,
+                              reasoning: null,
+                              source: null,
+                              "tool-call": null,
+                            })[part.type]
+                          }
+                        </MessagePrimitive.Parts>
 
                         <ActionBarPrimitive.Root>
                           {{
