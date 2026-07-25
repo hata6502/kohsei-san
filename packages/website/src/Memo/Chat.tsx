@@ -1,7 +1,6 @@
 import {
   ActionBarPrimitive,
   AssistantRuntimeProvider,
-  AuiIf,
   ComposerPrimitive,
   MessagePrimitive,
   Suggestions,
@@ -10,11 +9,19 @@ import {
   Tools,
   defineToolkit,
   useAui,
+  InMemoryThreadListAdapter,
+  useRemoteThreadListRuntime,
+} from "@assistant-ui/react";
+import type {
+  MessageStorageEntry,
+  ThreadHistoryAdapter,
 } from "@assistant-ui/react";
 import {
   AssistantChatTransport,
   useChatRuntime,
 } from "@assistant-ui/react-ai-sdk";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import { lastAssistantMessageIsCompleteWithToolCalls } from "ai";
 import React, { useMemo } from "react";
 import type { Dispatch, FunctionComponent } from "react";
@@ -222,6 +229,7 @@ export const Chat: FunctionComponent<{
       }),
     [memo.result, memo.text, memos],
   );
+
   const aui = useAui({
     tools: Tools({ toolkit }),
     suggestions: Suggestions([
@@ -233,83 +241,181 @@ export const Chat: FunctionComponent<{
     ]),
   });
 
-  const runtime = useChatRuntime({
-    transport: new AssistantChatTransport({
-      api: "https://ai-chat-788918986145.asia-northeast1.run.app/",
-      body: async () => {
-        // HTTPリクエストのたびに新しいreCAPTCHA tokenを取得する必要あり
-        await new Promise<void>((resolve) =>
-          grecaptcha.enterprise.ready(resolve),
-        );
-        const recaptchaToken = await grecaptcha.enterprise.execute(
-          "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
-          { action: "GET_CLIENT_SECRET" },
-        );
+  class SingleThreadListAdapter extends InMemoryThreadListAdapter {
+    async fetch(threadId: string) {
+      const threadMemo = memos.find((memo) => memo.id === threadId);
+      if (!threadMemo?.chatHistoryHeadID) {
+        throw new Error(`Chat history head not found for memo: ${threadId}`);
+      }
 
-        return { recaptchaToken };
-      },
-    }),
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
-    onError: (error) => {
-      console.error("Chat request failed", error);
+      return { remoteId: threadMemo.id, status: "regular" as const };
+    }
+  }
+
+  const history: ThreadHistoryAdapter = {
+    load: async () => ({ headId: null, messages: [] }),
+    append: async () => {},
+    withFormat: (formatAdapter) => {
+      type ChatHistoryItem = MessageStorageEntry<
+        ReturnType<typeof formatAdapter.encode>
+      >;
+
+      const getChatHistory = (): ChatHistoryItem[] =>
+        JSON.parse(localStorage.getItem("chatHistory") ?? "[]");
+      const setChatHistory = (
+        action: (prevChatHistory: ChatHistoryItem[]) => ChatHistoryItem[],
+      ) => {
+        localStorage.setItem(
+          "chatHistory",
+          JSON.stringify(action(getChatHistory())),
+        );
+      };
+
+      return {
+        load: async () => {
+          setChatHistory((prevChatHistory) => {
+            const reachableMessageIDs = new Set<string>();
+            for (const memo of memos) {
+              let messageID = memo.chatHistoryHeadID;
+              while (messageID) {
+                reachableMessageIDs.add(messageID);
+
+                messageID =
+                  prevChatHistory.find(
+                    (chatHistoryItem) => chatHistoryItem.id === messageID,
+                  )?.parent_id ?? undefined;
+              }
+            }
+
+            return prevChatHistory.filter((chatHistoryItem) =>
+              reachableMessageIDs.has(chatHistoryItem.id),
+            );
+          });
+
+          return {
+            headId: memo.chatHistoryHeadID,
+            messages: getChatHistory().map(formatAdapter.decode),
+          };
+        },
+        append: async (item) => {
+          const id = formatAdapter.getId(item.message);
+
+          setChatHistory((prevChatHistory) => {
+            const chatHistory = [...prevChatHistory];
+            chatHistory.push({
+              id,
+              parent_id: item.parentId,
+              format: formatAdapter.format,
+              content: formatAdapter.encode(item),
+            });
+            return chatHistory;
+          });
+
+          dispatchMemos((prevMemos) =>
+            prevMemos.map((prevMemo) => {
+              if (prevMemo.id !== memo.id) {
+                return prevMemo;
+              }
+
+              return { ...prevMemo, chatHistoryHeadID: id };
+            }),
+          );
+        },
+      };
     },
+  };
+
+  const transport = new AssistantChatTransport({
+    api: "https://ai-chat-788918986145.asia-northeast1.run.app/",
+    body: async () => {
+      // HTTPリクエストのたびに新しいreCAPTCHA tokenを取得する必要あり
+      await new Promise<void>((resolve) =>
+        grecaptcha.enterprise.ready(resolve),
+      );
+      const recaptchaToken = await grecaptcha.enterprise.execute(
+        "6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF",
+        { action: "GET_CLIENT_SECRET" },
+      );
+
+      return { recaptchaToken };
+    },
+  });
+
+  const runtime = useRemoteThreadListRuntime({
+    runtimeHook: () =>
+      useChatRuntime({
+        adapters: { history },
+        transport,
+        sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+        onError: (error) => {
+          console.error("Chat request failed", error);
+        },
+      }),
+    adapter: new SingleThreadListAdapter(),
+    threadId: memo.id,
   });
 
   return (
     <AssistantRuntimeProvider aui={aui} runtime={runtime}>
-      <ThreadPrimitive.Root>
-        <ThreadPrimitive.Viewport>
-          <AuiIf condition={(state) => state.thread.isEmpty}>
-            <ThreadPrimitive.Suggestions>
-              {() => (
-                <SuggestionPrimitive.Trigger send>
-                  <SuggestionPrimitive.Title />
-                </SuggestionPrimitive.Trigger>
-              )}
-            </ThreadPrimitive.Suggestions>
-          </AuiIf>
-
-          <ThreadPrimitive.Messages>
-            {({ message }) => (
-              <MessagePrimitive.Root>
-                {message.composer.isEditing ? (
-                  <ComposerPrimitive.Root>
-                    <ComposerPrimitive.Input autoFocus />
-
-                    <ComposerPrimitive.Cancel>Cancel</ComposerPrimitive.Cancel>
-                    <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
-                  </ComposerPrimitive.Root>
-                ) : (
-                  <>
-                    <MessagePrimitive.Parts />
-
-                    <ActionBarPrimitive.Root>
-                      {{
-                        system: false,
-                        user: true,
-                        assistant: false,
-                      }[message.role] && (
-                        <ActionBarPrimitive.Edit>Edit</ActionBarPrimitive.Edit>
-                      )}
-                    </ActionBarPrimitive.Root>
-                  </>
+      <Card>
+        <ThreadPrimitive.Root>
+          <ThreadPrimitive.Viewport
+            autoScroll
+            // tailwindcss化
+            style={{ height: 500, overflowY: "auto" }}
+          >
+            <CardContent>
+              <ThreadPrimitive.Suggestions>
+                {() => (
+                  <SuggestionPrimitive.Trigger send>
+                    <SuggestionPrimitive.Title />
+                  </SuggestionPrimitive.Trigger>
                 )}
-              </MessagePrimitive.Root>
-            )}
-          </ThreadPrimitive.Messages>
+              </ThreadPrimitive.Suggestions>
 
-          <ThreadPrimitive.ViewportFooter>
-            <ComposerPrimitive.Root>
-              <ComposerPrimitive.Input placeholder="校正さんに相談する" />
-              <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
-            </ComposerPrimitive.Root>
-          </ThreadPrimitive.ViewportFooter>
-        </ThreadPrimitive.Viewport>
-      </ThreadPrimitive.Root>
+              <ThreadPrimitive.Messages>
+                {({ message }) => (
+                  <MessagePrimitive.Root>
+                    {message.composer.isEditing ? (
+                      <ComposerPrimitive.Root>
+                        <ComposerPrimitive.Input autoFocus />
+
+                        <ComposerPrimitive.Cancel>
+                          Cancel
+                        </ComposerPrimitive.Cancel>
+                        <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+                      </ComposerPrimitive.Root>
+                    ) : (
+                      <>
+                        <MessagePrimitive.Parts />
+
+                        <ActionBarPrimitive.Root>
+                          {{
+                            system: false,
+                            user: true,
+                            assistant: false,
+                          }[message.role] && (
+                            <ActionBarPrimitive.Edit>
+                              Edit
+                            </ActionBarPrimitive.Edit>
+                          )}
+                        </ActionBarPrimitive.Root>
+                      </>
+                    )}
+                  </MessagePrimitive.Root>
+                )}
+              </ThreadPrimitive.Messages>
+
+              <ThreadPrimitive.ViewportFooter>
+                <ComposerPrimitive.Root>
+                  <ComposerPrimitive.Input placeholder="校正さんに相談する" />
+                  <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+                </ComposerPrimitive.Root>
+              </ThreadPrimitive.ViewportFooter>
+            </CardContent>
+          </ThreadPrimitive.Viewport>
+        </ThreadPrimitive.Root>
+      </Card>
     </AssistantRuntimeProvider>
   );
 };
-
-/*
-  return <ChatKit control={control} style={{ height: 500 }} />;
-};*/

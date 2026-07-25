@@ -16,6 +16,7 @@ export interface Memo {
   setting: Setting;
   text: string;
   updatedAt?: string;
+  chatHistoryHeadID?: string;
 }
 
 export const createMemo = (): Memo => ({
