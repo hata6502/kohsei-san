@@ -363,8 +363,7 @@ export const Chat: FunctionComponent<{
         <ThreadPrimitive.Root>
           <ThreadPrimitive.Viewport
             autoScroll
-            // tailwindcss化
-            style={{ height: 560, overflowY: "auto" }}
+            className="h-[560px] overflow-y-auto"
           >
             <CardContent>
               <ThreadPrimitive.Suggestions>
@@ -393,10 +392,10 @@ export const Chat: FunctionComponent<{
                           {({ part }) =>
                             ({
                               text: (
-                                // prose入れる
                                 <MarkdownTextPrimitive
                                   remarkPlugins={[remarkGfm]}
                                   defer
+                                  className="prose"
                                 />
                               ),
                               audio: null,
