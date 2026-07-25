@@ -1,6 +1,7 @@
 import {
   ActionBarPrimitive,
   AssistantRuntimeProvider,
+  AuiIf,
   ComposerPrimitive,
   MessagePrimitive,
   Suggestions,
@@ -21,6 +22,12 @@ import {
   useChatRuntime,
 } from "@assistant-ui/react-ai-sdk";
 import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
+import {
+  PaperAirplaneIcon,
+  PencilSquareIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
+import CardActions from "@mui/material/CardActions";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { lastAssistantMessageIsCompleteWithToolCalls } from "ai";
@@ -363,28 +370,50 @@ export const Chat: FunctionComponent<{
         <ThreadPrimitive.Root>
           <ThreadPrimitive.Viewport
             autoScroll
-            className="h-[560px] overflow-y-auto"
+            className="max-h-[560px] overflow-y-auto overscroll-contain"
           >
             <CardContent>
-              <ThreadPrimitive.Suggestions>
-                {() => (
-                  <SuggestionPrimitive.Trigger send>
-                    <SuggestionPrimitive.Title />
-                  </SuggestionPrimitive.Trigger>
-                )}
-              </ThreadPrimitive.Suggestions>
+              <div className="[&:not(:empty)]:mb-3">
+                <ThreadPrimitive.Suggestions>
+                  {() => (
+                    <SuggestionPrimitive.Trigger
+                      send
+                      className="mb-1 w-full rounded-md bg-[#00857E]/10 px-2.5 py-1.5 text-left text-sm text-[#006B66] shadow-xs hover:bg-[#00857E]/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E]"
+                    >
+                      <SuggestionPrimitive.Title />
+                    </SuggestionPrimitive.Trigger>
+                  )}
+                </ThreadPrimitive.Suggestions>
+              </div>
 
               <ThreadPrimitive.Messages>
                 {({ message }) => (
-                  <MessagePrimitive.Root>
+                  <MessagePrimitive.Root
+                    className={
+                      message.composer.isEditing
+                        ? undefined
+                        : message.role === "user"
+                          ? "rounded-lg bg-zinc-100 p-3"
+                          : "py-2 text-sm/6 text-zinc-700"
+                    }
+                  >
                     {message.composer.isEditing ? (
-                      <ComposerPrimitive.Root>
-                        <ComposerPrimitive.Input autoFocus />
+                      <ComposerPrimitive.Root className="flex w-full items-end gap-2 rounded-xl border border-zinc-950/10 bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-[#00857E]">
+                        <ComposerPrimitive.Input
+                          autoFocus
+                          className="min-h-10 min-w-0 flex-1 resize-none bg-transparent px-2 py-2 text-sm/6 outline-none placeholder:text-zinc-500"
+                        />
 
-                        <ComposerPrimitive.Cancel>
-                          Cancel
-                        </ComposerPrimitive.Cancel>
-                        <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+                        <div className="flex shrink-0 flex-col gap-2">
+                          <ComposerPrimitive.Cancel className="rounded-full p-2 text-zinc-500 hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E]">
+                            <XMarkIcon className="size-5" />
+                            <span className="sr-only">キャンセル</span>
+                          </ComposerPrimitive.Cancel>
+                          <ComposerPrimitive.Send className="rounded-full bg-[#00857E] p-2 text-white shadow-sm hover:bg-[#006B66] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E] disabled:opacity-50">
+                            <PaperAirplaneIcon className="size-5" />
+                            <span className="sr-only">送信</span>
+                          </ComposerPrimitive.Send>
+                        </div>
                       </ComposerPrimitive.Root>
                     ) : (
                       <>
@@ -395,7 +424,7 @@ export const Chat: FunctionComponent<{
                                 <MarkdownTextPrimitive
                                   remarkPlugins={[remarkGfm]}
                                   defer
-                                  className="prose"
+                                  className="prose prose-sm prose-zinc max-w-none prose-li:pl-0 prose-ol:pl-4 prose-ul:pl-4"
                                 />
                               ),
                               audio: null,
@@ -410,14 +439,15 @@ export const Chat: FunctionComponent<{
                           }
                         </MessagePrimitive.Parts>
 
-                        <ActionBarPrimitive.Root>
+                        <ActionBarPrimitive.Root className="mt-1 flex justify-end">
                           {{
                             system: false,
                             user: true,
                             assistant: false,
                           }[message.role] && (
-                            <ActionBarPrimitive.Edit>
-                              Edit
+                            <ActionBarPrimitive.Edit className="rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E]">
+                              <PencilSquareIcon className="size-4" />
+                              <span className="sr-only">編集</span>
                             </ActionBarPrimitive.Edit>
                           )}
                         </ActionBarPrimitive.Root>
@@ -427,13 +457,27 @@ export const Chat: FunctionComponent<{
                 )}
               </ThreadPrimitive.Messages>
 
-              <ThreadPrimitive.ViewportFooter>
-                <ComposerPrimitive.Root>
-                  <ComposerPrimitive.Input placeholder="校正さんに相談する" />
-                  <ComposerPrimitive.Send>Send</ComposerPrimitive.Send>
+              <AuiIf condition={(state) => state.thread.isRunning}>
+                <div role="status" className="px-1 py-2 text-sm text-zinc-500">
+                  校正さんが回答しています…
+                </div>
+              </AuiIf>
+            </CardContent>
+
+            <CardActions className="sticky bottom-0 bg-white/95 backdrop-blur">
+              <ThreadPrimitive.ViewportFooter className="w-full">
+                <ComposerPrimitive.Root className="flex w-full items-end gap-2 rounded-xl border border-zinc-950/10 bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-[#00857E]">
+                  <ComposerPrimitive.Input
+                    placeholder="校正さんに相談する"
+                    className="min-h-10 flex-1 resize-none bg-transparent px-2 py-2 text-sm/6 outline-none placeholder:text-zinc-500"
+                  />
+                  <ComposerPrimitive.Send className="rounded-full bg-[#00857E] p-2 text-white shadow-sm hover:bg-[#006B66] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E] disabled:opacity-50">
+                    <PaperAirplaneIcon className="size-5" />
+                    <span className="sr-only">送信</span>
+                  </ComposerPrimitive.Send>
                 </ComposerPrimitive.Root>
               </ThreadPrimitive.ViewportFooter>
-            </CardContent>
+            </CardActions>
           </ThreadPrimitive.Viewport>
         </ThreadPrimitive.Root>
       </Card>
