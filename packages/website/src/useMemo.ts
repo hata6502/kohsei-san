@@ -16,6 +16,7 @@ export interface Memo {
   setting: Setting;
   text: string;
   updatedAt?: string;
+  chatHistoryHeadID?: string;
 }
 
 export const createMemo = (): Memo => ({
@@ -25,7 +26,7 @@ export const createMemo = (): Memo => ({
   updatedAt: new Date().toISOString(),
 });
 
-export const getMemoTitle = (memo: Memo) =>
+export const getMemoTitle = (memo: Pick<Memo, "text">) =>
   memo.text.trim().split("\n")[0] || "(空のメモ)";
 
 export type MemosAction = (prevMemo: Memo[]) => Memo[];

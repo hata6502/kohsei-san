@@ -115,12 +115,12 @@ export const MemoActions: React.FunctionComponent<{
         </CardContent>
       </Card>
 
-      {navigator.onLine && (
-        <Card>
-          <CardContent>
-            {chatEnabled ? (
-              <Chat dispatchMemos={dispatchMemos} memo={memo} memos={memos} />
-            ) : (
+      {navigator.onLine &&
+        (chatEnabled ? (
+          <Chat memo={memo} memos={memos} dispatchMemos={dispatchMemos} />
+        ) : (
+          <Card>
+            <CardContent>
               <Stack alignItems="center" spacing={2}>
                 <img
                   alt=""
@@ -143,10 +143,9 @@ export const MemoActions: React.FunctionComponent<{
                   相談する
                 </Button>
               </Stack>
-            )}
-          </CardContent>
-        </Card>
-      )}
+            </CardContent>
+          </Card>
+        ))}
 
       <SettingDialog
         dispatchSetting={dispatchSetting}

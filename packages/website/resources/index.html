@@ -9,11 +9,11 @@
 
         connect-src
           'self'
+          https://ai-chat-788918986145.asia-northeast1.run.app
           https://c.bing.com
           https://*.clarity.ms
           https://www.google.com/recaptcha/
           https://cdn.platform.openai.com
-          https://chatkit-session-788918986145.us-central1.run.app
         ;
 
         frame-src
@@ -40,15 +40,7 @@
     />
 
     <title>校正さん</title>
-
     <meta name="description" content="スマホで使える文章校正メモ" />
-    <link rel="manifest" href="manifest.json" />
-    <meta name="robots" content="noindex" />
-    <meta
-      name="viewport"
-      content="minimum-scale=1, initial-scale=1, width=device-width"
-    />
-
     <meta property="og:description" content="スマホで使える文章校正メモ" />
     <meta
       property="og:image"
@@ -57,9 +49,17 @@
     <meta property="og:title" content="校正さん" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kohsei-san.hata6502.com/" />
-
     <meta name="twitter:card" content="summary" />
 
+    <meta name="robots" content="noindex" />
+
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width"
+    />
+
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="index.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
   </head>
@@ -68,10 +68,6 @@
     <div class="app"></div>
 
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LeYs_YrAAAAAEUU58gmxMlJR0y9_qYB7YQ0FyIF"></script>
-    <script
-      src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
-      async
-    ></script>
     <script src="main.js"></script>
   </body>
 </html>

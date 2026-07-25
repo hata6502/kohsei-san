@@ -54,7 +54,7 @@ const MessagePopover = styled(Popover)({
 const PinTarget = styled("button")(({ theme }) => ({
   padding: theme.spacing(1),
   position: "absolute",
-  transform: "translateY(-100%)",
+  transform: "translate(-8px, calc(-100% + 8px))",
   background: "none",
   border: "none",
   cursor: "pointer",
@@ -226,6 +226,7 @@ export const TextContainer: React.FunctionComponent<{
           onBlur={handleTextFieldBlur}
           onChange={handleTextFieldChange}
           onFocus={handleTextFieldFocus}
+          placeholder="メモを入力"
           aria-label="校正する文章"
         />
 
