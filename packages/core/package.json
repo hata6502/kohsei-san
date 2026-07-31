@@ -42,7 +42,7 @@
     "kuromoji": "hata6502/kuromoji.js",
     "kuromojin": "hata6502/kuromojin",
     "prh": "hata6502/prh",
-    "re2": "^1.22.1",
+    "re2": "^1.26.1",
     "sudachi-synonyms-dictionary": "hata6502/sudachi-synonyms-dictionary",
     "textlint-rule-no-nfd": "hata6502/textlint-rule-no-nfd",
     "textlint-rule-prefer-tari-tari": "hata6502/textlint-rule-prefer-tari-tari"
