@@ -40,6 +40,7 @@ const MirrorTextarea = styled("div")({
   left: 0,
   visibility: "hidden",
   boxSizing: "border-box",
+  fontWeight: 400,
   padding: "16px 14px",
   width: "100%",
   lineHeight: "23px",
@@ -228,6 +229,7 @@ export const TextContainer: React.FunctionComponent<{
           onFocus={handleTextFieldFocus}
           placeholder="メモを入力"
           aria-label="校正する文章"
+          slotProps={{ input: { sx: { fontWeight: 400 } } }}
         />
 
         <MirrorTextarea ref={mirrorTextareaRef} aria-hidden>
