@@ -387,17 +387,9 @@ export const Chat: FunctionComponent<{
               </div>
 
               <ThreadPrimitive.Messages>
-                {({ message }) => (
-                  <MessagePrimitive.Root
-                    className={
-                      message.composer.isEditing
-                        ? undefined
-                        : message.role === "user"
-                          ? "rounded-lg bg-zinc-100 p-3"
-                          : "py-2 text-sm/6 text-zinc-700"
-                    }
-                  >
-                    {message.composer.isEditing ? (
+                {({ message }) =>
+                  message.composer.isEditing ? (
+                    <MessagePrimitive.Root>
                       <ComposerPrimitive.Root className="flex w-full items-end gap-2 rounded-xl border border-zinc-950/10 bg-white p-2 shadow-sm focus-within:ring-2 focus-within:ring-[#00857E]">
                         <ComposerPrimitive.Input
                           autoFocus
@@ -415,8 +407,35 @@ export const Chat: FunctionComponent<{
                           </ComposerPrimitive.Send>
                         </div>
                       </ComposerPrimitive.Root>
-                    ) : (
-                      <>
+                    </MessagePrimitive.Root>
+                  ) : (
+                    <MessagePrimitive.Root
+                      className={
+                        {
+                          system: "",
+                          user: "rounded-lg bg-zinc-100 p-3",
+                          assistant: "py-2 text-sm/6 text-zinc-700",
+                        }[message.role]
+                      }
+                    >
+                      <div
+                        role={
+                          {
+                            system: undefined,
+                            user: undefined,
+                            assistant: message.isLast ? "status" : undefined,
+                          }[message.role]
+                        }
+                        aria-busy={
+                          {
+                            complete: false,
+                            running: true,
+                            "requires-action": false,
+                            incomplete: false,
+                            undefined: false,
+                          }[message.status?.type ?? "undefined"]
+                        }
+                      >
                         <MessagePrimitive.Parts>
                           {({ part }) =>
                             ({
@@ -438,30 +457,30 @@ export const Chat: FunctionComponent<{
                             })[part.type]
                           }
                         </MessagePrimitive.Parts>
+                      </div>
 
-                        <ActionBarPrimitive.Root className="mt-1 flex justify-end">
-                          {{
-                            system: false,
-                            user: true,
-                            assistant: false,
-                          }[message.role] && (
-                            <ActionBarPrimitive.Edit className="rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E]">
-                              <PencilSquareIcon className="size-4" />
-                              <span className="sr-only">編集</span>
-                            </ActionBarPrimitive.Edit>
-                          )}
-                        </ActionBarPrimitive.Root>
-                      </>
-                    )}
-                  </MessagePrimitive.Root>
-                )}
+                      <ActionBarPrimitive.Root className="mt-1 flex justify-end">
+                        {{
+                          system: false,
+                          user: true,
+                          assistant: false,
+                        }[message.role] && (
+                          <ActionBarPrimitive.Edit className="rounded-md p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00857E]">
+                            <PencilSquareIcon className="size-4" />
+                            <span className="sr-only">編集</span>
+                          </ActionBarPrimitive.Edit>
+                        )}
+                      </ActionBarPrimitive.Root>
+                    </MessagePrimitive.Root>
+                  )
+                }
               </ThreadPrimitive.Messages>
 
-              <AuiIf condition={(state) => state.thread.isRunning}>
-                <div role="status" className="px-1 py-2 text-sm text-zinc-500">
+              <div role="status" className="px-1 py-2 text-sm text-zinc-500">
+                <AuiIf condition={(state) => state.thread.isRunning}>
                   校正さんが回答しています…
-                </div>
-              </AuiIf>
+                </AuiIf>
+              </div>
             </CardContent>
 
             <CardActions className="sticky bottom-0 bg-white/95 backdrop-blur">
