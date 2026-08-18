@@ -423,7 +423,7 @@ export const Chat: FunctionComponent<{
                           {
                             system: undefined,
                             user: undefined,
-                            assistant: message.isLast ? "status" : undefined,
+                            assistant: message.isLast ? "alert" : undefined,
                           }[message.role]
                         }
                         aria-busy={
