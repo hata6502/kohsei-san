@@ -46,7 +46,7 @@
     "tailwindcss": "^4.3.3",
     "webpack": "^5.104.1",
     "webpack-cli": "^5.1.4",
-    "zod": "^4.4.3"
+    "zod": "^4.6.6"
   },
   "resolutions": {
     "re2": "^1.26.1"
