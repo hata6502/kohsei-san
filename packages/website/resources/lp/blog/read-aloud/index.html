@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <title>文章を読み上げて、書いていなかったことを見つける - 校正さん</title>
+    <meta
+      name="description"
+      content="校正さんに読み上げ確認機能を追加しました。文章を読みながら話した補足や本音を拾い、文章の見直しや、その後の相談に使います。"
+    />
+    <meta
+      property="og:title"
+      content="文章を読み上げて、書いていなかったことを見つける"
+    />
+    <meta
+      property="og:description"
+      content="校正さんに読み上げ確認機能を追加しました。文章を読みながら話した補足や本音を拾い、文章の見直しや、その後の相談に使います。"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:url"
+      content="https://kohsei-san.hata6502.com/lp/blog/read-aloud/"
+    />
+    <meta
+      property="og:image"
+      content="https://kohsei-san.hata6502.com/lp/assets/read-aloud-result.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="../../style.css" />
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "tzb0jilbb4");
+    </script>
+  </head>
+  <body class="article-page article-page-read-aloud">
+    <header class="site-header">
+      <div class="container header-row">
+        <a class="brand" href="../../">
+          <span class="brand-lockup">
+            <img
+              src="/favicon.png"
+              alt=""
+              width="31"
+              height="31"
+              class="brand-mark"
+            />
+            <span class="brand-name">校正さん</span>
+          </span>
+        </a>
+
+        <input class="nav-toggle" type="checkbox" id="nav-toggle" />
+        <label class="nav-toggle-button" for="nav-toggle" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+
+        <div class="nav-panel">
+          <nav aria-label="Primary">
+            <ul class="site-nav">
+              <li>
+                <a
+                  href="https://help.hata6502.com/?q=%E6%A0%A1%E6%AD%A3%E3%81%95%E3%82%93"
+                  >ヘルプ</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/sponsors/hata6502">寄付</a>
+              </li>
+            </ul>
+          </nav>
+
+          <a class="button button-small" href="https://kohsei-san.hata6502.com/"
+            >起動する</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="article-section">
+        <div class="container">
+          <article class="article-shell">
+            <h1 class="article-title">
+              文章を読み上げて、書いていなかったことを見つける
+            </h1>
+            <div class="article-content">
+              <p>校正さんに「文章を読み上げ確認したい」機能を追加しました。</p>
+              <p>
+                書いた文章を声に出して読み、途中で補足したくなったことも、そのまま話せます。読み上げが終わったら、話した内容をもとに文章を見直します。
+              </p>
+              <h2>読み上げると、つい説明を足したくなる</h2>
+              <p>
+                文章を書いているときは気にならなかったのに、声に出してみると「この説明が抜けていた」「ここは言い直したい」と思うことがあります。
+              </p>
+              <p>たとえば、小説の一場面にこう書いたとします。</p>
+              <blockquote>
+                <p>彼女は、届いた手紙を引き出しにしまった。</p>
+              </blockquote>
+              <p>
+                読み上げているうちに、書いている本人から、こんな補足が出てくるかもしれません。
+              </p>
+              <blockquote>
+                <p>
+                  大事な手紙だから、落ち着いて一人で読みたいんです。手紙を大切に思っていることは伝えたいけれど、その理由までここで説明するかは迷っています。
+                </p>
+              </blockquote>
+              <p>
+                手紙をしまった理由も、読者にどこまで伝えたいかも、原文には書かれていません。書いている本人の頭の中にはあって、読み上げたときに言葉になったことです。
+              </p>
+              <p>
+                こうして出てきた補足を、本文に書き足すか、あえて読者の想像に委ねるかも含めて、文章の見直しに使えないかと考えました。
+              </p>
+              <h2>文字起こし − 文章 ＝ 行間</h2>
+              <p>
+                文字起こしを使って、何を見たいのか。その答えの一つが、読み上げた文章との差でした。
+              </p>
+              <p>
+                原文を読みながら足した説明、途中で訂正したこと、つい話してしまった本音。そこには、書いた本人には分かっていて、まだ文章にはなっていなかったことが含まれています。
+              </p>
+              <p>
+                校正さんは、見つかった重要な補足や本音について一言コメントし、文章への追加や修正を提案します。
+              </p>
+              <figure>
+                <a href="../../assets/read-aloud-result.png"
+                  ><img
+                    class="article-image"
+                    src="../../assets/read-aloud-result.png"
+                    alt="開発メモの読み上げで話した補足をもとに、原文への追記を提案する画面"
+                    width="2048"
+                    height="1536"
+                    loading="lazy"
+                /></a>
+                <figcaption>
+                  開発メモを読み上げた例。話した補足をもとに、本文への追記が提案されています。画像を開くと拡大できます。
+                </figcaption>
+              </figure>
+              <h2>本文に入れない話も、相談には使える</h2>
+              <p>話したことを、全部本文に入れる必要はありません。</p>
+              <p>
+                先ほどの例なら、「大事な手紙だから、一人で読みたい」と本文に書くこともできます。封筒を丁寧に扱うしぐさを足して、大切に思っていることを伝える方法もありそうです。
+              </p>
+              <p>
+                どこまで説明するか迷っていることも、校正さんに伝わっています。「理由はまだ明かさずに、手紙を大切にしていることが伝わる書き方を考えたい」と、続けて相談できます。
+              </p>
+              <p>
+                読み上げ中に出てきた言葉を、文章への追記にも、その後の相談にも使いたいと思っています。
+              </p>
+              <p>プロンプトには、次の方針を入れています。</p>
+              <blockquote>
+                <p>
+                  実際の発言から補足や訂正を拾い、話していない意図や感情は補わない。
+                </p>
+              </blockquote>
+              <p>
+                本人が話したことを手がかりに、何を書き足すか、どんな言い方にするかを考えます。
+              </p>
+              <h2>使い方</h2>
+              <p>
+                「校正さんに相談」で「文章を読み上げ確認したい」を押すと、画面下部にボタンが表示されます。
+              </p>
+              <p>
+                「🎙️
+                開始」を押して、文章を読み上げてください。途中で説明を足したり、こぼれ話をしたりしてもかまいません。「✅️
+                完了」を押すと、文字起こしをもとに文章提案へ進みます。
+              </p>
+              <figure>
+                <a href="../../assets/read-aloud-input.png"
+                  ><img
+                    class="article-image"
+                    src="../../assets/read-aloud-input.png"
+                    alt="「文章を読み上げ確認したい」を押すと、画面下部に開始・完了・ファイル選択のボタンが表示される画面"
+                    width="2048"
+                    height="1536"
+                    loading="lazy"
+                /></a>
+                <figcaption>
+                  「文章を読み上げ確認したい」を押した後の画面。下部に入力ボタンが表示されます。画像を開くと拡大できます。
+                </figcaption>
+              </figure>
+              <p>
+                別のアプリで文字起こししたテキストファイルも、「📂
+                ファイル選択」から読み込めます。音声認識が使えないブラウザでも、ファイルから入力できます。誤認識があったときは、後からチャットで訂正してください。
+              </p>
+              <p>
+                文章を声に出すだけでも、気づくことがあります。そのときに出てきた言葉も残して、文章を見直す材料にしてみてください。
+              </p>
+              <p>
+                <a class="button" href="https://kohsei-san.hata6502.com/"
+                  >校正さんを開く</a
+                >
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-main">
+        <div class="footer-brand">
+          <a class="brand footer-brand-link" href="../../">
+            <span class="brand-lockup">
+              <img
+                src="/favicon.png"
+                alt=""
+                width="31"
+                height="31"
+                class="brand-mark"
+              />
+              <span class="brand-name">校正さん</span>
+            </span>
+          </a>
+          <p>スマホで使える文章校正メモ</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer">
+          <ul>
+            <li>
+              <a
+                href="https://help.hata6502.com/?q=%E6%A0%A1%E6%AD%A3%E3%81%95%E3%82%93"
+                >ヘルプ</a
+              >
+            </li>
+            <li>
+              <a href="https://github.com/sponsors/hata6502">寄付</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="footer-meta">
+          <small>
+            Copyright (c)
+            <a href="https://github.com/hata6502">ムギュウ</a>
+            <a
+              href="https://twitter.com/hata6502"
+              aria-label="Twitter"
+              class="footer-meta-avatar-link"
+            >
+              <img
+                src="../../assets/hata6502-twitter-icon.png"
+                alt=""
+                width="256"
+                height="256"
+                class="footer-meta-avatar"
+              />
+            </a>
+          </small>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

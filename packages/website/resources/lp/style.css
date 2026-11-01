@@ -640,7 +640,8 @@ a {
   font-size: clamp(1.18rem, 2.3vw, 1.42rem);
 }
 
-.article-page-creative .article-content h2 {
+.article-page-creative .article-content h2,
+.article-page-read-aloud .article-content h2 {
   margin-top: 38px;
 }
 
@@ -977,4 +978,33 @@ a {
   .article-title {
     font-size: 27px;
   }
+}
+
+.article-page-read-aloud .article-content blockquote {
+  margin: 24px 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--soft-green);
+}
+
+.article-page-read-aloud .article-content blockquote p {
+  margin: 0;
+}
+
+.article-page-read-aloud .article-content figure {
+  margin: 32px 0;
+}
+
+.article-page-read-aloud .article-content figure .article-image {
+  margin-bottom: 12px;
+}
+
+.article-page-read-aloud .article-content figcaption {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.article-page-read-aloud .article-content .button {
+  color: #ffffff;
 }
