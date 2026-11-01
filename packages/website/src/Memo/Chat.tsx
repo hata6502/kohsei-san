@@ -39,6 +39,7 @@ import { z } from "zod";
 import type { ProofreadingMessage } from "../lintWorker";
 import { getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
+import { ReadAloud } from "./ReadAloud";
 
 const getMemoParameters = z.object({});
 type GetMemoParameters = z.infer<typeof getMemoParameters>;
@@ -86,6 +87,13 @@ export const Chat: FunctionComponent<{
   const toolkit = useMemo(
     () =>
       defineToolkit({
+        read_aloud: {
+          type: "human",
+          description:
+            "文章の読み上げを文字起こしする入力UIを表示する。開始・完了ボタンまたはテキストファイル選択で、ユーザーが入力した文字起こしを返す。",
+          parameters: z.object({}),
+          render: ReadAloud,
+        },
         get_memo: {
           type: "frontend",
           description: "文章を取得する",
@@ -247,6 +255,7 @@ export const Chat: FunctionComponent<{
       "飾りっぽい表現や造語を見直して",
       "機密情報を伏せ字に置換して",
       "文章から読み取れる感情を教えて",
+      "文章を読み上げ確認したい",
     ]),
   });
 

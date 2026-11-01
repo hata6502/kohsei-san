@@ -2110,6 +2110,11 @@
   dependencies:
     "@types/ms" "*"
 
+"@types/dom-speech-recognition@^0.0.12":
+  version "0.0.12"
+  resolved "https://npm.flatt.tech/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.12.tgz#b5de30556d5f4f5b479ed72caa7e0a3432afe6d6"
+  integrity sha512-SmLovKV3e/J71U5CBmKYe03Q75biuw7jiEWGoO1arc47CjtmxCr+W7cPJcAAwySSJFwr+jWkr/fPVuVuL+D6Dw==
+
 "@types/eslint-scope@^3.7.7":
   version "3.7.7"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.7.tgz#3108bd5f18b0cdb277c867b3dd449c9ed7079ac5"
