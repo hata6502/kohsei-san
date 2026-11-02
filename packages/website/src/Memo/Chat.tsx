@@ -252,7 +252,6 @@ export const Chat: FunctionComponent<{
     suggestions: Suggestions([
       "文章全体を校閲して",
       "他のメモとのズレを探して",
-      "飾りっぽい表現や造語を見直して",
       "機密情報を伏せ字に置換して",
       "文章から読み取れる感情を教えて",
       "文章を読み上げ確認したい",
