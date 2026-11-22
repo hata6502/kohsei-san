@@ -378,7 +378,7 @@ export const Chat: FunctionComponent<{
         <ThreadPrimitive.Root>
           <ThreadPrimitive.Viewport
             autoScroll
-            className="max-h-[560px] overflow-y-auto overscroll-contain"
+            className="relative max-h-[560px] overflow-y-auto overscroll-contain"
           >
             <CardContent>
               <div className="[&:not(:empty)]:mb-3">
