@@ -1,7 +1,8 @@
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
+import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Drawer from "@mui/material/Drawer";
@@ -14,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
-import { useMemo } from "./useMemo";
+import { createMemo, diffProofreadingResult, useMemo } from "./useMemo";
 
 const MemoContainer = styled(Container)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -37,6 +38,11 @@ const ToolbarOffset = styled("div")(({ theme }) => ({
   },
 }));
 
+export interface MemoFragment {
+  selectionStart: number;
+  selectionEnd: number;
+}
+
 const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
   lintWorker,
 }) => {
@@ -55,25 +61,92 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     (_: boolean, action: boolean) => action,
     false,
   );
-
   const [, dispatchIsLintingHeavy] = useReducer(
     (_: boolean, action: boolean) => action,
     false,
   );
 
+  const [isEditing, setIsEditing] = useState(false);
   const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
+  const [isSplitMemoButtonPressing, setIsSplitMemoButtonPressing] =
+    useState(false);
+  const [isTextContainerFocused, dispatchIsTextContainerFocused] =
+    useState(false);
   const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
+
+  const [memoFragment, dispatchMemoFragment] = useState<MemoFragment>({
+    selectionStart: 0,
+    selectionEnd: 0,
+  });
+
+  // 「メモに切り出す」ボタンを押す前に消えないようにする
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      setIsEditing(isTextContainerFocused || isSplitMemoButtonPressing);
+    });
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, [isSplitMemoButtonPressing, isTextContainerFocused]);
 
   const handleMenuIconClick = () => {
     dispatchIsSidebarOpen(true);
   };
+
+  const handleSplitMemoButtonClick = () => {
+    if (!memo) {
+      throw new Error("No source memo to split");
+    }
+
+    const newMemo = {
+      ...createMemo(),
+      setting: memo.setting,
+      text: memo.text.slice(
+        memoFragment.selectionStart,
+        memoFragment.selectionEnd,
+      ),
+    };
+
+    dispatchMemos((prevMemos) => {
+      const memoIndex = prevMemos.findIndex(
+        (prevMemo) => prevMemo.id === memo.id,
+      );
+      const prevMemo = prevMemos[memoIndex];
+
+      const text = `${memo.text.slice(0, memoFragment.selectionStart)}${memo.text.slice(memoFragment.selectionEnd)}`;
+      const existingMemos = [...prevMemos];
+      existingMemos.splice(memoIndex, 1);
+      existingMemos.unshift({
+        ...prevMemo,
+        result: diffProofreadingResult({
+          result: prevMemo.result,
+          prevText: prevMemo.text,
+          text,
+        }),
+
+        text,
+        updatedAt: new Date().toISOString(),
+      });
+
+      return [newMemo, ...existingMemos];
+    });
+    dispatchIsSidebarOpen(true);
+    dispatchMemoId(newMemo.id);
+  };
+
+  const handleSplitMemoButtonFocus = () => {
+    setIsSplitMemoButtonPressing(true);
+  };
+  const handleSplitMemoButtonBlur = () => {
+    setIsSplitMemoButtonPressing(false);
+  };
+
   const handleSaveErrorClose = () => {
     setIsSaveErrorOpen(false);
   };
   const handleSidebarClose = () => {
     dispatchIsSidebarOpen(false);
   };
-
   const handleCopiedSnackbarClose = () => {
     dispatchIsCopiedSnackbarOpen(false);
   };
@@ -96,16 +169,27 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
 
           <Title variant="h6">校正さん</Title>
 
-          {memo?.result &&
-            (memo.result.messages.length ? (
-              <KohseiSanAlert key="message" severity="info">
-                見直し箇所{memo.result.messages.length}件
-              </KohseiSanAlert>
-            ) : (
-              <KohseiSanAlert key="success" severity="success">
-                見直し箇所なし
-              </KohseiSanAlert>
-            ))}
+          {isEditing
+            ? memoFragment.selectionStart !== memoFragment.selectionEnd && (
+                <Button
+                  variant="text"
+                  onBlur={handleSplitMemoButtonBlur}
+                  onClick={handleSplitMemoButtonClick}
+                  onFocus={handleSplitMemoButtonFocus}
+                >
+                  メモに切り出す
+                </Button>
+              )
+            : memo?.result &&
+              (memo.result.messages.length ? (
+                <KohseiSanAlert key="message" severity="info">
+                  見直し箇所{memo.result.messages.length}件
+                </KohseiSanAlert>
+              ) : (
+                <KohseiSanAlert key="success" severity="success">
+                  見直し箇所なし
+                </KohseiSanAlert>
+              ))}
         </Toolbar>
       </AppBar>
 
@@ -135,8 +219,13 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                 <Edit
                   dispatchIsLinting={dispatchIsLinting}
                   dispatchIsLintingHeavy={dispatchIsLintingHeavy}
+                  dispatchIsTextContainerFocused={
+                    dispatchIsTextContainerFocused
+                  }
+                  dispatchMemoFragment={dispatchMemoFragment}
                   dispatchMemos={dispatchMemos}
                   isLinting={isLinting}
+                  isTextContainerFocused={isTextContainerFocused}
                   lintWorker={lintWorker}
                   memo={memo}
                   memos={memos}

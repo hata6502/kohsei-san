@@ -1,7 +1,8 @@
+import { diffChars } from "diff";
 import { useEffect, useReducer, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { LintOption } from "core";
-import type { ProofreadingResult } from "./lintWorker";
+import type { ProofreadingMessage, ProofreadingResult } from "./lintWorker";
 
 export interface Setting {
   mode: "standard" | "professional";
@@ -138,5 +139,70 @@ export const useMemo = (): {
     memos,
     setChatEnabled,
     setIsSaveErrorOpen,
+  };
+};
+
+export const diffProofreadingResult = ({
+  result,
+  prevText,
+  text,
+}: {
+  result?: ProofreadingResult;
+  prevText: string;
+  text: string;
+}) => {
+  if (!result) {
+    return;
+  }
+
+  const diff = diffChars(prevText, text);
+  return {
+    ...result,
+    messages: result.messages.flatMap((message): ProofreadingMessage[] => {
+      let offset = 0;
+      let textIndex = 0;
+      for (const part of diff) {
+        const [start, end] = message.fix?.range ?? [
+          message.index,
+          message.index,
+        ];
+
+        if (textIndex >= end + offset) {
+          break;
+        }
+
+        if (part.added) {
+          offset += part.value.length;
+          textIndex += part.value.length;
+        } else if (part.removed) {
+          if (
+            textIndex < end + offset &&
+            start + offset < textIndex + part.value.length
+          ) {
+            return [];
+          }
+
+          offset -= part.value.length;
+        } else {
+          textIndex += part.value.length;
+        }
+      }
+
+      return [
+        {
+          ...message,
+          index: message.index + offset,
+          ...(message.fix && {
+            fix: {
+              ...message.fix,
+              range: [
+                message.fix.range[0] + offset,
+                message.fix.range[1] + offset,
+              ],
+            },
+          }),
+        },
+      ];
+    }),
   };
 };
