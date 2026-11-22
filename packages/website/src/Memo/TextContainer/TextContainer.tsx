@@ -24,6 +24,7 @@ import type {
   ProofreadingMessage,
   ProofreadingMessageFix,
 } from "../../lintWorker";
+import { diffProofreadingResult } from "../../useMemo";
 import type { Memo, MemosAction } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
 
@@ -107,16 +108,18 @@ export const TextContainer: React.FunctionComponent<{
       const prevMemo = prevMemos[memoIndex];
 
       const text = action ? action(prevMemo.text) : textFieldRef.current.value;
-      const memo = {
-        ...prevMemo,
-        result: undefined,
-        text,
-        updatedAt: new Date().toISOString(),
-      };
-
       const memos = [...prevMemos];
       memos.splice(memoIndex, 1);
-      memos.unshift(memo);
+      memos.unshift({
+        ...prevMemo,
+        result: diffProofreadingResult({
+          result: prevMemo.result,
+          prevText: prevMemo.text,
+          text,
+        }),
+        text,
+        updatedAt: new Date().toISOString(),
+      });
 
       return memos;
     });

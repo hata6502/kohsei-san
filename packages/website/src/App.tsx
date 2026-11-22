@@ -16,7 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
-import { createMemo, useMemo } from "./useMemo";
+import { createMemo, diffProofreadingResult, useMemo } from "./useMemo";
 
 const MemoContainer = styled(Container)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -101,12 +101,20 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
       const memoIndex = prevMemos.findIndex(
         (prevMemo) => prevMemo.id === memo.id,
       );
+      const prevMemo = prevMemos[memoIndex];
+
+      const text = `${memo.text.slice(0, memoFragment.selectionStart)}${memo.text.slice(memoFragment.selectionEnd)}`;
       const existingMemos = [...prevMemos];
       existingMemos.splice(memoIndex, 1);
       existingMemos.unshift({
-        ...prevMemos[memoIndex],
-        result: undefined,
-        text: `${memo.text.slice(0, memoFragment.selectionStart)}${memo.text.slice(memoFragment.selectionEnd)}`,
+        ...prevMemo,
+        result: diffProofreadingResult({
+          result: prevMemo.result,
+          prevText: prevMemo.text,
+          text,
+        }),
+
+        text,
         updatedAt: new Date().toISOString(),
       });
 
