@@ -1,5 +1,5 @@
-import React, { useEffect, useEffectEvent, useRef, useState } from "react";
-import type { ChangeEventHandler, FocusEvent, MouseEvent } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import type { ChangeEventHandler, MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import type { Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -61,18 +61,11 @@ const PinTarget = styled("button")(({ theme }) => ({
   cursor: "pointer",
 }));
 
-export interface EditorToolbarEvents {
-  onBlur: (nextTarget: EventTarget | null) => void;
-  onFocus: () => void;
-  onSelectionChange: (input: HTMLTextAreaElement) => void;
-}
-
 export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  editorToolbar: EditorToolbarEvents;
   memo: Memo;
-}> = ({ dispatchIsLinting, dispatchMemos, editorToolbar, memo }) => {
+}> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
   const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
   const [draftText, setDraftText] = useState(memo.text);
   const [pins, setPins] = useState<Pin[]>([]);
@@ -88,26 +81,11 @@ export const TextContainer: React.FunctionComponent<{
   const mirrorTextareaRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const reportSelection = useEffectEvent((input: HTMLTextAreaElement) => {
-    if (input === document.activeElement)
-      editorToolbar.onSelectionChange(input);
-  });
-
-  useEffect(() => {
-    const input = textFieldRef.current;
-    if (!input) return;
-
-    const handleSelection = () => reportSelection(input);
-    input.addEventListener("select", handleSelection);
-    input.addEventListener("selectionchange", handleSelection);
-    return () => {
-      input.removeEventListener("select", handleSelection);
-      input.removeEventListener("selectionchange", handleSelection);
-    };
-  }, []);
-
   const memoID = memo.id;
-  const dispatchText = (action: string | ((prevText: string) => string)) => {
+  const dispatchText = (action?: (prevText: string) => string) => {
+    const draft = textFieldRef.current?.value;
+    if (draft === undefined) return;
+
     dispatchMemos((prevMemos) => {
       const memoIndex = prevMemos.findIndex(
         (prevMemo) => prevMemo.id === memoID,
@@ -115,7 +93,7 @@ export const TextContainer: React.FunctionComponent<{
       if (memoIndex === -1) return prevMemos;
       const prevMemo = prevMemos[memoIndex];
 
-      const text = typeof action === "string" ? action : action(prevMemo.text);
+      const text = action ? action(prevMemo.text) : draft;
       const memo = updateMemoText(prevMemo, text);
 
       const memos = [...prevMemos];
@@ -128,7 +106,7 @@ export const TextContainer: React.FunctionComponent<{
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (textFieldRef.current) dispatchText(textFieldRef.current.value);
+      dispatchText();
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
@@ -214,26 +192,19 @@ export const TextContainer: React.FunctionComponent<{
     setPopoverAnchorEl(null);
   };
 
-  const handleTextFieldBlur = (
-    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleTextFieldBlur = () => {
     setIsTextContainerFocused(false);
-    editorToolbar.onBlur(event.relatedTarget);
-    dispatchText(event.target.value);
+    dispatchText();
   };
 
   const handleTextFieldChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event,
   ) => {
     setDraftText(event.target.value);
-    editorToolbar.onSelectionChange(event.target);
   };
 
   const handleTextFieldFocus = () => {
     setIsTextContainerFocused(true);
-    editorToolbar.onFocus();
-    if (textFieldRef.current)
-      editorToolbar.onSelectionChange(textFieldRef.current);
   };
 
   return (
@@ -249,9 +220,7 @@ export const TextContainer: React.FunctionComponent<{
           onFocus={handleTextFieldFocus}
           placeholder="メモを入力"
           slotProps={{
-            htmlInput: {
-              "aria-label": "校正する文章",
-            },
+            htmlInput: { "aria-label": "校正する文章" },
             input: { sx: { fontWeight: 400 } },
           }}
         />

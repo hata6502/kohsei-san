@@ -8,7 +8,6 @@ import type {
 } from "../lintWorker";
 import type { Memo, MemosAction } from "../useMemo";
 import { TextContainer } from "./TextContainer";
-import type { EditorToolbarEvents } from "./TextContainer";
 
 const lintingTimeoutLimitMS = 10000;
 
@@ -16,7 +15,6 @@ export const Edit: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsLintingHeavy: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
-  editorToolbar: EditorToolbarEvents;
   isLinting: boolean;
   lintWorker: Worker;
   memo: Memo;
@@ -25,7 +23,6 @@ export const Edit: React.FunctionComponent<{
   dispatchIsLinting,
   dispatchIsLintingHeavy,
   dispatchMemos,
-  editorToolbar,
   isLinting,
   lintWorker,
   memo,
@@ -146,7 +143,6 @@ export const Edit: React.FunctionComponent<{
           <TextContainer
             dispatchIsLinting={dispatchIsLinting}
             dispatchMemos={dispatchMemos}
-            editorToolbar={editorToolbar}
             memo={memo}
           />
         </Container>

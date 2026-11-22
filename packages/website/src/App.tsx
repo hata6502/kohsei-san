@@ -26,9 +26,6 @@ const MemoContainer = styled(Container)(({ theme }) => ({
 
 const Title = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(1),
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
   [theme.breakpoints.down("sm")]: {
     fontSize: theme.typography.pxToRem(16),
     marginLeft: 4,
@@ -71,6 +68,11 @@ const readMemoSelection = (
   return start < end ? { input, start, end, text } : undefined;
 };
 
+const refreshMemoSelection = (selection: MemoSelection) =>
+  selection.input === document.activeElement
+    ? readMemoSelection(selection.input)
+    : selection;
+
 const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
   lintWorker,
 }) => {
@@ -99,12 +101,44 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
   const [isCopiedSnackbarOpen, dispatchIsCopiedSnackbarOpen] = useState(false);
   const [isEditorFocused, setIsEditorFocused] = useState(false);
   const [selection, setSelection] = useState<MemoSelection>();
+  const editorRef = useRef<HTMLDivElement>(null);
   const splitButtonRef = useRef<HTMLButtonElement>(null);
   const splitPress = useRef<{ pointerId: number; selection: MemoSelection }>(
     undefined,
   );
 
   useEffect(() => {
+    const observeEditor = (event: Event) => {
+      const input = event.target;
+      if (
+        !(input instanceof HTMLTextAreaElement) ||
+        !editorRef.current?.contains(input)
+      ) {
+        return;
+      }
+
+      if (event instanceof FocusEvent) {
+        const focused = event.type === "focusin";
+        setIsEditorFocused(focused);
+        if (!focused) {
+          if (
+            !splitPress.current &&
+            (!event.relatedTarget ||
+              event.relatedTarget !== splitButtonRef.current)
+          )
+            setSelection(undefined);
+          return;
+        }
+      }
+
+      if (
+        input === document.activeElement &&
+        (!splitPress.current ||
+          input.value !== splitPress.current.selection.text)
+      )
+        setSelection(readMemoSelection(input));
+    };
+
     const releaseSplitPress = (event: PointerEvent) => {
       const press = splitPress.current;
       if (!press || !event.isPrimary) return;
@@ -124,14 +158,19 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
         input === document.activeElement ? readMemoSelection(input) : undefined,
       );
     };
-    document.addEventListener("pointerdown", releaseSplitPress, true);
-    document.addEventListener("pointerup", releaseSplitPress);
-    document.addEventListener("pointercancel", releaseSplitPress);
-    return () => {
-      document.removeEventListener("pointerdown", releaseSplitPress, true);
-      document.removeEventListener("pointerup", releaseSplitPress);
-      document.removeEventListener("pointercancel", releaseSplitPress);
-    };
+    const controller = new AbortController();
+    const options = { signal: controller.signal, capture: true };
+    for (const type of [
+      "focusin",
+      "focusout",
+      "input",
+      "select",
+      "selectionchange",
+    ])
+      document.addEventListener(type, observeEditor, options);
+    for (const type of ["pointerdown", "pointerup", "pointercancel"] as const)
+      document.addEventListener(type, releaseSplitPress, options);
+    return () => controller.abort();
   }, []);
 
   const dispatchMemoId = (nextMemoId: Memo["id"]) => {
@@ -159,38 +198,15 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
 
   const memo = memos.find(({ id }) => id === memoId);
 
-  const handleEditorSelectionChange = (input: HTMLTextAreaElement) => {
-    if (
-      !splitPress.current ||
-      input.value !== splitPress.current.selection.text
-    )
-      setSelection(readMemoSelection(input));
-  };
-
-  const handleEditorBlur = (nextTarget: EventTarget | null) => {
-    setIsEditorFocused(false);
-    if (
-      !splitPress.current &&
-      (!nextTarget || nextTarget !== splitButtonRef.current)
-    )
-      setSelection(undefined);
-  };
-
   const handleSplitClick = () => {
-    const pressedSelection = splitPress.current?.selection;
-    const currentSelection = pressedSelection ?? selection;
+    const currentSelection =
+      splitPress.current?.selection ??
+      (selection && refreshMemoSelection(selection));
     splitPress.current = undefined;
     setSelection(undefined);
     if (!memo || !currentSelection) return;
     const { input, start, end, text } = currentSelection;
     if (!input.isConnected || input.value !== text) return;
-    if (
-      !pressedSelection &&
-      input === document.activeElement &&
-      (input.selectionStart !== start || input.selectionEnd !== end)
-    ) {
-      return;
-    }
 
     const newMemo = {
       ...createMemo(),
@@ -226,9 +242,8 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
       <AppBar color="inherit">
         <Toolbar sx={{ px: { xs: 1, sm: 3 }, pl: { xs: "2px", sm: 3 } }}>
           <IconButton
-            aria-label="メモ一覧"
             onClick={handleMenuIconClick}
-            sx={{ minWidth: 44, minHeight: 44 }}
+            sx={{ width: 44, height: 44 }}
           >
             <MenuIcon />
           </IconButton>
@@ -241,7 +256,9 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
             )}
           </ToolbarBrandIcon>
 
-          <Title variant="h6">校正さん</Title>
+          <Title variant="h6" noWrap>
+            校正さん
+          </Title>
 
           {memo && selection ? (
             <Button
@@ -253,11 +270,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
               onPointerDown={(event) => {
                 // ポインター操作で本文欄からフォーカスが移るのを防ぐ。
                 if (!event.isPrimary || event.button !== 0) return;
-                const { input } = selection;
-                const pressedSelection =
-                  input === document.activeElement
-                    ? readMemoSelection(input)
-                    : selection;
+                const pressedSelection = refreshMemoSelection(selection);
                 if (!pressedSelection) {
                   setSelection(undefined);
                   return;
@@ -320,7 +333,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
         {memo ? (
           <MemoContainer key={memo.id}>
             <Grid container alignItems="start" spacing={2}>
-              <Grid item xs={12} sm={12} md={8}>
+              <Grid ref={editorRef} item xs={12} sm={12} md={8}>
                 <Edit
                   dispatchIsLinting={dispatchIsLinting}
                   dispatchIsLintingHeavy={dispatchIsLintingHeavy}
@@ -329,11 +342,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                   lintWorker={lintWorker}
                   memo={memo}
                   memos={memos}
-                  editorToolbar={{
-                    onBlur: handleEditorBlur,
-                    onFocus: () => setIsEditorFocused(true),
-                    onSelectionChange: handleEditorSelectionChange,
-                  }}
                 />
               </Grid>
 
