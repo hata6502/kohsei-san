@@ -94,7 +94,16 @@ export const TextContainer: React.FunctionComponent<{
       const prevMemo = prevMemos[memoIndex];
 
       const text = action ? action(prevMemo.text) : draft;
-      const memo = updateMemoText(prevMemo, text);
+      const memo = {
+        ...prevMemo,
+        result: diffResult({
+          result: prevMemo.result,
+          prevText: prevMemo.text,
+          text,
+        }),
+        text,
+        updatedAt: new Date().toISOString(),
+      };
 
       const memos = [...prevMemos];
       memos.splice(memoIndex, 1);
@@ -333,68 +342,17 @@ const getFixPreview = ({
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
 
-interface RemovedRange {
-  start: number;
-  end: number;
-}
-
-export const updateMemoText = (
-  memo: Memo,
-  text: string,
-  removedRange?: RemovedRange,
-): Memo => ({
-  ...memo,
-  result: diffResult({
-    result: memo.result,
-    prevText: memo.text,
-    text,
-    removedRange,
-  }),
-  text,
-  updatedAt: new Date().toISOString(),
-});
-
 const diffResult = ({
   result,
   prevText,
   text,
-  removedRange,
 }: {
   result?: ProofreadingResult;
   prevText: string;
   text: string;
-  removedRange?: RemovedRange;
 }) => {
   if (!result) {
     return;
-  }
-
-  if (removedRange) {
-    const { start, end } = removedRange;
-    const shift = (index: number) =>
-      index < end ? index : index - (end - start);
-    return {
-      ...result,
-      // 同じ語句が繰り返されていても、実際に切り出した位置で校正結果を更新する。
-      messages: result.messages.flatMap((message): ProofreadingMessage[] => {
-        const { index, fix } = message;
-        if (start <= index && index < end) return [];
-        if (fix && fix.range[0] < end && start < fix.range[1]) return [];
-
-        return [
-          {
-            ...message,
-            index: shift(index),
-            ...(fix && {
-              fix: {
-                ...fix,
-                range: [shift(fix.range[0]), shift(fix.range[1])],
-              },
-            }),
-          },
-        ];
-      }),
-    };
   }
 
   const diff = diffChars(prevText, text);

@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
@@ -13,7 +14,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Edit, MemoActions } from "./Memo";
-import { updateMemoText } from "./Memo/TextContainer";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
 import { createMemo, useMemo } from "./useMemo";
@@ -26,20 +26,6 @@ const MemoContainer = styled(Container)(({ theme }) => ({
 
 const Title = styled(Typography)(({ theme }) => ({
   marginLeft: theme.spacing(1),
-  [theme.breakpoints.down("sm")]: {
-    fontSize: theme.typography.pxToRem(16),
-    marginLeft: 4,
-  },
-}));
-
-const ToolbarBrandIcon = styled("div")(({ theme }) => ({
-  display: "grid",
-  placeItems: "center",
-  width: 48,
-  height: 48,
-  flexShrink: 0,
-  "& > img": { width: "100%" },
-  [theme.breakpoints.down("sm")]: { width: 28, height: 28 },
 }));
 
 const KohseiSanAlert = styled(Alert)(({ theme }) => ({
@@ -219,14 +205,12 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     dispatchMemos((previousMemos) => {
       const sourceMemo = previousMemos.find(({ id }) => id === memo.id);
       if (!sourceMemo) return previousMemos;
-      const sourceWithDraft =
-        sourceMemo.text === text
-          ? sourceMemo
-          : updateMemoText(sourceMemo, text);
-      const remainingMemo = updateMemoText(sourceWithDraft, remainingText, {
-        start,
-        end,
-      });
+      const remainingMemo = {
+        ...sourceMemo,
+        text: remainingText,
+        result: undefined,
+        updatedAt: newMemo.updatedAt,
+      };
       return [
         newMemo,
         ...previousMemos.map((previousMemo) =>
@@ -248,13 +232,18 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
             <MenuIcon />
           </IconButton>
 
-          <ToolbarBrandIcon>
-            {isLinting ? (
-              <CircularProgress color="secondary" size="83%" />
-            ) : (
-              <img alt="" src="favicon.png" />
-            )}
-          </ToolbarBrandIcon>
+          <Avatar
+            alt=""
+            src={isLinting ? undefined : "favicon.png"}
+            variant="square"
+            sx={{
+              width: { xs: 28, sm: 48 },
+              height: { xs: 28, sm: 48 },
+              bgcolor: "transparent",
+            }}
+          >
+            {isLinting && <CircularProgress color="secondary" size="83%" />}
+          </Avatar>
 
           <Title variant="h6" noWrap>
             校正さん
@@ -284,7 +273,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
               sx={{
                 ml: "auto",
                 minHeight: 44,
-                px: 1.25,
+                px: { xs: 0.5, sm: 1.25 },
                 flexShrink: 0,
                 fontWeight: 500,
                 whiteSpace: "nowrap",
