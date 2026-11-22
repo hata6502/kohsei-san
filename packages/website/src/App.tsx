@@ -257,7 +257,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
               }}
               onClick={handleSplitClick}
               onPointerDown={(event) => {
-                // ポインター操作で本文欄からフォーカスが移るのを防ぐ。
                 if (!event.isPrimary || event.button !== 0) return;
                 const pressedSelection = refreshMemoSelection(selection);
                 if (!pressedSelection) {
@@ -268,7 +267,6 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
                   pointerId: event.pointerId,
                   selection: pressedSelection,
                 };
-                event.preventDefault();
               }}
               sx={{
                 ml: "auto",
