@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import type { ChangeEventHandler, MouseEvent } from "react";
+import React, { useEffect, useEffectEvent, useRef, useState } from "react";
+import type { ChangeEventHandler, FocusEvent, MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import type { Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -61,11 +61,18 @@ const PinTarget = styled("button")(({ theme }) => ({
   cursor: "pointer",
 }));
 
+export interface EditorToolbarEvents {
+  onBlur: (nextTarget: EventTarget | null) => void;
+  onFocus: () => void;
+  onSelectionChange: (input: HTMLTextAreaElement) => void;
+}
+
 export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchMemos: React.Dispatch<MemosAction>;
+  editorToolbar: EditorToolbarEvents;
   memo: Memo;
-}> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
+}> = ({ dispatchIsLinting, dispatchMemos, editorToolbar, memo }) => {
   const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
   const [draftText, setDraftText] = useState(memo.text);
   const [pins, setPins] = useState<Pin[]>([]);
@@ -81,29 +88,35 @@ export const TextContainer: React.FunctionComponent<{
   const mirrorTextareaRef = useRef<HTMLDivElement | null>(null);
   const textFieldRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const memoID = memo.id;
-  const dispatchText = (action?: (prevText: string) => string) => {
-    dispatchMemos((prevMemos) => {
-      if (!textFieldRef.current) {
-        throw new Error("textFieldRef.current is not defined");
-      }
+  const reportSelection = useEffectEvent((input: HTMLTextAreaElement) => {
+    if (input === document.activeElement)
+      editorToolbar.onSelectionChange(input);
+  });
 
+  useEffect(() => {
+    const input = textFieldRef.current;
+    if (!input) return;
+
+    const handleSelection = () => reportSelection(input);
+    input.addEventListener("select", handleSelection);
+    input.addEventListener("selectionchange", handleSelection);
+    return () => {
+      input.removeEventListener("select", handleSelection);
+      input.removeEventListener("selectionchange", handleSelection);
+    };
+  }, []);
+
+  const memoID = memo.id;
+  const dispatchText = (action: string | ((prevText: string) => string)) => {
+    dispatchMemos((prevMemos) => {
       const memoIndex = prevMemos.findIndex(
         (prevMemo) => prevMemo.id === memoID,
       );
+      if (memoIndex === -1) return prevMemos;
       const prevMemo = prevMemos[memoIndex];
 
-      const text = action ? action(prevMemo.text) : textFieldRef.current.value;
-      const memo = {
-        ...prevMemo,
-        result: diffResult({
-          result: prevMemo.result,
-          prevText: prevMemo.text,
-          text,
-        }),
-        text,
-        updatedAt: new Date().toISOString(),
-      };
+      const text = typeof action === "string" ? action : action(prevMemo.text);
+      const memo = updateMemoText(prevMemo, text);
 
       const memos = [...prevMemos];
       memos.splice(memoIndex, 1);
@@ -115,7 +128,7 @@ export const TextContainer: React.FunctionComponent<{
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      dispatchText();
+      if (textFieldRef.current) dispatchText(textFieldRef.current.value);
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
@@ -201,19 +214,26 @@ export const TextContainer: React.FunctionComponent<{
     setPopoverAnchorEl(null);
   };
 
-  const handleTextFieldBlur = () => {
+  const handleTextFieldBlur = (
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setIsTextContainerFocused(false);
-    dispatchText();
+    editorToolbar.onBlur(event.relatedTarget);
+    dispatchText(event.target.value);
   };
 
   const handleTextFieldChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event,
   ) => {
     setDraftText(event.target.value);
+    editorToolbar.onSelectionChange(event.target);
   };
 
   const handleTextFieldFocus = () => {
     setIsTextContainerFocused(true);
+    editorToolbar.onFocus();
+    if (textFieldRef.current)
+      editorToolbar.onSelectionChange(textFieldRef.current);
   };
 
   return (
@@ -228,8 +248,12 @@ export const TextContainer: React.FunctionComponent<{
           onChange={handleTextFieldChange}
           onFocus={handleTextFieldFocus}
           placeholder="メモを入力"
-          aria-label="校正する文章"
-          slotProps={{ input: { sx: { fontWeight: 400 } } }}
+          slotProps={{
+            htmlInput: {
+              "aria-label": "校正する文章",
+            },
+            input: { sx: { fontWeight: 400 } },
+          }}
         />
 
         <MirrorTextarea ref={mirrorTextareaRef} aria-hidden>
@@ -340,17 +364,68 @@ const getFixPreview = ({
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
 
+interface RemovedRange {
+  start: number;
+  end: number;
+}
+
+export const updateMemoText = (
+  memo: Memo,
+  text: string,
+  removedRange?: RemovedRange,
+): Memo => ({
+  ...memo,
+  result: diffResult({
+    result: memo.result,
+    prevText: memo.text,
+    text,
+    removedRange,
+  }),
+  text,
+  updatedAt: new Date().toISOString(),
+});
+
 const diffResult = ({
   result,
   prevText,
   text,
+  removedRange,
 }: {
   result?: ProofreadingResult;
   prevText: string;
   text: string;
+  removedRange?: RemovedRange;
 }) => {
   if (!result) {
     return;
+  }
+
+  if (removedRange) {
+    const { start, end } = removedRange;
+    const shift = (index: number) =>
+      index < end ? index : index - (end - start);
+    return {
+      ...result,
+      // 同じ語句が繰り返されていても、実際に切り出した位置で校正結果を更新する。
+      messages: result.messages.flatMap((message): ProofreadingMessage[] => {
+        const { index, fix } = message;
+        if (start <= index && index < end) return [];
+        if (fix && fix.range[0] < end && start < fix.range[1]) return [];
+
+        return [
+          {
+            ...message,
+            index: shift(index),
+            ...(fix && {
+              fix: {
+                ...fix,
+                range: [shift(fix.range[0]), shift(fix.range[1])],
+              },
+            }),
+          },
+        ];
+      }),
+    };
   }
 
   const diff = diffChars(prevText, text);
