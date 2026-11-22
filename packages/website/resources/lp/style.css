@@ -757,13 +757,10 @@ a {
 }
 
 .footer-meta a {
-  color: var(--accent-dark);
-}
-
-.footer-meta-avatar-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  color: var(--accent-dark);
 }
 
 .footer-meta-avatar {
