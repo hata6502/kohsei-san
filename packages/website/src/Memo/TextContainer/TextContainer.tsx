@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { ChangeEventHandler, MouseEvent } from "react";
+import type {
+  Dispatch,
+  ChangeEventHandler,
+  MouseEvent,
+  ReactEventHandler,
+  SetStateAction,
+} from "react";
 import { styled } from "@mui/material/styles";
-import type { Theme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -14,11 +19,10 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
-import { diffChars } from "diff";
+import type { MemoFragment } from "../../App";
 import type {
   ProofreadingMessage,
   ProofreadingMessageFix,
-  ProofreadingResult,
 } from "../../lintWorker";
 import type { Memo, MemosAction } from "../../useMemo";
 import { PinIcon } from "./PinIcon";
@@ -63,10 +67,19 @@ const PinTarget = styled("button")(({ theme }) => ({
 
 export const TextContainer: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
+  dispatchIsTextContainerFocused: Dispatch<SetStateAction<boolean>>;
+  dispatchMemoFragment: Dispatch<SetStateAction<MemoFragment>>;
   dispatchMemos: React.Dispatch<MemosAction>;
+  isTextContainerFocused: boolean;
   memo: Memo;
-}> = ({ dispatchIsLinting, dispatchMemos, memo }) => {
-  const [isTextContainerFocused, setIsTextContainerFocused] = useState(false);
+}> = ({
+  dispatchIsLinting,
+  dispatchIsTextContainerFocused,
+  dispatchMemoFragment,
+  dispatchMemos,
+  isTextContainerFocused,
+  memo,
+}) => {
   const [draftText, setDraftText] = useState(memo.text);
   const [pins, setPins] = useState<Pin[]>([]);
 
@@ -96,11 +109,7 @@ export const TextContainer: React.FunctionComponent<{
       const text = action ? action(prevMemo.text) : textFieldRef.current.value;
       const memo = {
         ...prevMemo,
-        result: diffResult({
-          result: prevMemo.result,
-          prevText: prevMemo.text,
-          text,
-        }),
+        result: undefined,
         text,
         updatedAt: new Date().toISOString(),
       };
@@ -202,7 +211,7 @@ export const TextContainer: React.FunctionComponent<{
   };
 
   const handleTextFieldBlur = () => {
-    setIsTextContainerFocused(false);
+    dispatchIsTextContainerFocused(false);
     dispatchText();
   };
 
@@ -213,7 +222,18 @@ export const TextContainer: React.FunctionComponent<{
   };
 
   const handleTextFieldFocus = () => {
-    setIsTextContainerFocused(true);
+    dispatchIsTextContainerFocused(true);
+  };
+
+  const handleTextFieldSelect: ReactEventHandler = (event) => {
+    if (!(event.target instanceof HTMLTextAreaElement)) {
+      throw new Error("Expected a textarea for memo selection");
+    }
+
+    dispatchMemoFragment({
+      selectionStart: event.target.selectionStart,
+      selectionEnd: event.target.selectionEnd,
+    });
   };
 
   return (
@@ -224,11 +244,12 @@ export const TextContainer: React.FunctionComponent<{
           fullWidth
           multiline
           value={draftText}
+          placeholder="メモを入力"
+          aria-label="校正する文章"
           onBlur={handleTextFieldBlur}
           onChange={handleTextFieldChange}
           onFocus={handleTextFieldFocus}
-          placeholder="メモを入力"
-          aria-label="校正する文章"
+          onSelect={handleTextFieldSelect}
           slotProps={{ input: { sx: { fontWeight: 400 } } }}
         />
 
@@ -339,71 +360,6 @@ const getFixPreview = ({
   afterText: fix.text || "（なし）",
   beforeText: text.slice(fix.range[0], fix.range[1]) || "（なし）",
 });
-
-const diffResult = ({
-  result,
-  prevText,
-  text,
-}: {
-  result?: ProofreadingResult;
-  prevText: string;
-  text: string;
-}) => {
-  if (!result) {
-    return;
-  }
-
-  const diff = diffChars(prevText, text);
-  return {
-    ...result,
-    messages: result.messages.flatMap((message): ProofreadingMessage[] => {
-      let offset = 0;
-      let textIndex = 0;
-      for (const part of diff) {
-        const [start, end] = message.fix?.range ?? [
-          message.index,
-          message.index,
-        ];
-
-        if (textIndex >= end + offset) {
-          break;
-        }
-
-        if (part.added) {
-          offset += part.value.length;
-          textIndex += part.value.length;
-        } else if (part.removed) {
-          if (
-            textIndex < end + offset &&
-            start + offset < textIndex + part.value.length
-          ) {
-            return [];
-          }
-
-          offset -= part.value.length;
-        } else {
-          textIndex += part.value.length;
-        }
-      }
-
-      return [
-        {
-          ...message,
-          index: message.index + offset,
-          ...(message.fix && {
-            fix: {
-              ...message.fix,
-              range: [
-                message.fix.range[0] + offset,
-                message.fix.range[1] + offset,
-              ],
-            },
-          }),
-        },
-      ];
-    }),
-  };
-};
 
 const getPins = ({
   lintMessages,

@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
+import type { MemoFragment } from "../App";
 import type {
   LintWorkerLintMessage,
   LintWorkerResultMessage,
@@ -14,16 +16,22 @@ const lintingTimeoutLimitMS = 10000;
 export const Edit: React.FunctionComponent<{
   dispatchIsLinting: React.Dispatch<boolean>;
   dispatchIsLintingHeavy: React.Dispatch<boolean>;
+  dispatchIsTextContainerFocused: Dispatch<SetStateAction<boolean>>;
+  dispatchMemoFragment: Dispatch<SetStateAction<MemoFragment>>;
   dispatchMemos: React.Dispatch<MemosAction>;
   isLinting: boolean;
+  isTextContainerFocused: boolean;
   lintWorker: Worker;
   memo: Memo;
   memos: Memo[];
 }> = ({
   dispatchIsLinting,
   dispatchIsLintingHeavy,
+  dispatchIsTextContainerFocused,
+  dispatchMemoFragment,
   dispatchMemos,
   isLinting,
+  isTextContainerFocused,
   lintWorker,
   memo,
   memos,
@@ -142,7 +150,10 @@ export const Edit: React.FunctionComponent<{
         <Container>
           <TextContainer
             dispatchIsLinting={dispatchIsLinting}
+            dispatchIsTextContainerFocused={dispatchIsTextContainerFocused}
+            dispatchMemoFragment={dispatchMemoFragment}
             dispatchMemos={dispatchMemos}
+            isTextContainerFocused={isTextContainerFocused}
             memo={memo}
           />
         </Container>
