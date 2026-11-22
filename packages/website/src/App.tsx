@@ -120,12 +120,10 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     setIsSplitMemoButtonPressing(true);
     event.currentTarget.setPointerCapture(event.pointerId);
   };
-  const handleSplitMemoButtonPointerUp: PointerEventHandler = (event) => {
-    const splitMemoButton = event.currentTarget;
+  const handleSplitMemoButtonPointerUp = () => {
     // click可能にするため
     setTimeout(() => {
       setIsSplitMemoButtonPressing(false);
-      splitMemoButton.releasePointerCapture(event.pointerId);
     });
   };
 
