@@ -11,6 +11,7 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import HelpIcon from "@mui/icons-material/Help";
 import HomeIcon from "@mui/icons-material/Home";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import { createMemo, getMemoTitle } from "./useMemo";
 import type { Memo, MemosAction } from "./useMemo";
 
@@ -138,6 +139,22 @@ const Sidebar: React.FunctionComponent<SidebarProps> = ({
             </ListItemIcon>
 
             <ListItemText primary="ヘルプ" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton
+            component="a"
+            href="https://x.com/hato6502"
+            rel="noreferrer"
+            sx={{ color: "inherit" }}
+            target="_blank"
+          >
+            <ListItemIcon>
+              <TwitterIcon />
+            </ListItemIcon>
+
+            <ListItemText primary="Twitter" />
           </ListItemButton>
         </ListItem>
 

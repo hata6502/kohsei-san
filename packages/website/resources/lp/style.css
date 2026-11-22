@@ -760,18 +760,6 @@ a {
   color: var(--accent-dark);
 }
 
-.footer-meta-avatar-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-meta-avatar {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
 @media (max-width: 1080px) {
   .split-shell,
   .consult-shell {
