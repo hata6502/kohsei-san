@@ -1,5 +1,4 @@
-import React, { useReducer, useState } from "react";
-import type { PointerEventHandler } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
@@ -67,6 +66,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     false,
   );
 
+  const [isEditing, setIsEditing] = useState(false);
   const [isSidebarOpen, dispatchIsSidebarOpen] = useState(false);
   const [isSplitMemoButtonPressing, setIsSplitMemoButtonPressing] =
     useState(false);
@@ -78,6 +78,16 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     selectionStart: 0,
     selectionEnd: 0,
   });
+
+  // 「メモに切り出す」ボタンを押す前に消えないようにする
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      setIsEditing(isTextContainerFocused || isSplitMemoButtonPressing);
+    });
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, [isSplitMemoButtonPressing, isTextContainerFocused]);
 
   const handleMenuIconClick = () => {
     dispatchIsSidebarOpen(true);
@@ -124,15 +134,11 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
     dispatchMemoId(newMemo.id);
   };
 
-  const handleSplitMemoButtonPointerDown: PointerEventHandler = (event) => {
+  const handleSplitMemoButtonFocus = () => {
     setIsSplitMemoButtonPressing(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
   };
-  const handleSplitMemoButtonPointerUp = () => {
-    // click可能にするため
-    setTimeout(() => {
-      setIsSplitMemoButtonPressing(false);
-    });
+  const handleSplitMemoButtonBlur = () => {
+    setIsSplitMemoButtonPressing(false);
   };
 
   const handleSaveErrorClose = () => {
@@ -163,14 +169,13 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
 
           <Title variant="h6">校正さん</Title>
 
-          {isTextContainerFocused || isSplitMemoButtonPressing
+          {isEditing
             ? memoFragment.selectionStart !== memoFragment.selectionEnd && (
                 <Button
                   variant="text"
+                  onBlur={handleSplitMemoButtonBlur}
                   onClick={handleSplitMemoButtonClick}
-                  onPointerDown={handleSplitMemoButtonPointerDown}
-                  onPointerUp={handleSplitMemoButtonPointerUp}
-                  onPointerCancel={handleSplitMemoButtonPointerUp}
+                  onFocus={handleSplitMemoButtonFocus}
                 >
                   メモに切り出す
                 </Button>
