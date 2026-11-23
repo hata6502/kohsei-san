@@ -13,6 +13,7 @@ const requests = [
   "/dict/unk_pos.dat",
   "/dict/unk.dat",
   "/favicon.png",
+  "/index.css",
   "/j260_12_0.svg",
   "/lintWorker.js",
   "/main.js",
