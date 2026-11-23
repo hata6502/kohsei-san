@@ -218,13 +218,29 @@ export const TextContainer: React.FunctionComponent<{
     dispatchText();
   };
 
+  const updateMemoFragment = ({
+    selectionStart,
+    selectionEnd,
+    value,
+  }: HTMLTextAreaElement) => {
+    dispatchMemoFragment({
+      selectionStart,
+      selectionEnd,
+      hasLineBreak: value.slice(selectionStart, selectionEnd).includes("\n"),
+    });
+  };
+
   const handleTextFieldChange: ChangeEventHandler<HTMLTextAreaElement> = (
     event,
   ) => {
     setDraftText(event.target.value);
+    updateMemoFragment(event.target);
   };
 
-  const handleTextFieldFocus = () => {
+  const handleTextFieldFocus: React.FocusEventHandler<HTMLTextAreaElement> = (
+    event,
+  ) => {
+    updateMemoFragment(event.target);
     dispatchIsTextContainerFocused(true);
   };
 
@@ -233,10 +249,7 @@ export const TextContainer: React.FunctionComponent<{
       throw new Error("Expected a textarea for memo selection");
     }
 
-    dispatchMemoFragment({
-      selectionStart: event.target.selectionStart,
-      selectionEnd: event.target.selectionEnd,
-    });
+    updateMemoFragment(event.target);
   };
 
   return (
