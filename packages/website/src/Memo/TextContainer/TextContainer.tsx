@@ -96,7 +96,7 @@ export const TextContainer: React.FunctionComponent<{
   const textFieldRef = useRef<HTMLTextAreaElement | null>(null);
 
   const memoID = memo.id;
-  const dispatchText = (action?: (prevText: string) => string) => {
+  const dispatchText = (appliedMessage?: ProofreadingMessage) => {
     dispatchMemos((prevMemos) => {
       if (!textFieldRef.current) {
         throw new Error("textFieldRef.current is not defined");
@@ -106,15 +106,34 @@ export const TextContainer: React.FunctionComponent<{
         (prevMemo) => prevMemo.id === memoID,
       );
       const prevMemo = prevMemos[memoIndex];
+      const { result, text: prevText } = prevMemo;
+      const fix = appliedMessage?.fix;
 
-      const text = action ? action(prevMemo.text) : textFieldRef.current.value;
+      if (
+        appliedMessage?.ruleId === "ai" &&
+        !result?.messages.includes(appliedMessage)
+      ) {
+        return prevMemos;
+      }
+
+      const text = fix
+        ? `${prevText.slice(0, fix.range[0])}${fix.text}${prevText.slice(fix.range[1])}`
+        : textFieldRef.current.value;
       const memos = [...prevMemos];
       memos.splice(memoIndex, 1);
       memos.unshift({
         ...prevMemo,
         result: diffProofreadingResult({
-          result: prevMemo.result,
-          prevText: prevMemo.text,
+          result:
+            appliedMessage && result
+              ? {
+                  ...result,
+                  messages: result.messages.filter(
+                    (message) => message !== appliedMessage,
+                  ),
+                }
+              : result,
+          prevText,
           text,
         }),
         text,
@@ -190,14 +209,7 @@ export const TextContainer: React.FunctionComponent<{
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
-    dispatchText((prevText) => {
-      if (!message.fix) {
-        throw new Error("message.fix is not defined");
-      }
-
-      return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
-    });
-
+    dispatchText(message);
     setPopoverAnchorEl(null);
   };
 
