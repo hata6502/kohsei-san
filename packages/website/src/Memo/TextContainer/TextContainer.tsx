@@ -125,6 +125,18 @@ export const TextContainer: React.FunctionComponent<{
     });
   };
 
+  const dispatchResult = (
+    action: (prevResult: Memo["result"]) => Memo["result"],
+  ) => {
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) =>
+        prevMemo.id === memoID
+          ? { ...prevMemo, result: action(prevMemo.result) }
+          : prevMemo,
+      ),
+    );
+  };
+
   useEffect(() => {
     const handleBeforeUnload = () => {
       dispatchText();
@@ -190,6 +202,15 @@ export const TextContainer: React.FunctionComponent<{
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
+    dispatchResult(
+      (result) =>
+        result && {
+          ...result,
+          messages: result.messages.filter(
+            (candidate) => candidate !== message,
+          ),
+        },
+    );
     dispatchText((prevText) => {
       if (!message.fix) {
         throw new Error("message.fix is not defined");
