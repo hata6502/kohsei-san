@@ -96,7 +96,7 @@ export const TextContainer: React.FunctionComponent<{
   const textFieldRef = useRef<HTMLTextAreaElement | null>(null);
 
   const memoID = memo.id;
-  const dispatchText = (appliedMessage?: ProofreadingMessage) => {
+  const dispatchText = (action?: (prevText: string) => string) => {
     dispatchMemos((prevMemos) => {
       if (!textFieldRef.current) {
         throw new Error("textFieldRef.current is not defined");
@@ -106,34 +106,15 @@ export const TextContainer: React.FunctionComponent<{
         (prevMemo) => prevMemo.id === memoID,
       );
       const prevMemo = prevMemos[memoIndex];
-      const { result, text: prevText } = prevMemo;
-      const fix = appliedMessage?.fix;
 
-      if (
-        appliedMessage?.ruleId === "ai" &&
-        !result?.messages.includes(appliedMessage)
-      ) {
-        return prevMemos;
-      }
-
-      const text = fix
-        ? `${prevText.slice(0, fix.range[0])}${fix.text}${prevText.slice(fix.range[1])}`
-        : textFieldRef.current.value;
+      const text = action ? action(prevMemo.text) : textFieldRef.current.value;
       const memos = [...prevMemos];
       memos.splice(memoIndex, 1);
       memos.unshift({
         ...prevMemo,
         result: diffProofreadingResult({
-          result:
-            appliedMessage && result
-              ? {
-                  ...result,
-                  messages: result.messages.filter(
-                    (message) => message !== appliedMessage,
-                  ),
-                }
-              : result,
-          prevText,
+          result: prevMemo.result,
+          prevText: prevMemo.text,
           text,
         }),
         text,
@@ -142,6 +123,18 @@ export const TextContainer: React.FunctionComponent<{
 
       return memos;
     });
+  };
+
+  const dispatchResult = (
+    action: (prevResult: Memo["result"]) => Memo["result"],
+  ) => {
+    dispatchMemos((prevMemos) =>
+      prevMemos.map((prevMemo) =>
+        prevMemo.id === memoID
+          ? { ...prevMemo, result: action(prevMemo.result) }
+          : prevMemo,
+      ),
+    );
   };
 
   useEffect(() => {
@@ -209,8 +202,32 @@ export const TextContainer: React.FunctionComponent<{
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
-    dispatchText(message);
+    const { fix } = message;
+    if (!fix) {
+      throw new Error("message.fix is not defined");
+    }
+
     setPopoverAnchorEl(null);
+    if (message.ruleId === "ai" && !memo.result?.messages.includes(message)) {
+      return;
+    }
+
+    dispatchResult(
+      (result) =>
+        result && {
+          ...result,
+          messages: result.messages.filter(
+            (candidate) => candidate !== message,
+          ),
+        },
+    );
+    dispatchText((prevText) => {
+      if (message.ruleId === "ai" && prevText !== memo.text) {
+        return prevText;
+      }
+
+      return `${prevText.slice(0, fix.range[0])}${fix.text}${prevText.slice(fix.range[1])}`;
+    });
   };
 
   const handlePinClick = (
