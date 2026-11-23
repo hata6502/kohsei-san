@@ -41,7 +41,7 @@ const ToolbarOffset = styled("div")(({ theme }) => ({
 export interface MemoFragment {
   selectionStart: number;
   selectionEnd: number;
-  hasLineBreak: boolean;
+  text: string;
 }
 
 const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
@@ -78,7 +78,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
   const [memoFragment, dispatchMemoFragment] = useState<MemoFragment>({
     selectionStart: 0,
     selectionEnd: 0,
-    hasLineBreak: false,
+    text: "",
   });
 
   // 「メモに切り出す」ボタンを押す前に消えないようにする
@@ -172,7 +172,7 @@ const App: React.FunctionComponent<{ lintWorker: Worker }> = ({
           <Title variant="h6">校正さん</Title>
 
           {isEditing
-            ? memoFragment.hasLineBreak && (
+            ? memoFragment.text.includes("\n") && (
                 <Button
                   variant="text"
                   onBlur={handleSplitMemoButtonBlur}

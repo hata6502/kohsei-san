@@ -226,7 +226,7 @@ export const TextContainer: React.FunctionComponent<{
     dispatchMemoFragment({
       selectionStart,
       selectionEnd,
-      hasLineBreak: value.slice(selectionStart, selectionEnd).includes("\n"),
+      text: value.slice(selectionStart, selectionEnd),
     });
   };
 
