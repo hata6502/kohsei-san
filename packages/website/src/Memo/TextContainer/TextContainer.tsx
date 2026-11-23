@@ -202,11 +202,6 @@ export const TextContainer: React.FunctionComponent<{
   const isPopoverOpen = Boolean(popoverAnchorEl);
 
   const handleFixClick = ({ message }: { message: ProofreadingMessage }) => {
-    const { fix } = message;
-    if (!fix) {
-      throw new Error("message.fix is not defined");
-    }
-
     setPopoverAnchorEl(null);
     if (message.ruleId === "ai" && !memo.result?.messages.includes(message)) {
       return;
@@ -222,11 +217,15 @@ export const TextContainer: React.FunctionComponent<{
         },
     );
     dispatchText((prevText) => {
+      if (!message.fix) {
+        throw new Error("message.fix is not defined");
+      }
+
       if (message.ruleId === "ai" && prevText !== memo.text) {
         return prevText;
       }
 
-      return `${prevText.slice(0, fix.range[0])}${fix.text}${prevText.slice(fix.range[1])}`;
+      return `${prevText.slice(0, message.fix.range[0])}${message.fix.text}${prevText.slice(message.fix.range[1])}`;
     });
   };
 
