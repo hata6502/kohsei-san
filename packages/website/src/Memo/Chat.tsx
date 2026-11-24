@@ -48,7 +48,12 @@ type GetMemoResult = Pick<Memo, "result" | "text">;
 const listOtherMemosParameters = z.object({});
 type ListOtherMemosParameters = z.infer<typeof listOtherMemosParameters>;
 interface ListOtherMemosResult {
-  memos: (Pick<Memo, "id" | "updatedAt"> & { title: string })[];
+  memos: {
+    id: Memo["id"];
+    title: string;
+    sectionTitles: string[];
+    updatedAt?: Memo["updatedAt"];
+  }[];
 }
 
 const getOtherMemosParameters = z.object({ ids: z.array(z.string()) });
@@ -106,7 +111,8 @@ export const Chat: FunctionComponent<{
         },
         list_other_memos: {
           type: "frontend",
-          description: "他のメモの一覧を取得する",
+          description:
+            "他のメモの一覧を取得する。空のセクションタイトルは、セクション間に空行が続いていることを表す。",
           parameters: listOtherMemosParameters,
           execute: ({}: ListOtherMemosParameters): ListOtherMemosResult => ({
             memos: memos
@@ -114,6 +120,14 @@ export const Chat: FunctionComponent<{
               .map((memo) => ({
                 id: memo.id,
                 title: getMemoTitle(memo),
+                sectionTitles: memo.text
+                  .trim()
+                  .split(/\r?\n/)
+                  .flatMap((line, index, lines) =>
+                    index > 0 && lines[index - 1].trim() === ""
+                      ? [line.trim()]
+                      : [],
+                  ),
                 updatedAt: memo.updatedAt,
               })),
           }),
