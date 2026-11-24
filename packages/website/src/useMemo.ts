@@ -30,6 +30,13 @@ export const createMemo = (): Memo => ({
 export const getMemoTitle = (memo: Pick<Memo, "text">) =>
   memo.text.trim().split("\n")[0] || "(空のメモ)";
 
+export const getMemoSectionTitles = (memo: Pick<Memo, "text">) => {
+  const lines = memo.text.trim().split("\n").slice(1);
+  return lines.flatMap((line, index) =>
+    lines[index - 1]?.trim() === "" ? [line.trim()] : [],
+  );
+};
+
 export type MemosAction = (prevMemo: Memo[]) => Memo[];
 
 export type DispatchSetting = (
