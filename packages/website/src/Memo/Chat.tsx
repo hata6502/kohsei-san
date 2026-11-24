@@ -37,7 +37,7 @@ import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
 import type { ProofreadingMessage } from "../lintWorker";
-import { getMemoTitle } from "../useMemo";
+import { getMemoSectionTitles, getMemoTitle } from "../useMemo";
 import type { Memo, MemosAction } from "../useMemo";
 import { ReadAloud } from "./ReadAloud";
 
@@ -49,7 +49,7 @@ const listOtherMemosParameters = z.object({});
 type ListOtherMemosParameters = z.infer<typeof listOtherMemosParameters>;
 interface ListOtherMemosResult {
   memos: {
-    id: Memo["id"];
+    id: string;
     title: string;
     sectionTitles: string[];
     updatedAt?: Memo["updatedAt"];
@@ -120,14 +120,7 @@ export const Chat: FunctionComponent<{
               .map((memo) => ({
                 id: memo.id,
                 title: getMemoTitle(memo),
-                sectionTitles: memo.text
-                  .trim()
-                  .split(/\r?\n/)
-                  .flatMap((line, index, lines) =>
-                    index > 0 && lines[index - 1].trim() === ""
-                      ? [line.trim()]
-                      : [],
-                  ),
+                sectionTitles: getMemoSectionTitles(memo),
                 updatedAt: memo.updatedAt,
               })),
           }),
