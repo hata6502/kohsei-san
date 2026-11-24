@@ -52,7 +52,7 @@ interface ListOtherMemosResult {
     id: string;
     title: string;
     sectionTitles: string[];
-    updatedAt?: Memo["updatedAt"];
+    updatedAt?: string;
   }[];
 }
 
